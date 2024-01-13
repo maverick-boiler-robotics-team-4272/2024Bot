@@ -5,7 +5,6 @@ import java.util.List;
 import org.littletonrobotics.junction.AutoLog;
 import org.littletonrobotics.junction.Logger;
 
-import frc.robot.subsystems.DrivetrainInputsAutoLogged;
 import frc.robot.utils.Loggable;
 import frc.robot.utils.Pigeon;
 import frc.robot.utils.SwerveModule;
