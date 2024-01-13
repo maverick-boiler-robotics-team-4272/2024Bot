@@ -7,6 +7,11 @@ package frc.robot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.subsystems.drivetrain.Drivetrain;
+import frc.robot.utils.XboxController;
+import frc.team4272.controllers.utilities.JoystickAxes;
+import frc.team4272.controllers.utilities.JoystickAxes.DeadzoneMode;
+import frc.team4272.swerve.commands.DriveState;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -19,9 +24,10 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
     // The robot's subsystems and commands are defined here...
+    Drivetrain drivetrain = new Drivetrain();
 
     // The robots IO devices are defined here
-
+    XboxController driveController = new XboxController(0);
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
      */
@@ -45,11 +51,14 @@ public class RobotContainer {
      * joysticks}.
      */
     private void configureBindings() {
-        // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-
-        // Schedule `exampleMethodCommand` when the Xbox controller's B button is
-        // pressed,
-        // cancelling on release.
+        JoystickAxes driveLeftAxes = driveController.getAxes("left");
+        JoystickAxes driveRightAxes = driveController.getAxes("right");
+        driveLeftAxes.setDeadzone(0.1).setDeadzoneMode(DeadzoneMode.kMagnitude).setPowerScale(3);
+        driveRightAxes.setDeadzone(0.1).setDeadzoneMode(DeadzoneMode.kXAxis).setPowerScale(2.5);
+        
+        drivetrain.setDefaultCommand(
+            new DriveState(drivetrain, driveLeftAxes::getDeadzonedX, driveLeftAxes::getDeadzonedY, driveRightAxes::getDeadzonedY, true)
+        );
     }
 
     /**
@@ -58,7 +67,6 @@ public class RobotContainer {
      * @return the command to run in autonomous
      */
     public Command getAutonomousCommand() {
-        // An example command will be run in autonomous
         return null;
     }
 }
