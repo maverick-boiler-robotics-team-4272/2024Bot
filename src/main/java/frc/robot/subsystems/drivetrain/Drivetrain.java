@@ -5,6 +5,7 @@ import java.util.List;
 import org.littletonrobotics.junction.AutoLog;
 import org.littletonrobotics.junction.Logger;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import frc.robot.utils.Loggable;
 import frc.robot.utils.Pigeon;
 import frc.robot.utils.SwerveModule;
@@ -43,6 +44,8 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
 
     @Override
     public void log(String subdirectory, String humanReadableName) {
+        if(DriverStation.isDisabled())
+            return; // Don't want any logging while disabled, because that will just increase file size
         for(int i = 0; i < modules.length; i++) {
             modules[i].log(subdirectory + "/" + humanReadableName, "Module" + i);
         }
