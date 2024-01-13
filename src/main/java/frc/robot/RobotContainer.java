@@ -11,7 +11,8 @@ import frc.robot.subsystems.drivetrain.Drivetrain;
 import frc.robot.utils.XboxController;
 import frc.team4272.controllers.utilities.JoystickAxes;
 import frc.team4272.controllers.utilities.JoystickAxes.DeadzoneMode;
-import frc.team4272.swerve.commands.DriveState;
+import frc.robot.subsystems.drivetrain.states.DriveState;
+import frc.robot.subsystems.drivetrain.states.ResetHeadingState;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -57,7 +58,11 @@ public class RobotContainer {
         driveRightAxes.setDeadzone(0.1).setDeadzoneMode(DeadzoneMode.kXAxis).setPowerScale(2.5);
         
         drivetrain.setDefaultCommand(
-            new DriveState(drivetrain, driveLeftAxes::getDeadzonedX, driveLeftAxes::getDeadzonedY, driveRightAxes::getDeadzonedX, true)
+            new DriveState(drivetrain, driveLeftAxes::getDeadzonedX, driveLeftAxes::getDeadzonedY, driveRightAxes::getDeadzonedX)
+        );
+
+        new Trigger(driveController.getButton("b")::get).onTrue(
+            new ResetHeadingState(drivetrain)
         );
     }
 
