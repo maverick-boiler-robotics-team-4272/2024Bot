@@ -1,48 +1,46 @@
 package frc.robot.utils;
 
-import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkBase.SoftLimitDirection;
+import com.revrobotics.RelativeEncoder;
+import com.revrobotics.SparkPIDController;
 
 import static frc.robot.constants.RobotConstants.*;
 
-public class NEOBuilder {
-    private NEO motor;
-    private RelativeEncoder motorEncoder;
+public class VortexBuilder {
+    private Vortex motor;
     private SparkPIDController motorController;
+    private RelativeEncoder motorEncoder;
 
-    private NEOBuilder(int id) {
-        motor = new NEO(id);
-
-        motor.restoreFactoryDefaults();
+    private VortexBuilder(int id) {
+        motor = new Vortex(id);
     }
 
-    public NEOBuilder withVoltageCompensation(int nominalVoltage) {
+    public VortexBuilder withVoltageCompensation(int nominalVoltage) {
         motor.enableVoltageCompensation(nominalVoltage);
 
         return this;
     }
 
-    public NEOBuilder withCurrentLimit(int currentLimit) {
+    public VortexBuilder withCurrentLimit(int currentLimit) {
         motor.setSmartCurrentLimit(currentLimit);
 
         return this;
     }
 
-    public NEOBuilder withIdleMode(IdleMode mode) {
+    public VortexBuilder withIdleMode(IdleMode mode) {
         motor.setIdleMode(mode);
 
         return this;
     }
 
-    public NEOBuilder withInversion(boolean inverted) {
+    public VortexBuilder withInversion(boolean inverted) {
         motor.setInverted(inverted);
 
         return this;
     }
 
-    public NEOBuilder withPIDParams(double p, double i, double d) {
+    public VortexBuilder withPIDParams(double p, double i, double d) {
         if(motorController == null)
             motorController = motor.getPIDController();
 
@@ -53,7 +51,7 @@ public class NEOBuilder {
         return this;
     }
 
-    public NEOBuilder withPIDFParams(double p, double i, double d, double f) {
+    public VortexBuilder withPIDFParams(double p, double i, double d, double f) {
         if(motorController == null)
             motorController = motor.getPIDController();
 
@@ -65,7 +63,7 @@ public class NEOBuilder {
         return this;
     }
 
-    public NEOBuilder withPositionConversionFactor(double factor) {
+    public VortexBuilder withPositionConversionFactor(double factor) {
         if(motorEncoder == null)
             motorEncoder = motor.getEncoder();
         
@@ -74,7 +72,7 @@ public class NEOBuilder {
         return this;
     }
 
-    public NEOBuilder withPosition(double position) {
+    public VortexBuilder withPosition(double position) {
         if(motorEncoder == null)
             motorEncoder = motor.getEncoder();
 
@@ -83,7 +81,7 @@ public class NEOBuilder {
         return this;
     }
 
-    public NEOBuilder withVelocityConversionFactor(double factor) {
+    public VortexBuilder withVelocityConversionFactor(double factor) {
         if(motorEncoder == null)
             motorEncoder = motor.getEncoder();
 
@@ -92,21 +90,21 @@ public class NEOBuilder {
         return this;
     }
 
-    public NEOBuilder withForwardSoftlimit(double limit) {
+    public VortexBuilder withForwardSoftlimit(double limit) {
         motor.enableSoftLimit(SoftLimitDirection.kForward, true);
         motor.setSoftLimit(SoftLimitDirection.kForward, (float)limit);
 
         return this;
     }
 
-    public NEOBuilder withReverseSoftLimit(double limit) {
+    public VortexBuilder withReverseSoftLimit(double limit) {
         motor.enableSoftLimit(SoftLimitDirection.kReverse, true);
         motor.setSoftLimit(SoftLimitDirection.kReverse, (float)limit);
 
         return this;
     }
 
-    public NEOBuilder withSoftLimits(double forwardLimit, double reverseLimit) {
+    public VortexBuilder withSoftLimits(double forwardLimit, double reverseLimit) {
         motor.enableSoftLimit(SoftLimitDirection.kForward, true);
         motor.enableSoftLimit(SoftLimitDirection.kReverse, true);
 
@@ -116,7 +114,7 @@ public class NEOBuilder {
         return this;
     }
 
-    public NEOBuilder withOutputRange(double min, double max) {
+    public VortexBuilder withOutputRange(double min, double max) {
         if(motorController == null)
             motorController = motor.getPIDController();
 
@@ -125,19 +123,19 @@ public class NEOBuilder {
         return this;
     }
 
-    public NEOBuilder withClosedLoopRampRate(double rate) {
+    public VortexBuilder withClosedLoopRampRate(double rate) {
         motor.setClosedLoopRampRate(rate);
 
         return this;
     }
 
-    public NEOBuilder withOpenLoopRampRate(double rate) {
+    public VortexBuilder withOpenLoopRampRate(double rate) {
         motor.setOpenLoopRampRate(rate);
 
         return this;
     }
 
-    public NEOBuilder withPIDPositionWrapping(double min, double max) {
+    public VortexBuilder withPIDPositionWrapping(double min, double max) {
         if(motorController == null)
             motorController = motor.getPIDController();
 
@@ -148,24 +146,24 @@ public class NEOBuilder {
         return this;
     }
 
-    public NEO build() {
+    public Vortex build() {
         motor.burnFlash();
         return motor;
     }
 
-    public NEO getUnburntNeo() {
+    public Vortex getUnburntNeo() {
         return motor;
     }
 
-    public static NEOBuilder createWithDefaults(int id) {
-        return new NEOBuilder(id)
+    public static VortexBuilder createWithDefaults(int id) {
+        return new VortexBuilder(id)
             .withCurrentLimit(CURRENT_LIMIT)
             .withVoltageCompensation(NOMINAL_VOLTAGE)
             .withIdleMode(IdleMode.kBrake)
             .withInversion(false);
     }
 
-    public static NEOBuilder create(int id) {
-        return new NEOBuilder(id);
+    public static VortexBuilder create(int id) {
+        return new VortexBuilder(id);
     }
 }
