@@ -5,6 +5,9 @@ import java.util.List;
 import org.littletonrobotics.junction.AutoLog;
 import org.littletonrobotics.junction.Logger;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
+import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import frc.robot.utils.Loggable;
 import frc.robot.utils.Pigeon;
@@ -18,12 +21,12 @@ import static frc.robot.constants.RobotConstants.DrivetrainConstants.*;
 public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements Loggable {
     @AutoLog
     public static class DrivetrainInputs {
-        public double xPosition;
-        public double yPosition;
-        public double thetaRadians;
+        public Pose2d odometryPose;
     }
 
     private DrivetrainInputsAutoLogged drivetrainInputs;
+
+    private SwerveDriveOdometry odometry;
 
     public Drivetrain() {
         super(
@@ -39,7 +42,13 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
 
         drivetrainInputs = new DrivetrainInputsAutoLogged();
 
-        setMaxSpeeds(14.5);
+        odometry = new SwerveDriveOdometry(kinematics, gyroscope.getRotation(), getPositions());
+
+        setMaxSpeeds(Units.MetersPerSecond.convertFrom(14.5, Units.FeetPerSecond));
+    }
+
+    public void updateOdometry() {
+        drivetrainInputs.odometryPose = odometry.update(gyroscope.getRotation().unaryMinus(), getPositions());
     }
 
     @Override
@@ -51,10 +60,6 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
         }
 
         gyroscope.log(subdirectory + "/" + humanReadableName, "Pigeon");
-
-        drivetrainInputs.xPosition = 0;
-        drivetrainInputs.yPosition = 0;
-        drivetrainInputs.thetaRadians = 0;
 
         Logger.processInputs(subdirectory + "/" + humanReadableName, drivetrainInputs);
     }

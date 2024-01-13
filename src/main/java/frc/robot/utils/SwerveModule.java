@@ -88,7 +88,7 @@ public class SwerveModule extends SwerveModuleBase implements Loggable {
 
     @Override
     public SwerveModulePosition getPosition() {
-        return new SwerveModulePosition(driveEncoder.getPosition(), getMotorRotation());
+        return new SwerveModulePosition(driveEncoder.getPosition(), Rotation2d.fromDegrees(180).minus(getMotorRotation()));
     }
 
     @Override
