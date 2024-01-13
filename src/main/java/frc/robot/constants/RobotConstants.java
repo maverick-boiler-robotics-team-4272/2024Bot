@@ -24,7 +24,7 @@ public class RobotConstants {
         public static final Translation2d BACK_RIGHT_POSITION  = new Translation2d( WHEEL_DISTANCE, -WHEEL_DISTANCE);
 
         public static final double FRONT_LEFT_OFFSET  = 110.0;       
-        public static final double FRONT_RIGHT_OFFSET = 269.0;
+        public static final double FRONT_RIGHT_OFFSET = 45.0;
         public static final double BACK_LEFT_OFFSET   = 164.0;
         public static final double BACK_RIGHT_OFFSET  = 316.0;
 
