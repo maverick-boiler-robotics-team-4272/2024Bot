@@ -5,10 +5,13 @@ import java.util.List;
 import org.littletonrobotics.junction.AutoLog;
 import org.littletonrobotics.junction.Logger;
 
+import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.Timer;
 import frc.robot.utils.Loggable;
 import frc.robot.utils.Pigeon;
 import frc.robot.utils.SwerveModule;
@@ -17,16 +20,20 @@ import frc.team4272.swerve.utils.SwerveModuleBase.PositionedSwerveModule;
 
 import static frc.robot.constants.HardwareMap.*;
 import static frc.robot.constants.RobotConstants.DrivetrainConstants.*;
+import static frc.robot.constants.TelemetryConstants.Limelights.CENTER_LIMELIGHT;
 
 public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements Loggable {
     @AutoLog
     public static class DrivetrainInputs {
         public Pose2d odometryPose;
+        public Pose2d limelightPose;
+        public Pose2d estimatedPose;
     }
 
     private DrivetrainInputsAutoLogged drivetrainInputs;
 
     private SwerveDriveOdometry odometry;
+    private SwerveDrivePoseEstimator poseEstimator;
 
     public Drivetrain() {
         super(
@@ -43,12 +50,26 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
         drivetrainInputs = new DrivetrainInputsAutoLogged();
 
         odometry = new SwerveDriveOdometry(kinematics, gyroscope.getRotation(), getPositions());
+        poseEstimator = new SwerveDrivePoseEstimator(kinematics, gyroscope.getRotation(), getPositions(), CENTER_LIMELIGHT.getRobotPose());
 
         setMaxSpeeds(Units.MetersPerSecond.convertFrom(14.5, Units.FeetPerSecond));
     }
 
+    @Override
+    public void drive(ChassisSpeeds speeds) {
+        super.drive(speeds);
+        
+        updateOdometry();
+    }
+
     public void updateOdometry() {
         drivetrainInputs.odometryPose = odometry.update(gyroscope.getRotation().unaryMinus(), getPositions());
+        drivetrainInputs.limelightPose =  CENTER_LIMELIGHT.getRobotPose();
+
+        poseEstimator.update(gyroscope.getRotation().unaryMinus(), getPositions());
+        poseEstimator.addVisionMeasurement(drivetrainInputs.limelightPose, Timer.getFPGATimestamp());
+
+        drivetrainInputs.estimatedPose = poseEstimator.getEstimatedPosition();
     }
 
     @Override
