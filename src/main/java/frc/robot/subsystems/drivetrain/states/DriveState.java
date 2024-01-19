@@ -3,9 +3,8 @@ package frc.robot.subsystems.drivetrain.states;
 import java.util.function.DoubleSupplier;
 
 import frc.robot.subsystems.drivetrain.Drivetrain;
-import frc.team4272.globals.State;
 
-public class DriveState extends State<Drivetrain> {
+public class DriveState extends AbstractDriveState {
     private DoubleSupplier xSpeed;
     private DoubleSupplier ySpeed;
     private DoubleSupplier thetaSpeed;
@@ -19,12 +18,22 @@ public class DriveState extends State<Drivetrain> {
     }
 
     @Override
-    public void execute() {
-        requiredSubsystem.driveFieldOriented(ySpeed.getAsDouble(), -xSpeed.getAsDouble(), thetaSpeed.getAsDouble());
+    public boolean isFieldRelative() {
+        return true;
     }
 
     @Override
-    public void end(boolean interrupted) {
-        requiredSubsystem.drive(0, 0, 0);
+    public double getXSpeed() {
+        return ySpeed.getAsDouble();
+    }
+
+    @Override
+    public double getYSpeed() {
+        return -xSpeed.getAsDouble();
+    }
+
+    @Override
+    public double getThetaSpeed() {
+        return thetaSpeed.getAsDouble();
     }
 }
