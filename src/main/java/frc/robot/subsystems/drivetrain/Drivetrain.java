@@ -7,10 +7,10 @@ import org.littletonrobotics.junction.Logger;
 
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.units.Units;
-import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.utils.Loggable;
 import frc.robot.utils.Pigeon;
@@ -21,6 +21,7 @@ import frc.team4272.swerve.utils.SwerveModuleBase.PositionedSwerveModule;
 import static frc.robot.constants.HardwareMap.*;
 import static frc.robot.constants.RobotConstants.DrivetrainConstants.*;
 import static frc.robot.constants.TelemetryConstants.Limelights.CENTER_LIMELIGHT;
+import static frc.robot.constants.UniversalConstants.*;
 
 public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements Loggable {
     @AutoLog
@@ -49,6 +50,10 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
 
         drivetrainInputs = new DrivetrainInputsAutoLogged();
 
+        drivetrainInputs.odometryPose = new Pose2d();
+        drivetrainInputs.estimatedPose = new Pose2d();
+        drivetrainInputs.limelightPose = new Pose2d();
+
         odometry = new SwerveDriveOdometry(kinematics, gyroscope.getRotation(), getPositions());
         poseEstimator = new SwerveDrivePoseEstimator(kinematics, gyroscope.getRotation(), getPositions(), CENTER_LIMELIGHT.getRobotPose());
 
@@ -67,15 +72,22 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
         drivetrainInputs.limelightPose =  CENTER_LIMELIGHT.getRobotPose();
 
         poseEstimator.update(gyroscope.getRotation().unaryMinus(), getPositions());
-        poseEstimator.addVisionMeasurement(drivetrainInputs.limelightPose, Timer.getFPGATimestamp());
+        if(CENTER_LIMELIGHT.isValidTarget() && !drivetrainInputs.limelightPose.equals(new Pose2d(0, 0, new Rotation2d(0))))
+            poseEstimator.addVisionMeasurement(drivetrainInputs.limelightPose, Timer.getFPGATimestamp());
 
         drivetrainInputs.estimatedPose = poseEstimator.getEstimatedPosition();
     }
 
+    public Pose2d getRobotPose() {
+        return drivetrainInputs.odometryPose;
+    }
+
+    public void setToZero() {
+        odometry.resetPosition(gyroscope.getRotation(), getPositions(), new Pose2d(FIELD_HALF_WIDTH_METERS, FIELD_HALF_HEIGHT_METERS, new Rotation2d(0.0)));
+    }
+
     @Override
     public void log(String subdirectory, String humanReadableName) {
-        if(DriverStation.isDisabled())
-            return; // Don't want any logging while disabled, because that will just increase file size
         for(int i = 0; i < modules.length; i++) {
             modules[i].log(subdirectory + "/" + humanReadableName, "Module" + i);
         }
