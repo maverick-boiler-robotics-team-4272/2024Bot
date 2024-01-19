@@ -54,7 +54,7 @@ public class Robot extends LoggedRobot {
 
         // Logger.disableDeterministicTimestamps() // See "Deterministic Timestamps" in
         // the "Understanding Data Flow" page
-        // Logger.start(); // Start logging! No more data receivers, replay sources, or metadata values may
+        Logger.start(); // Start logging! No more data receivers, replay sources, or metadata values may
                         // be added.
 
         // Instantiate our RobotContainer. This will perform all our button bindings,
@@ -88,7 +88,6 @@ public class Robot extends LoggedRobot {
     /** This function is called once each time the robot enters Disabled mode. */
     @Override
     public void disabledInit() {
-        Logger.end();
     }
 
     @Override
@@ -103,8 +102,6 @@ public class Robot extends LoggedRobot {
     public void autonomousInit() {
         m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
-        Logger.start();
-
         // schedule the autonomous command (example)
         if (m_autonomousCommand != null) {
             m_autonomousCommand.schedule();
@@ -118,8 +115,6 @@ public class Robot extends LoggedRobot {
 
     @Override
     public void teleopInit() {
-        Logger.start();
-
         // This makes sure that the autonomous stops running when
         // teleop starts running. If you want the autonomous to
         // continue until interrupted by another command, remove
@@ -127,6 +122,7 @@ public class Robot extends LoggedRobot {
         if (m_autonomousCommand != null) {
             m_autonomousCommand.cancel();
         }
+
     }
 
     /** This function is called periodically during operator control. */
