@@ -14,7 +14,8 @@ import frc.team4272.controllers.utilities.JoystickAxes;
 import frc.team4272.controllers.utilities.JoystickAxes.DeadzoneMode;
 import frc.robot.subsystems.drivetrain.states.DriveState;
 import frc.robot.subsystems.drivetrain.states.ResetHeadingState;
-
+// import frc.robot.subsystems.intake.IntakeSubsystem;
+// import frc.robot.subsystems.intake.states.IntakeState;
 /**
  * This class is where the bulk of the robot should be declared. Since
  * Command-based is a
@@ -27,6 +28,7 @@ import frc.robot.subsystems.drivetrain.states.ResetHeadingState;
 public class RobotContainer {
     // The robot's subsystems and commands are defined here...
     Drivetrain drivetrain = new Drivetrain();
+    // IntakeSubsystem intake = new IntakeSubsystem();
 
     // The robots IO devices are defined here
     XboxController driveController = new XboxController(0);
@@ -69,6 +71,14 @@ public class RobotContainer {
         new Trigger(driveController.getButton("y")::get).onTrue(
             new InstantCommand(drivetrain::setToZero, drivetrain)
         );
+
+        // new Trigger(() -> driveController.getTrigger("left").getValue() != 0.0).whileTrue(
+        //     new IntakeState(intake, () -> driveController.getTrigger("left").getValue() * -0.6)
+        // );
+
+        // new Trigger(() -> driveController.getTrigger("right").getValue() != 0.0).whileTrue(
+        //     new IntakeState(intake, () -> driveController.getTrigger("right").getValue() * 0.6)
+        // );
     }
 
     /**
