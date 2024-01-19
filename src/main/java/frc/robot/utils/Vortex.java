@@ -16,6 +16,8 @@ public class Vortex extends CANSparkFlex implements Loggable {
 
     public Vortex(int id) {
         super(id, MotorType.kBrushless);
+
+        vortexInputs = new VortexInputsAutoLogged();
     }
 
     @Override
