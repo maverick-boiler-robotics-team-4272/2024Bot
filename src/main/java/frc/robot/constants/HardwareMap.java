@@ -10,7 +10,7 @@ public class HardwareMap {
     public static final int BACK_LEFT_MODULE_ID = 3;
     public static final int BACK_RIGHT_MODULE_ID = 4;
 
-    public static final int INTAKE_MOTOR_ID = 6;
+    public static final int INTAKE_MOTOR_ID = 62;
 
-    public static final int PIGEON_ID = 25;
+    public static final int PIGEON_ID = 45;
 }
