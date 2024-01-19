@@ -24,6 +24,9 @@ public class SwerveModule extends SwerveModuleBase implements Loggable {
         public double currentSpeedMetersPerSecond;
         public double desiredMotorAngleDegrees;
         public double desiredSpeedMetersPerSecond;
+
+        public double speedError;
+        public double currentDesiredSpeedRatio;
     }
 
     private NEO driveMotor;
@@ -95,6 +98,9 @@ public class SwerveModule extends SwerveModuleBase implements Loggable {
     public void log(String subdirectory, String humanReadableName) {
         moduleInputs.currentMotorAngleDegrees = steerEncoder.getPosition();
         moduleInputs.currentSpeedMetersPerSecond = driveEncoder.getVelocity();
+
+        moduleInputs.speedError = moduleInputs.desiredSpeedMetersPerSecond - moduleInputs.currentSpeedMetersPerSecond;
+        moduleInputs.currentDesiredSpeedRatio = moduleInputs.desiredSpeedMetersPerSecond / moduleInputs.currentSpeedMetersPerSecond;
 
         driveMotor.log(subdirectory + "/" + humanReadableName, "DriveMotor");
         steerMotor.log(subdirectory + "/" + humanReadableName, "SteerMotor");
