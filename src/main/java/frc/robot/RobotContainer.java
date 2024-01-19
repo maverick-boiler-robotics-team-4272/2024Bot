@@ -5,6 +5,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.subsystems.drivetrain.Drivetrain;
@@ -63,6 +64,10 @@ public class RobotContainer {
 
         new Trigger(driveController.getButton("b")::get).onTrue(
             new ResetHeadingState(drivetrain)
+        );
+
+        new Trigger(driveController.getButton("y")::get).onTrue(
+            new InstantCommand(drivetrain::setToZero, drivetrain)
         );
     }
 
