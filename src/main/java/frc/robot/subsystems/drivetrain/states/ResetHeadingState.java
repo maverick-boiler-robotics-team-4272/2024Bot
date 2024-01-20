@@ -11,7 +11,7 @@ public class ResetHeadingState extends State<Drivetrain> {
 
     @Override
     public void initialize() {
-        requiredSubsystem.getGyroscope().setRotation(new Rotation2d(0.0));
+        requiredSubsystem.setGyroscopeReading(new Rotation2d(0));
     }
 
     @Override

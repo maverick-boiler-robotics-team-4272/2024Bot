@@ -82,8 +82,20 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
         return drivetrainInputs.odometryPose;
     }
 
+    public void setRobotPose(Pose2d pose) {
+        odometry.resetPosition(gyroscope.getRotation(), getPositions(), pose);
+        poseEstimator.resetPosition(gyroscope.getRotation(), getPositions(), pose);
+    }
+
     public void setToZero() {
-        odometry.resetPosition(gyroscope.getRotation(), getPositions(), new Pose2d(FIELD_HALF_WIDTH_METERS, FIELD_HALF_HEIGHT_METERS, new Rotation2d(0.0)));
+        setRobotPose(new Pose2d(FIELD_HALF_WIDTH_METERS, FIELD_HALF_HEIGHT_METERS, new Rotation2d(0.0)));
+    }
+
+    public void setGyroscopeReading(Rotation2d heading) {
+        gyroscope.setRotation(heading);
+
+        odometry.resetPosition(gyroscope.getRotation(), getPositions(), odometry.getPoseMeters());
+        poseEstimator.resetPosition(gyroscope.getRotation(), getPositions(), poseEstimator.getEstimatedPosition());
     }
 
     @Override
