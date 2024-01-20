@@ -14,6 +14,9 @@ import frc.team4272.controllers.utilities.JoystickAxes;
 import frc.team4272.controllers.utilities.JoystickAxes.DeadzoneMode;
 import frc.robot.subsystems.drivetrain.states.DriveState;
 import frc.robot.subsystems.drivetrain.states.ResetHeadingState;
+
+import static frc.robot.constants.AutoConstants.Paths.*;
+import static frc.robot.constants.TelemetryConstants.ShuffleboardTables.*;
 // import frc.robot.subsystems.intake.IntakeSubsystem;
 // import frc.robot.subsystems.intake.states.IntakeState;
 /**
@@ -81,12 +84,24 @@ public class RobotContainer {
         // );
     }
 
+    public void configureAutoChoosers() {
+        CONTAINER_CHOOSER.setDefaultOption("Red", RED_TRAJECTORIES);
+        CONTAINER_CHOOSER.addOption("Blue", BLUE_TRAJECTORIES);
+
+        AUTO_TABLE.putData("Auto Chooser", AUTO_CHOOSER);
+        AUTO_TABLE.putData("Side Chooser", CONTAINER_CHOOSER);
+    }
+
     /**
      * Use this to pass the autonomous command to the main {@link Robot} class.
      *
      * @return the command to run in autonomous
      */
     public Command getAutonomousCommand() {
-        return null;
+        if(!hasGlobalTrajectories()) {
+            setGlobalTrajectories(CONTAINER_CHOOSER.getSelected());
+        }
+
+        return AUTO_CHOOSER.getSelected().get();
     }
 }
