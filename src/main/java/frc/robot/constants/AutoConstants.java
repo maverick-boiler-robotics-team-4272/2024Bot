@@ -37,4 +37,31 @@ public class AutoConstants {
             THETA_CONTROLLER.enableContinuousInput(-Math.PI, Math.PI);
         };
     }
+
+    
+    public static  class Paths {
+        public static final SendableChooser<Supplier<Command>> AUTO_CHOOSER = new SendableChooser<>();
+        public static final SendableChooser<TrajectoryContainer> CONTAINER_CHOOSER = new SendableChooser<>();
+
+        public static final TrajectoryContainer RED_TRAJECTORIES = new TrajectoryContainer();
+        public static final TrajectoryContainer BLUE_TRAJECTORIES = new TrajectoryContainer();
+
+        private static TrajectoryContainer globalTrajectories = null;
+
+        public static void setGlobalTrajectories(TrajectoryContainer trajectories) {
+            if(globalTrajectories != null) {
+                throw new IllegalStateException("setGlobalTrajectories has already been set");
+            }
+
+            globalTrajectories = trajectories;
+        }
+
+        public static TrajectoryContainer getGlobalTrajectories() {
+            return globalTrajectories;
+        }
+
+        public static boolean hasGlobalTrajectories() {
+            return globalTrajectories == null;
+        }
+    }
 }
