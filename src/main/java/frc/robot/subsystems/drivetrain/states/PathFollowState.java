@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.Timer;
 import frc.robot.subsystems.drivetrain.Drivetrain;
 
 import static frc.robot.constants.AutoConstants.PathFollowConstants.*;
+import static frc.robot.constants.TelemetryConstants.Limelights.*;
 
 public class PathFollowState extends PositionalDriveState {
     private PathPlannerTrajectory trajectory;
@@ -39,6 +40,7 @@ public class PathFollowState extends PositionalDriveState {
     ) {
         super(drivetrain, xController, yController, thetaController);
         
+        this.trajectory = trajectory;
         this.timer = new Timer();
         this.positionStopped = positionStopped;
         this.timeStopped = timeStopped;
@@ -107,7 +109,7 @@ public class PathFollowState extends PositionalDriveState {
         Drivetrain drivetrain,
         PathPlannerTrajectory trajectory
     ) {
-        this(drivetrain, trajectory, X_CONTROLLER, Y_CONTROLLER, THETA_CONTROLLER, true, true, new Pose2d(0.2, 0.2, new Rotation2d(0.01)), false, false);
+        this(drivetrain, trajectory, X_CONTROLLER, Y_CONTROLLER, THETA_CONTROLLER, true, true, DEFAULT_POSE_DELTA, false, false);
     }
 
     public PathFollowState withEndConditions(boolean positionStopped, boolean timeStopped, Pose2d positionDelta) {
@@ -132,7 +134,11 @@ public class PathFollowState extends PositionalDriveState {
 
         if(updateOdometry) {
             if(updateFromAprilTag) {
-
+                requiredSubsystem.setRobotPose(CENTER_LIMELIGHT.getRobotPose());
+                requiredSubsystem.setGyroscopeReading(CENTER_LIMELIGHT.getRobotPose().getRotation());
+            } else {
+                requiredSubsystem.setRobotPose(trajectory.getInitialTargetHolonomicPose());
+                requiredSubsystem.setGyroscopeReading(trajectory.getInitialTargetHolonomicPose().getRotation());
             }
         }
     }
