@@ -10,7 +10,7 @@ import frc.robot.utils.VortexBuilder;
 
 import static frc.robot.constants.HardwareMap.*;
 
-public class IntakeSubsystem extends SubsystemBase implements Loggable {
+public class Intake extends SubsystemBase implements Loggable {
     @AutoLog
     public static class IntakeInputs {
 
@@ -19,7 +19,7 @@ public class IntakeSubsystem extends SubsystemBase implements Loggable {
     private IntakeInputsAutoLogged intakeInputs;
     private Vortex intakeMotor;
 
-    public IntakeSubsystem() {
+    public Intake() {
         // intakeMotor = VortexBuilder.createWithDefaults(INTAKE_MOTOR_ID)
         //     .build();
 

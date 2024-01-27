@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.TestAutoCommand;
 import frc.robot.commands.TuneAutoCommand;
 import frc.robot.subsystems.drivetrain.Drivetrain;
-import frc.robot.subsystems.intake.IntakeSubsystem;
+import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.intake.states.IntakeState;
 import frc.team4272.controllers.XboxController;
 import frc.team4272.controllers.utilities.JoystickAxes;
@@ -33,7 +33,7 @@ import static frc.robot.constants.TelemetryConstants.ShuffleboardTables.*;
 public class RobotContainer {
     // The robot's subsystems and commands are defined here...
     Drivetrain drivetrain = new Drivetrain();
-    IntakeSubsystem intake = new IntakeSubsystem();
+    Intake intake = new Intake();
 
     // The robots IO devices are defined here
     XboxController driveController = new XboxController(0);

@@ -2,13 +2,13 @@ package frc.robot.subsystems.intake.states;
 
 import java.util.function.DoubleSupplier;
 
-import frc.robot.subsystems.intake.IntakeSubsystem;
+import frc.robot.subsystems.intake.Intake;
 import frc.team4272.globals.State;
 
-public class IntakeState extends State<IntakeSubsystem> {
+public class IntakeState extends State<Intake> {
     private DoubleSupplier intakePower;
 
-    public IntakeState(IntakeSubsystem intake, DoubleSupplier power) {
+    public IntakeState(Intake intake, DoubleSupplier power) {
         super(intake);
         this.intakePower = power;
     }
