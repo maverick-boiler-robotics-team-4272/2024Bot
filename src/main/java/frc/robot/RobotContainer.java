@@ -8,7 +8,11 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.TestAutoCommand;
+import frc.robot.commands.TuneAutoCommand;
 import frc.robot.subsystems.drivetrain.Drivetrain;
+import frc.robot.subsystems.intake.IntakeSubsystem;
+import frc.robot.subsystems.intake.states.IntakeState;
 import frc.team4272.controllers.XboxController;
 import frc.team4272.controllers.utilities.JoystickAxes;
 import frc.team4272.controllers.utilities.JoystickAxes.DeadzoneMode;
@@ -17,8 +21,6 @@ import frc.robot.subsystems.drivetrain.states.ResetHeadingState;
 
 import static frc.robot.constants.AutoConstants.Paths.*;
 import static frc.robot.constants.TelemetryConstants.ShuffleboardTables.*;
-// import frc.robot.subsystems.intake.IntakeSubsystem;
-// import frc.robot.subsystems.intake.states.IntakeState;
 /**
  * This class is where the bulk of the robot should be declared. Since
  * Command-based is a
@@ -31,7 +33,7 @@ import static frc.robot.constants.TelemetryConstants.ShuffleboardTables.*;
 public class RobotContainer {
     // The robot's subsystems and commands are defined here...
     Drivetrain drivetrain = new Drivetrain();
-    // IntakeSubsystem intake = new IntakeSubsystem();
+    IntakeSubsystem intake = new IntakeSubsystem();
 
     // The robots IO devices are defined here
     XboxController driveController = new XboxController(0);
@@ -41,6 +43,7 @@ public class RobotContainer {
     public RobotContainer() {
         // Configure the trigger bindings
         configureBindings();
+        configureAutoChoosers();
     }
 
     /**
@@ -75,18 +78,21 @@ public class RobotContainer {
             new InstantCommand(drivetrain::setToZero, drivetrain)
         );
 
-        // new Trigger(() -> driveController.getTrigger("left").getValue() != 0.0).whileTrue(
-        //     new IntakeState(intake, () -> driveController.getTrigger("left").getValue() * -0.6)
-        // );
+        new Trigger(() -> driveController.getTrigger("left").getValue() != 0.0).whileTrue(
+            new IntakeState(intake, () -> driveController.getTrigger("left").getValue() * -0.6)
+        );
 
-        // new Trigger(() -> driveController.getTrigger("right").getValue() != 0.0).whileTrue(
-        //     new IntakeState(intake, () -> driveController.getTrigger("right").getValue() * 0.6)
-        // );
+        new Trigger(() -> driveController.getTrigger("right").getValue() != 0.0).whileTrue(
+            new IntakeState(intake, () -> driveController.getTrigger("right").getValue() * 0.6)
+        );
     }
 
     public void configureAutoChoosers() {
         CONTAINER_CHOOSER.setDefaultOption("Red", RED_TRAJECTORIES);
         CONTAINER_CHOOSER.addOption("Blue", BLUE_TRAJECTORIES);
+
+        AUTO_CHOOSER.setDefaultOption("Test Path", () -> new TestAutoCommand(drivetrain));
+        AUTO_CHOOSER.addOption("Tune Path", () -> new TuneAutoCommand(drivetrain).repeatedly());
 
         AUTO_TABLE.putData("Auto Chooser", AUTO_CHOOSER);
         AUTO_TABLE.putData("Side Chooser", CONTAINER_CHOOSER);
