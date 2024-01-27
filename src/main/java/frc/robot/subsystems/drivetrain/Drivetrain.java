@@ -5,6 +5,7 @@ import java.util.List;
 import org.littletonrobotics.junction.AutoLog;
 import org.littletonrobotics.junction.Logger;
 
+import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -22,6 +23,8 @@ import static frc.robot.constants.HardwareMap.*;
 import static frc.robot.constants.RobotConstants.DrivetrainConstants.*;
 import static frc.robot.constants.TelemetryConstants.Limelights.CENTER_LIMELIGHT;
 import static frc.robot.constants.UniversalConstants.*;
+import static frc.robot.constants.TelemetryConstants.ShuffleboardTables.*;
+
 
 public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements Loggable {
     @AutoLog
@@ -55,7 +58,14 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
         drivetrainInputs.limelightPose = new Pose2d();
 
         odometry = new SwerveDriveOdometry(kinematics, gyroscope.getRotation(), getPositions());
-        poseEstimator = new SwerveDrivePoseEstimator(kinematics, gyroscope.getRotation(), getPositions(), CENTER_LIMELIGHT.getRobotPose());
+        poseEstimator = new SwerveDrivePoseEstimator(
+            kinematics,
+            gyroscope.getRotation(),
+            getPositions(),
+            CENTER_LIMELIGHT.getRobotPose(),
+            VecBuilder.fill(0.5, 0.5, 0.5), // Guestimations to try and make tracking better
+            VecBuilder.fill(1.0, 1.0, 0.65) // Computed standard deviations, (~worst case / 2)
+        );
 
         setMaxSpeeds(Units.MetersPerSecond.convertFrom(14.5, Units.FeetPerSecond));
     }
@@ -69,16 +79,19 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
 
     public void updateOdometry() {
         drivetrainInputs.odometryPose = odometry.update(gyroscope.getRotation().unaryMinus(), getPositions());
-        drivetrainInputs.limelightPose =  CENTER_LIMELIGHT.getRobotPose();
 
         poseEstimator.update(gyroscope.getRotation().unaryMinus(), getPositions());
-        if(CENTER_LIMELIGHT.isValidTarget() && !drivetrainInputs.limelightPose.equals(new Pose2d(0, 0, new Rotation2d(0))))
+        if(CENTER_LIMELIGHT.isValidTarget() && !drivetrainInputs.limelightPose.equals(new Pose2d(FIELD_HALF_WIDTH_METERS, FIELD_HALF_HEIGHT_METERS, new Rotation2d(0))))
             poseEstimator.addVisionMeasurement(drivetrainInputs.limelightPose, Timer.getFPGATimestamp());
 
         drivetrainInputs.estimatedPose = poseEstimator.getEstimatedPosition();
     }
 
     public Pose2d getRobotPose() {
+        return drivetrainInputs.estimatedPose;
+    }
+
+    public Pose2d getOdometryPose() {
         return drivetrainInputs.odometryPose;
     }
 
@@ -112,5 +125,7 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
     @Override
     public void periodic() {
         log("Subsystems", "Drivetrain");
+
+        drivetrainInputs.limelightPose =  CENTER_LIMELIGHT.getRobotPose();
     }
 }
