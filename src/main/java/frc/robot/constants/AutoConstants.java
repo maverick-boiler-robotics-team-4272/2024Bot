@@ -31,7 +31,7 @@ public class AutoConstants {
         public static final PIDController Y_CONTROLLER = new PIDController(POSITION_PID_P, POSITION_PID_I, POSITION_PID_D);
         public static final PIDController THETA_CONTROLLER = new PIDController(ROTATION_PID_P, ROTATION_PID_I, ROTATION_PID_D);
 
-        public static final Pose2d DEFAULT_POSE_DELTA = new Pose2d(0.05, 0.05, Rotation2d.fromDegrees(2));
+        public static final Pose2d DEFAULT_POSE_DELTA = new Pose2d(0.05, 0.05, Rotation2d.fromDegrees(10));
 
         static {
             THETA_CONTROLLER.enableContinuousInput(-Math.PI, Math.PI);
@@ -43,8 +43,8 @@ public class AutoConstants {
         public static final SendableChooser<Supplier<Command>> AUTO_CHOOSER = new SendableChooser<>();
         public static final SendableChooser<TrajectoryContainer> CONTAINER_CHOOSER = new SendableChooser<>();
 
-        public static final TrajectoryContainer RED_TRAJECTORIES = new TrajectoryContainer();
-        public static final TrajectoryContainer BLUE_TRAJECTORIES = new TrajectoryContainer();
+        public static final TrajectoryContainer RED_TRAJECTORIES = new TrajectoryContainer("Red");
+        public static final TrajectoryContainer BLUE_TRAJECTORIES = new TrajectoryContainer("Blue");
 
         private static TrajectoryContainer globalTrajectories = null;
 
@@ -61,7 +61,7 @@ public class AutoConstants {
         }
 
         public static boolean hasGlobalTrajectories() {
-            return globalTrajectories == null;
+            return globalTrajectories != null;
         }
     }
 }
