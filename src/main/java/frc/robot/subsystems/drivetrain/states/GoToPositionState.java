@@ -61,6 +61,6 @@ public class GoToPositionState extends PositionalDriveState {
     
     @Override
     public boolean isFinished() {
-        return timer.get() > trajectory.getTotalTimeSeconds() + 0.5;
+        return PathFollowState.posesAlmostEqual(desiredPose, endPose, DEFAULT_POSE_DELTA) && timer.get() >= trajectory.getTotalTimeSeconds() + 1.0;
     }
 }
