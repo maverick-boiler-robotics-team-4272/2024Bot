@@ -17,7 +17,7 @@ public class RobotConstants {
         }
 
         public static final double WHEEL_DISTANCE = Units.Meters.convertFrom(1, Units.Feet);
-        public static final double MAX_TRANSLATIONAL_SPEED = 2.0;
+        public static final double MAX_TRANSLATIONAL_SPEED = 4.0;
         public static final double MAX_ROTATIONAL_SPEED = 2 * Math.PI;
 
         public static final Translation2d FRONT_LEFT_POSITION  = new Translation2d(-WHEEL_DISTANCE,  WHEEL_DISTANCE);
