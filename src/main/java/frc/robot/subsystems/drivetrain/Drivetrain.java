@@ -11,8 +11,9 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
-import edu.wpi.first.units.Units;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.Timer;
+import frc.robot.subsystems.drivetrain.states.PathFollowState;
 import frc.robot.utils.Loggable;
 import frc.robot.utils.Pigeon;
 import frc.robot.utils.SwerveModule;
@@ -21,9 +22,9 @@ import frc.team4272.swerve.utils.SwerveModuleBase.PositionedSwerveModule;
 
 import static frc.robot.constants.HardwareMap.*;
 import static frc.robot.constants.RobotConstants.DrivetrainConstants.*;
+import static frc.robot.constants.RobotConstants.DrivetrainConstants.SwerveModuleConstants.MAX_MODULE_SPEED;
 import static frc.robot.constants.TelemetryConstants.Limelights.CENTER_LIMELIGHT;
 import static frc.robot.constants.UniversalConstants.*;
-import static frc.robot.constants.TelemetryConstants.ShuffleboardTables.*;
 
 
 public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements Loggable {
@@ -32,6 +33,7 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
         public Pose2d odometryPose;
         public Pose2d limelightPose;
         public Pose2d estimatedPose;
+        public Pose2d desiredPose;
     }
 
     private DrivetrainInputsAutoLogged drivetrainInputs;
@@ -56,6 +58,7 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
         drivetrainInputs.odometryPose = new Pose2d();
         drivetrainInputs.estimatedPose = new Pose2d();
         drivetrainInputs.limelightPose = new Pose2d();
+        drivetrainInputs.desiredPose = new Pose2d();
 
         odometry = new SwerveDriveOdometry(kinematics, gyroscope.getRotation(), getPositions());
         poseEstimator = new SwerveDrivePoseEstimator(
@@ -64,10 +67,10 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
             getPositions(),
             CENTER_LIMELIGHT.getRobotPose(),
             VecBuilder.fill(0.5, 0.5, 0.5), // Guestimations to try and make tracking better
-            VecBuilder.fill(1.0, 1.0, 0.65) // Computed standard deviations, (~worst case / 2)
+            VecBuilder.fill(0.75, 0.75, 0.65) // Computed standard deviations, (~worst case / 2)
         );
 
-        setMaxSpeeds(Units.MetersPerSecond.convertFrom(14.5, Units.FeetPerSecond));
+        setMaxSpeeds(MAX_TRANSLATIONAL_SPEED, MAX_ROTATIONAL_SPEED, MAX_MODULE_SPEED);
     }
 
     @Override
@@ -81,18 +84,31 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
         drivetrainInputs.odometryPose = odometry.update(gyroscope.getRotation().unaryMinus(), getPositions());
 
         poseEstimator.update(gyroscope.getRotation().unaryMinus(), getPositions());
-        if(CENTER_LIMELIGHT.isValidTarget() && !drivetrainInputs.limelightPose.equals(new Pose2d(FIELD_HALF_WIDTH_METERS, FIELD_HALF_HEIGHT_METERS, new Rotation2d(0))))
+        if(
+            CENTER_LIMELIGHT.isValidTarget() && 
+            !drivetrainInputs.limelightPose.equals(new Pose2d(FIELD_HALF_WIDTH_METERS, FIELD_HALF_HEIGHT_METERS, new Rotation2d(0))) &&
+            PathFollowState.posesAlmostEqual(drivetrainInputs.limelightPose, drivetrainInputs.estimatedPose, new Pose2d(1, 1, Rotation2d.fromDegrees(45)))
+        ) {
             poseEstimator.addVisionMeasurement(drivetrainInputs.limelightPose, Timer.getFPGATimestamp());
+        }
 
         drivetrainInputs.estimatedPose = poseEstimator.getEstimatedPosition();
     }
 
-    public Pose2d getRobotPose() {
+    public Pose2d getRobotPose() { 
         return drivetrainInputs.estimatedPose;
+    }
+
+    public ChassisSpeeds getChassisSpeeds() {
+        return kinematics.toChassisSpeeds(getModuleStates());
     }
 
     public Pose2d getOdometryPose() {
         return drivetrainInputs.odometryPose;
+    }
+
+    public void setLoggedDesiredPose(Pose2d pose) {
+        drivetrainInputs.desiredPose = pose;
     }
 
     public void setRobotPose(Pose2d pose) {
@@ -127,5 +143,15 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
         log("Subsystems", "Drivetrain");
 
         drivetrainInputs.limelightPose =  CENTER_LIMELIGHT.getRobotPose();
+    }
+
+    public SwerveModuleState[] getModuleStates() {
+        SwerveModuleState[] states = new SwerveModuleState[numModules];
+        for(int i = 0; i < numModules; i++) {
+            states[i] = modules[i].getState();
+        }
+
+        return states;
+        
     }
 }
