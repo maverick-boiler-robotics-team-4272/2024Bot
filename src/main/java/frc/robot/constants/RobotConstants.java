@@ -52,4 +52,18 @@ public class RobotConstants {
             public static final double STEER_PID_F = 0.0;
         }
     }
+
+    public static class ArmConstants {
+        public static final double ARM_PID_P = 0.001;
+        public static final double ARM_PID_I = 0.0001;
+        public static final double ARM_PID_D = 0.0;
+        public static final double ARM_PID_F = 0.0;
+    }
+
+    public static class ElevatorConstants {
+        public static final double ELEVATOR_PID_P = 0.001;
+        public static final double ELEVATOR_PID_I = 0.0001;
+        public static final double ELEVATOR_PID_D = 0.0;
+        public static final double ELEVATOR_PID_F = 0.0;
+    }
 }
