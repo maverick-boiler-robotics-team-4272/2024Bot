@@ -1,5 +1,7 @@
 package frc.robot.utils;
 
+import static frc.robot.constants.RobotConstants.DrivetrainConstants.*;
+
 import com.pathplanner.lib.path.GoalEndState;
 import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.path.PathPlannerPath;
@@ -14,10 +16,10 @@ public class TrajectoryBuilder {
         PathPlannerPath path = new PathPlannerPath(
             PathPlannerPath.bezierFromPoses(start, end), 
             new PathConstraints(
-                3, 
-                3, 
-                Rotation2d.fromDegrees(540).getRotations(), 
-                Rotation2d.fromDegrees(720).getRotations()
+                MAX_TRANSLATIONAL_SPEED, 
+                9.81, //gravity but sidways
+                MAX_ROTATIONAL_SPEED, 
+                Rotation2d.fromDegrees(720).getRadians()
             ), 
             new GoalEndState(0, end.getRotation())
         );
