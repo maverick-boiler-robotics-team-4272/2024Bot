@@ -133,12 +133,14 @@ public class PathFollowState extends PositionalDriveState {
         timer.restart();
 
         if(updateOdometry) {
-            if(updateFromAprilTag) {
+            if(updateFromAprilTag && CENTER_LIMELIGHT.isValidTarget()) {
                 requiredSubsystem.setRobotPose(CENTER_LIMELIGHT.getRobotPose());
                 requiredSubsystem.setGyroscopeReading(CENTER_LIMELIGHT.getRobotPose().getRotation());
             } else {
-                requiredSubsystem.setRobotPose(trajectory.getInitialTargetHolonomicPose());
-                requiredSubsystem.setGyroscopeReading(trajectory.getInitialTargetHolonomicPose().getRotation());
+                Pose2d initHolo = trajectory.getInitialTargetHolonomicPose();
+
+                requiredSubsystem.setGyroscopeReading(initHolo.getRotation().unaryMinus());
+                requiredSubsystem.setRobotPose(initHolo);
             }
         }
     }
