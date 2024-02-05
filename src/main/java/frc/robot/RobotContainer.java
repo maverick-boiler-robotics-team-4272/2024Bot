@@ -4,10 +4,14 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.HomemadeAuto;
+import frc.robot.commands.StressTestAuto;
 import frc.robot.commands.TestAutoCommand;
 import frc.robot.commands.TuneAutoCommand;
 import frc.robot.subsystems.drivetrain.Drivetrain;
@@ -17,10 +21,18 @@ import frc.team4272.controllers.XboxController;
 import frc.team4272.controllers.utilities.JoystickAxes;
 import frc.team4272.controllers.utilities.JoystickAxes.DeadzoneMode;
 import frc.robot.subsystems.drivetrain.states.DriveState;
+import frc.robot.subsystems.drivetrain.states.FacePositionState;
+import frc.robot.subsystems.drivetrain.states.GoToPositionState;
+import frc.robot.subsystems.drivetrain.states.PositionState;
 import frc.robot.subsystems.drivetrain.states.ResetHeadingState;
-
+import frc.robot.subsystems.drivetrain.states.ResetToLimelightState;
 import static frc.robot.constants.AutoConstants.Paths.*;
+import static frc.robot.constants.TelemetryConstants.Limelights.CENTER_LIMELIGHT;
 import static frc.robot.constants.TelemetryConstants.ShuffleboardTables.*;
+import static frc.robot.constants.UniversalConstants.AMP_POSE;
+import static frc.robot.constants.UniversalConstants.SPEAKER_POSITION;
+
+import com.pathplanner.lib.auto.NamedCommands;
 /**
  * This class is where the bulk of the robot should be declared. Since
  * Command-based is a
@@ -44,6 +56,7 @@ public class RobotContainer {
         // Configure the trigger bindings
         configureBindings();
         configureAutoChoosers();
+        registerNamedCommands();
     }
 
     /**
@@ -75,15 +88,27 @@ public class RobotContainer {
         );
 
         new Trigger(driveController.getButton("y")::get).onTrue(
-            new InstantCommand(drivetrain::setToZero, drivetrain)
+            new ResetToLimelightState(drivetrain, CENTER_LIMELIGHT)
         );
 
-        new Trigger(() -> driveController.getTrigger("left").getValue() != 0.0).whileTrue(
+        new Trigger(driveController.getTrigger("left")::isTriggered).whileTrue(
             new IntakeState(intake, () -> driveController.getTrigger("left").getValue() * -0.6)
         );
 
-        new Trigger(() -> driveController.getTrigger("right").getValue() != 0.0).whileTrue(
+        new Trigger(driveController.getTrigger("right")::isTriggered).whileTrue(
             new IntakeState(intake, () -> driveController.getTrigger("right").getValue() * 0.6)
+        );
+
+        new Trigger(driveController.getButton("a")::get).whileTrue(
+            new FacePositionState(drivetrain, driveLeftAxes::getDeadzonedX, driveLeftAxes::getDeadzonedY, SPEAKER_POSITION)
+        );
+
+        new Trigger(driveController.getButton("x")::get).whileTrue(
+            new PositionState(drivetrain, () -> new Pose2d(Units.inchesToMeters(72.5), Units.inchesToMeters(300), new Rotation2d(Math.PI / 2)))
+        );
+
+        new Trigger(driveController.getButton("rightBumper")::get).whileTrue(
+            new GoToPositionState(drivetrain, AMP_POSE)
         );
     }
 
@@ -93,9 +118,16 @@ public class RobotContainer {
 
         AUTO_CHOOSER.setDefaultOption("Test Path", () -> new TestAutoCommand(drivetrain));
         AUTO_CHOOSER.addOption("Tune Path", () -> new TuneAutoCommand(drivetrain).repeatedly());
+        AUTO_CHOOSER.addOption("Stress Path", () -> new StressTestAuto(drivetrain));
+        AUTO_CHOOSER.addOption("HomeMade TBD", () -> new HomemadeAuto(drivetrain));
+        
 
         AUTO_TABLE.putData("Auto Chooser", AUTO_CHOOSER);
         AUTO_TABLE.putData("Side Chooser", CONTAINER_CHOOSER);
+    }
+
+    public void registerNamedCommands() {
+
     }
 
     /**
