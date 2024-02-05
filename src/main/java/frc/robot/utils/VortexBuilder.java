@@ -14,6 +14,13 @@ public class VortexBuilder {
 
     private VortexBuilder(int id) {
         motor = new Vortex(id);
+        motor.restoreFactoryDefaults();
+    }
+
+    public VortexBuilder asFollower(Vortex motor, boolean inverted) {
+        this.motor.follow(motor, inverted);
+
+        return this;
     }
 
     public VortexBuilder withVoltageCompensation(int nominalVoltage) {
