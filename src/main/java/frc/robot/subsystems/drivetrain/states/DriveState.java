@@ -1,5 +1,7 @@
 package frc.robot.subsystems.drivetrain.states;
 
+import static frc.robot.constants.RobotConstants.DrivetrainConstants.*;
+
 import java.util.function.DoubleSupplier;
 
 import frc.robot.subsystems.drivetrain.Drivetrain;
@@ -24,16 +26,16 @@ public class DriveState extends AbstractDriveState {
 
     @Override
     public double getXSpeed() {
-        return ySpeed.getAsDouble();
+        return ySpeed.getAsDouble() * MAX_TRANSLATIONAL_SPEED;
     }
 
     @Override
     public double getYSpeed() {
-        return -xSpeed.getAsDouble();
+        return -xSpeed.getAsDouble() * MAX_TRANSLATIONAL_SPEED;
     }
 
     @Override
     public double getThetaSpeed() {
-        return thetaSpeed.getAsDouble();
+        return thetaSpeed.getAsDouble() * MAX_ROTATIONAL_SPEED;
     }
 }
