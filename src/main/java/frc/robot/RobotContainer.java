@@ -23,6 +23,7 @@ import frc.team4272.controllers.utilities.JoystickAxes.DeadzoneMode;
 import frc.robot.subsystems.drivetrain.states.DriveState;
 import frc.robot.subsystems.drivetrain.states.FacePositionState;
 import frc.robot.subsystems.drivetrain.states.GoToPositionState;
+import frc.robot.subsystems.drivetrain.states.PathFindToPositionState;
 import frc.robot.subsystems.drivetrain.states.PositionState;
 import frc.robot.subsystems.drivetrain.states.ResetHeadingState;
 import frc.robot.subsystems.drivetrain.states.ResetToLimelightState;
@@ -104,6 +105,10 @@ public class RobotContainer {
 
         new Trigger(driveController.getButton("x")::get).whileTrue(
             new GoToPositionState(drivetrain, AMP_POSE)
+        );
+
+        new Trigger(driveController.getButton("rightBumper")::get).whileTrue(
+            new PathFindToPositionState(drivetrain, AMP_POSE)
         );
     }
 
