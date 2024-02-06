@@ -32,7 +32,6 @@ import static frc.robot.constants.TelemetryConstants.ShuffleboardTables.*;
 import static frc.robot.constants.UniversalConstants.AMP_POSE;
 import static frc.robot.constants.UniversalConstants.SPEAKER_POSITION;
 
-import com.pathplanner.lib.auto.NamedCommands;
 /**
  * This class is where the bulk of the robot should be declared. Since
  * Command-based is a
@@ -104,10 +103,6 @@ public class RobotContainer {
         );
 
         new Trigger(driveController.getButton("x")::get).whileTrue(
-            new PositionState(drivetrain, () -> new Pose2d(Units.inchesToMeters(72.5), Units.inchesToMeters(300), new Rotation2d(Math.PI / 2)))
-        );
-
-        new Trigger(driveController.getButton("rightBumper")::get).whileTrue(
             new GoToPositionState(drivetrain, AMP_POSE)
         );
     }
