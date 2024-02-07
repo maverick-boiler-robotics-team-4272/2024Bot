@@ -135,17 +135,13 @@ public class BoundingBox {
         }
 
         int height = 0;
+    outer:
         for(int j = y; j < navgrid[x].length; j++) {
-            boolean stop = false;
             for(int i = x; i < x + width; i++) {
                 if(isPointInAnyBound(bounds, i, j) || !navgrid[i][j]) {
-                    stop = true;
-                    break;
+                    break outer;
                 }
             }
-
-            if(stop)
-                break;
             
             height++;
         }
