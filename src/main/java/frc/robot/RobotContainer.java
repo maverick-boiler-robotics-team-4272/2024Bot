@@ -20,6 +20,7 @@ import frc.robot.subsystems.intake.states.IntakeState;
 import frc.team4272.controllers.XboxController;
 import frc.team4272.controllers.utilities.JoystickAxes;
 import frc.team4272.controllers.utilities.JoystickAxes.DeadzoneMode;
+import frc.team4272.controllers.utilities.JoystickPOV.Direction;
 import frc.robot.subsystems.drivetrain.states.DriveState;
 import frc.robot.subsystems.drivetrain.states.FacePositionState;
 import frc.robot.subsystems.drivetrain.states.GoToPositionState;
@@ -74,15 +75,29 @@ public class RobotContainer {
      * joysticks}.
      */
     private void configureBindings() {
+        configureDriverBindings();
+        configureOperatorBindings();
+    }
+
+    public void configureDriverBindings() {
         JoystickAxes driveLeftAxes = driveController.getAxes("left");
-        JoystickAxes driveRightAxes = driveController.getAxes("right");
         driveLeftAxes.setDeadzone(0.1).setDeadzoneMode(DeadzoneMode.kMagnitude).setPowerScale(3);
+
+        JoystickAxes driveRightAxes = driveController.getAxes("right");
         driveRightAxes.setDeadzone(0.1).setDeadzoneMode(DeadzoneMode.kXAxis).setPowerScale(2.5);
         
         drivetrain.setDefaultCommand(
             new DriveState(drivetrain, driveLeftAxes::getDeadzonedX, driveLeftAxes::getDeadzonedY, driveRightAxes::getDeadzonedX)
         );
-
+        
+        new Trigger(driveController.getTrigger("left")::isTriggered).whileTrue(
+            new IntakeState(intake, () -> driveController.getTrigger("left").getValue() * -0.6)
+        );
+        
+        new Trigger(driveController.getTrigger("right")::isTriggered).whileTrue(
+            new IntakeState(intake, () -> driveController.getTrigger("right").getValue() * 0.6)
+        );
+        
         new Trigger(driveController.getButton("b")::get).onTrue(
             new ResetHeadingState(drivetrain)
         );
@@ -91,25 +106,25 @@ public class RobotContainer {
             new ResetToLimelightState(drivetrain, CENTER_LIMELIGHT)
         );
 
-        new Trigger(driveController.getTrigger("left")::isTriggered).whileTrue(
-            new IntakeState(intake, () -> driveController.getTrigger("left").getValue() * -0.6)
-        );
-
-        new Trigger(driveController.getTrigger("right")::isTriggered).whileTrue(
-            new IntakeState(intake, () -> driveController.getTrigger("right").getValue() * 0.6)
-        );
-
         new Trigger(driveController.getButton("a")::get).whileTrue(
             new FacePositionState(drivetrain, driveLeftAxes::getDeadzonedX, driveLeftAxes::getDeadzonedY, SPEAKER_POSITION)
         );
 
-        new Trigger(driveController.getButton("x")::get).whileTrue(
-            new GoToPositionState(drivetrain, AMP_POSE)
-        );
+        // new Trigger(driveController.getButton("x")::get).whileTrue(
+            
+        // );
 
-        new Trigger(driveController.getButton("rightBumper")::get).whileTrue(
+        new Trigger(() -> driveController.getPOV("d-pad").getDirection().equals(Direction.UP)).whileTrue(
             new PathFindToPositionState(drivetrain, AMP_POSE)
         );
+
+        new Trigger(() -> driveController.getPOV("d-pad").getDirection().equals(Direction.RIGHT)).whileTrue(
+            new GoToPositionState(drivetrain, AMP_POSE)
+        );
+    }
+
+    public void configureOperatorBindings() {
+        //we dont need em;
     }
 
     public void configureAutoChoosers() {
@@ -127,7 +142,7 @@ public class RobotContainer {
     }
 
     public void registerNamedCommands() {
-
+        
     }
 
     /**
