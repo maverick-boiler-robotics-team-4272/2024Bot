@@ -101,6 +101,10 @@ public class RobotConstants {
         public static final double ARM_PID_D = 0.0;
         public static final double ARM_PID_F = 0.0;
 
+        public static final double ARM_LENGTH = Units.Meters.convertFrom(16.0, Units.Inches);
+
+        public static final double ARM_RATIO = 1.0;
+
         public static final Rotation2d MAX_ARM_ANGLE = Rotation2d.fromDegrees(50.0);
         public static final Rotation2d MIN_ARM_ANGLE = Rotation2d.fromDegrees(-20.0);
     }
@@ -110,6 +114,10 @@ public class RobotConstants {
         public static final double ELEVATOR_PID_I = 0.0001;
         public static final double ELEVATOR_PID_D = 0.0;
         public static final double ELEVATOR_PID_F = 0.0;
+
+        public static final double BLOCKING_HEIGHT = Units.Meters.convertFrom(3.0, Units.Inches);
+
+        public static final double ELEVATOR_RATIO = 1.0; //Find empericaly
 
         //TODO: find out from CAD
         public static final double MAX_ELEVATOR_HEIGHT = Units.Meters.convertFrom(48.0, Units.Inches);
