@@ -22,7 +22,7 @@ public class BoundingBox {
         }
 
         public boolean pointInBox(int x, int y) {
-            return x >= this.x && x <= this.x + width && y >= this.y && y <= this.y + height;
+            return x >= this.x && x < this.x + width && y >= this.y && y < this.y + height;
         }
 
         @Override
@@ -65,13 +65,6 @@ public class BoundingBox {
             }
         }
 
-        System.out.println("[");
-        bbs.forEach(b -> {
-            System.out.print(b);
-            System.out.println(",");
-        });
-        System.out.println("]");
-
         FileWriter writer = new FileWriter("./src/main/deploy/precompout/bounds.txt");
 
         writer.write("List.of(\n");
@@ -86,15 +79,30 @@ public class BoundingBox {
         
         writer.close();
 
+        int numCellsNotInGrid = 0;
+        int numCellsInGrid = 0;
+        int numCellsMultBound = 0;
+        int numTrue = 0;
         for(int i = 0; i < navgrid.length; i++) {
             for(int j = 0; j < navgrid[i].length; j++) {
-                if(navgrid[i][j]) {
-                    if(!isPointInAnyBound(bbs, i, j)) {
-                        System.out.println("Cell not in grid: %d, %d".formatted(j, i));
-                    }
+                int numBounds = pointInNumBounds(bbs, i, j);
+
+                if(navgrid[i][j])
+                    numTrue++;
+
+                if(numBounds == 0 && navgrid[i][j] == true) {
+                    numCellsNotInGrid++;
+                } else if(numBounds != 0 && navgrid[i][j] == false) {
+                    numCellsInGrid++;
+                } else if(numBounds > 1 && navgrid[i][j] == true) {
+                    numCellsMultBound++;
+                } else {
+
                 }
             }
         }
+
+        System.out.printf("Num cells not in grid when they should be: %d\nNum cells in grid when they shouldn't be: %d\nNum cells in multiple bounds: %d\nNum blocked Squares: %d\nNum bounds: %d\nAmount reduced: %dx\n", numCellsNotInGrid, numCellsInGrid, numCellsMultBound, numTrue, bbs.size(), numTrue / bbs.size());
     }
 
     private static boolean isPointInAnyBound(List<Bounds> bounds, int x, int y) {
@@ -104,6 +112,16 @@ public class BoundingBox {
         }
 
         return false;
+    }
+
+    private static int pointInNumBounds(List<Bounds> bounds, int x, int y) {
+        int sum = 0;
+        for(Bounds b : bounds) {
+            if(b.pointInBox(x, y))
+                sum++;
+        }
+
+        return sum;
     }
 
     private static void floodFill(boolean[][] navgrid, List<Bounds> bounds, int x, int y) {
