@@ -6,6 +6,7 @@ import org.littletonrobotics.junction.Logger;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase.ControlType;
+import com.revrobotics.CANSparkBase.IdleMode;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
@@ -69,6 +70,10 @@ public class SwerveModule extends SwerveModuleBase implements Loggable {
         moduleInputs = new SwerveModuleInputsAutoLogged();
 
         steerMotor.burnFlash();
+    }
+
+    public void setCoastMode(boolean mode) {
+        driveMotor.setIdleMode(mode ? IdleMode.kCoast : IdleMode.kBrake);
     }
 
     public Rotation2d getMotorRotation() {

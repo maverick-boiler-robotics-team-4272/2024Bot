@@ -111,6 +111,12 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
         drivetrainInputs.desiredPose = pose;
     }
 
+    public void setCoastMode(boolean coast) {
+        for(SwerveModule m : modules) {
+            m.setCoastMode(coast);
+        }
+    }
+
     public void setRobotPose(Pose2d pose) {
         odometry.resetPosition(gyroscope.getRotation(), getPositions(), pose);
         poseEstimator.resetPosition(gyroscope.getRotation(), getPositions(), pose);
