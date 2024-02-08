@@ -13,6 +13,7 @@ import com.revrobotics.CANSparkBase.ControlType;
 
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -87,8 +88,20 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
         armElevatorInputs.desiredElevatorHeight = h;
     }
 
-    public void targetPos(Translation3d position) {
-        //TODO: this...
+    public void targetPos(Translation2d drivetrainPos, Translation3d position) {
+        double height = elevatorEncoder.getPosition();
+
+        double d = Math.hypot(drivetrainPos.getX() - position.getX(), drivetrainPos.getY() - position.getY()) - ELEVATOR_TRANSLATION.getY();
+
+        Rotation2d theta = new Rotation2d(position.getZ() - height + ELEVATOR_TRANSLATION.getZ(), d);
+        
+
+        if(theta.getDegrees() > MAX_SAFE_ANGLE.getDegrees()) {
+            height = position.getZ() - d * MAX_SAFE_ANGLE.getTan();
+            theta = MAX_SAFE_ANGLE;
+        }
+
+        goToPos(theta, height);
     }
 
     private void handleSaftey() {
