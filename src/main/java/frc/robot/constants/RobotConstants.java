@@ -2,7 +2,9 @@ package frc.robot.constants;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.units.Units;
+import edu.wpi.first.math.geometry.Translation3d;
+
+import static edu.wpi.first.units.Units.*;
 
 public class RobotConstants {
     private RobotConstants() {
@@ -17,7 +19,7 @@ public class RobotConstants {
             throw new UnsupportedOperationException("Cannot construct a constants class");
         }
 
-        public static final double WHEEL_DISTANCE = Units.Meters.convertFrom(1, Units.Feet);
+        public static final double WHEEL_DISTANCE = Meters.convertFrom(1, Feet);
         public static final double MAX_TRANSLATIONAL_SPEED = 4.0;
         public static final double MAX_ROTATIONAL_SPEED = 2 * Math.PI;
 
@@ -37,7 +39,7 @@ public class RobotConstants {
             }
 
             public static final double WHEEL_RADIUS = 2.0; // Inches
-            public static final double MAX_MODULE_SPEED = Units.MetersPerSecond.convertFrom(14.5, Units.FeetPerSecond);
+            public static final double MAX_MODULE_SPEED = MetersPerSecond.convertFrom(14.5, FeetPerSecond);
 
             public static final double DRIVE_RATIO = 6.75 / 1.0;
             public static final double STEER_RATIO = 150.0 / 7.0;
@@ -101,12 +103,14 @@ public class RobotConstants {
         public static final double ARM_PID_D = 0.0;
         public static final double ARM_PID_F = 0.0;
 
-        public static final double ARM_LENGTH = Units.Meters.convertFrom(16.0, Units.Inches);
+        public static final double ARM_LENGTH = Meters.convertFrom(16.0, Inches);
 
         public static final double ARM_RATIO = 1.0;
 
         public static final Rotation2d MAX_ARM_ANGLE = Rotation2d.fromDegrees(50.0);
         public static final Rotation2d MIN_ARM_ANGLE = Rotation2d.fromDegrees(-20.0);
+
+        public static final Rotation2d MAX_SAFE_ANGLE = Rotation2d.fromRotations(45.0);
     }
 
     public static class ElevatorConstants {
@@ -115,12 +119,14 @@ public class RobotConstants {
         public static final double ELEVATOR_PID_D = 0.0;
         public static final double ELEVATOR_PID_F = 0.0;
 
-        public static final double BLOCKING_HEIGHT = Units.Meters.convertFrom(3.0, Units.Inches);
+        public static final double BLOCKING_HEIGHT = Meters.convertFrom(3.0, Inches);
+
+        public static final Translation3d ELEVATOR_TRANSLATION = new Translation3d(0, Meters.convertFrom(2.0, Inches), Meters.convertFrom(4.0, Inches));
 
         public static final double ELEVATOR_RATIO = 1.0; //Find empericaly
 
         //TODO: find out from CAD
-        public static final double MAX_ELEVATOR_HEIGHT = Units.Meters.convertFrom(48.0, Units.Inches);
-        public static final double MIN_ELEVATOR_HEIGHT = Units.Meters.convertFrom(0, Units.Inches);
+        public static final double MAX_ELEVATOR_HEIGHT = Meters.convertFrom(48.0, Inches);
+        public static final double MIN_ELEVATOR_HEIGHT = Meters.convertFrom(0, Inches);
     }
 }
