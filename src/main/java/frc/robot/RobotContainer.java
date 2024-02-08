@@ -7,7 +7,14 @@ package frc.robot;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.ConditionalCommand;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.SelectCommand;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.HomemadeAuto;
@@ -34,6 +41,9 @@ import static frc.robot.constants.TelemetryConstants.ShuffleboardTables.*;
 import static frc.robot.constants.UniversalConstants.AMP_POSE;
 import static frc.robot.constants.UniversalConstants.SPEAKER_POSITION;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * This class is where the bulk of the robot should be declared. Since
  * Command-based is a
@@ -47,6 +57,8 @@ public class RobotContainer {
     // The robot's subsystems and commands are defined here...
     Drivetrain drivetrain = new Drivetrain();
     Intake intake = new Intake();
+
+    int driverDPadValue = -1;
 
     // The robots IO devices are defined here
     XboxController driveController = new XboxController(0);
@@ -97,6 +109,22 @@ public class RobotContainer {
         new Trigger(driveController.getTrigger("right")::isTriggered).whileTrue(
             new IntakeState(intake, () -> driveController.getTrigger("right").getValue() * 0.6)
         );
+
+        new Trigger(driveController.getButton("rightBumper")::get).whileTrue(
+            new SelectCommand<Integer>(Map.of(
+                0,
+                new ParallelCommandGroup(
+                    new InstantCommand(() -> driveController.setRumble(RumbleType.kBothRumble, 1.0)),
+                    new PathFindToPositionState(drivetrain, AMP_POSE)
+                ),
+                90, 
+                new GoToPositionState(drivetrain, AMP_POSE)
+                ),
+                () -> driverDPadValue
+            )
+        ).onFalse(
+            new InstantCommand(() -> driveController.setRumble(RumbleType.kBothRumble, 0.0))
+        );
         
         new Trigger(driveController.getButton("b")::get).onTrue(
             new ResetHeadingState(drivetrain)
@@ -114,12 +142,13 @@ public class RobotContainer {
             
         // );
 
-        new Trigger(() -> driveController.getPOV("d-pad").getDirection().equals(Direction.UP)).whileTrue(
-            new PathFindToPositionState(drivetrain, AMP_POSE)
-        );
-
-        new Trigger(() -> driveController.getPOV("d-pad").getDirection().equals(Direction.RIGHT)).whileTrue(
-            new GoToPositionState(drivetrain, AMP_POSE)
+        new Trigger(() -> !driveController.getPOV("d-pad").getDirection().equals(Direction.NONE)).onTrue(
+            new SequentialCommandGroup(
+                new InstantCommand(() -> driveController.setRumble(RumbleType.kBothRumble, 1.0)),
+                new InstantCommand(() -> {driverDPadValue = driveController.getPOV("d-pad").getValue();}),
+                new WaitCommand(0.25),
+                new InstantCommand(() -> driveController.setRumble(RumbleType.kBothRumble, 0.0))
+            )  
         );
     }
 
@@ -132,7 +161,7 @@ public class RobotContainer {
         CONTAINER_CHOOSER.addOption("Blue", BLUE_TRAJECTORIES);
 
         AUTO_CHOOSER.setDefaultOption("Test Path", () -> new TestAutoCommand(drivetrain));
-        AUTO_CHOOSER.addOption("Tune Path", () -> new TuneAutoCommand(drivetrain).repeatedly());
+        AUTO_CHOOSER.addOption("Tune Path", () -> new TuneAutoCommand(drivetrain));
         AUTO_CHOOSER.addOption("Stress Path", () -> new StressTestAuto(drivetrain));
         AUTO_CHOOSER.addOption("HomeMade TBD", () -> new HomemadeAuto(drivetrain));
         
