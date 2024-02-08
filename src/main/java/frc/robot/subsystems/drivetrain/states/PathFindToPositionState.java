@@ -68,6 +68,6 @@ public class PathFindToPositionState extends PositionalDriveState {
     public boolean isFinished() {
         if(trajectory == null)
             return true;
-        return PathFollowState.posesAlmostEqual(desiredPose, endPose, DEFAULT_POSE_DELTA) && timer.get() >= trajectory.getTotalTimeSeconds() + 1.0;
+        return PathFollowState.posesAlmostEqual(requiredSubsystem.getRobotPose(), endPose, DEFAULT_POSE_DELTA) && timer.get() >= trajectory.getTotalTimeSeconds() + 1.0;
     }
 }
