@@ -16,21 +16,14 @@ public class TrajectoryContainer {
     public final PathPlannerTrajectory TEST_PATH;
     public final PathPlannerTrajectory TUNE_PATH;
     public final PathPlannerTrajectory STRESS_TEST_PATH;
-    public final PathPlannerTrajectory HOMEMADE_PATH = new PathPlannerTrajectory(
-        new PathPlannerPath(
-            PathPlannerPath.bezierFromPoses(
-                new Pose2d(1.5, 2, new Rotation2d(0)), 
-                new Pose2d(1.5, 5, new Rotation2d(Math.PI / 2))), 
-            new PathConstraints(2, 3, 0.5, 2), 
-            new GoalEndState(0, new Rotation2d(Math.PI / 2))), 
-        INITIAL_SPEEDS, 
-        INITIAL_ROTATION
-    );
+    
+    public final PathPlannerTrajectory TWO_CENTER_RUSH;
 
     public TrajectoryContainer(String prefix) {
         TEST_PATH = PathPlannerPath.fromPathFile(prefix + " Test Path").getTrajectory(INITIAL_SPEEDS, INITIAL_ROTATION);
         TUNE_PATH = PathPlannerPath.fromPathFile(prefix + " Tune Path").getTrajectory(INITIAL_SPEEDS, INITIAL_ROTATION);
         STRESS_TEST_PATH = PathPlannerPath.fromPathFile(prefix + " Stress Test Path").getTrajectory(INITIAL_SPEEDS, Rotation2d.fromDegrees(-90));
 
+        TWO_CENTER_RUSH = PathPlannerPath.fromPathFile(prefix + " Two Center Rush").getTrajectory(INITIAL_SPEEDS, Rotation2d.fromDegrees(180));
     }
 }

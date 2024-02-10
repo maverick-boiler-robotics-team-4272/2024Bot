@@ -17,7 +17,6 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.commands.HomemadeAuto;
 import frc.robot.commands.StressTestAuto;
 import frc.robot.commands.TestAutoCommand;
 import frc.robot.commands.TuneAutoCommand;
@@ -163,7 +162,6 @@ public class RobotContainer {
         AUTO_CHOOSER.setDefaultOption("Test Path", () -> new TestAutoCommand(drivetrain));
         AUTO_CHOOSER.addOption("Tune Path", () -> new TuneAutoCommand(drivetrain));
         AUTO_CHOOSER.addOption("Stress Path", () -> new StressTestAuto(drivetrain));
-        AUTO_CHOOSER.addOption("HomeMade TBD", () -> new HomemadeAuto(drivetrain));
         
 
         AUTO_TABLE.putData("Auto Chooser", AUTO_CHOOSER);
