@@ -4,6 +4,7 @@
   "holonomicMode": true,
   "pathFolders": [
     "Center Rush",
+    "Close",
     "Tests"
   ],
   "autoFolders": [],

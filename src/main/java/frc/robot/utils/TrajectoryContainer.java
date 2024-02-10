@@ -16,8 +16,9 @@ public class TrajectoryContainer {
     public final PathPlannerTrajectory TEST_PATH;
     public final PathPlannerTrajectory TUNE_PATH;
     public final PathPlannerTrajectory STRESS_TEST_PATH;
-    
+
     public final PathPlannerTrajectory TWO_CENTER_RUSH;
+    public final PathPlannerTrajectory THREE_PIECE_CLOSE;
 
     public TrajectoryContainer(String prefix) {
         TEST_PATH = PathPlannerPath.fromPathFile(prefix + " Test Path").getTrajectory(INITIAL_SPEEDS, INITIAL_ROTATION);
@@ -25,5 +26,6 @@ public class TrajectoryContainer {
         STRESS_TEST_PATH = PathPlannerPath.fromPathFile(prefix + " Stress Test Path").getTrajectory(INITIAL_SPEEDS, Rotation2d.fromDegrees(-90));
 
         TWO_CENTER_RUSH = PathPlannerPath.fromPathFile(prefix + " Two Center Rush").getTrajectory(INITIAL_SPEEDS, Rotation2d.fromDegrees(180));
+        THREE_PIECE_CLOSE = PathPlannerPath.fromPathFile(prefix + " Three Piece Close").getTrajectory(INITIAL_SPEEDS, Rotation2d.fromDegrees(180));
     }
 }

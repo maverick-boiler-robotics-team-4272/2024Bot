@@ -85,7 +85,6 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
 
         poseEstimator.update(gyroscope.getRotation().unaryMinus(), getPositions());
         if(
-            CENTER_LIMELIGHT.isValidTarget() && 
             !drivetrainInputs.limelightPose.equals(new Pose2d(FIELD_HALF_WIDTH_METERS, FIELD_HALF_HEIGHT_METERS, new Rotation2d(0))) &&
             PathFollowState.posesAlmostEqual(drivetrainInputs.limelightPose, drivetrainInputs.estimatedPose, new Pose2d(1, 1, Rotation2d.fromDegrees(45)))
         ) {
