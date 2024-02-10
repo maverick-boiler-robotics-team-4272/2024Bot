@@ -13,16 +13,10 @@ public class TargetPositonCommand extends Command {
     ArmElevatorSubsystem armElevator;
     Translation3d target;
 
-    DoubleSupplier xSpeed;
-    DoubleSupplier ySpeed;
-
-    public TargetPositonCommand(Drivetrain drivetrain, ArmElevatorSubsystem armElevator, Translation3d target, DoubleSupplier xSpeed, DoubleSupplier ySpeed) {
+    public TargetPositonCommand(Drivetrain drivetrain, ArmElevatorSubsystem armElevator, Translation3d target) {
         this.drivetrain = drivetrain;
         this.armElevator = armElevator;
         this.target = target;
-
-        this.xSpeed = xSpeed;
-        this.ySpeed = ySpeed;
 
         addRequirements(drivetrain, armElevator);
     }
