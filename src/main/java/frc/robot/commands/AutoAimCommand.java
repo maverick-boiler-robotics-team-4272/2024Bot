@@ -10,9 +10,6 @@ import frc.robot.subsystems.drivetrain.Drivetrain;
 import frc.robot.subsystems.drivetrain.states.FacePositionState;
 
 public class AutoAimCommand extends ParallelCommandGroup {
-    DoubleSupplier xSpeed;
-    DoubleSupplier ySpeed;
-
     public AutoAimCommand(Drivetrain drivetrain, ArmElevatorSubsystem armElevator, DoubleSupplier xSpeed, DoubleSupplier ySpeed) {
         super(
             new TargetPositonCommand(drivetrain, armElevator, SPEAKER_SHOT_POSITION),
