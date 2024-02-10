@@ -16,7 +16,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
+import frc.robot.constants.RobotConstants.ArmElevatorSetpoint;
 import frc.robot.utils.*;
 public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
     @AutoLog
@@ -86,6 +86,10 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
 
         armElevatorInputs.desiredArmAngleRadians = r.getRadians();
         armElevatorInputs.desiredElevatorHeight = h;
+    }
+
+    public void goToPos(ArmElevatorSetpoint setpoint) {
+        goToPos(setpoint.getArmAngle(), setpoint.getElevatorHeight());
     }
 
     public void targetPos(Translation2d drivetrainPos, Translation3d position) {
