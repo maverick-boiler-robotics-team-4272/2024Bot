@@ -47,14 +47,6 @@ public class TrajectoryBuilder {
         Pathfinding.setStartPosition(drivetrain.getRobotPose().getTranslation());
         Pathfinding.setGoalPosition(position.getTranslation());
 
-        try {
-            do {
-                Thread.sleep(10);
-            } while(!Pathfinding.isNewPathAvailable());
-        } catch(InterruptedException e) {
-            System.err.println("Interrupted while finding a path");
-        }
-
         PathPlannerPath foundPath = Pathfinding.getCurrentPath(new PathConstraints(
                 MAX_TRANSLATIONAL_SPEED, 
                 3.0, 
@@ -78,9 +70,9 @@ public class TrajectoryBuilder {
     }
 
     static {
-        Pathfinding.ensureInitialized();
-        
-        Pathfinding.setDynamicObstacles(List.of(                new Pair<Translation2d, Translation2d>(new Translation2d(5.90, 2.10), new Translation2d(6.00, 6.20)),
+        Pathfinding.setPathfinder(new AStarPathfinding(0.1));
+        Pathfinding.setDynamicObstacles(List.of(
+            new Pair<Translation2d, Translation2d>(new Translation2d(5.90, 2.10), new Translation2d(6.00, 6.20)),
             new Pair<Translation2d, Translation2d>(new Translation2d(6.00, 2.10), new Translation2d(6.10, 6.10)),
             new Pair<Translation2d, Translation2d>(new Translation2d(5.30, 2.20), new Translation2d(5.90, 6.10)),
             new Pair<Translation2d, Translation2d>(new Translation2d(5.20, 2.30), new Translation2d(5.30, 6.00)),
