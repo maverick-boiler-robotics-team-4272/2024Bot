@@ -76,7 +76,9 @@ public class RobotConstants {
     }
 
     public static enum ArmElevatorSetpoints implements ArmElevatorSetpoint {
-        ZERO(new Rotation2d(0), 0);
+        ZERO(new Rotation2d(0), 0),
+        //TODO: make this the angle to feed from...
+        HOME(Rotation2d.fromDegrees(30.0), Meters.convertFrom(3.0, Inches));
 
         private Rotation2d armAngle;
         private double elevatorHeight;
@@ -123,9 +125,9 @@ public class RobotConstants {
 
         public static final Translation3d ELEVATOR_TRANSLATION = new Translation3d(0, Meters.convertFrom(2.0, Inches), Meters.convertFrom(4.0, Inches));
 
+        //TODO: find out from CAD
         public static final double ELEVATOR_RATIO = 1.0; //Find empericaly
 
-        //TODO: find out from CAD
         public static final double MAX_ELEVATOR_HEIGHT = Meters.convertFrom(48.0, Inches);
         public static final double MIN_ELEVATOR_HEIGHT = Meters.convertFrom(0, Inches);
     }
