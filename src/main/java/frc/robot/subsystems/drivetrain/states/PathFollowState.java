@@ -127,6 +127,10 @@ public class PathFollowState extends PositionalDriveState {
         return this;
     }
 
+    protected void setTrajectory(PathPlannerTrajectory trajectory) {
+        this.trajectory = trajectory;
+    }
+
     @Override
     public void initialize() {
         endPose = trajectory.getEndState().getTargetHolonomicPose();
