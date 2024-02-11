@@ -19,12 +19,12 @@ public class AutoConstants {
             throw new UnsupportedOperationException("Cannot construct a constants class");
         }
 
-        public static final double POSITION_PID_P = 2.5;
-        public static final double POSITION_PID_I = 0.0;
+        public static final double POSITION_PID_P = 2.1;
+        public static final double POSITION_PID_I = 0.015;
         public static final double POSITION_PID_D = 0.0;
         
-        public static final double ROTATION_PID_P = 2.0;
-        public static final double ROTATION_PID_I = 0.0;
+        public static final double ROTATION_PID_P = 2.1;
+        public static final double ROTATION_PID_I = 0.015;
         public static final double ROTATION_PID_D = 0.0;
 
         public static final PIDController X_CONTROLLER = new PIDController(POSITION_PID_P, POSITION_PID_I, POSITION_PID_D);
