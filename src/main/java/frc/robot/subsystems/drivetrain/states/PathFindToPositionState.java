@@ -8,66 +8,99 @@ import static frc.robot.constants.AutoConstants.PathFollowConstants.Y_CONTROLLER
 import com.pathplanner.lib.path.PathPlannerTrajectory;
 import com.pathplanner.lib.path.PathPlannerTrajectory.State;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.subsystems.drivetrain.Drivetrain;
 import frc.robot.utils.TrajectoryBuilder;
 
-public class PathFindToPositionState extends PositionalDriveState {
-    private PathPlannerTrajectory trajectory;
+public class PathFindToPositionState extends PathFollowState {
     private Pose2d endPose;
-    private Pose2d desiredPose;
-    private Timer timer;
 
-    public PathFindToPositionState(Drivetrain drivetrain, Pose2d pose) {
-        super(drivetrain, X_CONTROLLER, Y_CONTROLLER, THETA_CONTROLLER);
+    public PathFindToPositionState(
+        Drivetrain drivetrain,
+        Pose2d pose,
+        PIDController xController,
+        PIDController yController,
+        PIDController thetaController,
+        boolean timeStopped,
+        boolean positionStopped,
+        Pose2d poseDelta,
+        boolean updateOdometry,
+        boolean updateFromAprilTag
+    ) {
+        super(drivetrain, null, xController, yController, thetaController, timeStopped, positionStopped, poseDelta, updateOdometry, updateFromAprilTag);
         this.endPose = pose;
-        this.timer = new Timer();
     }
 
-    @Override
-    public double getDesiredX() {
-        return desiredPose.getX();
+    public PathFindToPositionState(
+        Drivetrain drivetrain,
+        Pose2d pose,
+        boolean positionStopped,
+        boolean timeStopped,
+        Pose2d positionDelta,
+        boolean updateOdometry,
+        boolean updateFromAprilTag
+    ) {
+        this(drivetrain, pose, X_CONTROLLER, Y_CONTROLLER, THETA_CONTROLLER, positionStopped, timeStopped, positionDelta, updateOdometry, updateFromAprilTag);
     }
 
-    @Override
-    public double getDesiredY() {
-        return desiredPose.getY();
+    public PathFindToPositionState(
+        Drivetrain drivetrain,
+        Pose2d pose,
+        PIDController xController,
+        PIDController yController,
+        PIDController thetaController,
+        boolean positionStopped,
+        boolean timeStopped,
+        Pose2d positionDelta
+    ) {
+        this(drivetrain, pose, xController, yController, thetaController, positionStopped, timeStopped, positionDelta, false, false);
     }
 
-    @Override
-    public Rotation2d getDesiredTheta() {
-        return desiredPose.getRotation();
+    public PathFindToPositionState(
+        Drivetrain drivetrain,
+        Pose2d pose,
+        boolean positionStopped,
+        boolean timeStopped,
+        Pose2d positionDelta
+    ) {
+        this(drivetrain, pose, Y_CONTROLLER, X_CONTROLLER, THETA_CONTROLLER, positionStopped, timeStopped, positionDelta, false, false);
+    }
+
+    public PathFindToPositionState(
+        Drivetrain drivetrain,
+        Pose2d pose,
+        PIDController xController,
+        PIDController yController,
+        PIDController thetaController,
+        boolean updateOdometry,
+        boolean updateFromAprilTag
+    ) {
+        this(drivetrain, pose, xController, yController, thetaController, true, true, DEFAULT_POSE_DELTA, updateOdometry, updateFromAprilTag);
+    }
+
+    public PathFindToPositionState(
+        Drivetrain drivetrain,
+        Pose2d pose,
+        boolean updateOdometry,
+        boolean updateFromAprilTag
+    ) {
+        this(drivetrain, pose, X_CONTROLLER, Y_CONTROLLER, THETA_CONTROLLER, true, true, DEFAULT_POSE_DELTA, updateOdometry, updateFromAprilTag);
+    }
+
+    public PathFindToPositionState(
+        Drivetrain drivetrain,
+        Pose2d pose
+    ) {
+        this(drivetrain, pose, X_CONTROLLER, Y_CONTROLLER, THETA_CONTROLLER, true, true, DEFAULT_POSE_DELTA, false, false);
     }
     
     @Override
     public void initialize() {
-        timer.reset();
-        timer.start();
-        trajectory = TrajectoryBuilder.pathFindToPosition(requiredSubsystem, endPose);
-    }
-    
-    @Override
-    public void execute() {
-        if(trajectory == null)
-            return;
-        State trajectoryState = trajectory.sample(timer.get());
-        desiredPose = trajectoryState.getTargetHolonomicPose();
-    
-        super.execute();
-    }
+        setTrajectory(TrajectoryBuilder.pathFindToPosition(requiredSubsystem, endPose));
 
-    @Override
-    public void end(boolean interrupted) {
-        timer.stop();
-        requiredSubsystem.drive(0, 0, 0);
-    }
-    
-    @Override
-    public boolean isFinished() {
-        if(trajectory == null)
-            return true;
-        return PathFollowState.posesAlmostEqual(requiredSubsystem.getRobotPose(), endPose, DEFAULT_POSE_DELTA) && timer.get() >= trajectory.getTotalTimeSeconds() + 1.0;
+        super.initialize();
     }
 }
