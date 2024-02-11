@@ -133,6 +133,8 @@ public class PathFollowState extends PositionalDriveState {
 
     @Override
     public void initialize() {
+        if(trajectory == null)
+            return;
         endPose = trajectory.getEndState().getTargetHolonomicPose();
         timer.restart();
 
@@ -166,6 +168,8 @@ public class PathFollowState extends PositionalDriveState {
 
     @Override
     public void execute() {
+        if(trajectory == null)
+            return null;
         State trajectoryState = trajectory.sample(timer.get());
         desiredPose = trajectoryState.getTargetHolonomicPose();
 
@@ -180,6 +184,8 @@ public class PathFollowState extends PositionalDriveState {
 
     @Override
     public boolean isFinished() {
+        if(trajectory == null)
+            return true;
         boolean time = false;
         boolean position = false;
 
