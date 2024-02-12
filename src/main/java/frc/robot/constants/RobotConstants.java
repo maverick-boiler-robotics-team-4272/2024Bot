@@ -18,15 +18,15 @@ public class RobotConstants {
         private DrivetrainConstants() {
             throw new UnsupportedOperationException("Cannot construct a constants class");
         }
-
-        public static final double WHEEL_DISTANCE = Meters.convertFrom(1, Feet);
+        public static final double DRIVEBASE_HALF_WIDTH = Meters.convertFrom(9.875, Inches);
+        public static final double DRIVEBASE_HALF_HEIGHT = Meters.convertFrom(8.875, Inches);
         public static final double MAX_TRANSLATIONAL_SPEED = 4.0;
         public static final double MAX_ROTATIONAL_SPEED = 2 * Math.PI;
 
-        public static final Translation2d FRONT_LEFT_POSITION  = new Translation2d(-WHEEL_DISTANCE,  WHEEL_DISTANCE);
-        public static final Translation2d FRONT_RIGHT_POSITION = new Translation2d(-WHEEL_DISTANCE, -WHEEL_DISTANCE);
-        public static final Translation2d BACK_LEFT_POSITION   = new Translation2d( WHEEL_DISTANCE,  WHEEL_DISTANCE);
-        public static final Translation2d BACK_RIGHT_POSITION  = new Translation2d( WHEEL_DISTANCE, -WHEEL_DISTANCE);
+        public static final Translation2d FRONT_LEFT_POSITION  = new Translation2d(-DRIVEBASE_HALF_WIDTH,  DRIVEBASE_HALF_HEIGHT);
+        public static final Translation2d FRONT_RIGHT_POSITION = new Translation2d(-DRIVEBASE_HALF_WIDTH, -DRIVEBASE_HALF_HEIGHT);
+        public static final Translation2d BACK_LEFT_POSITION   = new Translation2d(-DRIVEBASE_HALF_WIDTH,  DRIVEBASE_HALF_HEIGHT);
+        public static final Translation2d BACK_RIGHT_POSITION  = new Translation2d(-DRIVEBASE_HALF_WIDTH, -DRIVEBASE_HALF_HEIGHT);
 
         public static final double FRONT_LEFT_OFFSET  = 110.0;
         public static final double FRONT_RIGHT_OFFSET = 45.0;
@@ -41,7 +41,7 @@ public class RobotConstants {
             public static final double WHEEL_RADIUS = 2.0; // Inches
             public static final double MAX_MODULE_SPEED = MetersPerSecond.convertFrom(14.5, FeetPerSecond);
 
-            public static final double DRIVE_RATIO = 6.75 / 1.0;
+            public static final double DRIVE_RATIO = 6.75 / 1.0 * 14.0 / 16.0; // Swapped a gear, slightly different ratio... grr...
             public static final double STEER_RATIO = 150.0 / 7.0;
 
             public static final double DRIVE_PID_P = 0.003596;
@@ -75,10 +75,11 @@ public class RobotConstants {
         }
     }
 
+    // Limelight 3 Position: (Forward: 0.262m, Up (From ground): 0.183m, L/R: 0.0m, Roll: 0.0deg, Pitch: 35.0deg, Yaw: 0.0deg)
+    // Limelight 2+ Position: (Forward: -0.290m, Up (From ground): 0.345m, L/R: 0.014m, Roll: 0.0deg, Pitch: 0.0deg, Yaw: 180.0deg)
     public static enum ArmElevatorSetpoints implements ArmElevatorSetpoint {
         ZERO(new Rotation2d(0), 0),
-        //TODO: make this the angle to feed from...
-        HOME(Rotation2d.fromDegrees(30.0), Meters.convertFrom(3.0, Inches));
+        HOME(Rotation2d.fromDegrees(40.0), Meters.convertFrom(0.0, Inches));
 
         private Rotation2d armAngle;
         private double elevatorHeight;
