@@ -5,9 +5,22 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.TestAutoCommand;
+import frc.robot.commands.TuneAutoCommand;
+import frc.robot.subsystems.drivetrain.Drivetrain;
+import frc.robot.subsystems.intake.IntakeSubsystem;
+import frc.robot.subsystems.intake.states.IntakeState;
+import frc.team4272.controllers.XboxController;
+import frc.team4272.controllers.utilities.JoystickAxes;
+import frc.team4272.controllers.utilities.JoystickAxes.DeadzoneMode;
+import frc.robot.subsystems.drivetrain.states.DriveState;
+import frc.robot.subsystems.drivetrain.states.ResetHeadingState;
 
+import static frc.robot.constants.AutoConstants.Paths.*;
+import static frc.robot.constants.TelemetryConstants.ShuffleboardTables.*;
 /**
  * This class is where the bulk of the robot should be declared. Since
  * Command-based is a
@@ -19,15 +32,18 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
  */
 public class RobotContainer {
     // The robot's subsystems and commands are defined here...
+    Drivetrain drivetrain = new Drivetrain();
+    IntakeSubsystem intake = new IntakeSubsystem();
 
     // The robots IO devices are defined here
-
+    XboxController driveController = new XboxController(0);
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
      */
     public RobotContainer() {
         // Configure the trigger bindings
         configureBindings();
+        configureAutoChoosers();
     }
 
     /**
@@ -45,11 +61,41 @@ public class RobotContainer {
      * joysticks}.
      */
     private void configureBindings() {
-        // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
+        JoystickAxes driveLeftAxes = driveController.getAxes("left");
+        JoystickAxes driveRightAxes = driveController.getAxes("right");
+        driveLeftAxes.setDeadzone(0.1).setDeadzoneMode(DeadzoneMode.kMagnitude).setPowerScale(3);
+        driveRightAxes.setDeadzone(0.1).setDeadzoneMode(DeadzoneMode.kXAxis).setPowerScale(2.5);
+        
+        drivetrain.setDefaultCommand(
+            new DriveState(drivetrain, driveLeftAxes::getDeadzonedX, driveLeftAxes::getDeadzonedY, driveRightAxes::getDeadzonedX)
+        );
 
-        // Schedule `exampleMethodCommand` when the Xbox controller's B button is
-        // pressed,
-        // cancelling on release.
+        new Trigger(driveController.getButton("b")::get).onTrue(
+            new ResetHeadingState(drivetrain)
+        );
+
+        new Trigger(driveController.getButton("y")::get).onTrue(
+            new InstantCommand(drivetrain::setToZero, drivetrain)
+        );
+
+        new Trigger(() -> driveController.getTrigger("left").getValue() != 0.0).whileTrue(
+            new IntakeState(intake, () -> driveController.getTrigger("left").getValue() * -0.6)
+        );
+
+        new Trigger(() -> driveController.getTrigger("right").getValue() != 0.0).whileTrue(
+            new IntakeState(intake, () -> driveController.getTrigger("right").getValue() * 0.6)
+        );
+    }
+
+    public void configureAutoChoosers() {
+        CONTAINER_CHOOSER.setDefaultOption("Red", RED_TRAJECTORIES);
+        CONTAINER_CHOOSER.addOption("Blue", BLUE_TRAJECTORIES);
+
+        AUTO_CHOOSER.setDefaultOption("Test Path", () -> new TestAutoCommand(drivetrain));
+        AUTO_CHOOSER.addOption("Tune Path", () -> new TuneAutoCommand(drivetrain).repeatedly());
+
+        AUTO_TABLE.putData("Auto Chooser", AUTO_CHOOSER);
+        AUTO_TABLE.putData("Side Chooser", CONTAINER_CHOOSER);
     }
 
     /**
@@ -58,7 +104,10 @@ public class RobotContainer {
      * @return the command to run in autonomous
      */
     public Command getAutonomousCommand() {
-        // An example command will be run in autonomous
-        return null;
+        if(!hasGlobalTrajectories()) {
+            setGlobalTrajectories(CONTAINER_CHOOSER.getSelected());
+        }
+
+        return AUTO_CHOOSER.getSelected().get();
     }
 }
