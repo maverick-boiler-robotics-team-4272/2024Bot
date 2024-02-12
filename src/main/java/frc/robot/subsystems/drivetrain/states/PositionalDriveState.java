@@ -1,6 +1,7 @@
 package frc.robot.subsystems.drivetrain.states;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import frc.robot.subsystems.drivetrain.Drivetrain;
 
@@ -39,5 +40,12 @@ public abstract class PositionalDriveState extends AbstractDriveState {
     @Override
     public double getThetaSpeed() {
         return -thetaController.calculate(requiredSubsystem.getRobotPose().getRotation().getRadians(), getDesiredTheta().getRadians());
+    }
+
+    @Override
+    public void execute() {
+        super.execute();
+
+        requiredSubsystem.setLoggedDesiredPose(new Pose2d(getDesiredX(), getDesiredY(), getDesiredTheta()));
     }
 }

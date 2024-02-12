@@ -18,6 +18,12 @@ public class NEOBuilder {
         motor.restoreFactoryDefaults();
     }
 
+    public NEOBuilder asFollower(NEO motor, boolean inverted) {
+        this.motor.follow(motor, inverted);
+
+        return this;
+    }
+
     public NEOBuilder withVoltageCompensation(int nominalVoltage) {
         motor.enableVoltageCompensation(nominalVoltage);
 

@@ -6,6 +6,7 @@ import org.littletonrobotics.junction.Logger;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase.ControlType;
+import com.revrobotics.CANSparkBase.IdleMode;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
@@ -62,12 +63,17 @@ public class SwerveModule extends SwerveModuleBase implements Loggable {
         steerEncoder = steerMotor.getEncoder();
 
         externalEncoder = new MAVCoder(steerMotor, offset);
+        System.out.println(externalEncoder.getUnoffsetAngle());
 
         steerEncoder.setPosition(externalEncoder.getAngle());
 
         moduleInputs = new SwerveModuleInputsAutoLogged();
 
         steerMotor.burnFlash();
+    }
+
+    public void setCoastMode(boolean mode) {
+        driveMotor.setIdleMode(mode ? IdleMode.kCoast : IdleMode.kBrake);
     }
 
     public Rotation2d getMotorRotation() {
@@ -78,15 +84,19 @@ public class SwerveModule extends SwerveModuleBase implements Loggable {
         return Rotation2d.fromDegrees(externalEncoder.getAngle());
     }
 
+    public SwerveModuleState getState() {
+        return new SwerveModuleState(driveEncoder.getVelocity(), getMotorRotation());
+    }
+
     @Override
     public void goToState(SwerveModuleState state) {
         SwerveModuleState optimized = optimize(state, getMotorRotation());
 
         moduleInputs.desiredMotorAngleDegrees = optimized.angle.getDegrees();
         moduleInputs.desiredSpeedMetersPerSecond = optimized.speedMetersPerSecond;
-
-        drivePidController.setReference(optimized.speedMetersPerSecond, ControlType.kVelocity);
-        steerPidController.setReference(optimized.angle.getDegrees(), ControlType.kPosition);
+        
+        drivePidController.setReference(moduleInputs.desiredSpeedMetersPerSecond, ControlType.kVelocity);
+        steerPidController.setReference(moduleInputs.desiredMotorAngleDegrees, ControlType.kPosition);
     }
 
     @Override
