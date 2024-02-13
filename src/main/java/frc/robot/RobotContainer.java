@@ -4,12 +4,8 @@
 
 package frc.robot;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SelectCommand;
@@ -32,7 +28,6 @@ import frc.robot.subsystems.drivetrain.states.DriveState;
 import frc.robot.subsystems.drivetrain.states.FacePositionState;
 import frc.robot.subsystems.drivetrain.states.GoToPositionState;
 import frc.robot.subsystems.drivetrain.states.PathFindToPositionState;
-import frc.robot.subsystems.drivetrain.states.PositionState;
 import frc.robot.subsystems.drivetrain.states.ResetHeadingState;
 import frc.robot.subsystems.drivetrain.states.ResetToLimelightState;
 import static frc.robot.constants.AutoConstants.Paths.*;
@@ -41,7 +36,6 @@ import static frc.robot.constants.TelemetryConstants.ShuffleboardTables.*;
 import static frc.robot.constants.UniversalConstants.AMP_POSE;
 import static frc.robot.constants.UniversalConstants.SPEAKER_POSITION;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
