@@ -115,13 +115,21 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
         double safeTheta = Math.acos(Math.min(1, Math.max((elevatorHeight - BLOCKING_HEIGHT) / ARM_LENGTH, -1.0)));
         double safeHeight = ARM_LENGTH * desiredArmAngle.getCos() + BLOCKING_HEIGHT;
 
-        if(desiredArmAngle.getRadians() > safeTheta && elevatorHeight > safeHeight) {
-            setElevatorHeight(desiredElevatorHeight);
+        // Height safe, angle safe
+        // Height safe, angle  not
+        // Height  not, angle safe
+        // Height not, angle not
+
+        if(desiredArmAngle.getRadians() > safeTheta) {
             setShooterRotation(desiredArmAngle);
-        } else if(desiredElevatorHeight < safeHeight) {
+        } else {
+            setShooterRotation(new Rotation2d(safeTheta));
+        }
+
+        if(desiredElevatorHeight > safeHeight) {
+            setElevatorHeight(desiredElevatorHeight);
+        } else {
             setElevatorHeight(safeHeight);
-        } else if(desiredArmAngle.getRadians() < safeTheta) {
-            setShooterRotation(Rotation2d.fromRadians(safeTheta));
         }
 
         armElevatorInputs.safeArmAngleRadians = safeTheta;
