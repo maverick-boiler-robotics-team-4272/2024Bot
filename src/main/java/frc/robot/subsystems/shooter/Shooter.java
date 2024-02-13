@@ -24,11 +24,20 @@ public class Shooter extends SubsystemBase implements Loggable {
         shooterMotor1 = VortexBuilder.createWithDefaults(SHOOTER_MOTOR_1_ID)
             .build();
         shooterMotor2 = VortexBuilder.createWithDefaults(SHOOTER_MOTOR_2_ID)
+            .asFollower(shooterMotor1, true)
             .build();
         feedMotor = VortexBuilder.createWithDefaults(FEED_MOTOR_ID)
             .build();
 
         shooterInputs = new ShooterInputsAutoLogged();
+    }
+
+    public void rev(double percent) {
+        shooterMotor1.set(percent);
+    }
+
+    public void feed(double percent) {
+        feedMotor.set(percent);
     }
 
     @Override
