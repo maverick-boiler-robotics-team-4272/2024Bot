@@ -108,6 +108,8 @@ public class RobotConstants {
 
         public static final double ARM_LENGTH = Meters.convertFrom(16.0, Inches);
 
+        public static final Rotation2d ARM_ANGLE_DEADZONE = Rotation2d.fromDegrees(5.0);
+
         public static final double ARM_RATIO = 1.0;
 
         public static final Rotation2d MAX_ARM_ANGLE = Rotation2d.fromDegrees(50.0);
@@ -125,6 +127,8 @@ public class RobotConstants {
         public static final double ELEVATOR_PID_I = 0.0001;
         public static final double ELEVATOR_PID_D = 0.0;
         public static final double ELEVATOR_PID_F = 0.0;
+
+        public static final double ELEVATOR_HEIGHT_DEADZONE = Meters.convertFrom(2.0, Centimeters);
 
         public static final double BLOCKING_HEIGHT = Meters.convertFrom(3.0, Inches);
 

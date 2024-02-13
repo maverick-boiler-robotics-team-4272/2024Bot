@@ -80,6 +80,11 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
         elevatorController.setReference(h, ControlType.kPosition, 0, ELEVATOR_PID_F);
     }
 
+    public boolean isAtPosition() {
+        return Math.abs(desiredElevatorHeight - elevatorEncoder.getPosition()) < ELEVATOR_HEIGHT_DEADZONE && 
+            Math.abs(desiredArmAngle.getRadians() - armEncoder.getPosition()) < ARM_ANGLE_DEADZONE.getRadians();
+    }
+
     public void goToPos(Rotation2d r, double h) {
         desiredArmAngle = r;
         desiredElevatorHeight = h;
