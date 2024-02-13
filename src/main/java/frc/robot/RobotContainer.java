@@ -17,9 +17,12 @@ import frc.robot.commands.HomemadeAuto;
 import frc.robot.commands.StressTestAuto;
 import frc.robot.commands.TestAutoCommand;
 import frc.robot.commands.TuneAutoCommand;
+import frc.robot.subsystems.armelevator.ArmElevatorSubsystem;
+import frc.robot.subsystems.armelevator.states.GoToArmElevatorState;
 import frc.robot.subsystems.drivetrain.Drivetrain;
 import frc.robot.subsystems.intake.IntakeSubsystem;
 import frc.robot.subsystems.intake.states.IntakeState;
+import frc.robot.subsystems.shooter.Shooter;
 import frc.team4272.controllers.XboxController;
 import frc.team4272.controllers.utilities.JoystickAxes;
 import frc.team4272.controllers.utilities.JoystickAxes.DeadzoneMode;
@@ -35,6 +38,7 @@ import static frc.robot.constants.TelemetryConstants.Limelights.CENTER_LIMELIGHT
 import static frc.robot.constants.TelemetryConstants.ShuffleboardTables.*;
 import static frc.robot.constants.UniversalConstants.AMP_POSE;
 import static frc.robot.constants.UniversalConstants.SPEAKER_POSITION;
+import static frc.robot.constants.RobotConstants.ArmElevatorSetpoints.*;
 
 import java.util.Map;
 
@@ -51,6 +55,8 @@ public class RobotContainer {
     // The robot's subsystems and commands are defined here...
     Drivetrain drivetrain = new Drivetrain();
     IntakeSubsystem intake = new IntakeSubsystem();
+    ArmElevatorSubsystem armElevator = new ArmElevatorSubsystem();
+    Shooter shooter = new Shooter();
 
     int driverDPadValue = -1;
 
@@ -92,6 +98,8 @@ public class RobotContainer {
         JoystickAxes driveRightAxes = driveController.getAxes("right");
         driveRightAxes.setDeadzone(0.1).setDeadzoneMode(DeadzoneMode.kXAxis).setPowerScale(2.5);
         
+        armElevator.setDefaultCommand(new GoToArmElevatorState(armElevator, HOME));
+
         drivetrain.setDefaultCommand(
             new DriveState(drivetrain, driveLeftAxes::getDeadzonedX, driveLeftAxes::getDeadzonedY, driveRightAxes::getDeadzonedX)
         );
