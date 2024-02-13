@@ -17,6 +17,10 @@ public class Lidar extends TimeOfFlight implements Loggable {
         super(id);
     }
 
+    public double getRangeMeters() {
+        return getRange() / 1000.0;
+    }
+
     @Override
     public void log(String subdirectory, String humanReadableName) {
         lidarInputs.lidarDistance = getRange();
