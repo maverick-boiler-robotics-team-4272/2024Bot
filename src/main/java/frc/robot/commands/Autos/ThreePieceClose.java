@@ -1,4 +1,4 @@
-package frc.robot.commands.Autos;
+package frc.robot.commands.autos;
 
 import static frc.robot.constants.AutoConstants.Paths.getGlobalTrajectories;
 

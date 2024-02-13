@@ -20,7 +20,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.StressTestAuto;
 import frc.robot.commands.TestAutoCommand;
 import frc.robot.commands.TuneAutoCommand;
-import frc.robot.commands.Autos.ThreePieceClose;
+import frc.robot.commands.autos.ThreePieceClose;
 import frc.robot.subsystems.drivetrain.Drivetrain;
 import frc.robot.subsystems.intake.Intake;
 import frc.robot.subsystems.intake.states.IntakeState;
