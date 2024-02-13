@@ -3,6 +3,8 @@ package frc.robot.subsystems.intake;
 import org.littletonrobotics.junction.AutoLog;
 import org.littletonrobotics.junction.Logger;
 
+import com.revrobotics.CANSparkBase.IdleMode;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.utils.Loggable;
 import frc.robot.utils.Vortex;
@@ -21,6 +23,7 @@ public class IntakeSubsystem extends SubsystemBase implements Loggable {
 
     public IntakeSubsystem() {
         intakeMotor = VortexBuilder.createWithDefaults(INTAKE_MOTOR_1_ID)
+            .withIdleMode(IdleMode.kCoast)
             .build();
 
         intakeInputs = new IntakeInputsAutoLogged();
