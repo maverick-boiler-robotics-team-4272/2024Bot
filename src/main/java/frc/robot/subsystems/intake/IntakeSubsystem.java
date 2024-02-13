@@ -20,7 +20,7 @@ public class IntakeSubsystem extends SubsystemBase implements Loggable {
     private Vortex intakeMotor;
 
     public IntakeSubsystem() {
-        intakeMotor = VortexBuilder.createWithDefaults(INTAKE_MOTOR_ID)
+        intakeMotor = VortexBuilder.createWithDefaults(INTAKE_MOTOR_1_ID)
             .build();
 
         intakeInputs = new IntakeInputsAutoLogged();
