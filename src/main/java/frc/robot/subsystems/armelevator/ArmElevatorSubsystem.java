@@ -65,6 +65,16 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
 
         armElevatorInputs = new ArmElevatorInputsAutoLogged();
 
+        armElevatorInputs.currentArmAngleRadians = 0;
+        armElevatorInputs.desiredArmAngleRadians = 0;
+        armElevatorInputs.safeArmAngleRadians = 0;
+        armElevatorInputs.desiredElevatorHeight = 0;
+        armElevatorInputs.currentElevatorHeight = 0;
+        armElevatorInputs.safeElevatorHeight = 0;
+
+        desiredArmAngle = new Rotation2d();
+        desiredElevatorHeight = 0;
+
         armController = armMotor.getPIDController();
         elevatorController = elevatorMotor1.getPIDController();
 
