@@ -7,6 +7,7 @@ import org.littletonrobotics.junction.Logger;
 
 import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
+import edu.wpi.first.math.filter.MedianFilter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
@@ -34,12 +35,20 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
         public Pose2d limelightPose;
         public Pose2d estimatedPose;
         public Pose2d desiredPose;
+
+        public Pose2d filteredPose;
     }
 
     private DrivetrainInputsAutoLogged drivetrainInputs;
 
     private SwerveDriveOdometry odometry;
     private SwerveDrivePoseEstimator poseEstimator;
+
+    private MedianFilter limelightXFilter;
+    private MedianFilter limelightYFilter;
+    private MedianFilter limelightThetaFilter;
+    private Pose2d lastPos;
+
 
     public Drivetrain() {
         super(
@@ -60,6 +69,9 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
         drivetrainInputs.limelightPose = new Pose2d();
         drivetrainInputs.desiredPose = new Pose2d();
 
+        drivetrainInputs.filteredPose = new Pose2d();
+        lastPos = new Pose2d();
+
         odometry = new SwerveDriveOdometry(kinematics, gyroscope.getRotation(), getPositions());
         poseEstimator = new SwerveDrivePoseEstimator(
             kinematics,
@@ -71,6 +83,13 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
         );
 
         setMaxSpeeds(MAX_TRANSLATIONAL_SPEED, MAX_ROTATIONAL_SPEED, MAX_MODULE_SPEED);
+
+        int sizeToUse = 20;
+        //TODO: Edid this value and needed atributes to update position
+
+        limelightXFilter = new MedianFilter(sizeToUse);
+        limelightYFilter = new MedianFilter(sizeToUse);
+        limelightThetaFilter = new MedianFilter(sizeToUse);
     }
 
     @Override
@@ -148,6 +167,16 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
         log("Subsystems", "Drivetrain");
 
         drivetrainInputs.limelightPose =  CENTER_LIMELIGHT.getRobotPose();
+        
+
+        if(!drivetrainInputs.limelightPose.equals(new Pose2d(FIELD_HALF_WIDTH_METERS, FIELD_HALF_HEIGHT_METERS, new Rotation2d(0))) &&
+           !lastPos.equals(drivetrainInputs.limelightPose)
+           )
+            drivetrainInputs.filteredPose = new Pose2d(
+                limelightXFilter.calculate(CENTER_LIMELIGHT.getRobotPose().getX()),
+                limelightYFilter.calculate(CENTER_LIMELIGHT.getRobotPose().getY()),
+                Rotation2d.fromRadians(limelightThetaFilter.calculate(CENTER_LIMELIGHT.getRobotPose().getRotation().getRadians()))
+            );
     }
 
     public SwerveModuleState[] getModuleStates() {
