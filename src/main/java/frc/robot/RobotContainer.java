@@ -105,11 +105,12 @@ public class RobotContainer {
         );
         
         new Trigger(driveController.getTrigger("left")::isTriggered).whileTrue(
-            new IntakeState(intake, () -> driveController.getTrigger("left").getValue() * -0.6)
+            // new IntakeState(intake, () -> -driveController.getTrigger("left").getValue())
+            new IntakeState(intake, () -> -1.0)
         );
         
         new Trigger(driveController.getTrigger("right")::isTriggered).whileTrue(
-            new IntakeState(intake, () -> driveController.getTrigger("right").getValue() * 0.6)
+            new IntakeState(intake, () -> driveController.getTrigger("right").getValue())
         );
 
         new Trigger(driveController.getButton("rightBumper")::get).whileTrue(
