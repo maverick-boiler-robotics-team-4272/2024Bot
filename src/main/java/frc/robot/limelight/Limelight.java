@@ -3,6 +3,7 @@ package frc.robot.limelight;
 import java.util.HashMap;
 import java.util.Map;
 
+import edu.wpi.first.math.filter.MedianFilter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 
@@ -17,6 +18,19 @@ public final class Limelight {
     }
 
     private final String tableName;
+
+    // TODO: Tune this size
+    private static final int FILTER_SIZE = 20;
+
+    private MedianFilter xPositionFilter = new MedianFilter(FILTER_SIZE);
+    private MedianFilter yPositionFilter = new MedianFilter(FILTER_SIZE);
+    private MedianFilter thetaDegsFilter = new MedianFilter(FILTER_SIZE);
+    
+    private double filteredXPosition = 0.0;
+    private double filteredYPosition = 0.0;
+    private double filteredThetaDegs = 0.0;
+
+
     
     private static final Map<String, Limelight> limelightMap = new HashMap<>();
 
@@ -42,10 +56,22 @@ public final class Limelight {
         return pose;
     }
 
-    public Pose2d getRobotPose() {
+    public Pose2d getRobotPose() {        
+        return new Pose2d(filteredXPosition + FIELD_HALF_WIDTH_METERS, filteredYPosition + FIELD_HALF_HEIGHT_METERS, Rotation2d.fromDegrees(filteredThetaDegs));
+    }
+
+    public Pose2d getUnfilteredPose() {
         double[] pose = getBotPose();
-        
+
         return new Pose2d(pose[0] + FIELD_HALF_WIDTH_METERS, pose[1] + FIELD_HALF_HEIGHT_METERS, Rotation2d.fromDegrees(pose[5]));
+    }
+
+    public void filterPosition() {
+        double[] pose = getBotPose();
+
+        filteredXPosition = xPositionFilter.calculate(pose[0]);
+        filteredYPosition = yPositionFilter.calculate(pose[1]);
+        filteredThetaDegs = thetaDegsFilter.calculate(pose[5]);
     }
 
     public boolean isValidTarget() {
