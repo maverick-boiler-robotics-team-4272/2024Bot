@@ -20,7 +20,7 @@ public final class Limelight {
     private final String tableName;
 
     // TODO: Tune this size
-    private static final int FILTER_SIZE = 20;
+    private static final int FILTER_SIZE = 10;
 
     private MedianFilter xPositionFilter = new MedianFilter(FILTER_SIZE);
     private MedianFilter yPositionFilter = new MedianFilter(FILTER_SIZE);
@@ -69,13 +69,23 @@ public final class Limelight {
     public void filterPosition() {
         double[] pose = getBotPose();
 
+        if(pose[0] == 0 && pose[1] == 0 && pose[5] == 0) {
+            // Filler for invalid
+            filteredXPosition = 0;
+            filteredYPosition = 0;
+            filteredThetaDegs = 0;
+            return;
+        }
+
         filteredXPosition = xPositionFilter.calculate(pose[0]);
         filteredYPosition = yPositionFilter.calculate(pose[1]);
         filteredThetaDegs = thetaDegsFilter.calculate(pose[5]);
     }
 
     public boolean isValidTarget() {
-        return LimelightHelpers.getLimelightNTDouble(tableName, "tv") != 0.0;
+        double[] pose = getBotPose();
+
+        return !(pose[0] == 0 && pose[1] == 0 && pose[5] == 0);
     }
 
     public double getTX() {
