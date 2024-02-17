@@ -56,6 +56,12 @@ public class RobotConstants {
         }
     }
 
+    public static class MAVCoderConstants {
+        public static final double MAV_2_MIN_OUTPUT = 0.03;
+        public static final double MAV_2_MAX_OUTPUT = 0.97;
+        public static final double MAV_2_POSITION_FACTOR = 360.0 / (MAV_2_MAX_OUTPUT - MAV_2_MIN_OUTPUT);
+    }
+
     public static interface ArmElevatorSetpoint {
         public double getElevatorHeight();
         public Rotation2d getArmAngle();
