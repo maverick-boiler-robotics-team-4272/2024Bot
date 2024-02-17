@@ -104,8 +104,12 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
         return drivetrainInputs.odometryPose;
     }
 
-    public void setLoggedDesiredPose(Pose2d pose) {
+    public void setDesiredPose(Pose2d pose) {
         drivetrainInputs.desiredPose = pose;
+    }
+
+    public Pose2d getDesiredPose() {
+        return drivetrainInputs.desiredPose;
     }
 
     public void setCoastMode(boolean coast) {
