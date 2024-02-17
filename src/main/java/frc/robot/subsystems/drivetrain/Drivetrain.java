@@ -30,20 +30,14 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
     @AutoLog
     public static class DrivetrainInputs {
         public Pose2d odometryPose;
-        public Pose2d limelightPose;
         public Pose2d estimatedPose;
         public Pose2d desiredPose;
-
-        public Pose2d filteredPose;
     }
 
     private DrivetrainInputsAutoLogged drivetrainInputs;
 
     private SwerveDriveOdometry odometry;
     private SwerveDrivePoseEstimator poseEstimator;
-
-    private Pose2d lastPos;
-
 
     public Drivetrain() {
         super(
@@ -61,11 +55,7 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
 
         drivetrainInputs.odometryPose = new Pose2d();
         drivetrainInputs.estimatedPose = new Pose2d();
-        drivetrainInputs.limelightPose = new Pose2d();
         drivetrainInputs.desiredPose = new Pose2d();
-
-        drivetrainInputs.filteredPose = new Pose2d();
-        lastPos = new Pose2d();
 
         odometry = new SwerveDriveOdometry(kinematics, gyroscope.getRotation(), getPositions());
         poseEstimator = new SwerveDrivePoseEstimator(
@@ -88,13 +78,15 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
     }
 
     public void updateOdometry() {
+        Pose2d limelightPose = CENTER_LIMELIGHT.getRobotPose();
+
         drivetrainInputs.odometryPose = odometry.update(gyroscope.getRotation().unaryMinus(), getPositions());
 
         poseEstimator.update(gyroscope.getRotation().unaryMinus(), getPositions());
         if(
             CENTER_LIMELIGHT.isValidTarget()
         ) {
-            poseEstimator.addVisionMeasurement(drivetrainInputs.limelightPose, Timer.getFPGATimestamp());
+            poseEstimator.addVisionMeasurement(limelightPose, Timer.getFPGATimestamp());
         }
 
         drivetrainInputs.estimatedPose = poseEstimator.getEstimatedPosition();
@@ -151,18 +143,7 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
 
     @Override
     public void periodic() {
-        CENTER_LIMELIGHT.filterPosition();
         log("Subsystems", "Drivetrain");
-
-        drivetrainInputs.limelightPose =  CENTER_LIMELIGHT.getUnfilteredPose();
-        
-
-        if(
-            !drivetrainInputs.limelightPose.equals(new Pose2d(FIELD_HALF_WIDTH_METERS, FIELD_HALF_HEIGHT_METERS, new Rotation2d(0))) &&
-           !lastPos.equals(drivetrainInputs.limelightPose)
-        ) {
-            drivetrainInputs.filteredPose = CENTER_LIMELIGHT.getRobotPose();
-        }
     }
 
     public SwerveModuleState[] getModuleStates() {

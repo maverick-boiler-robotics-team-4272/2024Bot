@@ -16,7 +16,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-
+import frc.robot.constants.RobotConstants.ArmElevatorSetpoint;
 import frc.robot.utils.*;
 public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
     @AutoLog
@@ -65,6 +65,16 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
 
         armElevatorInputs = new ArmElevatorInputsAutoLogged();
 
+        armElevatorInputs.currentArmAngleRadians = 0;
+        armElevatorInputs.desiredArmAngleRadians = 0;
+        armElevatorInputs.safeArmAngleRadians = 0;
+        armElevatorInputs.desiredElevatorHeight = 0;
+        armElevatorInputs.currentElevatorHeight = 0;
+        armElevatorInputs.safeElevatorHeight = 0;
+
+        desiredArmAngle = new Rotation2d();
+        desiredElevatorHeight = 0;
+
         armController = armMotor.getPIDController();
         elevatorController = elevatorMotor1.getPIDController();
 
@@ -80,12 +90,21 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
         elevatorController.setReference(h, ControlType.kPosition, 0, ELEVATOR_PID_F);
     }
 
+    public boolean isAtPosition() {
+        return Math.abs(desiredElevatorHeight - elevatorEncoder.getPosition()) < ELEVATOR_HEIGHT_DEADZONE && 
+            Math.abs(desiredArmAngle.getRadians() - armEncoder.getPosition()) < ARM_ANGLE_DEADZONE.getRadians();
+    }
+
     public void goToPos(Rotation2d r, double h) {
         desiredArmAngle = r;
         desiredElevatorHeight = h;
 
         armElevatorInputs.desiredArmAngleRadians = r.getRadians();
         armElevatorInputs.desiredElevatorHeight = h;
+    }
+
+    public void goToPos(ArmElevatorSetpoint setpoint) {
+        goToPos(setpoint.getArmAngle(), setpoint.getElevatorHeight());
     }
 
     public void targetPos(Translation2d drivetrainPos, Translation3d position) {
@@ -111,13 +130,21 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
         double safeTheta = Math.acos(Math.min(1, Math.max((elevatorHeight - BLOCKING_HEIGHT) / ARM_LENGTH, -1.0)));
         double safeHeight = ARM_LENGTH * desiredArmAngle.getCos() + BLOCKING_HEIGHT;
 
-        if(desiredArmAngle.getRadians() > safeTheta && elevatorHeight > safeHeight) {
-            setElevatorHeight(desiredElevatorHeight);
+        // Height safe, angle safe
+        // Height safe, angle  not
+        // Height  not, angle safe
+        // Height not, angle not
+
+        if(desiredArmAngle.getRadians() > safeTheta) {
             setShooterRotation(desiredArmAngle);
-        } else if(desiredElevatorHeight < safeHeight) {
+        } else {
+            setShooterRotation(new Rotation2d(safeTheta));
+        }
+
+        if(desiredElevatorHeight > safeHeight) {
+            setElevatorHeight(desiredElevatorHeight);
+        } else {
             setElevatorHeight(safeHeight);
-        } else if(desiredArmAngle.getRadians() < safeTheta) {
-            setShooterRotation(Rotation2d.fromRadians(safeTheta));
         }
 
         armElevatorInputs.safeArmAngleRadians = safeTheta;

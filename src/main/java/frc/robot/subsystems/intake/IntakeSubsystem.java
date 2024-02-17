@@ -3,6 +3,8 @@ package frc.robot.subsystems.intake;
 import org.littletonrobotics.junction.AutoLog;
 import org.littletonrobotics.junction.Logger;
 
+import com.revrobotics.CANSparkBase.IdleMode;
+
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.utils.Loggable;
 import frc.robot.utils.Vortex;
@@ -10,7 +12,7 @@ import frc.robot.utils.VortexBuilder;
 
 import static frc.robot.constants.HardwareMap.*;
 
-public class Intake extends SubsystemBase implements Loggable {
+public class IntakeSubsystem extends SubsystemBase implements Loggable {
     @AutoLog
     public static class IntakeInputs {
 
@@ -19,26 +21,28 @@ public class Intake extends SubsystemBase implements Loggable {
     private IntakeInputsAutoLogged intakeInputs;
     private Vortex intakeMotor;
 
-    public Intake() {
-        // intakeMotor = VortexBuilder.createWithDefaults(INTAKE_MOTOR_ID)
-        //     .build();
+    public IntakeSubsystem() {
+        intakeMotor = VortexBuilder.createWithDefaults(INTAKE_MOTOR_1_ID)
+            .withIdleMode(IdleMode.kCoast)
+            .withCurrentLimit(40)
+            .build();
 
         intakeInputs = new IntakeInputsAutoLogged();
     }
 
     @Override
     public void log(String subdirectory, String humanReadableName) {
-        // intakeMotor.log(subdirectory + "/" + humanReadableName, "IntakeMotor");
+        intakeMotor.log(subdirectory + "/" + humanReadableName, "IntakeMotor");
 
-        // Logger.processInputs(subdirectory + "/" + humanReadableName, intakeInputs);
+        Logger.processInputs(subdirectory + "/" + humanReadableName, intakeInputs);
     }
 
     public void runMotor(double power) {
-        // intakeMotor.set(power);
+        intakeMotor.set(power);
     }
 
     public void stopMotor() {
-        // intakeMotor.stopMotor();
+        intakeMotor.stopMotor();
     }
 
     @Override

@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.utils.PeriodicsUtil;
 
 /**
  * The VM is configured to automatically run this class, and to call the
@@ -75,6 +76,9 @@ public class Robot extends LoggedRobot {
      */
     @Override
     public void robotPeriodic() {
+        // Run all registered periodic methods
+        PeriodicsUtil.runPeriodics();
+
         // Runs the Scheduler. This is responsible for polling buttons, adding
         // newly-scheduled
         // commands, running already-scheduled commands, removing finished or

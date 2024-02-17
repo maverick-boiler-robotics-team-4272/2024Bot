@@ -25,13 +25,4 @@ public class NEO extends CANSparkMax implements Loggable {
 
         Logger.processInputs(subdirectory + "/" + humanReadableName, neoInputs);
     }
-
-    // public Motor(Object... params);
-
-    // public void log(String subdir) {
-    //     motorInputs.motorVoltage = getVoltage();
-    //     ...
-
-    //     Logger.processInputs(subdir + "/" + name, motorInputs);
-    // }
 }
