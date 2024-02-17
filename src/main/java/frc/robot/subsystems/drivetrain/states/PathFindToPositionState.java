@@ -43,6 +43,8 @@ public class PathFindToPositionState extends PositionalDriveState {
     
     @Override
     public void initialize() {
+        super.initialize();
+
         timer.reset();
         timer.start();
         trajectory = TrajectoryBuilder.pathFindToPosition(requiredSubsystem, endPose);
@@ -60,8 +62,8 @@ public class PathFindToPositionState extends PositionalDriveState {
 
     @Override
     public void end(boolean interrupted) {
+        super.end(interrupted);
         timer.stop();
-        requiredSubsystem.drive(0, 0, 0);
     }
     
     @Override
