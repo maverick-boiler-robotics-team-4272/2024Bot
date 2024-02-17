@@ -67,8 +67,8 @@ public class SwerveModule extends SwerveModuleBase implements Loggable {
         externalEncoder = new MAVCoder(steerMotor, offset);
         System.out.println(externalEncoder.getUnoffsetAngle());
 
-        // steerEncoder.setPosition(externalEncoder.getAngle());
-        steerEncoder.setPosition(0);
+        steerEncoder.setPosition(externalEncoder.getAngle());
+        // steerEncoder.setPosition(0);
         moduleInputs = new SwerveModuleInputsAutoLogged();
 
         steerMotor.burnFlash();

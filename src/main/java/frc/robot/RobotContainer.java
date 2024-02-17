@@ -17,6 +17,7 @@ import frc.robot.commands.HomemadeAuto;
 import frc.robot.commands.StressTestAuto;
 import frc.robot.commands.TestAutoCommand;
 import frc.robot.commands.TuneAutoCommand;
+import frc.robot.constants.Norms;
 import frc.robot.subsystems.armelevator.ArmElevatorSubsystem;
 import frc.robot.subsystems.armelevator.states.GoToArmElevatorState;
 import frc.robot.subsystems.drivetrain.Drivetrain;
@@ -53,9 +54,9 @@ import java.util.Map;
 public class RobotContainer {
     // The robot's subsystems and commands are defined here...
     Drivetrain drivetrain = new Drivetrain();
-    IntakeSubsystem intake = new IntakeSubsystem();
-    ArmElevatorSubsystem armElevator = new ArmElevatorSubsystem();
-    Shooter shooter = new Shooter();
+    // IntakeSubsystem intake = new IntakeSubsystem();
+    // ArmElevatorSubsystem armElevator = new ArmElevatorSubsystem();
+    // Shooter shooter = new Shooter();
 
     int driverDPadValue = -1;
 
@@ -65,6 +66,8 @@ public class RobotContainer {
      * The container for the robot. Contains subsystems, OI devices, and commands.
      */
     public RobotContainer() {
+        Norms.initialize(drivetrain);
+
         // Configure the trigger bindings
         configureBindings();
         configureAutoChoosers();
@@ -97,19 +100,19 @@ public class RobotContainer {
         JoystickAxes driveRightAxes = driveController.getAxes("right");
         driveRightAxes.setDeadzone(0.1).setDeadzoneMode(DeadzoneMode.kXAxis).setPowerScale(2.5);
         
-        armElevator.setDefaultCommand(new GoToArmElevatorState(armElevator, HOME));
+        // armElevator.setDefaultCommand(new GoToArmElevatorState(armElevator, HOME));
 
         drivetrain.setDefaultCommand(
             new DriveState(drivetrain, driveLeftAxes::getDeadzonedX, driveLeftAxes::getDeadzonedY, driveRightAxes::getDeadzonedX)
         );
         
-        new Trigger(driveController.getTrigger("left")::isTriggered).whileTrue(
-            new IntakeState(intake, () -> driveController.getTrigger("left").getValue() * -0.6)
-        );
+        // new Trigger(driveController.getTrigger("left")::isTriggered).whileTrue(
+        //     new IntakeState(intake, () -> driveController.getTrigger("left").getValue() * -0.6)
+        // );
         
-        new Trigger(driveController.getTrigger("right")::isTriggered).whileTrue(
-            new IntakeState(intake, () -> driveController.getTrigger("right").getValue() * 0.6)
-        );
+        // new Trigger(driveController.getTrigger("right")::isTriggered).whileTrue(
+        //     new IntakeState(intake, () -> driveController.getTrigger("right").getValue() * 0.6)
+        // );
 
         new Trigger(driveController.getButton("rightBumper")::get).whileTrue(
             new SelectCommand<Integer>(Map.of(
