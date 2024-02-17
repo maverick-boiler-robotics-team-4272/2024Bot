@@ -3,12 +3,24 @@ package frc.robot.limelight;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.littletonrobotics.junction.AutoLog;
+import org.littletonrobotics.junction.Logger;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import frc.robot.utils.Loggable;
+import frc.robot.utils.PeriodicsUtil;
+import frc.robot.utils.PeriodicsUtil.Periodic;
 
 import static frc.robot.constants.UniversalConstants.*;
 
-public final class Limelight {
+public final class Limelight implements Periodic, Loggable {
+    @AutoLog
+    public static class LimelightInputs {
+        public Pose2d botPose;
+        public boolean validTarget;
+    }
+    
     public enum LEDMode {
         kPipeline,
         kOff,
@@ -17,6 +29,8 @@ public final class Limelight {
     }
 
     private final String tableName;
+    private String logName;
+    private LimelightInputsAutoLogged inputs;
     
     private static final Map<String, Limelight> limelightMap = new HashMap<>();
 
@@ -28,11 +42,23 @@ public final class Limelight {
         }
 
         this.tableName = tableName;
+        String[] spl = this.tableName.split("-");
+
+        this.logName = "";
+
+        for(String s : spl) {
+            this.logName += s.substring(0, 1).toUpperCase() + s.substring(1);
+        }
+
+        this.inputs = new LimelightInputsAutoLogged();
+
+        PeriodicsUtil.registerPeriodic(this);
     }
 
     public double[] getBotPose() {
         double[] pose = LimelightHelpers.getBotPose(tableName);
         if(pose.length != 7) return new double[7];
+        inputs.botPose = new Pose2d(pose[0] + FIELD_HALF_WIDTH_METERS, pose[1] + FIELD_HALF_HEIGHT_METERS, Rotation2d.fromDegrees(pose[5]));
         return pose;
     }
 
@@ -43,13 +69,13 @@ public final class Limelight {
     }
 
     public Pose2d getRobotPose() {
-        double[] pose = getBotPose();
+        getBotPose();
         
-        return new Pose2d(pose[0] + FIELD_HALF_WIDTH_METERS, pose[1] + FIELD_HALF_HEIGHT_METERS, Rotation2d.fromDegrees(pose[5]));
+        return inputs.botPose;
     }
 
     public boolean isValidTarget() {
-        return LimelightHelpers.getLimelightNTDouble(tableName, "tv") != 0.0;
+        return (inputs.validTarget = LimelightHelpers.getLimelightNTDouble(tableName, "tv") != 0.0);
     }
 
     public double getTX() {
@@ -75,5 +101,16 @@ public final class Limelight {
         }
 
         return limelightMap.get(name);
+    }
+
+    @Override
+    public void log(String subdirectory, String humanReadableName) {
+        Logger.processInputs(subdirectory + "/" + humanReadableName, inputs);
+    }
+
+    @Override
+    public void periodic() {
+        
+        log("Periodics", logName);
     }
 }
