@@ -103,6 +103,10 @@ public final class Limelight implements Periodic, Loggable {
 
         if(pose[0] == 0 && pose[1] == 0 && pose[5] == 0) {
             // Filler for invalid
+            xPositionFilter.reset();
+            yPositionFilter.reset();
+            thetaDegsFilter.reset();
+
             inputs.filteredPose = new Pose2d(FIELD_HALF_WIDTH_METERS, FIELD_HALF_HEIGHT_METERS, new Rotation2d(0));
             return;
         }
