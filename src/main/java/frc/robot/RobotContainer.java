@@ -4,12 +4,8 @@
 
 package frc.robot;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.ConditionalCommand;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SelectCommand;
@@ -21,9 +17,13 @@ import frc.robot.commands.StressTestAuto;
 import frc.robot.commands.TestAutoCommand;
 import frc.robot.commands.TuneAutoCommand;
 import frc.robot.commands.Autos.ThreePieceClose;
+import frc.robot.constants.Norms;
+import frc.robot.subsystems.armelevator.ArmElevatorSubsystem;
+import frc.robot.subsystems.armelevator.states.GoToArmElevatorState;
 import frc.robot.subsystems.drivetrain.Drivetrain;
-import frc.robot.subsystems.intake.Intake;
+import frc.robot.subsystems.intake.IntakeSubsystem;
 import frc.robot.subsystems.intake.states.IntakeState;
+import frc.robot.subsystems.shooter.Shooter;
 import frc.team4272.controllers.XboxController;
 import frc.team4272.controllers.utilities.JoystickAxes;
 import frc.team4272.controllers.utilities.JoystickAxes.DeadzoneMode;
@@ -32,7 +32,6 @@ import frc.robot.subsystems.drivetrain.states.DriveState;
 import frc.robot.subsystems.drivetrain.states.FacePositionState;
 import frc.robot.subsystems.drivetrain.states.GoToPositionState;
 import frc.robot.subsystems.drivetrain.states.PathFindToPositionState;
-import frc.robot.subsystems.drivetrain.states.PositionState;
 import frc.robot.subsystems.drivetrain.states.ResetHeadingState;
 import frc.robot.subsystems.drivetrain.states.ResetToLimelightState;
 import static frc.robot.constants.AutoConstants.Paths.*;
@@ -40,10 +39,9 @@ import static frc.robot.constants.TelemetryConstants.Limelights.CENTER_LIMELIGHT
 import static frc.robot.constants.TelemetryConstants.ShuffleboardTables.*;
 import static frc.robot.constants.UniversalConstants.AMP_POSE;
 import static frc.robot.constants.UniversalConstants.SPEAKER_POSITION;
+import static frc.robot.constants.RobotConstants.ArmElevatorSetpoints.*;
 
-import java.util.HashMap;
 import java.util.Map;
-
 /**
  * This class is where the bulk of the robot should be declared. Since
  * Command-based is a
@@ -56,7 +54,9 @@ import java.util.Map;
 public class RobotContainer {
     // The robot's subsystems and commands are defined here...
     Drivetrain drivetrain = new Drivetrain();
-    Intake intake = new Intake();
+    // IntakeSubsystem intake = new IntakeSubsystem();
+    // ArmElevatorSubsystem armElevator = new ArmElevatorSubsystem();
+    // Shooter shooter = new Shooter();
 
     int driverDPadValue = -1;
 
@@ -66,6 +66,8 @@ public class RobotContainer {
      * The container for the robot. Contains subsystems, OI devices, and commands.
      */
     public RobotContainer() {
+        Norms.initialize(drivetrain);
+
         // Configure the trigger bindings
         configureBindings();
         configureAutoChoosers();
@@ -98,17 +100,19 @@ public class RobotContainer {
         JoystickAxes driveRightAxes = driveController.getAxes("right");
         driveRightAxes.setDeadzone(0.1).setDeadzoneMode(DeadzoneMode.kXAxis).setPowerScale(2.5);
         
+        // armElevator.setDefaultCommand(new GoToArmElevatorState(armElevator, HOME));
+
         drivetrain.setDefaultCommand(
             new DriveState(drivetrain, driveLeftAxes::getDeadzonedX, driveLeftAxes::getDeadzonedY, driveRightAxes::getDeadzonedX)
         );
         
-        new Trigger(driveController.getTrigger("left")::isTriggered).whileTrue(
-            new IntakeState(intake, () -> driveController.getTrigger("left").getValue() * -0.6)
-        );
+        // new Trigger(driveController.getTrigger("left")::isTriggered).whileTrue(
+        //     new IntakeState(intake, () -> driveController.getTrigger("left").getValue() * -0.6)
+        // );
         
-        new Trigger(driveController.getTrigger("right")::isTriggered).whileTrue(
-            new IntakeState(intake, () -> driveController.getTrigger("right").getValue() * 0.6)
-        );
+        // new Trigger(driveController.getTrigger("right")::isTriggered).whileTrue(
+        //     new IntakeState(intake, () -> driveController.getTrigger("right").getValue() * 0.6)
+        // );
 
         new Trigger(driveController.getButton("rightBumper")::get).whileTrue(
             new SelectCommand<Integer>(Map.of(

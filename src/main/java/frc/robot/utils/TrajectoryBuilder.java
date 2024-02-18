@@ -23,7 +23,7 @@ public class TrajectoryBuilder {
             PathPlannerPath.bezierFromPoses(new Pose2d(start.getTranslation(), start.minus(end).getRotation()), end), 
             new PathConstraints(
                 MAX_TRANSLATIONAL_SPEED, 
-                3 * 9.81, //3g's but sidways
+                3.0, //3g's but sidways
                 MAX_ROTATIONAL_SPEED, 
                 Rotation2d.fromDegrees(720).getRadians()
             ), 

@@ -95,7 +95,7 @@ public class GoToPositionState extends PathFollowState {
     
     @Override
     public void initialize() {
-        trajectory = TrajectoryBuilder.goToPosition(requiredSubsystem, endPose);
+        setTrajectory(TrajectoryBuilder.goToPosition(requiredSubsystem, endPose));
 
         super.initialize();
     }

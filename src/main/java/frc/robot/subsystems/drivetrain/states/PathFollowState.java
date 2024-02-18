@@ -17,9 +17,7 @@ import static frc.robot.constants.TelemetryConstants.Limelights.*;
 public class PathFollowState extends PositionalDriveState {
     private PathPlannerTrajectory trajectory;
     private Pose2d desiredPose;
-    private Rotation2d heading;
-    private double speed;
-    private Optional<Double> angularSpeed;
+    private State desiredState;
     private Pose2d endPose;
 
     private Timer timer;
@@ -140,6 +138,8 @@ public class PathFollowState extends PositionalDriveState {
     public void initialize() {
         if(trajectory == null)
             return;
+        super.initialize();
+
         endPose = trajectory.getEndState().getTargetHolonomicPose();
         timer.restart();
 
@@ -173,32 +173,26 @@ public class PathFollowState extends PositionalDriveState {
 
     @Override
     public double getXFeedForward() {
-        return speed * heading.getCos();
+        return desiredState.velocityMps * desiredState.heading.getCos();
     }
 
     @Override
     public double getYFeedForward() {
-        return speed * heading.getSin();
+        return desiredState.velocityMps * desiredState.heading.getSin();
     }
 
     @Override
     public double getThetaFeedForward() {
-        if(angularSpeed.isPresent()) {
-            return angularSpeed.get();
-        } else {
+        if(state.holonomicAngularVelocityRps.isPresent())
+            return state.holonomicAngularVelocityRps.get();
+        else
             return 0.0;
-        }
     }
 
     @Override
     public void execute() {
-        if(trajectory == null)
-            return null;
-        State trajectoryState = trajectory.sample(timer.get());
-        desiredPose = trajectoryState.getTargetHolonomicPose();
-        speed = trajectoryState.velocityMps;
-        heading = trajectoryState.heading;
-        angularSpeed = trajectoryState.holonomicAngularVelocityRps;
+        desiredState = trajectory.sample(timer.get());
+        desiredPose = desiredState.getTargetHolonomicPose();
 
         super.execute();
     }

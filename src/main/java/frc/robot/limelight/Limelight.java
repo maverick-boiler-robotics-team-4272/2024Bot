@@ -3,12 +3,26 @@ package frc.robot.limelight;
 import java.util.HashMap;
 import java.util.Map;
 
+import edu.wpi.first.math.filter.MedianFilter;
+import org.littletonrobotics.junction.AutoLog;
+import org.littletonrobotics.junction.Logger;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import frc.robot.utils.Loggable;
+import frc.robot.utils.PeriodicsUtil;
+import frc.robot.utils.PeriodicsUtil.Periodic;
 
 import static frc.robot.constants.UniversalConstants.*;
 
-public final class Limelight {
+public final class Limelight implements Periodic, Loggable {
+    @AutoLog
+    public static class LimelightInputs {
+        public Pose2d unfilteredPose;
+        public Pose2d filteredPose;
+        public boolean validTarget;
+    }
+    
     public enum LEDMode {
         kPipeline,
         kOff,
@@ -17,6 +31,18 @@ public final class Limelight {
     }
 
     private final String tableName;
+    private String logName;
+    private LimelightInputsAutoLogged inputs;
+    private boolean updatedInputs = false;
+    private boolean filtered = false;
+
+    // TODO: Tune this size
+    private static final int FILTER_SIZE = 10;
+
+    private MedianFilter xPositionFilter = new MedianFilter(FILTER_SIZE);
+    private MedianFilter yPositionFilter = new MedianFilter(FILTER_SIZE);
+    private MedianFilter thetaDegsFilter = new MedianFilter(FILTER_SIZE);
+
     
     private static final Map<String, Limelight> limelightMap = new HashMap<>();
 
@@ -28,11 +54,26 @@ public final class Limelight {
         }
 
         this.tableName = tableName;
+        String[] spl = this.tableName.split("-");
+
+        this.logName = "";
+
+        for(String s : spl) {
+            this.logName += s.substring(0, 1).toUpperCase() + s.substring(1);
+        }
+
+        this.inputs = new LimelightInputsAutoLogged();
+
+        PeriodicsUtil.registerPeriodic(this);
     }
 
     public double[] getBotPose() {
         double[] pose = LimelightHelpers.getBotPose(tableName);
         if(pose.length != 7) return new double[7];
+        if(!updatedInputs) {
+            inputs.unfilteredPose = new Pose2d(pose[0] + FIELD_HALF_WIDTH_METERS, pose[1] + FIELD_HALF_HEIGHT_METERS, Rotation2d.fromDegrees(pose[5]));
+            updatedInputs = true;
+        }
         return pose;
     }
 
@@ -43,13 +84,45 @@ public final class Limelight {
     }
 
     public Pose2d getRobotPose() {
-        double[] pose = getBotPose();
+        filterPosition();
+        return inputs.filteredPose;
+    }
+
+    public Pose2d getUnfilteredPose() {
+        getBotPose();
+
+        return inputs.unfilteredPose;
+    }
+
+    public void filterPosition() {
+        if(filtered)
+            return;
         
-        return new Pose2d(pose[0] + FIELD_HALF_WIDTH_METERS, pose[1] + FIELD_HALF_HEIGHT_METERS, Rotation2d.fromDegrees(pose[5]));
+            filtered = true;
+        double[] pose = getBotPose();
+
+        if(pose[0] == 0 && pose[1] == 0 && pose[5] == 0) {
+            // Filler for invalid
+            xPositionFilter.reset();
+            yPositionFilter.reset();
+            thetaDegsFilter.reset();
+
+            inputs.filteredPose = new Pose2d(FIELD_HALF_WIDTH_METERS, FIELD_HALF_HEIGHT_METERS, new Rotation2d(0));
+            return;
+        }
+
+        inputs.filteredPose = new Pose2d(
+            xPositionFilter.calculate(pose[0]) + FIELD_HALF_WIDTH_METERS,
+            yPositionFilter.calculate(pose[1]) + FIELD_HALF_HEIGHT_METERS,
+            Rotation2d.fromDegrees(thetaDegsFilter.calculate(pose[5]))
+        );
+
     }
 
     public boolean isValidTarget() {
-        return LimelightHelpers.getLimelightNTDouble(tableName, "tv") != 0.0;
+        double[] pose = getBotPose();
+
+        return (inputs.validTarget = !(pose[0] == 0 && pose[1] == 0 && pose[5] == 0));
     }
 
     public double getTX() {
@@ -75,5 +148,19 @@ public final class Limelight {
         }
 
         return limelightMap.get(name);
+    }
+
+    @Override
+    public void log(String subdirectory, String humanReadableName) {
+        Logger.processInputs(subdirectory + "/" + humanReadableName, inputs);
+    }
+
+    @Override
+    public void periodic() {
+        filterPosition();
+        log("Periodics", logName);
+        
+        updatedInputs = false;
+        filtered = false;
     }
 }

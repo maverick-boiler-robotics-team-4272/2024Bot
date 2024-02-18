@@ -3,6 +3,7 @@ package frc.robot.subsystems.drivetrain.states;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import frc.robot.constants.Norms;
 import frc.robot.subsystems.drivetrain.Drivetrain;
 
 public abstract class PositionalDriveState extends AbstractDriveState {
@@ -21,6 +22,18 @@ public abstract class PositionalDriveState extends AbstractDriveState {
     @Override
     public boolean isFieldRelative() {
         return true;
+    }
+
+    public double getXFeedForward() {
+        return 0.0;
+    }
+
+    public double getYFeedForward() {
+        return 0.0;
+    }
+
+    public double getThetaFeedForward() {
+        return 0.0;
     }
 
     public abstract double getDesiredX();
@@ -55,9 +68,21 @@ public abstract class PositionalDriveState extends AbstractDriveState {
     }
 
     @Override
+    public void initialize() {
+        super.initialize();
+        Norms.getAutoNorm().enable();
+    }
+
+    @Override
     public void execute() {
         super.execute();
 
-        requiredSubsystem.setLoggedDesiredPose(new Pose2d(getDesiredX(), getDesiredY(), getDesiredTheta()));
+        requiredSubsystem.setDesiredPose(new Pose2d(getDesiredX(), getDesiredY(), getDesiredTheta()));
+    }
+
+    @Override
+    public void end(boolean interrupted) {
+        super.end(interrupted);
+        Norms.getAutoNorm().disable();
     }
 }

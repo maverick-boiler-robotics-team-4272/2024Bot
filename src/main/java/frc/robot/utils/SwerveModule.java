@@ -58,15 +58,17 @@ public class SwerveModule extends SwerveModuleBase implements Loggable {
             .withCurrentLimit(40)
             .withPositionConversionFactor(360.0 / STEER_RATIO)
             .withPIDFParams(STEER_PID_P, STEER_PID_I, STEER_PID_D, STEER_PID_F)
+            .withPIDPositionWrapping(-180, 180)
             .getUnburntNeo();
         steerPidController = steerMotor.getPIDController();
+
         steerEncoder = steerMotor.getEncoder();
 
         externalEncoder = new MAVCoder(steerMotor, offset);
         System.out.println(externalEncoder.getUnoffsetAngle());
 
         steerEncoder.setPosition(externalEncoder.getAngle());
-
+        // steerEncoder.setPosition(0);
         moduleInputs = new SwerveModuleInputsAutoLogged();
 
         steerMotor.burnFlash();
