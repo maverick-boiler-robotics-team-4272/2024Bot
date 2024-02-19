@@ -23,6 +23,8 @@ import frc.robot.subsystems.drivetrain.Drivetrain;
 import frc.robot.subsystems.intake.IntakeSubsystem;
 import frc.robot.subsystems.intake.states.IntakeState;
 import frc.robot.subsystems.shooter.Shooter;
+import frc.robot.subsystems.shooter.states.FeedState;
+import frc.robot.subsystems.shooter.states.ShootState;
 import frc.team4272.controllers.XboxController;
 import frc.team4272.controllers.utilities.JoystickAxes;
 import frc.team4272.controllers.utilities.JoystickAxes.DeadzoneMode;
@@ -100,17 +102,29 @@ public class RobotContainer {
         
         armElevator.setDefaultCommand(new GoToArmElevatorState(armElevator, HOME));
 
-        drivetrain.setDefaultCommand(
-            new DriveState(drivetrain, driveLeftAxes::getDeadzonedX, driveLeftAxes::getDeadzonedY, driveRightAxes::getDeadzonedX)
-        );
+        // drivetrain.setDefaultCommand(
+        //     new DriveState(drivetrain, driveLeftAxes::getDeadzonedX, driveLeftAxes::getDeadzonedY, driveRightAxes::getDeadzonedX)
+        // );
         
         new Trigger(driveController.getTrigger("left")::isTriggered).whileTrue(
             // new IntakeState(intake, () -> -driveController.getTrigger("left").getValue())
-            new IntakeState(intake, () -> -1.0)
+            new ParallelCommandGroup(
+                new GoToArmElevatorState(armElevator, HOME),
+                new IntakeState(intake, () -> driveController.getTrigger("left").getValue()),
+                new FeedState(shooter, () -> driveController.getTrigger("left").getValue())
+            )
+            // new IntakeState(intake, () -> -1.0)
         );
         
         new Trigger(driveController.getTrigger("right")::isTriggered).whileTrue(
-            new IntakeState(intake, () -> driveController.getTrigger("right").getValue())
+            new ParallelCommandGroup(
+                new IntakeState(intake, () -> -driveController.getTrigger("right").getValue()),
+                new FeedState(shooter, () -> -driveController.getTrigger("right").getValue())
+            )
+        );
+
+        new Trigger(driveController.getButton("leftBumper")::get).whileTrue(
+            new ShootState(shooter, () -> 1.0, driveController.getButton("rightBumper")::get)
         );
 
         new Trigger(driveController.getButton("rightBumper")::get).whileTrue(
@@ -141,9 +155,9 @@ public class RobotContainer {
             new FacePositionState(drivetrain, driveLeftAxes::getDeadzonedX, driveLeftAxes::getDeadzonedY, SPEAKER_POSITION)
         );
 
-        // new Trigger(driveController.getButton("x")::get).whileTrue(
-            
-        // );
+        new Trigger(driveController.getButton("x")::get).whileTrue(
+            new GoToArmElevatorState(armElevator, TEST).repeatedly()
+        );
 
         new Trigger(() -> !driveController.getPOV("d-pad").getDirection().equals(Direction.NONE)).onTrue(
             new SequentialCommandGroup(
