@@ -14,29 +14,23 @@ public class Climber extends SubsystemBase implements Loggable {
 
     }
 
-    private Vortex climberMotor1;
-    private Vortex climberMotor2;
+    private Vortex climberMotor;
     private ClimberInputsAutoLogged climberInputs;
 
     public Climber() {
-        climberMotor1 = VortexBuilder.createWithDefaults(CLIMBER_MOTOR_1_ID)
-            .build();
-
-        climberMotor2 = VortexBuilder.createWithDefaults(CLIMBER_MOTOR_2_ID)
+        climberMotor = VortexBuilder.createWithDefaults(CLIMBER_MOTOR_1_ID)
             .build();
 
         climberInputs =  new ClimberInputsAutoLogged();
     }
 
-    public void runMotors(double motor1Power, double motor2Power) {
-        climberMotor1.set(motor1Power);
-        climberMotor2.set(motor2Power);
+    public void runMotor(double power) {
+        climberMotor.set(power);
     }
 
     @Override
     public void log(String subdirectory, String humanReadableName) {
-        climberMotor1.log(subdirectory + "/" + humanReadableName, "ClimbMotor1");
-        climberMotor2.log(subdirectory + "/" + humanReadableName, "ClimbMotor2");
+        climberMotor.log(subdirectory + "/" + humanReadableName, "ClimbMotor");
 
         Logger.processInputs(subdirectory + "/" + humanReadableName, climberInputs);
     }
