@@ -45,7 +45,7 @@ import frc.robot.subsystems.drivetrain.states.ResetHeadingState;
 import frc.robot.subsystems.drivetrain.states.ResetToLimelightState;
 
 import static frc.robot.constants.AutoConstants.Paths.*;
-import static frc.robot.constants.TelemetryConstants.Limelights.CENTER_LIMELIGHT;
+import static frc.robot.constants.TelemetryConstants.Limelights.FRONT_LIMELIGHT;
 import static frc.robot.constants.TelemetryConstants.ShuffleboardTables.*;
 import static frc.robot.constants.UniversalConstants.AMP_POSE;
 import static frc.robot.constants.UniversalConstants.SPEAKER_POSITION;
@@ -152,7 +152,7 @@ public class RobotContainer {
         );
 
         new Trigger(driverController.getButton("y")::get).onTrue(
-            new ResetToLimelightState(drivetrain, CENTER_LIMELIGHT)
+            new ResetToLimelightState(drivetrain, FRONT_LIMELIGHT)
         );
 
         new Trigger(driverController.getButton("a")::get).whileTrue(
