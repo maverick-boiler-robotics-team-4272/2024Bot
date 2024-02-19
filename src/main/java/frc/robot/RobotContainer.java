@@ -185,7 +185,7 @@ public class RobotContainer {
         );
 
         new Trigger(operatorController.getButton("y")::get).onTrue(
-            new ResetToLimelightState(drivetrain, CENTER_LIMELIGHT)
+            new ResetToLimelightState(drivetrain, FRONT_LIMELIGHT)
         );
 
         new Trigger(operatorController.getButton("leftBumper")::get).whileTrue(
