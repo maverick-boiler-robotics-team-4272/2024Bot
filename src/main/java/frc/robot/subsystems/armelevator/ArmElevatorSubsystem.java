@@ -118,13 +118,13 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
     public void targetPos(Translation2d drivetrainPos, Translation3d position) {
         double height = elevatorEncoder.getPosition();
 
-        double dist = Math.hypot(drivetrainPos.getX() - position.getX(), drivetrainPos.getY() - position.getY()) - ELEVATOR_TRANSLATION.getY();
+        double distFromSpeaker = Math.hypot(drivetrainPos.getX() - position.getX(), drivetrainPos.getY() - position.getY()) - ELEVATOR_TRANSLATION.getY();
 
-        Rotation2d theta = new Rotation2d(position.getZ() - height + ELEVATOR_TRANSLATION.getZ(), dist);
+        Rotation2d theta = new Rotation2d(position.getZ() - height + ELEVATOR_TRANSLATION.getZ(), distFromSpeaker);
         
 
         if(theta.getDegrees() > MAX_SAFE_ANGLE.getDegrees()) {
-            height = position.getZ() - dist * MAX_SAFE_ANGLE.getTan();
+            height = position.getZ() - distFromSpeaker * MAX_SAFE_ANGLE.getTan();
             theta = MAX_SAFE_ANGLE;
         }
 
