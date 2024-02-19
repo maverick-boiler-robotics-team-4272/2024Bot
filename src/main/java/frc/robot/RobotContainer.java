@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.AutoAimCommand;
 import frc.robot.commands.HomemadeAuto;
 import frc.robot.commands.StressTestAuto;
 import frc.robot.commands.TestAutoCommand;
@@ -28,6 +29,7 @@ import frc.robot.subsystems.shooter.states.FeedState;
 import frc.robot.subsystems.shooter.states.ShootState;
 import frc.team4272.controllers.XboxController;
 import frc.team4272.controllers.utilities.JoystickAxes;
+import frc.team4272.controllers.utilities.JoystickTrigger;
 import frc.team4272.controllers.utilities.JoystickAxes.DeadzoneMode;
 import frc.team4272.controllers.utilities.JoystickPOV.Direction;
 import frc.robot.subsystems.drivetrain.states.DriveState;
@@ -63,7 +65,7 @@ public class RobotContainer {
     int driverDPadValue = -1;
 
     // The robots IO devices are defined here
-    XboxController driveController = new XboxController(0);
+    XboxController driverController = new XboxController(0);
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
      */
@@ -96,44 +98,35 @@ public class RobotContainer {
     }
 
     public void configureDriverBindings() {
-        JoystickAxes driveLeftAxes = driveController.getAxes("left");
+        JoystickAxes driveLeftAxes = driverController.getAxes("left");
         driveLeftAxes.setDeadzone(0.1).setDeadzoneMode(DeadzoneMode.kMagnitude).setPowerScale(3);
 
-        JoystickAxes driveRightAxes = driveController.getAxes("right");
+        JoystickAxes driveRightAxes = driverController.getAxes("right");
         driveRightAxes.setDeadzone(0.1).setDeadzoneMode(DeadzoneMode.kXAxis).setPowerScale(2.5);
-        
-        armElevator.setDefaultCommand(new GoToArmElevatorState(armElevator, HOME));
 
+        JoystickTrigger driveTriggerRight = driverController.getTrigger("left");
+        driveTriggerRight.setDeadzone(0.1).setPowerScaling(2);
+
+        //Drivetrain --------------------------------------------------------
+        
         drivetrain.setDefaultCommand(
             new DriveState(drivetrain, driveLeftAxes::getDeadzonedX, driveLeftAxes::getDeadzonedY, driveRightAxes::getDeadzonedX)
         );
-        
-        new Trigger(driveController.getTrigger("left")::isTriggered).whileTrue(
-            // new IntakeState(intake, () -> -driveController.getTrigger("left").getValue())
-            new ParallelCommandGroup(
-                new GoToArmElevatorState(armElevator, HOME),
-                new IntakeState(intake, () -> driveController.getTrigger("left").getValue()),
-                new FeedState(shooter, () -> driveController.getTrigger("left").getValue())
-            )
-            // new IntakeState(intake, () -> -1.0)
-        );
-        
-        new Trigger(driveController.getTrigger("right")::isTriggered).whileTrue(
-            new ParallelCommandGroup(
-                new IntakeState(intake, () -> -driveController.getTrigger("right").getValue()),
-                new FeedState(shooter, () -> -driveController.getTrigger("right").getValue())
-            )
+
+        new Trigger(() -> !driverController.getPOV("d-pad").getDirection().equals(Direction.NONE)).onTrue(
+            new SequentialCommandGroup(
+                new InstantCommand(() -> driverController.setRumble(RumbleType.kBothRumble, 1.0)),
+                new InstantCommand(() -> {driverDPadValue = driverController.getPOV("d-pad").getValue();}),
+                new WaitCommand(0.12),
+                new InstantCommand(() -> driverController.setRumble(RumbleType.kBothRumble, 0.0))
+            )  
         );
 
-        new Trigger(driveController.getButton("leftBumper")::get).whileTrue(
-            new ShootState(shooter, () -> 1.0, driveController.getButton("rightBumper")::get)
-        );
-
-        new Trigger(driveController.getButton("rightBumper")::get).whileTrue(
+        new Trigger(driverController.getButton("x")::get).whileTrue(
             new SelectCommand<Integer>(Map.of(
                 0,
                 new ParallelCommandGroup(
-                    new InstantCommand(() -> driveController.setRumble(RumbleType.kBothRumble, 1.0)),
+                    new InstantCommand(() -> driverController.setRumble(RumbleType.kBothRumble, 1.0)),
                     new PathFindToPositionState(drivetrain, AMP_POSE)
                 ),
                 90, 
@@ -142,32 +135,31 @@ public class RobotContainer {
                 () -> driverDPadValue
             )
         ).onFalse(
-            new InstantCommand(() -> driveController.setRumble(RumbleType.kBothRumble, 0.0))
+            new InstantCommand(() -> driverController.setRumble(RumbleType.kBothRumble, 0.0))
         );
         
-        new Trigger(driveController.getButton("b")::get).onTrue(
+        new Trigger(driverController.getButton("b")::get).onTrue(
             new ResetHeadingState(drivetrain)
         );
 
-        new Trigger(driveController.getButton("y")::get).onTrue(
+        new Trigger(driverController.getButton("y")::get).onTrue(
             new ResetToLimelightState(drivetrain, CENTER_LIMELIGHT)
         );
 
-        new Trigger(driveController.getButton("a")::get).whileTrue(
+        new Trigger(driverController.getButton("a")::get).whileTrue(
             new FacePositionState(drivetrain, driveLeftAxes::getDeadzonedX, driveLeftAxes::getDeadzonedY, SPEAKER_POSITION)
         );
 
-        new Trigger(driveController.getButton("x")::get).whileTrue(
-            new GoToArmElevatorState(armElevator, TEST).repeatedly()
+        //Arm ----------------------------------------------------
+
+        armElevator.setDefaultCommand(new GoToArmElevatorState(armElevator, HOME));
+
+        new Trigger(driverController.getButton("leftBumper")::get).whileTrue(
+            new AutoAimCommand(drivetrain, armElevator, driveLeftAxes::getDeadzonedX, driveLeftAxes::getDeadzonedY)  
         );
 
-        new Trigger(() -> !driveController.getPOV("d-pad").getDirection().equals(Direction.NONE)).onTrue(
-            new SequentialCommandGroup(
-                new InstantCommand(() -> driveController.setRumble(RumbleType.kBothRumble, 1.0)),
-                new InstantCommand(() -> {driverDPadValue = driveController.getPOV("d-pad").getValue();}),
-                new WaitCommand(0.25),
-                new InstantCommand(() -> driveController.setRumble(RumbleType.kBothRumble, 0.0))
-            )  
+        new Trigger(driveTriggerRight::isTriggered).whileTrue(
+            new ShootState(shooter, driveTriggerRight::getValue, driverController.getButton("rightBumper")::get)  
         );
     }
 
