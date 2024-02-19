@@ -63,6 +63,8 @@ public final class Limelight implements Periodic, Loggable {
         }
 
         this.inputs = new LimelightInputsAutoLogged();
+        this.inputs.filteredPose = new Pose2d();
+        this.inputs.unfilteredPose =  new Pose2d();
 
         PeriodicsUtil.registerPeriodic(this);
     }

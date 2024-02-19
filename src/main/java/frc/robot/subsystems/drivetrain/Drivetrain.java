@@ -23,6 +23,7 @@ import static frc.robot.constants.HardwareMap.*;
 import static frc.robot.constants.RobotConstants.DrivetrainConstants.*;
 import static frc.robot.constants.RobotConstants.DrivetrainConstants.SwerveModuleConstants.MAX_MODULE_SPEED;
 import static frc.robot.constants.TelemetryConstants.Limelights.CENTER_LIMELIGHT;
+import static frc.robot.constants.TelemetryConstants.ShuffleboardTables.*;
 import static frc.robot.constants.UniversalConstants.*;
 
 
@@ -148,6 +149,10 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
     @Override
     public void periodic() {
         log("Subsystems", "Drivetrain");
+
+        for(int i = 0; i < numModules; i++) {
+            TESTING_TABLE.putNumber("Module " + i + " Mav Reading", modules[i].getExternalEncoderRotation().getDegrees());
+        }
     }
 
     public SwerveModuleState[] getModuleStates() {
