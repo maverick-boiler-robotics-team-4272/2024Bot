@@ -93,8 +93,8 @@ public class RobotConstants {
     // Limelight 2+ Position: (Forward: -0.290m, Up (From ground): 0.345m, L/R: 0.014m, Roll: 0.0deg, Pitch: 0.0deg, Yaw: 180.0deg)
     public static enum ArmElevatorSetpoints implements ArmElevatorSetpoint {
         ZERO(new Rotation2d(0), 0),
-        HOME(Rotation2d.fromDegrees(40.0), Meters.convertFrom(2.0, Inches)),
-        TEST(Rotation2d.fromDegrees(30.0), Meters.convertFrom(12.0, Inches));
+        HOME(Rotation2d.fromDegrees(35.0), Meters.convertFrom(0.0, Inches)),
+        TEST(Rotation2d.fromDegrees(45.0), Meters.convertFrom(12.0, Inches));
 
         private Rotation2d armAngle;
         private double elevatorHeight;
