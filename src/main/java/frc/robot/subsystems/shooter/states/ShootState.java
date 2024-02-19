@@ -9,7 +9,7 @@ public class ShootState extends FeedState {
     DoubleSupplier rev;
     
     public ShootState(Shooter shooter, DoubleSupplier rev, BooleanSupplier feed) {
-        super(shooter, () -> feed.getAsBoolean() ? 0.5 : 0);
+        super(shooter, () -> feed.getAsBoolean() ? 1.0 : 0);
 
         this.rev = rev;
     }

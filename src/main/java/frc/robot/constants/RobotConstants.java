@@ -5,6 +5,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 
 import static edu.wpi.first.units.Units.*;
+import static frc.robot.constants.UniversalConstants.PI2;
 
 public class RobotConstants {
     private RobotConstants() {
@@ -79,7 +80,8 @@ public class RobotConstants {
     // Limelight 2+ Position: (Forward: -0.290m, Up (From ground): 0.345m, L/R: 0.014m, Roll: 0.0deg, Pitch: 0.0deg, Yaw: 180.0deg)
     public static enum ArmElevatorSetpoints implements ArmElevatorSetpoint {
         ZERO(new Rotation2d(0), 0),
-        HOME(Rotation2d.fromDegrees(40.0), Meters.convertFrom(0.0, Inches));
+        HOME(Rotation2d.fromDegrees(40.0), Meters.convertFrom(2.0, Inches)),
+        TEST(Rotation2d.fromDegrees(30.0), Meters.convertFrom(12.0, Inches));
 
         private Rotation2d armAngle;
         private double elevatorHeight;
@@ -101,16 +103,16 @@ public class RobotConstants {
     }
 
     public static class ArmConstants {
-        public static final double ARM_PID_P = 0.001;
+        public static final double ARM_PID_P = 0.75;
         public static final double ARM_PID_I = 0.0001;
         public static final double ARM_PID_D = 0.0;
-        public static final double ARM_PID_F = 0.0;
+        public static final double ARM_PID_F = 0.35;
 
         public static final double ARM_LENGTH = Meters.convertFrom(16.0, Inches);
 
         public static final Rotation2d ARM_ANGLE_DEADZONE = Rotation2d.fromDegrees(5.0);
 
-        public static final double ARM_RATIO = 1.0;
+        public static final double ARM_RATIO = Rotation2d.fromDegrees(7.872).getRadians();
 
         public static final Rotation2d MAX_ARM_ANGLE = Rotation2d.fromDegrees(50.0);
         public static final Rotation2d MIN_ARM_ANGLE = Rotation2d.fromDegrees(-20.0);
@@ -123,10 +125,10 @@ public class RobotConstants {
     }
 
     public static class ElevatorConstants {
-        public static final double ELEVATOR_PID_P = 0.001;
-        public static final double ELEVATOR_PID_I = 0.0001;
+        public static final double ELEVATOR_PID_P = 4.0;
+        public static final double ELEVATOR_PID_I = 0.0;
         public static final double ELEVATOR_PID_D = 0.0;
-        public static final double ELEVATOR_PID_F = 0.0;
+        public static final double ELEVATOR_PID_F = 2.0;
 
         public static final double ELEVATOR_HEIGHT_DEADZONE = Meters.convertFrom(2.0, Centimeters);
 
@@ -137,7 +139,7 @@ public class RobotConstants {
         //TODO: find out from CAD
         public static final double ELEVATOR_RATIO = Meters.convertFrom(18.0, Millimeters) / 1.0; //Find empericaly
 
-        public static final double MAX_ELEVATOR_HEIGHT = Meters.convertFrom(20.0, Inches);
+        public static final double MAX_ELEVATOR_HEIGHT = /*Meters.convertFrom(40.0, Inches)*/ 0.5;
         public static final double MIN_ELEVATOR_HEIGHT = Meters.convertFrom(0, Inches);
     }
 }

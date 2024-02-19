@@ -24,11 +24,16 @@ public class Shooter extends SubsystemBase implements Loggable {
 
     public Shooter() {
         shooterMotor1 = VortexBuilder.createWithDefaults(SHOOTER_MOTOR_1_ID)
+            .withCurrentLimit(80)
+            .withInversion(true)
             .build();
         shooterMotor2 = VortexBuilder.createWithDefaults(SHOOTER_MOTOR_2_ID)
             .asFollower(shooterMotor1, true)
+            .withCurrentLimit(80)
             .build();
         feedMotor = VortexBuilder.createWithDefaults(FEED_MOTOR_ID)
+            .withCurrentLimit(40)
+            .withInversion(true)
             .build();
 
         lidar = new Lidar(LIDAR_1_ID);

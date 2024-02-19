@@ -2,7 +2,10 @@ package frc.robot.subsystems.armelevator;
 
 import static frc.robot.constants.HardwareMap.*;
 import static frc.robot.constants.RobotConstants.ArmConstants.*;
+import static frc.robot.constants.RobotConstants.ArmElevatorSetpoints.TEST;
 import static frc.robot.constants.RobotConstants.ElevatorConstants.*;
+import static frc.robot.constants.TelemetryConstants.ShuffleboardTables.TESTING_TABLE;
+import static frc.robot.constants.UniversalConstants.PI2;
 
 import org.littletonrobotics.junction.AutoLog;
 import org.littletonrobotics.junction.Logger;
@@ -53,12 +56,17 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
             .withPositionConversionFactor(ELEVATOR_RATIO)
             .withSoftLimits(MAX_ELEVATOR_HEIGHT, MIN_ELEVATOR_HEIGHT)
             .withPIDParams(ELEVATOR_PID_P, ELEVATOR_PID_I, ELEVATOR_PID_D)
+            .withInversion(true)
+            .withCurrentLimit(40)
             .build();
         elevatorMotor2 = NEOBuilder.createWithDefaults(ELEVATOR_MOTOR_2_ID)
-            .asFollower(elevatorMotor1, false)
+            .asFollower(elevatorMotor1, true)
+            .withCurrentLimit(40)
             .build();
         armMotor = VortexBuilder.createWithDefaults(ARM_MOTOR_ID)
             .withPositionConversionFactor(ARM_RATIO)
+            .withCurrentLimit(40)
+            .withPosition(0.0)
             .withSoftLimits(MAX_ARM_ANGLE.getRadians(), MIN_ARM_ANGLE.getRadians())
             .withPIDParams(ARM_PID_P, ARM_PID_I, ARM_PID_D)
             .build();
@@ -72,7 +80,7 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
         armElevatorInputs.currentElevatorHeight = 0;
         armElevatorInputs.safeElevatorHeight = 0;
 
-        desiredArmAngle = new Rotation2d();
+        desiredArmAngle = Rotation2d.fromRadians(armElevatorInputs.desiredArmAngleRadians);
         desiredElevatorHeight = 0;
 
         armController = armMotor.getPIDController();
@@ -87,7 +95,7 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
     }
 
     private void setElevatorHeight(double h) {
-        elevatorController.setReference(h, ControlType.kPosition, 0, ELEVATOR_PID_F);
+        elevatorController.setReference(h, ControlType.kPosition, 0, TESTING_TABLE.getNumber("Elevator Pid_F"));
     }
 
     public boolean isAtPosition() {
@@ -133,19 +141,22 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
         // Height safe, angle safe
         // Height safe, angle  not
         // Height  not, angle safe
-        // Height not, angle not
+        // Height  not, angle not
 
-        if(desiredArmAngle.getRadians() > safeTheta) {
-            setShooterRotation(desiredArmAngle);
-        } else {
-            setShooterRotation(new Rotation2d(safeTheta));
-        }
+        // if(Math.abs(desiredArmAngle.getRadians() - Math.PI / 2) > Math.abs(safeTheta)) {
+        //     setShooterRotation(desiredArmAngle);
+        // } else {
+        //     setShooterRotation(new Rotation2d(safeTheta + Math.PI / 2.0));
+        // }
 
-        if(desiredElevatorHeight > safeHeight) {
-            setElevatorHeight(desiredElevatorHeight);
-        } else {
-            setElevatorHeight(safeHeight);
-        }
+        // if(desiredElevatorHeight > safeHeight) {
+        //     setElevatorHeight(desiredElevatorHeight);
+        // } else {
+        //     setElevatorHeight(safeHeight);
+        // }
+
+        setElevatorHeight(desiredElevatorHeight);
+        setShooterRotation(desiredArmAngle);
 
         armElevatorInputs.safeArmAngleRadians = safeTheta;
         armElevatorInputs.safeElevatorHeight = safeHeight;
