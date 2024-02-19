@@ -102,7 +102,7 @@ public class RobotContainer {
         JoystickAxes driveRightAxes = driveController.getAxes("right");
         driveRightAxes.setDeadzone(0.1).setDeadzoneMode(DeadzoneMode.kXAxis).setPowerScale(2.5);
         
-        // armElevator.setDefaultCommand(new GoToArmElevatorState(armElevator, HOME));
+        armElevator.setDefaultCommand(new GoToArmElevatorState(armElevator, HOME));
 
         drivetrain.setDefaultCommand(
             new DriveState(drivetrain, driveLeftAxes::getDeadzonedX, driveLeftAxes::getDeadzonedY, driveRightAxes::getDeadzonedX)
