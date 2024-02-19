@@ -26,14 +26,21 @@ public class RobotConstants {
 
         public static final Translation2d FRONT_LEFT_POSITION  = new Translation2d(-DRIVEBASE_HALF_WIDTH,  DRIVEBASE_HALF_HEIGHT);
         public static final Translation2d FRONT_RIGHT_POSITION = new Translation2d(-DRIVEBASE_HALF_WIDTH, -DRIVEBASE_HALF_HEIGHT);
-        public static final Translation2d BACK_LEFT_POSITION   = new Translation2d(-DRIVEBASE_HALF_WIDTH,  DRIVEBASE_HALF_HEIGHT);
-        public static final Translation2d BACK_RIGHT_POSITION  = new Translation2d(-DRIVEBASE_HALF_WIDTH, -DRIVEBASE_HALF_HEIGHT);
+        public static final Translation2d BACK_LEFT_POSITION   = new Translation2d( DRIVEBASE_HALF_WIDTH,  DRIVEBASE_HALF_HEIGHT);
+        public static final Translation2d BACK_RIGHT_POSITION  = new Translation2d( DRIVEBASE_HALF_WIDTH, -DRIVEBASE_HALF_HEIGHT);
 
-        public static final double FRONT_LEFT_OFFSET  = 110.0;
-        public static final double FRONT_RIGHT_OFFSET = 45.0;
-        public static final double BACK_LEFT_OFFSET   = 164.0;
-        public static final double BACK_RIGHT_OFFSET  = 316.0;
+        public static final double WHEEL_DISTANCE = Meters.convertFrom(1, Feet);
 
+        // public static final Translation2d FRONT_LEFT_POSITION  = new Translation2d(-WHEEL_DISTANCE,  WHEEL_DISTANCE);
+        // public static final Translation2d FRONT_RIGHT_POSITION = new Translation2d(-WHEEL_DISTANCE, -WHEEL_DISTANCE);
+        // public static final Translation2d BACK_LEFT_POSITION   = new Translation2d( WHEEL_DISTANCE,  WHEEL_DISTANCE);
+        // public static final Translation2d BACK_RIGHT_POSITION  = new Translation2d( WHEEL_DISTANCE, -WHEEL_DISTANCE);
+
+        public static final double FRONT_LEFT_OFFSET  = 157.0;
+        public static final double FRONT_RIGHT_OFFSET =   6.0;
+        public static final double BACK_LEFT_OFFSET   = 250.0;
+        public static final double BACK_RIGHT_OFFSET  = 310.0;
+        
         public static class SwerveModuleConstants {
             private SwerveModuleConstants() {
                 throw new UnsupportedOperationException("Cannot construct a constants class");
@@ -55,6 +62,12 @@ public class RobotConstants {
             public static final double STEER_PID_D = 0.0;
             public static final double STEER_PID_F = 0.0;
         }
+    }
+
+    public static class MAVCoderConstants {
+        public static final double MAV_2_MIN_OUTPUT = 0.03;
+        public static final double MAV_2_MAX_OUTPUT = 0.97;
+        public static final double MAV_2_POSITION_FACTOR = 360.0 / (MAV_2_MAX_OUTPUT - MAV_2_MIN_OUTPUT);
     }
 
     public static interface ArmElevatorSetpoint {
@@ -136,7 +149,6 @@ public class RobotConstants {
 
         public static final Translation3d ELEVATOR_TRANSLATION = new Translation3d(0, Meters.convertFrom(2.0, Inches), Meters.convertFrom(4.0, Inches));
 
-        //TODO: find out from CAD
         public static final double ELEVATOR_RATIO = Meters.convertFrom(18.0, Millimeters) / 1.0; //Find empericaly
 
         public static final double MAX_ELEVATOR_HEIGHT = /*Meters.convertFrom(40.0, Inches)*/ 0.5;

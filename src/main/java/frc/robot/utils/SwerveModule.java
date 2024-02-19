@@ -38,7 +38,7 @@ public class SwerveModule extends SwerveModuleBase implements Loggable {
     private SparkPIDController steerPidController;
     private RelativeEncoder steerEncoder;
 
-    private MAVCoder externalEncoder;
+    private MAVCoder2 externalEncoder;
     private SwerveModuleInputsAutoLogged moduleInputs;
 
     public SwerveModule(int id, double offset) {
@@ -64,11 +64,11 @@ public class SwerveModule extends SwerveModuleBase implements Loggable {
 
         steerEncoder = steerMotor.getEncoder();
 
-        externalEncoder = new MAVCoder(steerMotor, offset);
-        System.out.println(externalEncoder.getUnoffsetAngle());
+        externalEncoder = new MAVCoder2(steerMotor, offset);
+        System.out.println(externalEncoder.getUnoffsetPosition());
 
-        // steerEncoder.setPosition(externalEncoder.getAngle());
-        steerEncoder.setPosition(0);
+        steerEncoder.setPosition(-externalEncoder.getPosition());
+        // steerEncoder.setPosition(0);
         moduleInputs = new SwerveModuleInputsAutoLogged();
 
         steerMotor.burnFlash();
@@ -83,7 +83,7 @@ public class SwerveModule extends SwerveModuleBase implements Loggable {
     }
 
     public Rotation2d getExternalEncoderRotation() {
-        return Rotation2d.fromDegrees(externalEncoder.getAngle());
+        return Rotation2d.fromDegrees(externalEncoder.getPosition());
     }
 
     public SwerveModuleState getState() {

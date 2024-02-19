@@ -17,6 +17,7 @@ import frc.robot.commands.HomemadeAuto;
 import frc.robot.commands.StressTestAuto;
 import frc.robot.commands.TestAutoCommand;
 import frc.robot.commands.TuneAutoCommand;
+import frc.robot.constants.Norms;
 import frc.robot.subsystems.armelevator.ArmElevatorSubsystem;
 import frc.robot.subsystems.armelevator.states.GoToArmElevatorState;
 import frc.robot.subsystems.drivetrain.Drivetrain;
@@ -43,7 +44,6 @@ import static frc.robot.constants.UniversalConstants.SPEAKER_POSITION;
 import static frc.robot.constants.RobotConstants.ArmElevatorSetpoints.*;
 
 import java.util.Map;
-
 /**
  * This class is where the bulk of the robot should be declared. Since
  * Command-based is a
@@ -68,6 +68,8 @@ public class RobotContainer {
      * The container for the robot. Contains subsystems, OI devices, and commands.
      */
     public RobotContainer() {
+        Norms.initialize(drivetrain);
+
         // Configure the trigger bindings
         configureBindings();
         configureAutoChoosers();
@@ -100,11 +102,11 @@ public class RobotContainer {
         JoystickAxes driveRightAxes = driveController.getAxes("right");
         driveRightAxes.setDeadzone(0.1).setDeadzoneMode(DeadzoneMode.kXAxis).setPowerScale(2.5);
         
-        armElevator.setDefaultCommand(new GoToArmElevatorState(armElevator, HOME));
+        // armElevator.setDefaultCommand(new GoToArmElevatorState(armElevator, HOME));
 
-        // drivetrain.setDefaultCommand(
-        //     new DriveState(drivetrain, driveLeftAxes::getDeadzonedX, driveLeftAxes::getDeadzonedY, driveRightAxes::getDeadzonedX)
-        // );
+        drivetrain.setDefaultCommand(
+            new DriveState(drivetrain, driveLeftAxes::getDeadzonedX, driveLeftAxes::getDeadzonedY, driveRightAxes::getDeadzonedX)
+        );
         
         new Trigger(driveController.getTrigger("left")::isTriggered).whileTrue(
             // new IntakeState(intake, () -> -driveController.getTrigger("left").getValue())
