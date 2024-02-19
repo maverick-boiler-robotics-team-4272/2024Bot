@@ -1,6 +1,6 @@
 package frc.robot.constants;
 
-import static frc.robot.constants.TelemetryConstants.Limelights.CENTER_LIMELIGHT;
+import static frc.robot.constants.TelemetryConstants.Limelights.FRONT_LIMELIGHT;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import frc.robot.subsystems.drivetrain.Drivetrain;
@@ -34,7 +34,7 @@ public class Norms {
     public static void initialize(Drivetrain drivetrain) {
         autoNorm = new Norm<>(drivetrain::getRobotPose, drivetrain::getDesiredPose, poseNorm, "AutoNorms");
 
-        limelightNorm = new Norm<>(CENTER_LIMELIGHT::getRobotPose, CENTER_LIMELIGHT::getUnfilteredPose, poseNorm, "Limelight Norm");
+        limelightNorm = new Norm<>(FRONT_LIMELIGHT::getRobotPose, FRONT_LIMELIGHT::getUnfilteredPose, poseNorm, "Limelight Norm");
         limelightNorm.reset();
         limelightNorm.enable();
     }

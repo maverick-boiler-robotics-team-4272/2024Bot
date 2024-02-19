@@ -22,7 +22,7 @@ import frc.team4272.swerve.utils.SwerveModuleBase.PositionedSwerveModule;
 import static frc.robot.constants.HardwareMap.*;
 import static frc.robot.constants.RobotConstants.DrivetrainConstants.*;
 import static frc.robot.constants.RobotConstants.DrivetrainConstants.SwerveModuleConstants.MAX_MODULE_SPEED;
-import static frc.robot.constants.TelemetryConstants.Limelights.CENTER_LIMELIGHT;
+import static frc.robot.constants.TelemetryConstants.Limelights.FRONT_LIMELIGHT;
 import static frc.robot.constants.TelemetryConstants.ShuffleboardTables.*;
 import static frc.robot.constants.UniversalConstants.*;
 
@@ -63,7 +63,7 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
             kinematics,
             gyroscope.getRotation(),
             getPositions(),
-            CENTER_LIMELIGHT.getRobotPose(),
+            FRONT_LIMELIGHT.getRobotPose(),
             VecBuilder.fill(0.5, 0.5, 0.5), // Guestimations to try and make tracking better
             VecBuilder.fill(0.75, 0.75, 0.65) // Computed standard deviations, (~worst case / 2)
         );
@@ -79,13 +79,13 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
     }
 
     public void updateOdometry() {
-        Pose2d limelightPose = CENTER_LIMELIGHT.getRobotPose();
+        Pose2d limelightPose = FRONT_LIMELIGHT.getRobotPose();
 
         drivetrainInputs.odometryPose = odometry.update(gyroscope.getRotation().unaryMinus(), getPositions());
 
         poseEstimator.update(gyroscope.getRotation().unaryMinus(), getPositions());
         if(
-            CENTER_LIMELIGHT.isValidTarget()
+            FRONT_LIMELIGHT.isValidTarget()
         ) {
             poseEstimator.addVisionMeasurement(limelightPose, Timer.getFPGATimestamp());
         }
