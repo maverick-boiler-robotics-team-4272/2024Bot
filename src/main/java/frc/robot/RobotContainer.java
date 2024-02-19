@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SelectCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -20,11 +22,14 @@ import frc.robot.commands.TuneAutoCommand;
 import frc.robot.constants.Norms;
 import frc.robot.subsystems.armelevator.ArmElevatorSubsystem;
 import frc.robot.subsystems.armelevator.states.GoToArmElevatorState;
+import frc.robot.subsystems.climber.Climber;
+import frc.robot.subsystems.climber.states.ClimbState;
 import frc.robot.subsystems.drivetrain.Drivetrain;
 import frc.robot.subsystems.intake.IntakeSubsystem;
 import frc.robot.subsystems.intake.states.IntakeState;
 import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.shooter.states.FeedState;
+import frc.robot.subsystems.shooter.states.LidarStoppedFeedState;
 import frc.robot.subsystems.shooter.states.ShootState;
 import frc.team4272.controllers.XboxController;
 import frc.team4272.controllers.utilities.JoystickAxes;
@@ -36,6 +41,7 @@ import frc.robot.subsystems.drivetrain.states.GoToPositionState;
 import frc.robot.subsystems.drivetrain.states.PathFindToPositionState;
 import frc.robot.subsystems.drivetrain.states.ResetHeadingState;
 import frc.robot.subsystems.drivetrain.states.ResetToLimelightState;
+
 import static frc.robot.constants.AutoConstants.Paths.*;
 import static frc.robot.constants.TelemetryConstants.Limelights.CENTER_LIMELIGHT;
 import static frc.robot.constants.TelemetryConstants.ShuffleboardTables.*;
@@ -43,6 +49,7 @@ import static frc.robot.constants.UniversalConstants.AMP_POSE;
 import static frc.robot.constants.UniversalConstants.SPEAKER_POSITION;
 import static frc.robot.constants.RobotConstants.ArmElevatorSetpoints.*;
 
+import java.util.EnumMap;
 import java.util.Map;
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -59,11 +66,13 @@ public class RobotContainer {
     IntakeSubsystem intake = new IntakeSubsystem();
     ArmElevatorSubsystem armElevator = new ArmElevatorSubsystem();
     Shooter shooter = new Shooter();
+    Climber climber = new Climber();
 
     int driverDPadValue = -1;
 
     // The robots IO devices are defined here
     XboxController driveController = new XboxController(0);
+    XboxController operatorController = new XboxController(1);
     /**
      * The container for the robot. Contains subsystems, OI devices, and commands.
      */
@@ -172,7 +181,66 @@ public class RobotContainer {
     }
 
     public void configureOperatorBindings() {
-        //we dont need em;
+        JoystickAxes operatorLeftStick = operatorController.getAxes("left");
+        operatorLeftStick.setDeadzone(0.1).setPowerScale(2.0).setDeadzoneMode(DeadzoneMode.kYAxis);
+
+        climber.setDefaultCommand(
+            new  ClimbState(climber, operatorLeftStick::getDeadzonedY)
+        );
+
+        new Trigger(operatorController.getButton("a")::get).whileTrue(
+            new FeedState(shooter, () -> -0.5)
+        );
+
+        new Trigger(operatorController.getButton("y")::get).onTrue(
+            new ResetToLimelightState(drivetrain, CENTER_LIMELIGHT)
+        );
+
+        new Trigger(operatorController.getButton("leftBumper")::get).whileTrue(
+            new ShootState(shooter, () -> 1.0, operatorController.getButton("rightBumper")::get)
+        );
+
+
+        new Trigger(operatorController.getPOV("d-pad")::isTriggered).whileTrue(
+            new SelectCommand<Direction>(
+                new EnumMap<Direction, Command>(
+                    Map.of(
+                        Direction.UP,
+                        new PrintCommand("Up on d-pad not assigned"),
+                        Direction.UP_RIGHT,
+                        new PrintCommand("Up Right on d-pad not assigned"),
+                        Direction.RIGHT,
+                        new PrintCommand("Right on d-pad not assigned"),
+                        Direction.DOWN_RIGHT,
+                        new PrintCommand("Down Right on d-pad not assigned"),
+                        Direction.DOWN,
+                        new PrintCommand("Down on d-pad not assigned"),
+                        Direction.DOWN_LEFT,
+                        new PrintCommand("Down Left on d-pad not assigned"),
+                        Direction.LEFT,
+                        new PrintCommand("Left on d-pad not assigned"),
+                        Direction.UP_LEFT,
+                        new PrintCommand("Up Left on d-pad not assigned")
+
+                    )
+                ),
+                operatorController.getPOV("d-pad")::getDirection
+            )
+        );
+
+        new Trigger(operatorController.getTrigger("left")::isTriggered).whileTrue(
+            new ParallelRaceGroup(
+                new IntakeState(intake, operatorController.getTrigger("left")::getValue),
+                new LidarStoppedFeedState(shooter, operatorController.getTrigger("left")::getValue)
+            )
+        );
+
+        new Trigger(operatorController.getTrigger("right")::isTriggered).whileTrue(
+            new ParallelCommandGroup(
+                new IntakeState(intake, () -> -operatorController.getTrigger("right").getValue()),
+                new FeedState(shooter, () -> -operatorController.getTrigger("right").getValue())
+            )
+        );
     }
 
     public void configureAutoChoosers() {
