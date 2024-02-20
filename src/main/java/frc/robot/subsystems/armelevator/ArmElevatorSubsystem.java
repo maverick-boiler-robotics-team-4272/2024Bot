@@ -89,7 +89,7 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
         elevatorMotor2.burnFlash();
 
         try {
-            Thread.sleep(1000);
+            Thread.sleep(300);
         } catch (InterruptedException e) {}
         
         System.out.println(String.format("ArmElevatorPos: %.2f", armAbsoluteEncoder.getUnoffsetPosition()));
@@ -99,6 +99,14 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
 
         armEncoder = armMotor.getEncoder();
         elevatorEncoder = elevatorMotor1.getEncoder();
+
+        armEncoder.setPosition(-armAbsoluteEncoder.getPosition() * Math.PI / 180.0);
+
+        TESTING_TABLE.putNumber("Elevator PID P", ELEVATOR_PID_P);
+        TESTING_TABLE.putNumber("Elevator PID I", ELEVATOR_PID_I);
+        TESTING_TABLE.putNumber("Elevator PID D", ELEVATOR_PID_D);
+        TESTING_TABLE.putNumber("Elevator PID F", ELEVATOR_PID_F);
+
     }
 
     private void setShooterRotation(Rotation2d r) {
@@ -106,7 +114,7 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
     }
 
     private void setElevatorHeight(double h) {
-        elevatorController.setReference(h, ControlType.kPosition, 0, TESTING_TABLE.getNumber("Elevator Pid_F"));
+        elevatorController.setReference(h, ControlType.kPosition, 0, TESTING_TABLE.getNumber("Elevator PID F"));
     }
 
     public boolean isAtPosition() {
@@ -154,7 +162,7 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
         // Height  not, angle safe
         // Height  not, angle not
 
-        // if(Math.abs(desiredArmAngle.getRadians() - Math.PI / 2) > Math.abs(safeTheta)) {
+        // if(Math.abs(desiredArmAngle.getRadians() + Math.PI / 2.0) > Math.abs(safeTheta)) {
         //     setShooterRotation(desiredArmAngle);
         // } else {
         //     setShooterRotation(new Rotation2d(safeTheta + Math.PI / 2.0));
@@ -190,5 +198,11 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
         handleSaftey();
 
         log("Subsystems", "ArmElevator");
+
+        elevatorController.setP(TESTING_TABLE.getNumber("Elevator PID P"));
+        elevatorController.setI(TESTING_TABLE.getNumber("Elevator PID I"));
+        elevatorController.setD(TESTING_TABLE.getNumber("Elevator PID D"));
+        elevatorController.setFF(TESTING_TABLE.getNumber("Elevator PID F"));
+
     }
 }
