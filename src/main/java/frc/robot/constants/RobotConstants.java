@@ -93,7 +93,7 @@ public class RobotConstants {
     public static enum ArmElevatorSetpoints implements ArmElevatorSetpoint {
         ZERO(new Rotation2d(0), 0),
         HOME(Rotation2d.fromDegrees(35.0), Meters.convertFrom(0.0, Inches)),
-        TEST(Rotation2d.fromDegrees(45.0), Meters.convertFrom(12.0, Inches));
+        TEST(Rotation2d.fromDegrees(0.0), Meters.convertFrom(12.0, Inches));
 
         private Rotation2d armAngle;
         private double elevatorHeight;
@@ -126,7 +126,7 @@ public class RobotConstants {
 
         public static final double ARM_RATIO = Rotation2d.fromDegrees(7.872).getRadians();
 
-        public static final double ARM_OFFSET = 46.0;
+        public static final double ARM_OFFSET = 35.0;
 
         public static final Rotation2d MAX_ARM_ANGLE = Rotation2d.fromDegrees(50.0);
         public static final Rotation2d MIN_ARM_ANGLE = Rotation2d.fromDegrees(-20.0);
