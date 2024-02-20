@@ -68,7 +68,7 @@ public class SwerveModule extends SwerveModuleBase implements Loggable {
 
         steerMotor.burnFlash();
         try {
-            Thread.sleep(1000);
+            Thread.sleep(300);
         } catch (InterruptedException e) {
             
         }
