@@ -5,7 +5,6 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 
 import static edu.wpi.first.units.Units.*;
-import static frc.robot.constants.UniversalConstants.PI2;
 
 public class RobotConstants {
     private RobotConstants() {
@@ -36,10 +35,10 @@ public class RobotConstants {
         // public static final Translation2d BACK_LEFT_POSITION   = new Translation2d( WHEEL_DISTANCE,  WHEEL_DISTANCE);
         // public static final Translation2d BACK_RIGHT_POSITION  = new Translation2d( WHEEL_DISTANCE, -WHEEL_DISTANCE);
 
-        public static final double FRONT_LEFT_OFFSET  = 157.0;
-        public static final double FRONT_RIGHT_OFFSET =   6.0;
-        public static final double BACK_LEFT_OFFSET   = 250.0;
-        public static final double BACK_RIGHT_OFFSET  = 310.0;
+        public static final double FRONT_LEFT_OFFSET  = 146.0;
+        public static final double FRONT_RIGHT_OFFSET = 356.0;
+        public static final double BACK_LEFT_OFFSET   = 240.0;
+        public static final double BACK_RIGHT_OFFSET  = 297.0;
         
         public static class SwerveModuleConstants {
             private SwerveModuleConstants() {
