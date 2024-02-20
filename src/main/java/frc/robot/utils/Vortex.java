@@ -10,6 +10,7 @@ public class Vortex extends CANSparkFlex implements Loggable {
     @AutoLog
     public static class VortexInputs {
         public double motorVoltage;
+        public double outputCurrent;
     }
 
     private VortexInputsAutoLogged vortexInputs;
@@ -23,6 +24,7 @@ public class Vortex extends CANSparkFlex implements Loggable {
     @Override
     public void log(String subdirectory, String humanReadableName) {
         vortexInputs.motorVoltage = getBusVoltage();
+        vortexInputs.outputCurrent = getOutputCurrent();
 
         Logger.processInputs(subdirectory + "/" + humanReadableName, vortexInputs);
     }
