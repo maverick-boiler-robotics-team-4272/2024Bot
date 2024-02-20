@@ -58,6 +58,7 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
             .withPositionConversionFactor(ELEVATOR_RATIO)
             .withSoftLimits(MAX_ELEVATOR_HEIGHT, MIN_ELEVATOR_HEIGHT)
             .withPIDParams(ELEVATOR_PID_P, ELEVATOR_PID_I, ELEVATOR_PID_D)
+            // .withPIDOutputClamping(-1.0, 2.0)
             .withInversion(true)
             .withCurrentLimit(40)
             .build();
@@ -143,11 +144,11 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
         
 
         if(theta.getDegrees() > MAX_SAFE_ANGLE.getDegrees()) {
-            height = position.getZ() - distFromSpeaker * MAX_SAFE_ANGLE.getTan();
+            // height = position.getZ() - distFromSpeaker * MAX_SAFE_ANGLE.getTan();
             theta = MAX_SAFE_ANGLE;
         }
 
-        goToPos(theta, height);
+        goToPos(theta, 0.0);
     }
 
     private void handleSaftey() {
