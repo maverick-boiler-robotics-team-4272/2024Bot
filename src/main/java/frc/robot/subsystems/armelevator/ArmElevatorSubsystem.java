@@ -39,6 +39,8 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
 
     private RelativeEncoder armEncoder;
     private RelativeEncoder elevatorEncoder;
+
+    private MAVCoder2 armAbsoluteEncoder;
     
     private SparkPIDController elevatorController;
     private SparkPIDController armController;
@@ -62,7 +64,7 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
         elevatorMotor2 = NEOBuilder.createWithDefaults(ELEVATOR_MOTOR_2_ID)
             .asFollower(elevatorMotor1, true)
             .withCurrentLimit(40)
-            .build();
+            .getUnburntNeo();
         armMotor = VortexBuilder.createWithDefaults(ARM_MOTOR_ID)
             .withPositionConversionFactor(ARM_RATIO)
             .withCurrentLimit(40)
@@ -82,6 +84,15 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
 
         desiredArmAngle = Rotation2d.fromRadians(armElevatorInputs.desiredArmAngleRadians);
         desiredElevatorHeight = 0;
+
+        armAbsoluteEncoder = new MAVCoder2(elevatorMotor2, ARM_OFFSET);
+        elevatorMotor2.burnFlash();
+
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {}
+        
+        System.out.println(String.format("ArmElevatorPos: %.2f", armAbsoluteEncoder.getUnoffsetPosition()));
 
         armController = armMotor.getPIDController();
         elevatorController = elevatorMotor1.getPIDController();
