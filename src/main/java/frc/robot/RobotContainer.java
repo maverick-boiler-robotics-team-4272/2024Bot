@@ -113,7 +113,7 @@ public class RobotContainer {
         JoystickAxes driveRightAxes = driverController.getAxes("right");
         driveRightAxes.setDeadzone(0.1).setDeadzoneMode(DeadzoneMode.kXAxis).setPowerScale(2.5);
 
-        JoystickTrigger driveTriggerRight = driverController.getTrigger("left");
+        JoystickTrigger driveTriggerRight = driverController.getTrigger("right");
         driveTriggerRight.setDeadzone(0.1).setPowerScaling(2);
 
         //Drivetrain --------------------------------------------------------
@@ -161,7 +161,7 @@ public class RobotContainer {
 
         //Arm ----------------------------------------------------
 
-        armElevator.setDefaultCommand(new GoToArmElevatorState(armElevator, HOME));
+        armElevator.setDefaultCommand(new GoToArmElevatorState(armElevator, ZERO));
 
         new Trigger(driverController.getButton("leftBumper")::get).whileTrue(
             new AutoAimCommand(drivetrain, armElevator, driveLeftAxes::getDeadzonedX, driveLeftAxes::getDeadzonedY)  
