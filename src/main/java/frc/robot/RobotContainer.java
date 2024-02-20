@@ -68,7 +68,7 @@ public class RobotContainer {
     IntakeSubsystem intake = new IntakeSubsystem();
     ArmElevatorSubsystem armElevator = new ArmElevatorSubsystem();
     Shooter shooter = new Shooter();
-    Climber climber = new Climber();
+    // Climber climber = new Climber();
 
     int driverDPadValue = -1;
 
@@ -176,9 +176,9 @@ public class RobotContainer {
         JoystickAxes operatorLeftStick = operatorController.getAxes("left");
         operatorLeftStick.setDeadzone(0.1).setPowerScale(2.0).setDeadzoneMode(DeadzoneMode.kYAxis);
 
-        climber.setDefaultCommand(
-            new  ClimbState(climber, operatorLeftStick::getDeadzonedY)
-        );
+        // climber.setDefaultCommand(
+        //     new  ClimbState(climber, operatorLeftStick::getDeadzonedY)
+        // );
 
         new Trigger(operatorController.getButton("a")::get).whileTrue(
             new FeedState(shooter, () -> -0.5)
