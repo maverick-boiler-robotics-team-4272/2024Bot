@@ -161,7 +161,7 @@ public class RobotContainer {
 
         //Arm ----------------------------------------------------
 
-        armElevator.setDefaultCommand(new GoToArmElevatorState(armElevator, ZERO));
+        armElevator.setDefaultCommand(new GoToArmElevatorState(armElevator, HOME));
 
         new Trigger(driverController.getButton("leftBumper")::get).whileTrue(
             new AutoAimCommand(drivetrain, armElevator, driveLeftAxes::getDeadzonedX, driveLeftAxes::getDeadzonedY)  
@@ -169,6 +169,10 @@ public class RobotContainer {
 
         new Trigger(driveTriggerRight::isTriggered).whileTrue(
             new ShootState(shooter, driveTriggerRight::getValue, driverController.getButton("rightBumper")::get)  
+        );
+
+        new Trigger(driverController.getButton("back")::get).whileTrue(
+            new GoToArmElevatorState(armElevator, TEST).repeatedly()
         );
     }
 
