@@ -25,8 +25,8 @@ public class MAVCoder2 implements Loggable {
         this.offset = offset;
         this.inputs = new MAVCoder2InputsAutoLogged();
 
-        this.encoder.setPositionConversionFactor(MAV_2_POSITION_FACTOR);
         this.encoder.setZeroOffset(MAV_2_MIN_OUTPUT);
+        this.encoder.setPositionConversionFactor(MAV_2_POSITION_FACTOR);
     }
 
     public double getUnoffsetPosition() {
