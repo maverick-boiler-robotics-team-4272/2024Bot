@@ -20,7 +20,7 @@ public class IntakeFeedCommand extends SequentialCommandGroup {
                 new LidarStoppedFeedState(shooter, power)
             ),
             new LidarStoppedOutfeedState(shooter, () -> 0.1),
-            new FeedState(shooter, () -> 0.1).withTimeout(0.25)
+            new FeedState(shooter, () -> -0.1).withTimeout(0.75)
         );
     }
 }
