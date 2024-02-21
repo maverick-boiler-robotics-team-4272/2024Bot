@@ -180,6 +180,12 @@ public class RobotContainer {
         JoystickAxes operatorLeftStick = operatorController.getAxes("left");
         operatorLeftStick.setDeadzone(0.1).setPowerScale(2.0).setDeadzoneMode(DeadzoneMode.kYAxis);
 
+        JoystickTrigger operatorLeftTrigger = operatorController.getTrigger("left");
+        operatorLeftTrigger.setDeadzone(0.1).setPowerScaling(2);
+
+        JoystickTrigger operatorRightTrigger = operatorController.getTrigger("right");
+        operatorRightTrigger.setDeadzone(0.1).setPowerScaling(2);
+
         // climber.setDefaultCommand(
         //     new  ClimbState(climber, operatorLeftStick::getDeadzonedY)
         // );
@@ -224,17 +230,17 @@ public class RobotContainer {
             )
         );
 
-        new Trigger(operatorController.getTrigger("left")::isTriggered).whileTrue(
-            new ParallelRaceGroup(
+        new Trigger(operatorLeftTrigger::isTriggered).whileTrue(
+            new ParallelCommandGroup(
                 new IntakeState(intake, operatorController.getTrigger("left")::getValue),
-                new LidarStoppedFeedState(shooter, operatorController.getTrigger("left")::getValue)
+                new FeedState(shooter, operatorController.getTrigger("left")::getValue)
             )
         );
 
-        new Trigger(operatorController.getTrigger("right")::isTriggered).whileTrue(
+        new Trigger(operatorRightTrigger::isTriggered).whileTrue(
             new ParallelCommandGroup(
-                new IntakeState(intake, () -> -operatorController.getTrigger("right").getValue()),
-                new FeedState(shooter, () -> -operatorController.getTrigger("right").getValue())
+                new IntakeState(intake, () -> -operatorRightTrigger.getValue()),
+                new FeedState(shooter, () -> -operatorRightTrigger.getValue())
             )
         );
     }
