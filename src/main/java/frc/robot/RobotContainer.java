@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SelectCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -17,6 +16,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.AutoAimCommand;
 import frc.robot.commands.HomemadeAuto;
+import frc.robot.commands.IntakeFeedCommand;
 import frc.robot.commands.StressTestAuto;
 import frc.robot.commands.TestAutoCommand;
 import frc.robot.commands.TuneAutoCommand;
@@ -24,14 +24,11 @@ import frc.robot.constants.Norms;
 import frc.robot.subsystems.armelevator.ArmElevatorSubsystem;
 import frc.robot.subsystems.armelevator.states.GoToArmElevatorState;
 import frc.robot.subsystems.armelevator.states.ZeroElevatorState;
-import frc.robot.subsystems.climber.Climber;
-import frc.robot.subsystems.climber.states.ClimbState;
 import frc.robot.subsystems.drivetrain.Drivetrain;
 import frc.robot.subsystems.intake.IntakeSubsystem;
-import frc.robot.subsystems.intake.states.IntakeState;
+import frc.robot.subsystems.intake.states.OuttakeState;
 import frc.robot.subsystems.shooter.Shooter;
-import frc.robot.subsystems.shooter.states.FeedState;
-import frc.robot.subsystems.shooter.states.LidarStoppedFeedState;
+import frc.robot.subsystems.shooter.states.OutfeedState;
 import frc.robot.subsystems.shooter.states.ShootState;
 import frc.team4272.controllers.XboxController;
 import frc.team4272.controllers.utilities.JoystickAxes;
@@ -192,7 +189,7 @@ public class RobotContainer {
         // );
 
         new Trigger(operatorController.getButton("a")::get).whileTrue(
-            new FeedState(shooter, () -> -0.5)
+            new OutfeedState(shooter, () -> 0.5)
         );
 
         new Trigger(operatorController.getButton("y")::get).onTrue(
@@ -236,16 +233,13 @@ public class RobotContainer {
         );
 
         new Trigger(operatorLeftTrigger::isTriggered).whileTrue(
-            new ParallelCommandGroup(
-                new IntakeState(intake, operatorController.getTrigger("left")::getValue),
-                new FeedState(shooter, operatorController.getTrigger("left")::getValue)
-            )
+            new IntakeFeedCommand(intake, shooter, operatorLeftTrigger::getValue)
         );
 
         new Trigger(operatorRightTrigger::isTriggered).whileTrue(
             new ParallelCommandGroup(
-                new IntakeState(intake, () -> -operatorRightTrigger.getValue()),
-                new FeedState(shooter, () -> -operatorRightTrigger.getValue())
+                new OuttakeState(intake, operatorRightTrigger::getValue),
+                new OutfeedState(shooter, operatorRightTrigger::getValue)
             )
         );
     }
@@ -259,7 +253,6 @@ public class RobotContainer {
         AUTO_CHOOSER.addOption("Stress Path", () -> new StressTestAuto(drivetrain));
         AUTO_CHOOSER.addOption("HomeMade TBD", () -> new HomemadeAuto(drivetrain));
         
-
         AUTO_TABLE.putData("Auto Chooser", AUTO_CHOOSER);
         AUTO_TABLE.putData("Side Chooser", CONTAINER_CHOOSER);
     }
