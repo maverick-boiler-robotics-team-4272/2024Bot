@@ -14,7 +14,7 @@ public class RobotConstants {
     }
 
     public static final int NOMINAL_VOLTAGE = 11;
-    public static final int CURRENT_LIMIT = 20;
+    public static final int CURRENT_LIMIT = 40;
 
     public static class DrivetrainConstants {
         private DrivetrainConstants() {
