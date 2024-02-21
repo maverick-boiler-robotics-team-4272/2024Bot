@@ -12,7 +12,7 @@ import frc.robot.utils.*;
 public class Shooter extends SubsystemBase implements Loggable {
     @AutoLog
     public static class ShooterInputs {
-
+        public boolean lidarTripped;
     }
 
     private Vortex shooterMotor1;
@@ -59,6 +59,8 @@ public class Shooter extends SubsystemBase implements Loggable {
         shooterMotor2.log(subdirectory + "/" + humanReadableName, "ShooterMotor2");
         feedMotor.log(subdirectory + "/" + humanReadableName, "FeedMotor");
         lidar.log(subdirectory + "/" + humanReadableName, "FeedLidar");
+
+        shooterInputs.lidarTripped = lidarTripped();
 
         Logger.processInputs(subdirectory + "/" + humanReadableName, shooterInputs);
     }
