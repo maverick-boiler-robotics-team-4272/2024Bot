@@ -162,6 +162,14 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
         armElevatorInputs.safeElevatorHeight = safeHeight;
     }
 
+    public void runElevator(double power) {
+        elevatorMotor1.set(power);
+    }
+
+    public void zeroElevator() {
+        elevatorEncoder.setPosition(0);
+    }
+
     @Override
     public void log(String subdirectory, String humanReadableName) {
         elevatorMotor1.log(subdirectory + "/" + humanReadableName, "ElevatorMotor1");
