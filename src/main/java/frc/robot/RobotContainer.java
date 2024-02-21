@@ -23,6 +23,7 @@ import frc.robot.commands.TuneAutoCommand;
 import frc.robot.constants.Norms;
 import frc.robot.subsystems.armelevator.ArmElevatorSubsystem;
 import frc.robot.subsystems.armelevator.states.GoToArmElevatorState;
+import frc.robot.subsystems.armelevator.states.ZeroElevatorState;
 import frc.robot.subsystems.climber.Climber;
 import frc.robot.subsystems.climber.states.ClimbState;
 import frc.robot.subsystems.drivetrain.Drivetrain;
@@ -196,6 +197,10 @@ public class RobotContainer {
 
         new Trigger(operatorController.getButton("y")::get).onTrue(
             new ResetToLimelightState(drivetrain, FRONT_LIMELIGHT)
+        );
+
+        new Trigger(operatorController.getButton("b")::get).whileTrue(
+            new  ZeroElevatorState(armElevator)
         );
 
         new Trigger(operatorController.getButton("leftBumper")::get).whileTrue(
