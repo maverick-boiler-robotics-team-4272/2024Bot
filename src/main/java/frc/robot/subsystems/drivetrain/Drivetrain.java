@@ -13,6 +13,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.Timer;
+import frc.robot.subsystems.drivetrain.states.PathFollowState;
 import frc.robot.utils.Loggable;
 import frc.robot.utils.Pigeon;
 import frc.robot.utils.SwerveModule;
@@ -85,7 +86,8 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
 
         poseEstimator.update(gyroscope.getRotation().unaryMinus(), getPositions());
         if(
-            FRONT_LIMELIGHT.isValidTarget()
+            FRONT_LIMELIGHT.isValidTarget() //&&
+            // PathFollowState.posesAlmostEqual(limelightPose, getRobotPose(), new Pose2d(0.5, 0.5, Rotation2d.fromDegrees(10.0)))
         ) {
             poseEstimator.addVisionMeasurement(limelightPose, Timer.getFPGATimestamp());
         }

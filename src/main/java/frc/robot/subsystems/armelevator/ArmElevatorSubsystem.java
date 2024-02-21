@@ -60,12 +60,13 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
             .withPositionConversionFactor(ELEVATOR_RATIO)
             .withSoftLimits(MAX_ELEVATOR_HEIGHT, MIN_ELEVATOR_HEIGHT)
             .withPIDParams(ELEVATOR_PID_P, ELEVATOR_PID_I, ELEVATOR_PID_D)
+            // .withPIDOutputClamping(-1.0, 2.0)
             .withInversion(true)
-            .withCurrentLimit(40)
+            .withCurrentLimit(50)
             .build();
         elevatorMotor2 = NEOBuilder.createWithDefaults(ELEVATOR_MOTOR_2_ID)
             .asFollower(elevatorMotor1, true)
-            .withCurrentLimit(40)
+            .withCurrentLimit(50)
             .getUnburntNeo();
         armMotor = VortexBuilder.createWithDefaults(ARM_MOTOR_ID)
             .withPositionConversionFactor(ARM_RATIO)
@@ -145,11 +146,11 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
         
 
         if(theta.getDegrees() > MAX_SAFE_ANGLE.getDegrees()) {
-            height = position.getZ() - distFromSpeaker * MAX_SAFE_ANGLE.getTan();
+            // height = position.getZ() - distFromSpeaker * MAX_SAFE_ANGLE.getTan();
             theta = MAX_SAFE_ANGLE;
         }
 
-        goToPos(theta, height);
+        goToPos(theta, 0.0);
     }
 
     private void handleSaftey() {

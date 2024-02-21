@@ -71,6 +71,15 @@ public class NEOBuilder {
         return this;
     }
 
+    // public NEOBuilder withPIDOutputClamping(double minOutput, double maxOutput) {
+    //     if(motorController == null)
+    //         motorController = motor.getPIDController();
+        
+    //     motorController.setOutputRange(minOutput, maxOutput);
+        
+    //     return this;
+    // }
+
     public NEOBuilder withPositionConversionFactor(double factor) {
         if(motorEncoder == null)
             motorEncoder = motor.getEncoder();

@@ -5,6 +5,8 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 
 import static edu.wpi.first.units.Units.*;
+import static frc.robot.constants.RobotConstants.ArmConstants.MIN_ARM_ANGLE;
+import static frc.robot.constants.RobotConstants.ElevatorConstants.MAX_ELEVATOR_HEIGHT;
 
 public class RobotConstants {
     private RobotConstants() {
@@ -92,8 +94,10 @@ public class RobotConstants {
     // Limelight 2+ Position: (Forward: -0.290m, Up (From ground): 0.345m, L/R: 0.014m, Roll: 0.0deg, Pitch: 0.0deg, Yaw: 180.0deg)
     public static enum ArmElevatorSetpoints implements ArmElevatorSetpoint {
         ZERO(new Rotation2d(0), 0),
-        HOME(Rotation2d.fromDegrees(35.0), Meters.convertFrom(0.0, Inches)),
-        TEST(Rotation2d.fromDegrees(0.0), Meters.convertFrom(12.0, Inches));
+        HOME(Rotation2d.fromDegrees(35.0), Meters.convertFrom(0.5, Inches)),
+        TEST(Rotation2d.fromDegrees(0.0), Meters.convertFrom(12.0, Inches)),
+        AMP(Rotation2d.fromDegrees(-10.0), Meters.convertFrom(16.0, Inches)),
+        TRAP(MIN_ARM_ANGLE, MAX_ELEVATOR_HEIGHT);
 
         private Rotation2d armAngle;
         private double elevatorHeight;
@@ -122,7 +126,7 @@ public class RobotConstants {
 
         public static final double ARM_LENGTH = Meters.convertFrom(16.0, Inches);
 
-        public static final Rotation2d ARM_ANGLE_DEADZONE = Rotation2d.fromDegrees(5.0);
+        public static final Rotation2d ARM_ANGLE_DEADZONE = Rotation2d.fromDegrees(3.0);
 
         public static final double ARM_RATIO = Rotation2d.fromDegrees(7.872).getRadians();
 
@@ -144,7 +148,7 @@ public class RobotConstants {
         public static final double ELEVATOR_PID_D = 0.0;
         public static final double ELEVATOR_PID_F = 2.0;
 
-        public static final double ELEVATOR_HEIGHT_DEADZONE = Meters.convertFrom(2.0, Centimeters);
+        public static final double ELEVATOR_HEIGHT_DEADZONE = Meters.convertFrom(1.0, Centimeters);
 
         public static final double BLOCKING_HEIGHT = Meters.convertFrom(3.0, Inches);
 
@@ -152,7 +156,7 @@ public class RobotConstants {
 
         public static final double ELEVATOR_RATIO = Meters.convertFrom(18.0, Millimeters) / 1.0; //Find empericaly
 
-        public static final double MAX_ELEVATOR_HEIGHT = /*Meters.convertFrom(40.0, Inches)*/ 0.5;
+        public static final double MAX_ELEVATOR_HEIGHT = Meters.convertFrom(40.0, Inches);
         public static final double MIN_ELEVATOR_HEIGHT = Meters.convertFrom(0, Inches);
     }
 }
