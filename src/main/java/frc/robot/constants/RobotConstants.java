@@ -143,16 +143,16 @@ public class RobotConstants {
     }
 
     public static class ElevatorConstants {
-        public static final double ELEVATOR_PID_P = 4.0;
+        public static final double ELEVATOR_PID_P = 5.0;
         public static final double ELEVATOR_PID_I = 0.0;
         public static final double ELEVATOR_PID_D = 0.0;
-        public static final double ELEVATOR_PID_F = 2.0;
+        public static final double ELEVATOR_PID_F = 0.5;
 
         public static final double ELEVATOR_HEIGHT_DEADZONE = Meters.convertFrom(1.0, Centimeters);
 
         public static final double BLOCKING_HEIGHT = Meters.convertFrom(3.0, Inches);
 
-        public static final Translation3d ELEVATOR_TRANSLATION = new Translation3d(0, Meters.convertFrom(2.0, Inches), Meters.convertFrom(15.0, Inches));
+        public static final Translation3d ELEVATOR_TRANSLATION = new Translation3d(0, Meters.convertFrom(2.0, Inches), Meters.convertFrom(10.0, Inches));
 
         public static final double ELEVATOR_RATIO = Meters.convertFrom(18.0, Millimeters) / 1.0; //Find empericaly
 
