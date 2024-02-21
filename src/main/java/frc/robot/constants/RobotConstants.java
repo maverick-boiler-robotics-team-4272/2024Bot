@@ -152,7 +152,7 @@ public class RobotConstants {
 
         public static final double BLOCKING_HEIGHT = Meters.convertFrom(3.0, Inches);
 
-        public static final Translation3d ELEVATOR_TRANSLATION = new Translation3d(0, Meters.convertFrom(2.0, Inches), Meters.convertFrom(10.0, Inches));
+        public static final Translation3d ELEVATOR_TRANSLATION = new Translation3d(0, Meters.convertFrom(2.0, Inches), Meters.convertFrom(14.0, Inches));
 
         public static final double ELEVATOR_RATIO = Meters.convertFrom(18.0, Millimeters) / 1.0; //Find empericaly
 
