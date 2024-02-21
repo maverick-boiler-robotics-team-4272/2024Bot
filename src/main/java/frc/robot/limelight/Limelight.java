@@ -100,7 +100,7 @@ public final class Limelight implements Periodic, Loggable {
         if(filtered)
             return;
         
-            filtered = true;
+        filtered = true;
         double[] pose = getBotPose();
 
         if(pose[0] == 0 && pose[1] == 0 && pose[5] == 0) {
