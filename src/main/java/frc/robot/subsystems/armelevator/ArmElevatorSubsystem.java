@@ -60,11 +60,11 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
             .withPIDParams(ELEVATOR_PID_P, ELEVATOR_PID_I, ELEVATOR_PID_D)
             // .withPIDOutputClamping(-1.0, 2.0)
             .withInversion(true)
-            .withCurrentLimit(40)
+            .withCurrentLimit(50)
             .build();
         elevatorMotor2 = NEOBuilder.createWithDefaults(ELEVATOR_MOTOR_2_ID)
             .asFollower(elevatorMotor1, true)
-            .withCurrentLimit(40)
+            .withCurrentLimit(50)
             .getUnburntNeo();
         armMotor = VortexBuilder.createWithDefaults(ARM_MOTOR_ID)
             .withPositionConversionFactor(ARM_RATIO)
