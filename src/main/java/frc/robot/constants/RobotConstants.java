@@ -135,7 +135,7 @@ public class RobotConstants {
     }
 
     public static class ShooterConstants {
-        public static final double MAX_EMPTY_LIDAR_DISTANCE = Meters.convertFrom(10.0, Millimeters);
+        public static final double MAX_EMPTY_LIDAR_DISTANCE = Meters.convertFrom(6000.0, Millimeters);
     }
 
     public static class ElevatorConstants {
