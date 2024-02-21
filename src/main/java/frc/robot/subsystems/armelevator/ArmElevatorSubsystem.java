@@ -41,6 +41,8 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
 
     private RelativeEncoder armEncoder;
     private RelativeEncoder elevatorEncoder;
+
+    private MAVCoder2 armAbsoluteEncoder;
     
     private SparkPIDController elevatorController;
     private SparkPIDController armController;
@@ -64,7 +66,7 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
         elevatorMotor2 = NEOBuilder.createWithDefaults(ELEVATOR_MOTOR_2_ID)
             .asFollower(elevatorMotor1, true)
             .withCurrentLimit(40)
-            .build();
+            .getUnburntNeo();
         armMotor = VortexBuilder.createWithDefaults(ARM_MOTOR_ID)
             .withPositionConversionFactor(ARM_RATIO)
             .withCurrentLimit(40)
@@ -85,11 +87,28 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
         desiredArmAngle = Rotation2d.fromRadians(armElevatorInputs.desiredArmAngleRadians);
         desiredElevatorHeight = 0;
 
+        armAbsoluteEncoder = new MAVCoder2(elevatorMotor2, ARM_OFFSET);
+        elevatorMotor2.burnFlash();
+
+        try {
+            Thread.sleep(300);
+        } catch (InterruptedException e) {}
+        
+        System.out.println(String.format("ArmElevatorPos: %.2f", armAbsoluteEncoder.getUnoffsetPosition()));
+
         armController = armMotor.getPIDController();
         elevatorController = elevatorMotor1.getPIDController();
 
         armEncoder = armMotor.getEncoder();
         elevatorEncoder = elevatorMotor1.getEncoder();
+
+        armEncoder.setPosition(-armAbsoluteEncoder.getPosition() * Math.PI / 180.0);
+
+        TESTING_TABLE.putNumber("Elevator PID P", ELEVATOR_PID_P);
+        TESTING_TABLE.putNumber("Elevator PID I", ELEVATOR_PID_I);
+        TESTING_TABLE.putNumber("Elevator PID D", ELEVATOR_PID_D);
+        TESTING_TABLE.putNumber("Elevator PID F", ELEVATOR_PID_F);
+
     }
 
     private void setShooterRotation(Rotation2d r) {
@@ -97,7 +116,7 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
     }
 
     private void setElevatorHeight(double h) {
-        elevatorController.setReference(h, ControlType.kPosition, 0, TESTING_TABLE.getNumber("Elevator Pid_F"));
+        elevatorController.setReference(h, ControlType.kPosition, 0, TESTING_TABLE.getNumber("Elevator PID F"));
     }
 
     public boolean isAtPosition() {
@@ -145,7 +164,7 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
         // Height  not, angle safe
         // Height  not, angle not
 
-        // if(Math.abs(desiredArmAngle.getRadians() - Math.PI / 2) > Math.abs(safeTheta)) {
+        // if(Math.abs(desiredArmAngle.getRadians() + Math.PI / 2.0) > Math.abs(safeTheta)) {
         //     setShooterRotation(desiredArmAngle);
         // } else {
         //     setShooterRotation(new Rotation2d(safeTheta + Math.PI / 2.0));
@@ -192,5 +211,11 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
         handleSaftey();
 
         log("Subsystems", "ArmElevator");
+
+        elevatorController.setP(TESTING_TABLE.getNumber("Elevator PID P"));
+        elevatorController.setI(TESTING_TABLE.getNumber("Elevator PID I"));
+        elevatorController.setD(TESTING_TABLE.getNumber("Elevator PID D"));
+        elevatorController.setFF(TESTING_TABLE.getNumber("Elevator PID F"));
+
     }
 }
