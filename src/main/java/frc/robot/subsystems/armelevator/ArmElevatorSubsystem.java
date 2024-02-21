@@ -26,10 +26,12 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
     public static class ArmElevatorInputs {
         public double currentArmAngleRadians;
         public double desiredArmAngleRadians;
+        public double armAngleErrorRadians;
         public double safeArmAngleRadians;
 
         public double currentElevatorHeight;
         public double desiredElevatorHeight;
+        public double elevatorHeightError;
         public double safeElevatorHeight;
     }
 
@@ -178,6 +180,9 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
 
         armElevatorInputs.currentElevatorHeight = elevatorEncoder.getPosition();
         armElevatorInputs.currentArmAngleRadians = armEncoder.getPosition();
+
+        armElevatorInputs.armAngleErrorRadians = armElevatorInputs.desiredArmAngleRadians - armElevatorInputs.currentArmAngleRadians;
+        armElevatorInputs.elevatorHeightError = armElevatorInputs.desiredElevatorHeight - armElevatorInputs.currentElevatorHeight;
 
         Logger.processInputs(subdirectory + "/" + humanReadableName, armElevatorInputs);
     }
