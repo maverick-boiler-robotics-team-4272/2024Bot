@@ -2,11 +2,8 @@ package frc.robot.subsystems.armelevator;
 
 import static frc.robot.constants.HardwareMap.*;
 import static frc.robot.constants.RobotConstants.ArmConstants.*;
-import static frc.robot.constants.RobotConstants.ArmElevatorSetpoints.TEST;
 import static frc.robot.constants.RobotConstants.ElevatorConstants.*;
 import static frc.robot.constants.TelemetryConstants.ShuffleboardTables.TESTING_TABLE;
-import static frc.robot.constants.UniversalConstants.PI2;
-
 import org.littletonrobotics.junction.AutoLog;
 import org.littletonrobotics.junction.Logger;
 
