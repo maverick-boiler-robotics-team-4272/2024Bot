@@ -189,16 +189,16 @@ public class RobotContainer {
         // );
 
         new Trigger(operatorController.getButton("a")::get).whileTrue(
-            new OutfeedState(shooter, () -> 0.5)
+            new OutfeedState(shooter, () -> -0.5)
         );
 
         new Trigger(operatorController.getButton("y")::get).onTrue(
             new ResetToLimelightState(drivetrain, FRONT_LIMELIGHT)
         );
 
-        new Trigger(operatorController.getButton("b")::get).whileTrue(
-            new  ZeroElevatorState(armElevator)
-        );
+        // new Trigger(operatorController.getButton("b")::get).whileTrue(
+        //     new  ZeroElevatorState(armElevator).repeatedly()
+        // );
 
         new Trigger(operatorController.getButton("leftBumper")::get).whileTrue(
             new ShootState(shooter, () -> 1.0, operatorController.getButton("rightBumper")::get)
