@@ -233,13 +233,13 @@ public class RobotContainer {
         );
 
         new Trigger(operatorLeftTrigger::isTriggered).whileTrue(
-            new IntakeFeedCommand(intake, shooter, operatorLeftTrigger::getValue)
+            new IntakeFeedCommand(intake, shooter, () -> 0.9)
         );
 
         new Trigger(operatorRightTrigger::isTriggered).whileTrue(
             new ParallelCommandGroup(
-                new OuttakeState(intake, operatorRightTrigger::getValue),
-                new OutfeedState(shooter, operatorRightTrigger::getValue)
+                new OuttakeState(intake, () -> 0.9),
+                new OutfeedState(shooter, () -> 0.9)
             )
         );
     }
