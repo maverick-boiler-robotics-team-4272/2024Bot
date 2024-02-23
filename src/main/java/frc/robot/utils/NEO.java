@@ -1,30 +1,44 @@
 package frc.robot.utils;
 
-import org.littletonrobotics.junction.AutoLog;
 import org.littletonrobotics.junction.Logger;
 
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.REVLibError;
+import com.revrobotics.RelativeEncoder;
 
 public class NEO extends CANSparkMax implements Loggable {
-    @AutoLog
-    public static class NEOInputs {
-        public double motorVoltage;
-        public double outputCurrent;
-    }
-
-    NEOInputsAutoLogged neoInputs;
+    private MotorInputsAutoLogged motorInputs;
+    private RelativeEncoder encoder;
 
     public NEO(int canId) {
         super(canId, MotorType.kBrushless);
 
-        neoInputs = new NEOInputsAutoLogged();
+        motorInputs = new MotorInputsAutoLogged();
+        encoder = getEncoder();
     }
 
     @Override
     public void log(String subdirectory, String humanReadableName) {
-        neoInputs.motorVoltage = getBusVoltage();
-        neoInputs.outputCurrent = getOutputCurrent();
+        motorInputs.motorVoltage = getBusVoltage();
+        motorInputs.outputCurrent = getOutputCurrent();
+        motorInputs.motorVelocity = encoder.getVelocity();
+        motorInputs.motorPosition = encoder.getPosition();
+        motorInputs.stalling = motorInputs.outputCurrent >= motorInputs.currentLimit * 0.9 && motorInputs.motorVelocity / encoder.getVelocityConversionFactor() < 100;
+        motorInputs.motorTemperatureCelsius = getMotorTemperature();
 
-        Logger.processInputs(subdirectory + "/" + humanReadableName, neoInputs);
+        Logger.processInputs(subdirectory + "/" + humanReadableName, motorInputs);
+    }
+
+    public boolean isStalled() {
+        return motorInputs.stalling;
+    }
+
+    @Override
+    public REVLibError setSmartCurrentLimit(int stallLimit, int freeLimit, int limitRPM) {
+        motorInputs.currentLimit = stallLimit;
+        motorInputs.freeLimit = freeLimit;
+        motorInputs.limitRPM = limitRPM;
+        
+        return super.setSmartCurrentLimit(stallLimit, freeLimit, limitRPM);
     }
 }

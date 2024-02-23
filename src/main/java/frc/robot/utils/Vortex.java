@@ -1,31 +1,44 @@
 package frc.robot.utils;
 
-import org.littletonrobotics.junction.AutoLog;
 import org.littletonrobotics.junction.Logger;
 
 import com.revrobotics.CANSparkFlex;
+import com.revrobotics.REVLibError;
+import com.revrobotics.RelativeEncoder;
 
 public class Vortex extends CANSparkFlex implements Loggable {
-
-    @AutoLog
-    public static class VortexInputs {
-        public double motorVoltage;
-        public double outputCurrent;
-    }
-
-    private VortexInputsAutoLogged vortexInputs;
+    private MotorInputsAutoLogged motorInputs;
+    private RelativeEncoder encoder;
 
     public Vortex(int id) {
         super(id, MotorType.kBrushless);
 
-        vortexInputs = new VortexInputsAutoLogged();
+        motorInputs = new MotorInputsAutoLogged();
+        this.encoder = getEncoder();
     }
 
     @Override
     public void log(String subdirectory, String humanReadableName) {
-        vortexInputs.motorVoltage = getBusVoltage();
-        vortexInputs.outputCurrent = getOutputCurrent();
+        motorInputs.motorVoltage = getBusVoltage();
+        motorInputs.outputCurrent = getOutputCurrent();
+        motorInputs.motorVelocity = encoder.getVelocity();
+        motorInputs.motorPosition = encoder.getPosition();
+        motorInputs.stalling = motorInputs.outputCurrent >= motorInputs.currentLimit * 0.9 && motorInputs.motorVelocity / encoder.getVelocityConversionFactor() < 100;
+        motorInputs.motorTemperatureCelsius = getMotorTemperature();
 
-        Logger.processInputs(subdirectory + "/" + humanReadableName, vortexInputs);
+        Logger.processInputs(subdirectory + "/" + humanReadableName, motorInputs);
+    }
+
+    public boolean isStalling() {
+        return motorInputs.stalling;
+    }
+
+    @Override
+    public REVLibError setSmartCurrentLimit(int stallLimit, int freeLimit, int limitRPM) {
+        motorInputs.currentLimit = stallLimit;
+        motorInputs.freeLimit = freeLimit;
+        motorInputs.limitRPM = limitRPM;
+
+        return super.setSmartCurrentLimit(stallLimit, freeLimit, limitRPM);
     }
 }
