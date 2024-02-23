@@ -194,6 +194,7 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
         elevatorMotor1.log(subdirectory + "/" + humanReadableName, "ElevatorMotor1");
         elevatorMotor2.log(subdirectory + "/" + humanReadableName, "ElevatorMotor2");
         armMotor.log(subdirectory + "/" + humanReadableName, "ArmMotor");
+        armAbsoluteEncoder.log(subdirectory + "/" + humanReadableName, "ArmAbsoluteEncoder");
 
         armElevatorInputs.currentElevatorHeight = elevatorEncoder.getPosition();
         armElevatorInputs.currentArmAngleRadians = armEncoder.getPosition();
