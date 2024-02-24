@@ -64,42 +64,53 @@
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "shoot 1",
-      "waypointRelativePos": 1.0999999999999999,
+      "name": "First",
+      "waypointRelativePos": 0.95,
       "command": {
-        "type": "parallel",
+        "type": "sequential",
         "data": {
-          "commands": []
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "DriveBy"
+              }
+            }
+          ]
         }
       }
     },
     {
-      "name": "intake 2",
-      "waypointRelativePos": 2.05,
+      "name": "Second",
+      "waypointRelativePos": 1.9500000000000002,
       "command": {
-        "type": "parallel",
+        "type": "sequential",
         "data": {
-          "commands": []
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "Intake"
+              }
+            }
+          ]
         }
       }
     },
     {
-      "name": "shoot 2",
-      "waypointRelativePos": 3.0,
+      "name": "Start",
+      "waypointRelativePos": 0.2,
       "command": {
-        "type": "parallel",
+        "type": "sequential",
         "data": {
-          "commands": []
-        }
-      }
-    },
-    {
-      "name": "intake 1",
-      "waypointRelativePos": 1.0499999999999998,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": []
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "Shoot"
+              }
+            }
+          ]
         }
       }
     }
