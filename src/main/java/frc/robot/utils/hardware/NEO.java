@@ -1,12 +1,12 @@
 package frc.robot.utils.hardware;
 
+// Logging
 import org.littletonrobotics.junction.Logger;
-
-import com.revrobotics.CANSparkMax;
-import com.revrobotics.REVLibError;
-import com.revrobotics.RelativeEncoder;
-
 import frc.robot.utils.logging.Loggable;
+
+// Hardware
+import com.revrobotics.*;
+
 
 public class NEO extends CANSparkMax implements Loggable {
     private MotorInputsAutoLogged motorInputs;

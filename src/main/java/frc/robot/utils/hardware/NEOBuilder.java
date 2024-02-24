@@ -1,10 +1,10 @@
 package frc.robot.utils.hardware;
 
-import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkPIDController;
-import com.revrobotics.CANSparkBase.IdleMode;
-import com.revrobotics.CANSparkBase.SoftLimitDirection;
+// Hardware
+import com.revrobotics.*;
+import com.revrobotics.CANSparkBase.*;
 
+// Constants
 import static frc.robot.constants.RobotConstants.*;
 
 public class NEOBuilder {

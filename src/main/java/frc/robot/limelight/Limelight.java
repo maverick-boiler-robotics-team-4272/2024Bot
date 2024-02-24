@@ -1,18 +1,19 @@
 package frc.robot.limelight;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
+// Logging
+import org.littletonrobotics.junction.*;
+import frc.robot.utils.logging.*;
+
+// Math
 import edu.wpi.first.math.filter.MedianFilter;
-import org.littletonrobotics.junction.AutoLog;
-import org.littletonrobotics.junction.Logger;
+import edu.wpi.first.math.geometry.*;
 
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import frc.robot.utils.logging.Loggable;
-import frc.robot.utils.periodics.PeriodicsUtil;
-import frc.robot.utils.periodics.Periodic;
+// Periodics
+import frc.robot.utils.periodics.*;
 
+// Constants
 import static frc.robot.constants.UniversalConstants.*;
 
 public final class Limelight implements Periodic, Loggable {

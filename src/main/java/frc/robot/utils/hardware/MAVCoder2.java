@@ -1,13 +1,13 @@
 package frc.robot.utils.hardware;
 
-import org.littletonrobotics.junction.AutoLog;
-import org.littletonrobotics.junction.Logger;
-
-import com.revrobotics.CANSparkBase;
-import com.revrobotics.SparkAbsoluteEncoder;
-
+// Logging
+import org.littletonrobotics.junction.*;
 import frc.robot.utils.logging.Loggable;
 
+// Hardware
+import com.revrobotics.*;
+
+// Constants
 import static frc.robot.constants.RobotConstants.MAVCoderConstants.*;
 
 public class MAVCoder2 implements Loggable {

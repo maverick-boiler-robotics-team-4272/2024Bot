@@ -1,14 +1,18 @@
 package frc.robot.subsystems.climber;
 
-import static frc.robot.constants.HardwareMap.*;
 
-import org.littletonrobotics.junction.AutoLog;
-import org.littletonrobotics.junction.Logger;
+// Logging
+import org.littletonrobotics.junction.*;
+import frc.robot.utils.logging.*;
 
+// Hardware
+import frc.robot.utils.hardware.*;
+
+// Subsystem
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-import frc.robot.utils.hardware.*;
-import frc.robot.utils.logging.*;
+// Constants
+import static frc.robot.constants.HardwareMap.*;
 
 public class Climber extends SubsystemBase implements Loggable {
     @AutoLog

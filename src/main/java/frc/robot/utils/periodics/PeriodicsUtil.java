@@ -1,7 +1,6 @@
 package frc.robot.utils.periodics;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class PeriodicsUtil {
     private static List<Periodic> periodics = new ArrayList<>();

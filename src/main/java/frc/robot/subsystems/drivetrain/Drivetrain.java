@@ -1,28 +1,30 @@
 package frc.robot.subsystems.drivetrain;
 
-import java.util.List;
+import java.util.*;
 
-import org.littletonrobotics.junction.AutoLog;
-import org.littletonrobotics.junction.Logger;
+// Logging
+import org.littletonrobotics.junction.*;
+import frc.robot.utils.logging.*;
 
-import edu.wpi.first.math.VecBuilder;
+// Math
+import edu.wpi.first.math.*;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
-import edu.wpi.first.math.kinematics.SwerveModuleState;
+import edu.wpi.first.math.geometry.*;
+import edu.wpi.first.math.kinematics.*;
+
+// Timing
 import edu.wpi.first.wpilibj.Timer;
-import frc.robot.utils.hardware.Pigeon;
-import frc.robot.utils.hardware.SwerveModule;
-import frc.robot.utils.logging.Loggable;
-import frc.team4272.swerve.utils.SwerveDriveBase;
+
+// Hardware
+import frc.robot.utils.hardware.*;
+import frc.team4272.swerve.utils.*;
 import frc.team4272.swerve.utils.SwerveModuleBase.PositionedSwerveModule;
 
+// Constants
 import static frc.robot.constants.HardwareMap.*;
 import static frc.robot.constants.RobotConstants.DrivetrainConstants.*;
-import static frc.robot.constants.RobotConstants.DrivetrainConstants.SwerveModuleConstants.MAX_MODULE_SPEED;
-import static frc.robot.constants.TelemetryConstants.Limelights.FRONT_LIMELIGHT;
+import static frc.robot.constants.RobotConstants.DrivetrainConstants.SwerveModuleConstants.*;
+import static frc.robot.constants.TelemetryConstants.Limelights.*;
 import static frc.robot.constants.TelemetryConstants.ShuffleboardTables.*;
 import static frc.robot.constants.UniversalConstants.*;
 

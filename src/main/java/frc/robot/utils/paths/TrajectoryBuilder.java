@@ -1,21 +1,21 @@
 package frc.robot.utils.paths;
 
-import static frc.robot.constants.RobotConstants.DrivetrainConstants.*;
+import java.util.*;
 
-import java.util.List;
-
-import com.pathplanner.lib.path.GoalEndState;
-import com.pathplanner.lib.path.PathConstraints;
-import com.pathplanner.lib.path.PathPlannerPath;
-import com.pathplanner.lib.path.PathPlannerTrajectory;
+// PathPlanner
+import com.pathplanner.lib.path.*;
 import com.pathplanner.lib.pathfinding.Pathfinding;
 
+// Math
 import edu.wpi.first.math.Pair;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+
+// Subsystems
 import frc.robot.subsystems.drivetrain.Drivetrain;
+
+// Constants
+import static frc.robot.constants.RobotConstants.DrivetrainConstants.*;
 
 public class TrajectoryBuilder {
     public static PathPlannerPath buildPath(Pose2d start, Pose2d end) {

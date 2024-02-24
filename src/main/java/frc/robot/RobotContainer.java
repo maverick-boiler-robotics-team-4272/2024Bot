@@ -4,53 +4,41 @@
 
 package frc.robot;
 
+
+// Controllers
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.PrintCommand;
-import edu.wpi.first.wpilibj2.command.SelectCommand;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.commands.AutoAimCommand;
-import frc.robot.commands.HomemadeAuto;
-import frc.robot.commands.IntakeFeedCommand;
-import frc.robot.commands.StressTestAuto;
-import frc.robot.commands.TestAutoCommand;
-import frc.robot.commands.TuneAutoCommand;
-import frc.robot.constants.Norms;
-import frc.robot.subsystems.armelevator.ArmElevatorSubsystem;
-import frc.robot.subsystems.armelevator.states.GoToArmElevatorState;
-import frc.robot.subsystems.armelevator.states.ZeroElevatorState;
-import frc.robot.subsystems.drivetrain.Drivetrain;
-import frc.robot.subsystems.intake.IntakeSubsystem;
-import frc.robot.subsystems.intake.states.OuttakeState;
-import frc.robot.subsystems.shooter.Shooter;
-import frc.robot.subsystems.shooter.states.OutfeedState;
-import frc.robot.subsystems.shooter.states.ShootState;
 import frc.team4272.controllers.XboxController;
-import frc.team4272.controllers.utilities.JoystickAxes;
-import frc.team4272.controllers.utilities.JoystickTrigger;
+import frc.team4272.controllers.utilities.*;
 import frc.team4272.controllers.utilities.JoystickAxes.DeadzoneMode;
 import frc.team4272.controllers.utilities.JoystickPOV.Direction;
-import frc.robot.subsystems.drivetrain.states.DriveState;
-import frc.robot.subsystems.drivetrain.states.FacePositionState;
-import frc.robot.subsystems.drivetrain.states.GoToPositionState;
-import frc.robot.subsystems.drivetrain.states.PathFindToPositionState;
-import frc.robot.subsystems.drivetrain.states.ResetHeadingState;
-import frc.robot.subsystems.drivetrain.states.ResetToLimelightState;
 
+// Subsystems
+import frc.robot.subsystems.armelevator.ArmElevatorSubsystem;
+import frc.robot.subsystems.drivetrain.Drivetrain;
+import frc.robot.subsystems.intake.IntakeSubsystem;
+import frc.robot.subsystems.shooter.Shooter;
+
+// States
+import frc.robot.subsystems.intake.states.*;
+import frc.robot.subsystems.armelevator.states.*;
+import frc.robot.subsystems.shooter.states.*;
+import frc.robot.subsystems.drivetrain.states.*;
+
+// Commands
+import edu.wpi.first.wpilibj2.command.*;
+import frc.robot.commands.*;
+
+// Constants
+import frc.robot.constants.Norms;
 import static frc.robot.constants.AutoConstants.Paths.*;
-import static frc.robot.constants.TelemetryConstants.Limelights.FRONT_LIMELIGHT;
+import static frc.robot.constants.TelemetryConstants.Limelights.*;
 import static frc.robot.constants.TelemetryConstants.ShuffleboardTables.*;
-import static frc.robot.constants.UniversalConstants.AMP_POSE;
-import static frc.robot.constants.UniversalConstants.SPEAKER_POSITION;
+import static frc.robot.constants.UniversalConstants.*;
 import static frc.robot.constants.RobotConstants.ArmElevatorSetpoints.*;
 
-import java.util.EnumMap;
-import java.util.Map;
+import java.util.*;
+
 /**
  * This class is where the bulk of the robot should be declared. Since
  * Command-based is a

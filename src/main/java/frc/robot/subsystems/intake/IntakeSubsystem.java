@@ -1,14 +1,17 @@
 package frc.robot.subsystems.intake;
 
-import org.littletonrobotics.junction.AutoLog;
-import org.littletonrobotics.junction.Logger;
-
-import com.revrobotics.CANSparkBase.IdleMode;
-
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.utils.hardware.*;
+// Logging
+import org.littletonrobotics.junction.*;
 import frc.robot.utils.logging.*;
 
+// Hardware
+import com.revrobotics.CANSparkBase.IdleMode;
+import frc.robot.utils.hardware.*;
+
+// Subsystem
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+// Constants
 import static frc.robot.constants.HardwareMap.*;
 
 public class IntakeSubsystem extends SubsystemBase implements Loggable {

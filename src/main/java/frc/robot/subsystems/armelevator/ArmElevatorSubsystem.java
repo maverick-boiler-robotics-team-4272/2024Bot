@@ -1,24 +1,28 @@
 package frc.robot.subsystems.armelevator;
 
+// Logging
+import org.littletonrobotics.junction.*;
+import frc.robot.utils.logging.*;
+
+// Hardware
+import frc.robot.utils.hardware.*;
+import com.revrobotics.*;
+import com.revrobotics.CANSparkBase.ControlType;
+
+// Math
+import edu.wpi.first.math.controller.ArmFeedforward;
+import edu.wpi.first.math.geometry.*;
+
+// Subsystem
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+// Constants
+import frc.robot.constants.RobotConstants.ArmElevatorSetpoint;
 import static frc.robot.constants.HardwareMap.*;
 import static frc.robot.constants.RobotConstants.ArmConstants.*;
 import static frc.robot.constants.RobotConstants.ElevatorConstants.*;
-import static frc.robot.constants.TelemetryConstants.ShuffleboardTables.TESTING_TABLE;
-import org.littletonrobotics.junction.AutoLog;
-import org.littletonrobotics.junction.Logger;
+import static frc.robot.constants.TelemetryConstants.ShuffleboardTables.*;
 
-import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkPIDController;
-import com.revrobotics.CANSparkBase.ControlType;
-
-import edu.wpi.first.math.controller.ArmFeedforward;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.geometry.Translation3d;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.constants.RobotConstants.ArmElevatorSetpoint;
-import frc.robot.utils.hardware.*;
-import frc.robot.utils.logging.*;
 public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
     @AutoLog
     public static class ArmElevatorInputs {

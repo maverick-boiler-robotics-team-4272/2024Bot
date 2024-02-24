@@ -1,20 +1,24 @@
 package frc.robot.utils.hardware;
 
-import org.littletonrobotics.junction.AutoLog;
-import org.littletonrobotics.junction.Logger;
+// Logging
+import org.littletonrobotics.junction.*;
+import frc.robot.utils.logging.Loggable;
 
-import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkPIDController;
+// Spark Hardware
+import com.revrobotics.*;
+import com.revrobotics.CANSparkBase.*;
 import com.revrobotics.CANSparkBase.ControlType;
-import com.revrobotics.CANSparkBase.IdleMode;
 
+// Math
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.units.Units;
-import frc.robot.utils.logging.Loggable;
+
+// Swerve Software
 import frc.team4272.swerve.utils.SwerveModuleBase;
 
+// Constants
 import static frc.robot.constants.RobotConstants.DrivetrainConstants.SwerveModuleConstants.*;
 import static frc.robot.constants.UniversalConstants.*;
 

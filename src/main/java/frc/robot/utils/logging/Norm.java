@@ -2,11 +2,11 @@ package frc.robot.utils.logging;
 
 import java.util.function.Supplier;
 
-import org.littletonrobotics.junction.AutoLog;
-import org.littletonrobotics.junction.Logger;
+// Logging
+import org.littletonrobotics.junction.*;
 
-import frc.robot.utils.periodics.PeriodicsUtil;
-import frc.robot.utils.periodics.Periodic;
+// Periodic
+import frc.robot.utils.periodics.*;
 
 public class Norm<T> implements Periodic, Loggable {
     @AutoLog

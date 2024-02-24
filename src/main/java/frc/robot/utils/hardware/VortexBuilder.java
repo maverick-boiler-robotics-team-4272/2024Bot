@@ -1,10 +1,10 @@
 package frc.robot.utils.hardware;
 
-import com.revrobotics.CANSparkBase.IdleMode;
-import com.revrobotics.CANSparkBase.SoftLimitDirection;
-import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkPIDController;
+// Hardware
+import com.revrobotics.CANSparkBase.*;
+import com.revrobotics.*;
 
+// Constants
 import static frc.robot.constants.RobotConstants.*;
 
 public class VortexBuilder {
