@@ -1,5 +1,7 @@
 package frc.robot.commands;
 
+import static frc.robot.constants.UniversalConstants.SPEAKER_SHOT_POSITION;
+
 import com.pathplanner.lib.path.PathPlannerTrajectory;
 
 import edu.wpi.first.math.geometry.Translation3d;
@@ -15,5 +17,9 @@ public class PathFollowWithAimCommand extends ParallelCommandGroup {
             new PathFollowWithAiming(drivetrain, path, target.toTranslation2d()),
             new TargetPositionState(armElevator, () -> drivetrain.getRobotPose().getTranslation(), target)
         );
+    }
+
+    public PathFollowWithAimCommand(Drivetrain drivetrain, ArmElevatorSubsystem armElevator, PathPlannerTrajectory path) {
+        this(drivetrain, armElevator, path, SPEAKER_SHOT_POSITION);
     }
 }
