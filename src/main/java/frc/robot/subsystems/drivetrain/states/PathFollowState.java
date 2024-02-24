@@ -9,8 +9,6 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.subsystems.drivetrain.Drivetrain;
 
-import java.util.Optional;
-
 import static frc.robot.constants.AutoConstants.PathFollowConstants.*;
 import static frc.robot.constants.TelemetryConstants.Limelights.*;
 
@@ -183,8 +181,8 @@ public class PathFollowState extends PositionalDriveState {
 
     @Override
     public double getThetaFeedForward() {
-        if(state.holonomicAngularVelocityRps.isPresent())
-            return state.holonomicAngularVelocityRps.get();
+        if(desiredState.holonomicAngularVelocityRps.isPresent())
+            return desiredState.holonomicAngularVelocityRps.get();
         else
             return 0.0;
     }

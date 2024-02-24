@@ -40,18 +40,6 @@ public abstract class PositionalDriveState extends AbstractDriveState {
     public abstract double getDesiredY();
     public abstract Rotation2d getDesiredTheta();
 
-    public double getXFeedForward() {
-        return 0;
-    }
-
-    public double getYFeedForward() {
-        return 0;
-    }
-
-    public double getThetaFeedForward() {
-        return 0;
-    }
-
     @Override
     public double getXSpeed() {
         return -xController.calculate(requiredSubsystem.getRobotPose().getX(), getDesiredX()) - getXFeedForward();

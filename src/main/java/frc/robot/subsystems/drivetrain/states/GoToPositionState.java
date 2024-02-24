@@ -2,12 +2,8 @@ package frc.robot.subsystems.drivetrain.states;
 
 import static frc.robot.constants.AutoConstants.PathFollowConstants.*;
 
-import com.pathplanner.lib.path.PathPlannerTrajectory;
-import com.pathplanner.lib.path.PathPlannerTrajectory.State;
-
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.wpilibj.Timer;
 import frc.robot.subsystems.drivetrain.Drivetrain;
 import frc.robot.utils.paths.TrajectoryBuilder;
 

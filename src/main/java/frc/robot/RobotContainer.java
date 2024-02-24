@@ -21,14 +21,11 @@ import frc.team4272.controllers.utilities.*;
 import frc.team4272.controllers.utilities.JoystickAxes.DeadzoneMode;
 import frc.team4272.controllers.utilities.JoystickPOV.Direction;
 
-// Subsystems
-import frc.robot.subsystems.armelevator.ArmElevatorSubsystem;
 import frc.robot.subsystems.intake.IntakeSubsystem;
 import frc.robot.subsystems.shooter.Shooter;
 
 // States
 import frc.robot.subsystems.intake.states.*;
-import frc.robot.subsystems.armelevator.states.*;
 import frc.robot.subsystems.shooter.states.*;
 import frc.robot.subsystems.drivetrain.states.*;
 
@@ -36,8 +33,6 @@ import frc.robot.subsystems.drivetrain.states.*;
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.commands.*;
 
-// Constants
-import frc.robot.constants.Norms;
 import static frc.robot.constants.AutoConstants.Paths.*;
 import static frc.robot.constants.TelemetryConstants.Limelights.*;
 import static frc.robot.constants.TelemetryConstants.ShuffleboardTables.*;
