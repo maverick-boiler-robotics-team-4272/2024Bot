@@ -1,5 +1,7 @@
 package frc.robot.subsystems.drivetrain.states;
 
+import static frc.robot.constants.UniversalConstants.SPEAKER_SHOT_POSITION;
+
 import com.pathplanner.lib.path.PathPlannerTrajectory;
 
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -13,6 +15,10 @@ public class PathFollowWithAiming extends PathFollowState {
         super(drivetrain, path, true, false);
 
         this.target = target;
+    }
+
+    public PathFollowWithAiming(Drivetrain drivetrain, PathPlannerTrajectory path) {
+        this(drivetrain, path, SPEAKER_SHOT_POSITION.toTranslation2d());
     }
 
     @Override
