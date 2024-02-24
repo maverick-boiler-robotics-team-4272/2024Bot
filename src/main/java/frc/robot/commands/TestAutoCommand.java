@@ -10,7 +10,8 @@ import static frc.robot.constants.AutoConstants.Paths.getGlobalTrajectories;
 public class TestAutoCommand extends SequentialCommandGroup {
     public TestAutoCommand(Drivetrain drivetrain) {
         super(
-            new PathFollowState(drivetrain, getGlobalTrajectories().TEST_PATH, false, true, DEFAULT_POSE_DELTA, true, false).repeatedly()
+            new PathFollowState(drivetrain, getGlobalTrajectories().TEST_PATH, false, true, DEFAULT_POSE_DELTA, true, false),
+            new PathFollowState(drivetrain, getGlobalTrajectories().TEST_PATH, false, true, DEFAULT_POSE_DELTA, false, false).repeatedly()
         );
     }
 }

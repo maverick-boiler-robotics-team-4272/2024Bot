@@ -1,21 +1,21 @@
-package frc.robot.utils;
+package frc.robot.utils.paths;
 
-import static frc.robot.constants.RobotConstants.DrivetrainConstants.*;
+import java.util.*;
 
-import java.util.List;
-
-import com.pathplanner.lib.path.GoalEndState;
-import com.pathplanner.lib.path.PathConstraints;
-import com.pathplanner.lib.path.PathPlannerPath;
-import com.pathplanner.lib.path.PathPlannerTrajectory;
+// PathPlanner
+import com.pathplanner.lib.path.*;
 import com.pathplanner.lib.pathfinding.Pathfinding;
 
+// Math
 import edu.wpi.first.math.Pair;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+
+// Subsystems
 import frc.robot.subsystems.drivetrain.Drivetrain;
+
+// Constants
+import static frc.robot.constants.RobotConstants.DrivetrainConstants.*;
 
 public class TrajectoryBuilder {
     public static PathPlannerPath buildPath(Pose2d start, Pose2d end) {
@@ -23,7 +23,7 @@ public class TrajectoryBuilder {
             PathPlannerPath.bezierFromPoses(new Pose2d(start.getTranslation(), start.minus(end).getRotation()), end), 
             new PathConstraints(
                 MAX_TRANSLATIONAL_SPEED, 
-                3 * 9.81, //3g's but sidways
+                3.0, //3g's but sidways
                 MAX_ROTATIONAL_SPEED, 
                 Rotation2d.fromDegrees(720).getRadians()
             ), 
@@ -46,14 +46,6 @@ public class TrajectoryBuilder {
     public static PathPlannerTrajectory pathFindToPosition(Drivetrain drivetrain, Pose2d position) {
         Pathfinding.setStartPosition(drivetrain.getRobotPose().getTranslation());
         Pathfinding.setGoalPosition(position.getTranslation());
-
-        try {
-            do {
-                Thread.sleep(10);
-            } while(!Pathfinding.isNewPathAvailable());
-        } catch(InterruptedException e) {
-            System.err.println("Interrupted while finding a path");
-        }
 
         PathPlannerPath foundPath = Pathfinding.getCurrentPath(new PathConstraints(
                 MAX_TRANSLATIONAL_SPEED, 
@@ -78,9 +70,9 @@ public class TrajectoryBuilder {
     }
 
     static {
-        Pathfinding.ensureInitialized();
-        
-        Pathfinding.setDynamicObstacles(List.of(                new Pair<Translation2d, Translation2d>(new Translation2d(5.90, 2.10), new Translation2d(6.00, 6.20)),
+        Pathfinding.setPathfinder(new AStarPathfinding(0.1));
+        Pathfinding.setDynamicObstacles(List.of(
+            new Pair<Translation2d, Translation2d>(new Translation2d(5.90, 2.10), new Translation2d(6.00, 6.20)),
             new Pair<Translation2d, Translation2d>(new Translation2d(6.00, 2.10), new Translation2d(6.10, 6.10)),
             new Pair<Translation2d, Translation2d>(new Translation2d(5.30, 2.20), new Translation2d(5.90, 6.10)),
             new Pair<Translation2d, Translation2d>(new Translation2d(5.20, 2.30), new Translation2d(5.30, 6.00)),

@@ -15,6 +15,7 @@ import static frc.robot.constants.TelemetryConstants.Limelights.*;
 public class PathFollowState extends PositionalDriveState {
     private PathPlannerTrajectory trajectory;
     private Pose2d desiredPose;
+    private State desiredState;
     private Pose2d endPose;
 
     private Timer timer;
@@ -129,13 +130,15 @@ public class PathFollowState extends PositionalDriveState {
 
     @Override
     public void initialize() {
+        super.initialize();
+
         endPose = trajectory.getEndState().getTargetHolonomicPose();
         timer.restart();
 
         if(updateOdometry) {
-            if(updateFromAprilTag && CENTER_LIMELIGHT.isValidTarget()) {
-                requiredSubsystem.setRobotPose(CENTER_LIMELIGHT.getRobotPose());
-                requiredSubsystem.setGyroscopeReading(CENTER_LIMELIGHT.getRobotPose().getRotation());
+            if(updateFromAprilTag && FRONT_LIMELIGHT.isValidTarget()) {
+                requiredSubsystem.setRobotPose(FRONT_LIMELIGHT.getRobotPose());
+                requiredSubsystem.setGyroscopeReading(FRONT_LIMELIGHT.getRobotPose().getRotation());
             } else {
                 Pose2d initHolo = trajectory.getInitialTargetHolonomicPose();
 
@@ -161,9 +164,19 @@ public class PathFollowState extends PositionalDriveState {
     }
 
     @Override
+    public double getXFeedForward() {
+        return desiredState.velocityMps * desiredState.heading.getCos();
+    }
+
+    @Override
+    public double getYFeedForward() {
+        return desiredState.velocityMps * desiredState.heading.getSin();
+    }
+
+    @Override
     public void execute() {
-        State trajectoryState = trajectory.sample(timer.get());
-        desiredPose = trajectoryState.getTargetHolonomicPose();
+        desiredState = trajectory.sample(timer.get());
+        desiredPose = desiredState.getTargetHolonomicPose();
 
         super.execute();
     }

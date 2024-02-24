@@ -9,7 +9,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.subsystems.drivetrain.Drivetrain;
-import frc.robot.utils.TrajectoryBuilder;
+import frc.robot.utils.paths.TrajectoryBuilder;
 
 public class GoToPositionState extends PositionalDriveState {
     private PathPlannerTrajectory trajectory;
@@ -40,6 +40,8 @@ public class GoToPositionState extends PositionalDriveState {
     
     @Override
     public void initialize() {
+        super.initialize();
+
         timer.reset();
         timer.start();
         trajectory = TrajectoryBuilder.goToPosition(requiredSubsystem, endPose);
@@ -55,8 +57,8 @@ public class GoToPositionState extends PositionalDriveState {
 
     @Override
     public void end(boolean interrupted) {
+        super.end(interrupted);
         timer.stop();
-        requiredSubsystem.drive(0, 0, 0);
     }
     
     @Override

@@ -35,6 +35,4 @@ public class HardwareMap {
 
     public static final int CANDLE_ID = 39;
 
-    public static final int INTAKE_MOTOR_ID = 62;
-
 }

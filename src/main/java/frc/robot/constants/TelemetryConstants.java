@@ -1,7 +1,7 @@
 package frc.robot.constants;
 
 import frc.robot.limelight.Limelight;
-import frc.robot.utils.ShuffleboardTable;
+import frc.robot.utils.logging.ShuffleboardTable;
 
 public class TelemetryConstants {
     private TelemetryConstants() {
@@ -12,7 +12,8 @@ public class TelemetryConstants {
         private Limelights() {
             throw new UnsupportedOperationException("Cannot construct a constants class");
         }
-        public static final Limelight CENTER_LIMELIGHT = Limelight.getLimelight("center");
+        public static final Limelight FRONT_LIMELIGHT = Limelight.getLimelight("front");
+        public static final Limelight BACK_LIMELIGHT = Limelight.getLimelight("back");
     }
 
     public static class ShuffleboardTables {

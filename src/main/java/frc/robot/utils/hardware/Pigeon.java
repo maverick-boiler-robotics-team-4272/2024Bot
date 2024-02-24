@@ -1,12 +1,16 @@
-package frc.robot.utils;
+package frc.robot.utils.hardware;
 
-import org.littletonrobotics.junction.AutoLog;
-import org.littletonrobotics.junction.Logger;
+// Logging
+import org.littletonrobotics.junction.*;
+import frc.robot.utils.logging.Loggable;
 
-import com.ctre.phoenix6.hardware.Pigeon2;
-import edu.wpi.first.math.geometry.Rotation2d;
+// Hardware
 import frc.team4272.globals.Gyroscope;
+import com.ctre.phoenix6.hardware.Pigeon2;
+
+// Math
 import frc.team4272.globals.MathUtils;
+import edu.wpi.first.math.geometry.Rotation2d;
 
 public class Pigeon extends Pigeon2 implements Gyroscope, Loggable {
 

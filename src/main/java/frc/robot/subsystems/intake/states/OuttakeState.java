@@ -5,17 +5,17 @@ import java.util.function.DoubleSupplier;
 import frc.robot.subsystems.intake.IntakeSubsystem;
 import frc.team4272.globals.State;
 
-public class IntakeState extends State<IntakeSubsystem> {
-    private DoubleSupplier intakePower;
+public class OuttakeState extends State<IntakeSubsystem> {
+    private DoubleSupplier outtakePower;
 
-    public IntakeState(IntakeSubsystem intake, DoubleSupplier power) {
+    public OuttakeState(IntakeSubsystem intake, DoubleSupplier power) {
         super(intake);
-        this.intakePower = power;
+        this.outtakePower = power;
     }
 
     @Override
     public void execute() {
-        requiredSubsystem.runMotor(intakePower.getAsDouble());
+        requiredSubsystem.runMotor(-outtakePower.getAsDouble());
     }
 
     @Override

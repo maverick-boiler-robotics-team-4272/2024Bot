@@ -1,19 +1,24 @@
-package frc.robot.utils;
+package frc.robot.utils.hardware;
 
-import org.littletonrobotics.junction.AutoLog;
-import org.littletonrobotics.junction.Logger;
+// Logging
+import org.littletonrobotics.junction.*;
+import frc.robot.utils.logging.Loggable;
 
-import com.revrobotics.RelativeEncoder;
-import com.revrobotics.SparkPIDController;
+// Spark Hardware
+import com.revrobotics.*;
+import com.revrobotics.CANSparkBase.*;
 import com.revrobotics.CANSparkBase.ControlType;
-import com.revrobotics.CANSparkBase.IdleMode;
 
+// Math
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.units.Units;
+
+// Swerve Software
 import frc.team4272.swerve.utils.SwerveModuleBase;
 
+// Constants
 import static frc.robot.constants.RobotConstants.DrivetrainConstants.SwerveModuleConstants.*;
 import static frc.robot.constants.UniversalConstants.*;
 
@@ -38,7 +43,7 @@ public class SwerveModule extends SwerveModuleBase implements Loggable {
     private SparkPIDController steerPidController;
     private RelativeEncoder steerEncoder;
 
-    private MAVCoder externalEncoder;
+    private MAVCoder2 externalEncoder;
     private SwerveModuleInputsAutoLogged moduleInputs;
 
     public SwerveModule(int id, double offset) {
@@ -58,18 +63,27 @@ public class SwerveModule extends SwerveModuleBase implements Loggable {
             .withCurrentLimit(40)
             .withPositionConversionFactor(360.0 / STEER_RATIO)
             .withPIDFParams(STEER_PID_P, STEER_PID_I, STEER_PID_D, STEER_PID_F)
+            .withPIDPositionWrapping(-180, 180)
             .getUnburntNeo();
         steerPidController = steerMotor.getPIDController();
+
         steerEncoder = steerMotor.getEncoder();
 
-        externalEncoder = new MAVCoder(steerMotor, offset);
-        System.out.println(externalEncoder.getUnoffsetAngle());
-
-        steerEncoder.setPosition(externalEncoder.getAngle());
-
-        moduleInputs = new SwerveModuleInputsAutoLogged();
+        externalEncoder = new MAVCoder2(steerMotor, offset);
 
         steerMotor.burnFlash();
+        try {
+            Thread.sleep(300);
+        } catch (InterruptedException e) {
+            
+        }
+
+        System.out.println(externalEncoder.getUnoffsetPosition());
+
+        steerEncoder.setPosition(-externalEncoder.getPosition());
+        // steerEncoder.setPosition(0);
+        moduleInputs = new SwerveModuleInputsAutoLogged();
+
     }
 
     public void setCoastMode(boolean mode) {
@@ -81,7 +95,7 @@ public class SwerveModule extends SwerveModuleBase implements Loggable {
     }
 
     public Rotation2d getExternalEncoderRotation() {
-        return Rotation2d.fromDegrees(externalEncoder.getAngle());
+        return Rotation2d.fromDegrees(externalEncoder.getPosition());
     }
 
     public SwerveModuleState getState() {
@@ -114,7 +128,7 @@ public class SwerveModule extends SwerveModuleBase implements Loggable {
 
         driveMotor.log(subdirectory + "/" + humanReadableName, "DriveMotor");
         steerMotor.log(subdirectory + "/" + humanReadableName, "SteerMotor");
-        driveMotor.log(subdirectory + "/" + humanReadableName, "MAVCoder");
+        externalEncoder.log(subdirectory + "/" + humanReadableName, "MAVCoder");
 
         Logger.processInputs(subdirectory + "/" + humanReadableName, moduleInputs);
     }

@@ -1,0 +1,49 @@
+OTFPF = On The Fly Path Follow
+
+Driver Controls:
+    A: Face Speaker
+    B: Reset heading
+    X: OTFPF
+    Y: Reset odometry (Limelight)
+
+    Left Bumper: Auto Aim
+    Right Bumper: Shoot
+
+    Left Stick: Unassigned
+    Right Stick: Unassigned
+
+    Back: Unassigned
+    Start: Unassigned
+
+    D-Pad: OTFPF selection
+
+    Left Trigger: Unassigned
+    Right Trigger: Rev
+
+    Left Joystick: Drivetrain Translation
+    Right Joystick: Drivetrian rotation
+
+
+Operator Controls:
+    A: Outfeed
+    B: Zero Elevator
+    X: Unassigned
+    Y: Reset odometry (Limelight)
+
+    Left Bumper: Rev
+    Right Bumper: Shoot
+
+    Left Stick: Unassigned
+    Right Stick: Unassigned
+
+    Back: Unassigned
+    Start: Unassigned
+
+    D-Pad: Arm Elevator Setpoints
+
+
+    Left Trigger: Feed and Intake
+    Right Trigger: Outfeed and Outtake
+
+    Left Joystick: (Up/Down) Climber
+    Right Joystick: 

@@ -1,14 +1,13 @@
-package frc.robot.utils;
+package frc.robot.utils.logging;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
+// Networking
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.util.sendable.Sendable;
-import edu.wpi.first.wpilibj.shuffleboard.ComplexWidget;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
+
+// Shuffleboard
+import edu.wpi.first.wpilibj.shuffleboard.*;
 
 public class ShuffleboardTable {
     private static Map<String, ShuffleboardTable> tableCache = new HashMap<>();
