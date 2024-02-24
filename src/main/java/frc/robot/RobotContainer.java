@@ -8,9 +8,6 @@ package frc.robot;
 // Controllers
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.commands.StressTestAuto;
-import frc.robot.commands.TestAutoCommand;
-import frc.robot.commands.TuneAutoCommand;
 import frc.robot.commands.autos.ThreePieceClose;
 import frc.robot.subsystems.drivetrain.Drivetrain;
 import frc.team4272.controllers.XboxController;
@@ -42,6 +39,8 @@ import static frc.robot.constants.UniversalConstants.*;
 import static frc.robot.constants.RobotConstants.ArmElevatorSetpoints.*;
 
 import java.util.*;
+
+import com.pathplanner.lib.auto.NamedCommands;
 
 /**
  * This class is where the bulk of the robot should be declared. Since
@@ -257,7 +256,8 @@ public class RobotContainer {
     }
 
     public void registerNamedCommands() {
-        
+        NamedCommands.registerCommand("Shoot", new AutoShootState(shooter));
+        NamedCommands.registerCommand("Intake", new IntakeFeedCommand(intake, shooter, () -> 1.0));
     }
 
     /**

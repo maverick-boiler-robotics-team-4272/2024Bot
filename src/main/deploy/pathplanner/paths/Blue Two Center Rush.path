@@ -52,8 +52,8 @@
         "y": 6.245774799241972
       },
       "prevControl": {
-        "x": 7.076356460404314,
-        "y": 6.255641742052782
+        "x": 7.076381631012989,
+        "y": 6.245774799241972
       },
       "nextControl": null,
       "isLocked": false,
@@ -112,11 +112,14 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0,
+    "rotation": 180.0,
     "rotateFast": false
   },
   "reversed": false,
   "folder": "Center Rush",
-  "previewStartingState": null,
+  "previewStartingState": {
+    "rotation": 180.0,
+    "velocity": 0.0
+  },
   "useDefaultConstraints": true
 }
