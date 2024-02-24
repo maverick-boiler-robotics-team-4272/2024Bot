@@ -123,7 +123,7 @@ public class SwerveModule extends SwerveModuleBase implements Loggable {
 
         driveMotor.log(subdirectory + "/" + humanReadableName, "DriveMotor");
         steerMotor.log(subdirectory + "/" + humanReadableName, "SteerMotor");
-        driveMotor.log(subdirectory + "/" + humanReadableName, "MAVCoder");
+        externalEncoder.log(subdirectory + "/" + humanReadableName, "MAVCoder");
 
         Logger.processInputs(subdirectory + "/" + humanReadableName, moduleInputs);
     }
