@@ -13,8 +13,6 @@ import frc.robot.commands.TestAutoCommand;
 import frc.robot.commands.TuneAutoCommand;
 import frc.robot.commands.autos.ThreePieceClose;
 import frc.robot.subsystems.drivetrain.Drivetrain;
-import frc.robot.subsystems.intake.Intake;
-import frc.robot.subsystems.intake.states.IntakeState;
 import frc.team4272.controllers.XboxController;
 import frc.team4272.controllers.utilities.*;
 import frc.team4272.controllers.utilities.JoystickAxes.DeadzoneMode;
@@ -22,7 +20,6 @@ import frc.team4272.controllers.utilities.JoystickPOV.Direction;
 
 // Subsystems
 import frc.robot.subsystems.armelevator.ArmElevatorSubsystem;
-import frc.robot.subsystems.drivetrain.Drivetrain;
 import frc.robot.subsystems.intake.IntakeSubsystem;
 import frc.robot.subsystems.shooter.Shooter;
 
