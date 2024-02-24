@@ -8,7 +8,13 @@ package frc.robot;
 // Controllers
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.StressTestAuto;
+import frc.robot.commands.TestAutoCommand;
+import frc.robot.commands.TuneAutoCommand;
 import frc.robot.commands.autos.ThreePieceClose;
+import frc.robot.constants.Norms;
+import frc.robot.subsystems.armelevator.ArmElevatorSubsystem;
+import frc.robot.subsystems.armelevator.states.GoToArmElevatorState;
 import frc.robot.subsystems.drivetrain.Drivetrain;
 import frc.team4272.controllers.XboxController;
 import frc.team4272.controllers.utilities.*;
