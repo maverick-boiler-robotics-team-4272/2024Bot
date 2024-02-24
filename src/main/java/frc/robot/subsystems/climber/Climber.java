@@ -6,7 +6,9 @@ import org.littletonrobotics.junction.AutoLog;
 import org.littletonrobotics.junction.Logger;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.utils.*;
+
+import frc.robot.utils.hardware.*;
+import frc.robot.utils.logging.*;
 
 public class Climber extends SubsystemBase implements Loggable {
     @AutoLog

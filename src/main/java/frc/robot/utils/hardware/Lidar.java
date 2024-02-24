@@ -1,9 +1,11 @@
-package frc.robot.utils;
+package frc.robot.utils.hardware;
 
 import org.littletonrobotics.junction.AutoLog;
 import org.littletonrobotics.junction.Logger;
 
 import com.playingwithfusion.TimeOfFlight;
+
+import frc.robot.utils.logging.Loggable;
 
 public class Lidar extends TimeOfFlight implements Loggable {
     @AutoLog

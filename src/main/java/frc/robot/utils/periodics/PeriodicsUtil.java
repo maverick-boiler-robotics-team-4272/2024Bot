@@ -1,13 +1,9 @@
-package frc.robot.utils;
+package frc.robot.utils.periodics;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class PeriodicsUtil {
-    public static interface Periodic {
-        public void periodic();
-    }
-
     private static List<Periodic> periodics = new ArrayList<>();
 
     public static void registerPeriodic(Periodic periodic) {

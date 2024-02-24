@@ -17,7 +17,8 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.constants.RobotConstants.ArmElevatorSetpoint;
-import frc.robot.utils.*;
+import frc.robot.utils.hardware.*;
+import frc.robot.utils.logging.*;
 public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
     @AutoLog
     public static class ArmElevatorInputs {
@@ -137,7 +138,7 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
     public void targetPos(Translation2d drivetrainPos, Translation3d position) {
         double height = elevatorEncoder.getPosition();
 
-        double distFromSpeaker = Math.hypot(drivetrainPos.getX() - position.getX(), drivetrainPos.getY() - position.getY()) - ELEVATOR_TRANSLATION.getY();
+        double distFromSpeaker = Math.hypot(drivetrainPos.getX() - position.getX(), drivetrainPos.getY() - position.getY()) + ELEVATOR_TRANSLATION.getY();
 
         Rotation2d theta = new Rotation2d(distFromSpeaker, position.getZ() - (height + ELEVATOR_TRANSLATION.getZ()));
         

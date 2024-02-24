@@ -1,10 +1,12 @@
-package frc.robot.utils;
+package frc.robot.utils.hardware;
 
 import org.littletonrobotics.junction.AutoLog;
 import org.littletonrobotics.junction.Logger;
 
 import com.revrobotics.CANSparkBase;
 import com.revrobotics.SparkAbsoluteEncoder;
+
+import frc.robot.utils.logging.Loggable;
 
 import static frc.robot.constants.RobotConstants.MAVCoderConstants.*;
 

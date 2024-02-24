@@ -1,36 +1,39 @@
-package frc.robot.utils;
+package frc.robot.utils.hardware;
 
 import org.littletonrobotics.junction.Logger;
 
-import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkFlex;
 import com.revrobotics.REVLibError;
 import com.revrobotics.RelativeEncoder;
 
-public class NEO extends CANSparkMax implements Loggable {
+import frc.robot.utils.logging.Loggable;
+
+public class Vortex extends CANSparkFlex implements Loggable {
     private MotorInputsAutoLogged motorInputs;
     private RelativeEncoder encoder;
 
-    public NEO(int canId) {
-        super(canId, MotorType.kBrushless);
+    public Vortex(int id) {
+        super(id, MotorType.kBrushless);
 
         motorInputs = new MotorInputsAutoLogged();
-        encoder = getEncoder();
+        this.encoder = getEncoder();
     }
 
     @Override
     public void log(String subdirectory, String humanReadableName) {
         motorInputs.motorVoltage = getBusVoltage();
-        motorInputs.outputCurrent = getOutputCurrent();
+        // motorInputs.outputCurrent = getOutputCurrent();
         motorInputs.motorVelocity = encoder.getVelocity();
         motorInputs.motorPosition = encoder.getPosition();
-        motorInputs.stalling = motorInputs.outputCurrent >= motorInputs.currentLimit * 0.9 && motorInputs.motorVelocity / encoder.getVelocityConversionFactor() < 100;
-        motorInputs.motorTemperatureCelsius = getMotorTemperature();
+        // motorInputs.stalling = motorInputs.outputCurrent >= motorInputs.currentLimit * 0.9 && motorInputs.motorVelocity / encoder.getVelocityConversionFactor() < 100;
+        // motorInputs.motorTemperatureCelsius = getMotorTemperature();
 
         Logger.processInputs(subdirectory + "/" + humanReadableName, motorInputs);
     }
 
-    public boolean isStalled() {
-        return motorInputs.stalling;
+    public boolean isStalling() {
+        // return motorInputs.stalling;
+        return false;
     }
 
     @Override
@@ -38,7 +41,7 @@ public class NEO extends CANSparkMax implements Loggable {
         motorInputs.currentLimit = stallLimit;
         motorInputs.freeLimit = freeLimit;
         motorInputs.limitRPM = limitRPM;
-        
+
         return super.setSmartCurrentLimit(stallLimit, freeLimit, limitRPM);
     }
 }

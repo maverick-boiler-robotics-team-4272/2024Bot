@@ -12,7 +12,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.subsystems.drivetrain.Drivetrain;
-import frc.robot.utils.TrajectoryBuilder;
+import frc.robot.utils.paths.TrajectoryBuilder;
 
 public class PathFindToPositionState extends PositionalDriveState {
     private PathPlannerTrajectory trajectory;

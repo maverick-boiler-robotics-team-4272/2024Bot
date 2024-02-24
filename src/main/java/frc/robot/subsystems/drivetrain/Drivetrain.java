@@ -13,9 +13,9 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj.Timer;
-import frc.robot.utils.Loggable;
-import frc.robot.utils.Pigeon;
-import frc.robot.utils.SwerveModule;
+import frc.robot.utils.hardware.Pigeon;
+import frc.robot.utils.hardware.SwerveModule;
+import frc.robot.utils.logging.Loggable;
 import frc.team4272.swerve.utils.SwerveDriveBase;
 import frc.team4272.swerve.utils.SwerveModuleBase.PositionedSwerveModule;
 

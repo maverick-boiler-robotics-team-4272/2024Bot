@@ -9,9 +9,9 @@ import org.littletonrobotics.junction.Logger;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import frc.robot.utils.Loggable;
-import frc.robot.utils.PeriodicsUtil;
-import frc.robot.utils.PeriodicsUtil.Periodic;
+import frc.robot.utils.logging.Loggable;
+import frc.robot.utils.periodics.PeriodicsUtil;
+import frc.robot.utils.periodics.Periodic;
 
 import static frc.robot.constants.UniversalConstants.*;
 

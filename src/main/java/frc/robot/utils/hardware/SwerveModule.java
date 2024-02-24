@@ -1,4 +1,4 @@
-package frc.robot.utils;
+package frc.robot.utils.hardware;
 
 import org.littletonrobotics.junction.AutoLog;
 import org.littletonrobotics.junction.Logger;
@@ -12,6 +12,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.units.Units;
+import frc.robot.utils.logging.Loggable;
 import frc.team4272.swerve.utils.SwerveModuleBase;
 
 import static frc.robot.constants.RobotConstants.DrivetrainConstants.SwerveModuleConstants.*;

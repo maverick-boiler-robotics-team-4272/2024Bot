@@ -1,7 +1,7 @@
 package frc.robot.constants;
 
 import frc.robot.limelight.Limelight;
-import frc.robot.utils.ShuffleboardTable;
+import frc.robot.utils.logging.ShuffleboardTable;
 
 public class TelemetryConstants {
     private TelemetryConstants() {

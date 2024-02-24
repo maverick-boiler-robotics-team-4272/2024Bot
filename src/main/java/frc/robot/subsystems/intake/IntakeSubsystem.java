@@ -6,9 +6,8 @@ import org.littletonrobotics.junction.Logger;
 import com.revrobotics.CANSparkBase.IdleMode;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.utils.Loggable;
-import frc.robot.utils.Vortex;
-import frc.robot.utils.VortexBuilder;
+import frc.robot.utils.hardware.*;
+import frc.robot.utils.logging.*;
 
 import static frc.robot.constants.HardwareMap.*;
 

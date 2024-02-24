@@ -4,8 +4,8 @@ import static frc.robot.constants.TelemetryConstants.Limelights.FRONT_LIMELIGHT;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import frc.robot.subsystems.drivetrain.Drivetrain;
-import frc.robot.utils.Norm;
-import frc.robot.utils.Norm.Metric;
+import frc.robot.utils.logging.Norm;
+import frc.robot.utils.logging.Norm.Metric;
 
 public class Norms {
     private Norms() {
