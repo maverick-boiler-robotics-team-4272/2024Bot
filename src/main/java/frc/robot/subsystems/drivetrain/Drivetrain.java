@@ -152,7 +152,7 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
         log("Subsystems", "Drivetrain");
 
         for(int i = 0; i < numModules; i++) {
-            TESTING_TABLE.putNumber("Module " + i + " Mav Reading", modules[i].getExternalEncoderRotation().getDegrees());
+            TESTING_TABLE.putNumber("Module " + i + " Mav Reading", modules[i].getMotorRotation().getDegrees());
         }
     }
 

@@ -114,6 +114,9 @@ public class RobotContainer {
         JoystickTrigger driveTriggerRight = driverController.getTrigger("right");
         driveTriggerRight.setDeadzone(0.1).setPowerScaling(2);
 
+        JoystickTrigger driveTriggerLeft = driverController.getTrigger("left");
+        driveTriggerRight.setDeadzone(0.1).setPowerScaling(2);
+
         //Drivetrain --------------------------------------------------------
         
         drivetrain.setDefaultCommand(
@@ -155,6 +158,10 @@ public class RobotContainer {
 
         new Trigger(driverController.getButton("a")::get).whileTrue(
             new FacePositionState(drivetrain, driveLeftAxes::getDeadzonedX, driveLeftAxes::getDeadzonedY, SPEAKER_POSITION)
+        );
+
+        new Trigger(driveTriggerLeft::isTriggered).whileTrue(
+            new IntakeFeedCommand(intake, shooter, driveTriggerLeft::getValue)
         );
 
         //Arm ----------------------------------------------------

@@ -102,10 +102,10 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
 
         armEncoder.setPosition(-armAbsoluteEncoder.getPosition() * Math.PI / 180.0);
 
-        TESTING_TABLE.putNumber("Elevator PID P", ELEVATOR_PID_P);
-        TESTING_TABLE.putNumber("Elevator PID I", ELEVATOR_PID_I);
-        TESTING_TABLE.putNumber("Elevator PID D", ELEVATOR_PID_D);
-        TESTING_TABLE.putNumber("Elevator PID F", ELEVATOR_PID_F);
+        // TESTING_TABLE.putNumber("Elevator PID P", ELEVATOR_PID_P);
+        // TESTING_TABLE.putNumber("Elevator PID I", ELEVATOR_PID_I);
+        // TESTING_TABLE.putNumber("Elevator PID D", ELEVATOR_PID_D);
+        // TESTING_TABLE.putNumber("Elevator PID F", ELEVATOR_PID_F);
 
     }
 
@@ -211,10 +211,10 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
 
         log("Subsystems", "ArmElevator");
 
-        elevatorController.setP(TESTING_TABLE.getNumber("Elevator PID P"));
-        elevatorController.setI(TESTING_TABLE.getNumber("Elevator PID I"));
-        elevatorController.setD(TESTING_TABLE.getNumber("Elevator PID D"));
-        elevatorController.setFF(TESTING_TABLE.getNumber("Elevator PID F"));
+        // elevatorController.setP(TESTING_TABLE.getNumber("Elevator PID P"));
+        // elevatorController.setI(TESTING_TABLE.getNumber("Elevator PID I"));
+        // elevatorController.setD(TESTING_TABLE.getNumber("Elevator PID D"));
+        // elevatorController.setFF(TESTING_TABLE.getNumber("Elevator PID F"));
 
     }
 }
