@@ -6,6 +6,8 @@ import frc.robot.utils.logging.*;
 
 // Hardware
 import com.revrobotics.CANSparkBase.IdleMode;
+import com.revrobotics.CANSparkLowLevel.PeriodicFrame;
+
 import frc.robot.utils.hardware.*;
 
 // Subsystem
@@ -44,6 +46,30 @@ public class Shooter extends SubsystemBase implements Loggable {
             .withInversion(true)
             .withIdleMode(IdleMode.kCoast)
             .build();
+
+        
+        shooterMotor1.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 65535);
+        shooterMotor1.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 65535);
+        shooterMotor1.setPeriodicFramePeriod(PeriodicFrame.kStatus3, 65535);
+        shooterMotor1.setPeriodicFramePeriod(PeriodicFrame.kStatus4, 65535);
+        shooterMotor1.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 65535);
+        shooterMotor1.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 65535);
+
+        shooterMotor2.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 65535);
+        shooterMotor2.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 65535);
+        shooterMotor2.setPeriodicFramePeriod(PeriodicFrame.kStatus3, 65535);
+        shooterMotor2.setPeriodicFramePeriod(PeriodicFrame.kStatus4, 65535);
+        shooterMotor2.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 65535);
+        shooterMotor2.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 65535);
+
+        feedMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus1, 65535);
+        feedMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, 65535);
+        feedMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus3, 65535);
+        feedMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus4, 65535);
+        feedMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus5, 65535);
+        feedMotor.setPeriodicFramePeriod(PeriodicFrame.kStatus6, 65535);
+
+
 
         lidar = new Lidar(LIDAR_1_ID);
 
