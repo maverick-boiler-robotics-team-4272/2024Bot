@@ -9,7 +9,7 @@ import edu.wpi.first.math.kinematics.ChassisSpeeds;
 
 public class TrajectoryContainer {
     private static final ChassisSpeeds INITIAL_SPEEDS = new ChassisSpeeds(0, 0, 0);
-    private static final Rotation2d INITIAL_ROTATION = new Rotation2d(0);
+    private static final Rotation2d INITIAL_ROTATION = new Rotation2d(180);
 
     public final PathPlannerTrajectory TEST_PATH;
     public final PathPlannerTrajectory TUNE_PATH;
