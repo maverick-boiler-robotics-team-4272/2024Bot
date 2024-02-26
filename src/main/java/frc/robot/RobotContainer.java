@@ -18,12 +18,14 @@ import frc.robot.subsystems.armelevator.ArmElevatorSubsystem;
 import frc.robot.subsystems.drivetrain.Drivetrain;
 import frc.robot.subsystems.intake.IntakeSubsystem;
 import frc.robot.subsystems.shooter.Shooter;
+import frc.robot.subsystems.climber.Climber;
 
 // States
 import frc.robot.subsystems.intake.states.*;
 import frc.robot.subsystems.armelevator.states.*;
 import frc.robot.subsystems.shooter.states.*;
 import frc.robot.subsystems.drivetrain.states.*;
+import frc.robot.subsystems.climber.states.*;
 
 // Commands
 import edu.wpi.first.wpilibj2.command.*;
@@ -31,6 +33,7 @@ import frc.robot.commands.*;
 
 // Constants
 import frc.robot.constants.Norms;
+import frc.robot.utils.periodics.CANPeriodic;
 import static frc.robot.constants.AutoConstants.Paths.*;
 import static frc.robot.constants.TelemetryConstants.Limelights.*;
 import static frc.robot.constants.TelemetryConstants.ShuffleboardTables.*;
@@ -54,7 +57,7 @@ public class RobotContainer {
     IntakeSubsystem intake = new IntakeSubsystem();
     ArmElevatorSubsystem armElevator = new ArmElevatorSubsystem();
     Shooter shooter = new Shooter();
-    // Climber climber = new Climber();
+    Climber climber = new Climber();
 
     int driverDPadValue = -1;
 
@@ -66,6 +69,7 @@ public class RobotContainer {
      */
     public RobotContainer() {
         Norms.initialize(drivetrain);
+        CANPeriodic.setUpLogging();
 
         // Configure the trigger bindings
         configureBindings();
@@ -161,7 +165,14 @@ public class RobotContainer {
         );
 
         new Trigger(driveTriggerRight::isTriggered).whileTrue(
-            new ShootState(shooter, driveTriggerRight::getValue, driverController.getButton("rightBumper")::get)  
+            new SequentialCommandGroup(
+                new ShootState(shooter, 1.0, 0.0) {
+                    public boolean isFinished() {
+                        return driverController.getButton("rightBumper").get();
+                    }
+                },
+                new ShootState(shooter, 1.0, 1.0)
+            )
         );
 
         new Trigger(driverController.getButton("back")::get).whileTrue(
@@ -179,12 +190,14 @@ public class RobotContainer {
         JoystickTrigger operatorRightTrigger = operatorController.getTrigger("right");
         operatorRightTrigger.setDeadzone(0.1).setPowerScaling(2);
 
-        // climber.setDefaultCommand(
-        //     new  ClimbState(climber, operatorLeftStick::getDeadzonedY)
-        // );
+        JoystickPOV operatorDPad = operatorController.getPOV("d-pad");
+
+        climber.setDefaultCommand(
+            new  ClimbState(climber, operatorLeftStick::getDeadzonedY)
+        );
 
         new Trigger(operatorController.getButton("a")::get).whileTrue(
-            new OutfeedState(shooter, () -> -0.5)
+            new ShootState(shooter, 0.2, 1.0)
         );
 
         new Trigger(operatorController.getButton("y")::get).onTrue(
@@ -195,12 +208,7 @@ public class RobotContainer {
         //     new  ZeroElevatorState(armElevator).repeatedly()
         // );
 
-        new Trigger(operatorController.getButton("leftBumper")::get).whileTrue(
-            new ShootState(shooter, () -> 1.0, operatorController.getButton("rightBumper")::get)
-        );
-
-
-        new Trigger(operatorController.getPOV("d-pad")::isTriggered).whileTrue(
+        new Trigger(operatorDPad::isTriggered).whileTrue(
             new SelectCommand<Direction>(
                 new EnumMap<Direction, Command>(
                     Map.of(
@@ -213,17 +221,17 @@ public class RobotContainer {
                         Direction.DOWN_RIGHT,
                         new PrintCommand("Down Right on d-pad not assigned"),
                         Direction.DOWN,
-                        new PrintCommand("Down on d-pad not assigned"),
+                        new GoToArmElevatorState(armElevator, CLIMB).repeatedly(),
                         Direction.DOWN_LEFT,
                         new PrintCommand("Down Left on d-pad not assigned"),
                         Direction.LEFT,
-                        new PrintCommand("Left on d-pad not assigned"),
+                        new GoToArmElevatorState(armElevator, WHITE_LINE).repeatedly(),
                         Direction.UP_LEFT,
                         new PrintCommand("Up Left on d-pad not assigned")
 
                     )
                 ),
-                operatorController.getPOV("d-pad")::getDirection
+                operatorDPad::getDirection
             )
         );
 
