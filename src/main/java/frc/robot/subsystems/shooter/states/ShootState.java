@@ -1,28 +1,28 @@
 package frc.robot.subsystems.shooter.states;
 
-import java.util.function.BooleanSupplier;
-import java.util.function.DoubleSupplier;
-
 import frc.robot.subsystems.shooter.Shooter;
+import frc.team4272.globals.State;
 
-public class ShootState extends FeedState {
-    DoubleSupplier rev;
+public class ShootState extends State<Shooter> {
+    private double shootPower;
+    private double feedPower;
     
-    public ShootState(Shooter shooter, DoubleSupplier rev, BooleanSupplier feed) {
-        super(shooter, () -> feed.getAsBoolean() ? 1.0 : 0);
+    public ShootState(Shooter shooter, double shootPower, double feedPower) {
+        super(shooter);
 
-        this.rev = rev;
+        this.shootPower = shootPower;
+        this.feedPower = feedPower;
     }
 
     @Override
-    public void execute() {
-        super.execute();
-        requiredSubsystem.rev(rev.getAsDouble());
+    public void initialize() {
+        requiredSubsystem.rev(shootPower);
+        requiredSubsystem.feed(feedPower);
     }
 
     @Override
     public void end(boolean interrupted) {
-        super.end(interrupted);
+        requiredSubsystem.feed(0.0);
         requiredSubsystem.rev(0.0);
     }
 }

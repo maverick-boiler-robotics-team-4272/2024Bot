@@ -29,12 +29,10 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
         public double currentArmAngleRadians;
         public double desiredArmAngleRadians;
         public double armAngleErrorRadians;
-        public double safeArmAngleRadians;
 
         public double currentElevatorHeight;
         public double desiredElevatorHeight;
         public double elevatorHeightError;
-        public double safeElevatorHeight;
     }
 
     private NEO elevatorMotor1;
@@ -54,7 +52,6 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
     private ArmElevatorInputsAutoLogged armElevatorInputs;
 
     private Rotation2d desiredArmAngle;
-    private double desiredElevatorHeight;
 
     public ArmElevatorSubsystem() {
         elevatorMotor1 = NEOBuilder.createWithDefaults(ELEVATOR_MOTOR_1_ID)
@@ -62,7 +59,6 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
             .withPositionConversionFactor(ELEVATOR_RATIO)
             .withSoftLimits(MAX_ELEVATOR_HEIGHT, MIN_ELEVATOR_HEIGHT)
             .withPIDParams(ELEVATOR_PID_P, ELEVATOR_PID_I, ELEVATOR_PID_D)
-            // .withPIDOutputClamping(-1.0, 2.0)
             .withInversion(true)
             .withCurrentLimit(50)
             .build();
@@ -76,19 +72,17 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
             .withPosition(0.0)
             .withSoftLimits(MAX_ARM_ANGLE.getRadians(), MIN_ARM_ANGLE.getRadians())
             .withPIDParams(ARM_PID_P, ARM_PID_I, ARM_PID_D)
-            .build();
+            .withPIDPositionWrapping(0, 2 * Math.PI)
+            .getUnburntNeo();
 
         armElevatorInputs = new ArmElevatorInputsAutoLogged();
 
         armElevatorInputs.currentArmAngleRadians = 0;
         armElevatorInputs.desiredArmAngleRadians = 0;
-        armElevatorInputs.safeArmAngleRadians = 0;
         armElevatorInputs.desiredElevatorHeight = 0;
         armElevatorInputs.currentElevatorHeight = 0;
-        armElevatorInputs.safeElevatorHeight = 0;
 
         desiredArmAngle = Rotation2d.fromRadians(armElevatorInputs.desiredArmAngleRadians);
-        desiredElevatorHeight = 0;
 
         armAbsoluteEncoder = new MAVCoder2(elevatorMotor2, ARM_OFFSET);
         elevatorMotor2.burnFlash();
@@ -106,12 +100,6 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
         elevatorEncoder = elevatorMotor1.getEncoder();
 
         armEncoder.setPosition(-armAbsoluteEncoder.getPosition() * Math.PI / 180.0);
-
-        // TESTING_TABLE.putNumber("Elevator PID P", ELEVATOR_PID_P);
-        // TESTING_TABLE.putNumber("Elevator PID I", ELEVATOR_PID_I);
-        // TESTING_TABLE.putNumber("Elevator PID D", ELEVATOR_PID_D);
-        // TESTING_TABLE.putNumber("Elevator PID F", ELEVATOR_PID_F);
-
     }
 
     private void setShooterRotation(Rotation2d r) {
@@ -123,13 +111,13 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
     }
 
     public boolean isAtPosition() {
-        return Math.abs(desiredElevatorHeight - elevatorEncoder.getPosition()) < ELEVATOR_HEIGHT_DEADZONE && 
+        return Math.abs(armElevatorInputs.desiredElevatorHeight - elevatorEncoder.getPosition()) < ELEVATOR_HEIGHT_DEADZONE && 
             Math.abs(desiredArmAngle.getRadians() - armEncoder.getPosition()) < ARM_ANGLE_DEADZONE.getRadians();
     }
 
     public void goToPos(Rotation2d r, double h) {
         desiredArmAngle = r;
-        desiredElevatorHeight = h;
+        setElevatorHeight(h);
 
         armElevatorInputs.desiredArmAngleRadians = r.getRadians();
         armElevatorInputs.desiredElevatorHeight = h;
@@ -148,42 +136,10 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
         
 
         if(theta.getDegrees() > MAX_SAFE_ANGLE.getDegrees()) {
-            // height = position.getZ() - distFromSpeaker * MAX_SAFE_ANGLE.getTan();
             theta = MAX_SAFE_ANGLE;
         }
 
         goToPos(theta, 0.0);
-    }
-
-    private void handleSaftey() {
-        //LOGIC
-        double elevatorHeight = elevatorEncoder.getPosition();
-
-        double safeTheta = Math.acos(Math.min(1, Math.max((elevatorHeight - BLOCKING_HEIGHT) / ARM_LENGTH, -1.0)));
-        double safeHeight = ARM_LENGTH * desiredArmAngle.getCos() + BLOCKING_HEIGHT;
-
-        // Height safe, angle safe
-        // Height safe, angle  not
-        // Height  not, angle safe
-        // Height  not, angle not
-
-        // if(Math.abs(desiredArmAngle.getRadians() + Math.PI / 2.0) > Math.abs(safeTheta)) {
-        //     setShooterRotation(desiredArmAngle);
-        // } else {
-        //     setShooterRotation(new Rotation2d(safeTheta + Math.PI / 2.0));
-        // }
-
-        // if(desiredElevatorHeight > safeHeight) {
-        //     setElevatorHeight(desiredElevatorHeight);
-        // } else {
-        //     setElevatorHeight(safeHeight);
-        // }
-
-        setElevatorHeight(desiredElevatorHeight);
-        setShooterRotation(desiredArmAngle);
-
-        armElevatorInputs.safeArmAngleRadians = safeTheta;
-        armElevatorInputs.safeElevatorHeight = safeHeight;
     }
 
     public void runElevator(double power) {
@@ -212,14 +168,7 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
 
     @Override
     public void periodic() {
-        handleSaftey();
-
+        setShooterRotation(desiredArmAngle);
         log("Subsystems", "ArmElevator");
-
-        // elevatorController.setP(TESTING_TABLE.getNumber("Elevator PID P"));
-        // elevatorController.setI(TESTING_TABLE.getNumber("Elevator PID I"));
-        // elevatorController.setD(TESTING_TABLE.getNumber("Elevator PID D"));
-        // elevatorController.setFF(TESTING_TABLE.getNumber("Elevator PID F"));
-
     }
 }

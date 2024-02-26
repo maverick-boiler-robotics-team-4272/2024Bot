@@ -4,10 +4,10 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.shooter.Shooter;
 
 public class AutoShootState extends SequentialCommandGroup {
-    public AutoShootState(Shooter shooter) {
+    public AutoShootState(Shooter shooter, double shootPower, double feedPower) {
         super(
-            new ShootState(shooter, () -> 1.0, () -> false).withTimeout(1),
-            new ShootState(shooter, () -> 1.0, () -> true)
+            new RevState(shooter, shootPower).withTimeout(1),
+            new ShootState(shooter, shootPower, feedPower)
         );
     }
 }

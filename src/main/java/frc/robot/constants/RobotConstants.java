@@ -37,10 +37,10 @@ public class RobotConstants {
         // public static final Translation2d BACK_LEFT_POSITION   = new Translation2d( WHEEL_DISTANCE,  WHEEL_DISTANCE);
         // public static final Translation2d BACK_RIGHT_POSITION  = new Translation2d( WHEEL_DISTANCE, -WHEEL_DISTANCE);
 
-        public static final double FRONT_LEFT_OFFSET  = 146.0;
-        public static final double FRONT_RIGHT_OFFSET = 356.0;
-        public static final double BACK_LEFT_OFFSET   = 240.0;
-        public static final double BACK_RIGHT_OFFSET  = 297.0;
+        public static final double FRONT_LEFT_OFFSET  = 115.0;
+        public static final double FRONT_RIGHT_OFFSET = 291.0;
+        public static final double BACK_LEFT_OFFSET   = 165.0;
+        public static final double BACK_RIGHT_OFFSET  = 98.0;
         
         public static class SwerveModuleConstants {
             private SwerveModuleConstants() {
@@ -62,6 +62,8 @@ public class RobotConstants {
             public static final double STEER_PID_I = 0.0001;
             public static final double STEER_PID_D = 0.0;
             public static final double STEER_PID_F = 0.0;
+
+            public static final double STEER_PID_I_MAX =  0.01;
         }
     }
 
@@ -95,8 +97,10 @@ public class RobotConstants {
     public static enum ArmElevatorSetpoints implements ArmElevatorSetpoint {
         ZERO(new Rotation2d(0), 0),
         HOME(Rotation2d.fromDegrees(35.0), Meters.convertFrom(0.5, Inches)),
+        WHITE_LINE(new Rotation2d(0.74), 0),
         TEST(Rotation2d.fromDegrees(0.0), Meters.convertFrom(12.0, Inches)),
-        AMP(Rotation2d.fromDegrees(-10.0), Meters.convertFrom(16.0, Inches)),
+        AMP(Rotation2d.fromDegrees(-20.0), Meters.convertFrom(16.0, Inches)),
+        CLIMB(Rotation2d.fromDegrees(0.0), 0.0),
         TRAP(MIN_ARM_ANGLE, MAX_ELEVATOR_HEIGHT);
 
         private Rotation2d armAngle;
@@ -130,7 +134,7 @@ public class RobotConstants {
 
         public static final double ARM_RATIO = Rotation2d.fromDegrees(7.872).getRadians();
 
-        public static final double ARM_OFFSET = 35.0;
+        public static final double ARM_OFFSET = 33.0;
 
         public static final Rotation2d MAX_ARM_ANGLE = Rotation2d.fromDegrees(50.0);
         public static final Rotation2d MIN_ARM_ANGLE = Rotation2d.fromDegrees(-20.0);
@@ -156,7 +160,7 @@ public class RobotConstants {
 
         public static final double ELEVATOR_RATIO = Meters.convertFrom(18.0, Millimeters) / 1.0; //Find empericaly
 
-        public static final double MAX_ELEVATOR_HEIGHT = Meters.convertFrom(40.0, Inches);
+        public static final double MAX_ELEVATOR_HEIGHT = Meters.convertFrom(20.0, Inches);
         public static final double MIN_ELEVATOR_HEIGHT = Meters.convertFrom(0, Inches);
     }
 }

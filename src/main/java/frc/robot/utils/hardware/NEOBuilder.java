@@ -3,6 +3,7 @@ package frc.robot.utils.hardware;
 // Hardware
 import com.revrobotics.*;
 import com.revrobotics.CANSparkBase.*;
+import com.revrobotics.CANSparkLowLevel.PeriodicFrame;
 
 // Constants
 import static frc.robot.constants.RobotConstants.*;
@@ -71,14 +72,13 @@ public class NEOBuilder {
         return this;
     }
 
-    // public NEOBuilder withPIDOutputClamping(double minOutput, double maxOutput) {
-    //     if(motorController == null)
-    //         motorController = motor.getPIDController();
-        
-    //     motorController.setOutputRange(minOutput, maxOutput);
-        
-    //     return this;
-    // }
+    public NEOBuilder withMaxIAccum(double max) {
+        if(motorController == null)
+            motorController = motor.getPIDController();
+
+        motorController.setIMaxAccum(max, 0);
+        return this;
+    }
 
     public NEOBuilder withPositionConversionFactor(double factor) {
         if(motorEncoder == null)
@@ -159,6 +159,34 @@ public class NEOBuilder {
         motorController.setPositionPIDWrappingEnabled(true);
         motorController.setPositionPIDWrappingMaxInput(max);
         motorController.setPositionPIDWrappingMinInput(min);
+
+        return this;
+    }
+
+    public NEOBuilder withPeriodicFramerate(PeriodicFrame frame, int ms) {
+        motor.setPeriodicFramePeriod(frame, ms);
+
+        return this;
+    }
+
+    public NEOBuilder withPeriodicFramerates(int ms0, int ms1, int ms2, int ms3, int ms4, int ms5) {
+        motor.setPeriodicFramePeriod(PeriodicFrame.kStatus0, ms0);
+        motor.setPeriodicFramePeriod(PeriodicFrame.kStatus1, ms1);
+        motor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, ms2);
+        motor.setPeriodicFramePeriod(PeriodicFrame.kStatus3, ms3);
+        motor.setPeriodicFramePeriod(PeriodicFrame.kStatus4, ms4);
+        motor.setPeriodicFramePeriod(PeriodicFrame.kStatus5, ms5);
+
+        return this;
+    }
+
+    public NEOBuilder withAllPeriodicFramerates(int ms) {
+        motor.setPeriodicFramePeriod(PeriodicFrame.kStatus0, ms);
+        motor.setPeriodicFramePeriod(PeriodicFrame.kStatus1, ms);
+        motor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, ms);
+        motor.setPeriodicFramePeriod(PeriodicFrame.kStatus3, ms);
+        motor.setPeriodicFramePeriod(PeriodicFrame.kStatus4, ms);
+        motor.setPeriodicFramePeriod(PeriodicFrame.kStatus5, ms);
 
         return this;
     }

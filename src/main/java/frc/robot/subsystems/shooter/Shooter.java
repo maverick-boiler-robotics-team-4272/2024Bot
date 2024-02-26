@@ -6,6 +6,7 @@ import frc.robot.utils.logging.*;
 
 // Hardware
 import com.revrobotics.CANSparkBase.IdleMode;
+
 import frc.robot.utils.hardware.*;
 
 // Subsystem
@@ -31,17 +32,22 @@ public class Shooter extends SubsystemBase implements Loggable {
     public Shooter() {
         shooterMotor1 = VortexBuilder.createWithDefaults(SHOOTER_MOTOR_1_ID)
             .withCurrentLimit(80)
-            // .withIdleMode(IdleMode.kCoast)
+            .withIdleMode(IdleMode.kCoast)
             .withInversion(true)
+            .withAllPeriodicFramerates(65535)
             .build();
+
         shooterMotor2 = VortexBuilder.createWithDefaults(SHOOTER_MOTOR_2_ID)
             .asFollower(shooterMotor1, true)
             .withCurrentLimit(80)
-            // .withIdleMode(IdleMode.kCoast)
+            .withIdleMode(IdleMode.kCoast)
+            .withAllPeriodicFramerates(65535)
             .build();
+            
         feedMotor = VortexBuilder.createWithDefaults(FEED_MOTOR_ID)
             .withCurrentLimit(40)
             .withInversion(true)
+            .withAllPeriodicFramerates(65535)
             .withIdleMode(IdleMode.kCoast)
             .build();
 

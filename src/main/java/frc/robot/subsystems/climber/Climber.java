@@ -25,6 +25,8 @@ public class Climber extends SubsystemBase implements Loggable {
 
     public Climber() {
         climberMotor = VortexBuilder.createWithDefaults(CLIMBER_MOTOR_1_ID)
+            .withCurrentLimit(60)
+            .withAllPeriodicFramerates(65535)
             .build();
 
         climberInputs =  new ClimberInputsAutoLogged();

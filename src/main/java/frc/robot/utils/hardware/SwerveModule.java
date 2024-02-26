@@ -46,6 +46,8 @@ public class SwerveModule extends SwerveModuleBase implements Loggable {
     private MAVCoder2 externalEncoder;
     private SwerveModuleInputsAutoLogged moduleInputs;
 
+    private SwerveModulePosition previousPosition = new SwerveModulePosition();
+
     public SwerveModule(int id, double offset) {
         // driveMotor = new NEO(id);
         driveMotor = NEOBuilder.createWithDefaults(id)
@@ -63,6 +65,7 @@ public class SwerveModule extends SwerveModuleBase implements Loggable {
             .withCurrentLimit(40)
             .withPositionConversionFactor(360.0 / STEER_RATIO)
             .withPIDFParams(STEER_PID_P, STEER_PID_I, STEER_PID_D, STEER_PID_F)
+            .withMaxIAccum(STEER_PID_I_MAX)
             .withPIDPositionWrapping(-180, 180)
             .getUnburntNeo();
         steerPidController = steerMotor.getPIDController();
@@ -73,7 +76,7 @@ public class SwerveModule extends SwerveModuleBase implements Loggable {
 
         steerMotor.burnFlash();
         try {
-            Thread.sleep(300);
+            Thread.sleep(2000);
         } catch (InterruptedException e) {
             
         }
@@ -81,7 +84,6 @@ public class SwerveModule extends SwerveModuleBase implements Loggable {
         System.out.println(externalEncoder.getUnoffsetPosition());
 
         steerEncoder.setPosition(-externalEncoder.getPosition());
-        // steerEncoder.setPosition(0);
         moduleInputs = new SwerveModuleInputsAutoLogged();
 
     }
@@ -115,7 +117,12 @@ public class SwerveModule extends SwerveModuleBase implements Loggable {
 
     @Override
     public SwerveModulePosition getPosition() {
-        return new SwerveModulePosition(driveEncoder.getPosition(), Rotation2d.fromDegrees(180).minus(getMotorRotation()));
+        double drivePosition = driveEncoder.getPosition();
+        if(Math.abs(drivePosition - previousPosition.distanceMeters) > 1)
+            return previousPosition;
+
+        previousPosition = new SwerveModulePosition(drivePosition, Rotation2d.fromDegrees(180).minus(getMotorRotation()));
+        return previousPosition;
     }
 
     @Override
