@@ -32,14 +32,12 @@ import static frc.robot.constants.UniversalConstants.*;
 public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements Loggable {
     @AutoLog
     public static class DrivetrainInputs {
-        public Pose2d odometryPose;
         public Pose2d estimatedPose;
         public Pose2d desiredPose;
     }
 
     private DrivetrainInputsAutoLogged drivetrainInputs;
 
-    private SwerveDriveOdometry odometry;
     private SwerveDrivePoseEstimator poseEstimator;
 
     public Drivetrain() {
@@ -56,11 +54,9 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
 
         drivetrainInputs = new DrivetrainInputsAutoLogged();
 
-        drivetrainInputs.odometryPose = new Pose2d();
         drivetrainInputs.estimatedPose = new Pose2d();
         drivetrainInputs.desiredPose = new Pose2d();
 
-        odometry = new SwerveDriveOdometry(kinematics, gyroscope.getRotation(), getPositions());
         poseEstimator = new SwerveDrivePoseEstimator(
             kinematics,
             gyroscope.getRotation(),
@@ -83,8 +79,6 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
     public void updateOdometry() {
         Pose2d limelightPose = FRONT_LIMELIGHT.getRobotPose();
 
-        drivetrainInputs.odometryPose = odometry.update(gyroscope.getRotation().unaryMinus(), getPositions());
-
         poseEstimator.update(gyroscope.getRotation().unaryMinus(), getPositions());
         if(
             FRONT_LIMELIGHT.isValidTarget() //&&
@@ -104,10 +98,6 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
         return kinematics.toChassisSpeeds(getModuleStates());
     }
 
-    public Pose2d getOdometryPose() {
-        return drivetrainInputs.odometryPose;
-    }
-
     public void setDesiredPose(Pose2d pose) {
         drivetrainInputs.desiredPose = pose;
     }
@@ -123,7 +113,6 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
     }
 
     public void setRobotPose(Pose2d pose) {
-        odometry.resetPosition(gyroscope.getRotation(), getPositions(), pose);
         poseEstimator.resetPosition(gyroscope.getRotation(), getPositions(), pose);
     }
 
@@ -134,7 +123,6 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
     public void setGyroscopeReading(Rotation2d heading) {
         gyroscope.setRotation(heading);
 
-        odometry.resetPosition(gyroscope.getRotation(), getPositions(), odometry.getPoseMeters());
         poseEstimator.resetPosition(gyroscope.getRotation(), getPositions(), poseEstimator.getEstimatedPosition());
     }
 
