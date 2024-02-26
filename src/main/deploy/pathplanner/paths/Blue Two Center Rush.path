@@ -1,0 +1,136 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 1.0969891170542436,
+        "y": 7.044997166917478
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 2.0969891170542425,
+        "y": 7.044997166917478
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.813837166134957,
+        "y": 7.044997166917478
+      },
+      "prevControl": {
+        "x": 1.8138371661349568,
+        "y": 7.044997166917478
+      },
+      "nextControl": {
+        "x": 3.813837166134957,
+        "y": 7.044997166917478
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 8.270256540509408,
+        "y": 7.43967487935193
+      },
+      "prevControl": {
+        "x": 5.600185808074857,
+        "y": 6.956236908199107
+      },
+      "nextControl": {
+        "x": 8.342178279041715,
+        "y": 7.452696893688659
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 5.14243566948581,
+        "y": 6.245774799241972
+      },
+      "prevControl": {
+        "x": 7.076381631012989,
+        "y": 6.245774799241972
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [
+    {
+      "name": "First",
+      "waypointRelativePos": 0.95,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "DriveBy"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Second",
+      "waypointRelativePos": 1.9500000000000002,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "Intake"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Start",
+      "waypointRelativePos": 0.2,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "Shoot"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 180.0,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "Center Rush",
+  "previewStartingState": {
+    "rotation": 180.0,
+    "velocity": 0.0
+  },
+  "useDefaultConstraints": true
+}
