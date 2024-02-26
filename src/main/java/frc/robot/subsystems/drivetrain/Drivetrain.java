@@ -40,6 +40,8 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
 
     private SwerveDrivePoseEstimator poseEstimator;
 
+    private boolean fuseVision = true;
+
     public Drivetrain() {
         super(
             new Pigeon(PIGEON_ID),
@@ -81,7 +83,8 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
 
         poseEstimator.update(gyroscope.getRotation().unaryMinus(), getPositions());
         if(
-            FRONT_LIMELIGHT.isValidTarget() //&&
+            FRONT_LIMELIGHT.isValidTarget() &&
+            fuseVision
             // PathFollowState.posesAlmostEqual(limelightPose, getRobotPose(), new Pose2d(0.5, 0.5, Rotation2d.fromDegrees(10.0)))
         ) {
             poseEstimator.addVisionMeasurement(limelightPose, Timer.getFPGATimestamp());
@@ -124,6 +127,14 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
         gyroscope.setRotation(heading);
 
         poseEstimator.resetPosition(gyroscope.getRotation(), getPositions(), poseEstimator.getEstimatedPosition());
+    }
+
+    public void enableVisionFusion() {
+        fuseVision = true;
+    }
+
+    public void disableVisionFusion() {
+        fuseVision = false;
     }
 
     @Override
