@@ -110,9 +110,6 @@ public class RobotContainer {
         JoystickTrigger driveTriggerRight = driverController.getTrigger("right");
         driveTriggerRight.setDeadzone(0.1).setPowerScaling(2);
 
-        JoystickTrigger driveTriggerLeft = driverController.getTrigger("left");
-        driveTriggerRight.setDeadzone(0.1).setPowerScaling(2);
-
         //Drivetrain --------------------------------------------------------
         
         drivetrain.setDefaultCommand(
@@ -156,10 +153,6 @@ public class RobotContainer {
             new FacePositionState(drivetrain, driveLeftAxes::getDeadzonedX, driveLeftAxes::getDeadzonedY, SPEAKER_POSITION)
         );
 
-        new Trigger(driveTriggerLeft::isTriggered).whileTrue(
-            new IntakeFeedCommand(intake, shooter, driveTriggerLeft::getValue)
-        );
-
         //Arm ----------------------------------------------------
 
         armElevator.setDefaultCommand(new GoToArmElevatorState(armElevator, HOME));
@@ -185,8 +178,8 @@ public class RobotContainer {
     }
 
     public void configureOperatorBindings() {
-        JoystickAxes operatorLeftStick = operatorController.getAxes("left");
-        operatorLeftStick.setDeadzone(0.1).setPowerScale(2.0).setDeadzoneMode(DeadzoneMode.kYAxis);
+        JoystickAxes operatorRightStick = operatorController.getAxes("right");
+        operatorRightStick.setDeadzone(0.1).setPowerScale(2.0).setDeadzoneMode(DeadzoneMode.kYAxis);
 
         JoystickTrigger operatorLeftTrigger = operatorController.getTrigger("left");
         operatorLeftTrigger.setDeadzone(0.1).setPowerScaling(2);
@@ -197,11 +190,11 @@ public class RobotContainer {
         JoystickPOV operatorDPad = operatorController.getPOV("d-pad");
 
         climber.setDefaultCommand(
-            new  ClimbState(climber, operatorLeftStick::getDeadzonedY)
+            new  ClimbState(climber, operatorRightStick::getDeadzonedY)
         );
 
         new Trigger(operatorController.getButton("a")::get).whileTrue(
-            new ShootState(shooter, 0.2, 1.0)
+            new ShootState(shooter, 0.2, 0.5)
         );
 
         new Trigger(operatorController.getButton("y")::get).onTrue(
@@ -225,7 +218,7 @@ public class RobotContainer {
                         Direction.DOWN_RIGHT,
                         new PrintCommand("Down Right on d-pad not assigned"),
                         Direction.DOWN,
-                        new GoToArmElevatorState(armElevator, CLIMB).repeatedly(),
+                        new GoToArmElevatorState(armElevator, PRE_CLIMB).repeatedly(),
                         Direction.DOWN_LEFT,
                         new PrintCommand("Down Left on d-pad not assigned"),
                         Direction.LEFT,
