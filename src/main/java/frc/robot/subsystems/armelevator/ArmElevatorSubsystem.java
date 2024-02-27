@@ -28,10 +28,12 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
     public static class ArmElevatorInputs {
         public double currentArmAngleRadians;
         public double desiredArmAngleRadians;
+        public double safeArmAngleRadians;
         public double armAngleErrorRadians;
 
         public double currentElevatorHeight;
         public double desiredElevatorHeight;
+        public double safeElevatorHeight;
         public double elevatorHeightError;
     }
 
@@ -117,7 +119,6 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
 
     public void goToPos(Rotation2d r, double h) {
         desiredArmAngle = r;
-        setElevatorHeight(h);
 
         armElevatorInputs.desiredArmAngleRadians = r.getRadians();
         armElevatorInputs.desiredElevatorHeight = h;
@@ -150,6 +151,33 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
         elevatorEncoder.setPosition(0);
     }
 
+    public void handleSafety() {
+        double elevatorHeight = elevatorEncoder.getPosition();
+
+        double safeTheta = Math.acos(Math.min(1, Math.max((elevatorHeight + ELEVATOR_TRANSLATION.getZ() - BLOCKING_HEIGHT) / ARM_LENGTH, -1.0)));
+        double safeHeight = -ARM_LENGTH * desiredArmAngle.getSin() + BLOCKING_HEIGHT;
+
+        // Height safe, angle safe
+        // Height safe, angle  not
+        // Height  not, angle safe
+        // Height  not, angle not
+
+        if(Math.abs(desiredArmAngle.getRadians() + Math.PI / 2.0) > Math.abs(safeTheta)) {
+            setShooterRotation(desiredArmAngle);
+        } else {
+            setShooterRotation(new Rotation2d(safeTheta + Math.PI / 2.0));
+        }
+
+        if(armElevatorInputs.desiredElevatorHeight > safeHeight) {
+            setElevatorHeight(armElevatorInputs.desiredElevatorHeight);
+        } else {
+            setElevatorHeight(safeHeight);
+        }
+
+        armElevatorInputs.safeArmAngleRadians = safeTheta;
+        armElevatorInputs.safeElevatorHeight = safeHeight;
+    }
+
     @Override
     public void log(String subdirectory, String humanReadableName) {
         elevatorMotor1.log(subdirectory + "/" + humanReadableName, "ElevatorMotor1");
@@ -168,7 +196,7 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
 
     @Override
     public void periodic() {
-        setShooterRotation(desiredArmAngle);
+        handleSafety();
         log("Subsystems", "ArmElevator");
     }
 }
