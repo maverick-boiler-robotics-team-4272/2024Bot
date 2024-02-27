@@ -197,7 +197,7 @@ public class RobotContainer {
         );
 
         new Trigger(operatorController.getButton("a")::get).whileTrue(
-            new ShootState(shooter, 0.2, 0.5)
+            new ImbalancedShootState(shooter, 0.0, 0.5, 0.2)
         );
 
         new Trigger(operatorController.getButton("y")::get).onTrue(
