@@ -267,7 +267,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("DriveBy", new ParallelCommandGroup(
                 new IntakeState(intake, () -> 1.0),
                 new ShootState(shooter, 1.0, 1.0)
-            ).withTimeout(1.0)
+            ).withTimeout(2.5)
         );
         NamedCommands.registerCommand("Disable", new InstantCommand(drivetrain::disableVisionFusion));
         NamedCommands.registerCommand("Enable", new InstantCommand(drivetrain::enableVisionFusion));
