@@ -12,14 +12,24 @@ import frc.robot.subsystems.drivetrain.Drivetrain;
 import frc.robot.subsystems.drivetrain.states.PathFollowWithAiming;
 
 public class PathFollowWithAimCommand extends ParallelCommandGroup {
+    private PathFollowWithAiming pathFollowCommand;
+
     public PathFollowWithAimCommand(Drivetrain drivetrain, ArmElevatorSubsystem armElevator, PathPlannerTrajectory path, Translation3d target) {
-        super(
-            new PathFollowWithAiming(drivetrain, path, target.toTranslation2d()),
+        addCommands(
+            (pathFollowCommand = new PathFollowWithAiming(drivetrain, path, target.toTranslation2d())),
             new TargetPositionState(armElevator, () -> drivetrain.getRobotPose().getTranslation(), target)
         );
     }
 
     public PathFollowWithAimCommand(Drivetrain drivetrain, ArmElevatorSubsystem armElevator, PathPlannerTrajectory path) {
         this(drivetrain, armElevator, path, SPEAKER_SHOT_POSITION);
+    }
+
+    public void pausePathFollowing() {
+        pathFollowCommand.pause();
+    }
+
+    public void unpausePathFollowing() {
+        pathFollowCommand.unpause();
     }
 }
