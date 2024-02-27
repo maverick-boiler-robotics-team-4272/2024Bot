@@ -35,6 +35,7 @@ import frc.robot.commands.autos.*;
 
 // Constants
 import frc.robot.constants.Norms;
+import frc.robot.constants.AutoConstants.Paths;
 import frc.robot.utils.periodics.CANPeriodic;
 import static frc.robot.constants.AutoConstants.Paths.*;
 import static frc.robot.constants.TelemetryConstants.Limelights.*;
@@ -77,8 +78,10 @@ public class RobotContainer {
 
         // Configure the trigger bindings
         configureBindings();
-        configureAutoChoosers();
         registerNamedCommands();
+        
+        Paths.initializeTrajectories();
+        configureAutoChoosers();
     }
 
     /**
@@ -245,8 +248,8 @@ public class RobotContainer {
     }
 
     public void configureAutoChoosers() {
-        CONTAINER_CHOOSER.setDefaultOption("Red", RED_TRAJECTORIES);
-        CONTAINER_CHOOSER.addOption("Blue", BLUE_TRAJECTORIES);
+        CONTAINER_CHOOSER.setDefaultOption("Red", getRedTrajectories());
+        CONTAINER_CHOOSER.addOption("Blue", getBlueTrajectories());
 
         AUTO_CHOOSER.setDefaultOption("Test Path", () -> new TestAutoCommand(drivetrain));
         AUTO_CHOOSER.addOption("Tune Path", () -> new TuneAutoCommand(drivetrain));

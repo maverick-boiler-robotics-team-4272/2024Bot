@@ -43,8 +43,16 @@ public class AutoConstants {
         public static final SendableChooser<Supplier<Command>> AUTO_CHOOSER = new SendableChooser<>();
         public static final SendableChooser<TrajectoryContainer> CONTAINER_CHOOSER = new SendableChooser<>();
 
-        public static final TrajectoryContainer RED_TRAJECTORIES = new TrajectoryContainer("Red");
-        public static final TrajectoryContainer BLUE_TRAJECTORIES = new TrajectoryContainer("Blue");
+        private static TrajectoryContainer RED_TRAJECTORIES;
+        private static TrajectoryContainer BLUE_TRAJECTORIES;
+
+        public static TrajectoryContainer getBlueTrajectories() {
+            return BLUE_TRAJECTORIES;
+        }
+
+        public static TrajectoryContainer getRedTrajectories() {
+            return RED_TRAJECTORIES;
+        }
 
         private static TrajectoryContainer globalTrajectories = null;
 
@@ -62,6 +70,11 @@ public class AutoConstants {
 
         public static boolean hasGlobalTrajectories() {
             return globalTrajectories != null;
+        }
+
+        public static void initializeTrajectories() {
+            RED_TRAJECTORIES = new TrajectoryContainer("Red");
+            BLUE_TRAJECTORIES = new TrajectoryContainer("Blue");
         }
     }
 }
