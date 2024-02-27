@@ -164,17 +164,6 @@ public class RobotContainer {
             new AutoAimCommand(drivetrain, armElevator, driveLeftAxes::getDeadzonedX, driveLeftAxes::getDeadzonedY)  
         );
 
-        new Trigger(driveTriggerRight::isTriggered).whileTrue(
-            new SequentialCommandGroup(
-                new ShootState(shooter, 1.0, 0.0) {
-                    public boolean isFinished() {
-                        return driverController.getButton("rightBumper").get();
-                    }
-                },
-                new ShootState(shooter, 1.0, 1.0)
-            )
-        );
-
         new Trigger(driverController.getButton("back")::get).whileTrue(
             new GoToArmElevatorState(armElevator, TEST).repeatedly()
         );
@@ -197,7 +186,7 @@ public class RobotContainer {
         );
 
         new Trigger(operatorController.getButton("a")::get).whileTrue(
-            new ImbalancedShootState(shooter, 0.0, 0.5, 0.2)
+            new ImbalancedShootState(shooter, 1.0, 0.5, 0.4)
         );
 
         new Trigger(operatorController.getButton("y")::get).onTrue(
@@ -243,6 +232,17 @@ public class RobotContainer {
             new ParallelCommandGroup(
                 new OuttakeState(intake, () -> 0.9),
                 new OutfeedState(shooter, () -> 0.9)
+            )
+        );
+
+        new Trigger(operatorController.getButton("leftBumper")::get).whileTrue(
+            new SequentialCommandGroup(
+                new ShootState(shooter, 1.0, 0.0) {
+                    public boolean isFinished() {
+                        return driverController.getButton("rightBumper").get();
+                    }
+                },
+                new ShootState(shooter, 1.0, 1.0)
             )
         );
     }
