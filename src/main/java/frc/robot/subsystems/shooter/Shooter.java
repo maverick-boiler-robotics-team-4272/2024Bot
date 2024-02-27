@@ -51,6 +51,12 @@ public class Shooter extends SubsystemBase implements Loggable {
             // .withIdleMode(IdleMode.kCoast)
             .build();
 
+        try {
+            Thread.sleep(300);
+        } catch(InterruptedException e) {
+            
+        }
+
         lidar = new Lidar(LIDAR_1_ID);
 
         shooterInputs = new ShooterInputsAutoLogged();

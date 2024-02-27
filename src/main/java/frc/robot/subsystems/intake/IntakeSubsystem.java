@@ -31,6 +31,12 @@ public class IntakeSubsystem extends SubsystemBase implements Loggable {
             .withCurrentLimit(80)
             .build();
 
+        try {
+            Thread.sleep(100);
+        } catch(InterruptedException e) {
+
+        }
+
         intakeInputs = new IntakeInputsAutoLogged();
     }
 

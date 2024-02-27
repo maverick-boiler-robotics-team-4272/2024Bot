@@ -38,6 +38,12 @@ public class Climber extends SubsystemBase implements Loggable {
             // .withAllPeriodicFramerates(65535)
             .build();
 
+        try {
+            Thread.sleep(100);
+        } catch(InterruptedException e) {
+            
+        }
+
         climberController = climberMotor.getPIDController();
 
         climberInputs =  new ClimberInputsAutoLogged();
