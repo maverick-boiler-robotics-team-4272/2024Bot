@@ -219,6 +219,14 @@ public class PathFollowState extends PositionalDriveState {
         return timeStopped && positionStopped ? time && position : time || position;
     }
 
+    public void pause() {
+        timer.stop();
+    }
+
+    public void unpause() {
+        timer.start();
+    }
+
     public static boolean posesAlmostEqual(Pose2d a, Pose2d b, Pose2d delta) {
         return Math.abs(a.getX() - b.getX()) < delta.getX() &&
                Math.abs(a.getY() - b.getY()) < delta.getY() &&
