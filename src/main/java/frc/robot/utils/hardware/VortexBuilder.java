@@ -180,7 +180,6 @@ public class VortexBuilder {
     }
 
     public VortexBuilder withAllPeriodicFramerates(int ms) {
-        motor.setPeriodicFramePeriod(PeriodicFrame.kStatus0, ms);
         motor.setPeriodicFramePeriod(PeriodicFrame.kStatus1, ms);
         motor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, ms);
         motor.setPeriodicFramePeriod(PeriodicFrame.kStatus3, ms);
