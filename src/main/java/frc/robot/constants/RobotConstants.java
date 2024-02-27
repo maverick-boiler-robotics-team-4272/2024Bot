@@ -99,8 +99,9 @@ public class RobotConstants {
         HOME(Rotation2d.fromDegrees(35.0), Meters.convertFrom(0.5, Inches)),
         WHITE_LINE(new Rotation2d(0.74), 0),
         TEST(Rotation2d.fromDegrees(0.0), Meters.convertFrom(12.0, Inches)),
-        AMP(Rotation2d.fromDegrees(-20.0), Meters.convertFrom(16.0, Inches)),
+        AMP(Rotation2d.fromDegrees(-20.0), Meters.convertFrom(19.0, Inches)),
         CLIMB(Rotation2d.fromDegrees(0.0), 0.0),
+        PRE_CLIMB(Rotation2d.fromDegrees(35.0), Meters.convertFrom(13.0, Inches)),
         TRAP(MIN_ARM_ANGLE, MAX_ELEVATOR_HEIGHT);
 
         private Rotation2d armAngle;
@@ -162,5 +163,19 @@ public class RobotConstants {
 
         public static final double MAX_ELEVATOR_HEIGHT = Meters.convertFrom(20.0, Inches);
         public static final double MIN_ELEVATOR_HEIGHT = Meters.convertFrom(0, Inches);
+    }
+
+    public static class ClimberConstants {
+        private ClimberConstants() {
+            throw new UnsupportedOperationException("Cannot instantiate a constants class");
+        }
+
+        public static final double CLIMBER_P = 1.0;
+        public static final double CLIMBER_I = 0.0;
+        public static final double CLIMBER_D = 0.0;
+        public static final double CLIMBER_F = 0.0;
+
+        public static final double CLIMBER_MIN_HEIGHT = 0.0;
+        public static final double CLIMBER_MAX_HEIGHT = 80.0;
     }
 }
