@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.9,
-        "y": 6.6
+        "x": 2.0,
+        "y": 7.0
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.8999999999999995,
-        "y": 6.6
+        "x": 3.0,
+        "y": 7.0
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 5.9,
-        "y": 6.6
+        "x": 7.626160530495097,
+        "y": 4.883418839590889
       },
       "prevControl": {
-        "x": 4.9,
-        "y": 6.6
+        "x": 6.626160530495097,
+        "y": 4.883418839590889
       },
       "nextControl": null,
       "isLocked": false,
@@ -30,25 +30,7 @@
   ],
   "rotationTargets": [],
   "constraintZones": [],
-  "eventMarkers": [
-    {
-      "name": "New Event Marker",
-      "waypointRelativePos": 0.4,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "DriveBy"
-              }
-            }
-          ]
-        }
-      }
-    }
-  ],
+  "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 3.0,
     "maxAcceleration": 3.0,
@@ -61,7 +43,10 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Tests",
-  "previewStartingState": null,
-  "useDefaultConstraints": false
+  "folder": "Center Rush",
+  "previewStartingState": {
+    "rotation": 0,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
 }
