@@ -10,7 +10,7 @@ import frc.robot.subsystems.drivetrain.states.PathFollowState;
 public class StressTestAuto extends SequentialCommandGroup {
     public StressTestAuto(Drivetrain drivetrain) {
       super(
-        new PathFollowState(drivetrain, getGlobalTrajectories().STRESS_TEST_PATH, false, true, DEFAULT_POSE_DELTA, true, false).repeatedly()
+        new PathFollowState(drivetrain, getGlobalTrajectories().STRESS_TEST_PATH.trajectory, false, true, DEFAULT_POSE_DELTA, true, false).repeatedly()
       );  
     }
 }

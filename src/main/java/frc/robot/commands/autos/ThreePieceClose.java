@@ -10,7 +10,7 @@ import frc.robot.subsystems.drivetrain.Drivetrain;
 public class ThreePieceClose extends SequentialCommandGroup {
     public ThreePieceClose(Drivetrain drivetrain, ArmElevatorSubsystem armElevator) {
         super(
-            new PathFollowWithAimCommand(drivetrain, armElevator, getGlobalTrajectories().THREE_PIECE_CLOSE)
+            new PathFollowWithAimCommand(drivetrain, armElevator, getGlobalTrajectories().THREE_PIECE_CLOSE.trajectory)
         );
     }
 }
