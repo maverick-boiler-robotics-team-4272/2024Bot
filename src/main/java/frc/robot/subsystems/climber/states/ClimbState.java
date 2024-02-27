@@ -16,6 +16,6 @@ public class ClimbState extends State<Climber> {
 
     @Override
     public void execute() {
-        requiredSubsystem.runMotor(power.getAsDouble());
+        requiredSubsystem.setClimerHeight(Math.round(power.getAsDouble()) * 80);
     }
 }
