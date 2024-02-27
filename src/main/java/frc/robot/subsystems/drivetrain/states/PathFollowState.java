@@ -148,7 +148,7 @@ public class PathFollowState extends PositionalDriveState {
             } else {
                 Pose2d initHolo = trajectory.getInitialTargetHolonomicPose();
 
-                requiredSubsystem.setGyroscopeReading(initHolo.getRotation().unaryMinus());
+                requiredSubsystem.setGyroscopeReading(initHolo.getRotation());
                 requiredSubsystem.setRobotPose(initHolo);
             }
         }
