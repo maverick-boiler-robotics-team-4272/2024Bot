@@ -13,8 +13,7 @@ public class TwoCenterRush extends SequentialCommandGroup {
     public TwoCenterRush(Drivetrain drivetrain, ArmElevatorSubsystem armElevator) {
         super(
             new InstantCommand(drivetrain::disableVisionFusion),
-            new PathFollowWithEvents(new PathFollowWithAimCommand(drivetrain, armElevator, getGlobalTrajectories().TWO_CENTER_RUSH.trajectory), getGlobalTrajectories().TWO_CENTER_RUSH),
-            new InstantCommand(drivetrain::enableVisionFusion)
+            new PathFollowWithEvents(new PathFollowWithAimCommand(drivetrain, armElevator, getGlobalTrajectories().TWO_CENTER_RUSH.trajectory), getGlobalTrajectories().TWO_CENTER_RUSH)
         );
     }
 }
