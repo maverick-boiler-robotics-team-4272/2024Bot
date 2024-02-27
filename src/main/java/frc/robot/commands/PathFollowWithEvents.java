@@ -28,6 +28,7 @@ public class PathFollowWithEvents extends Command {
         this.runningCommands = new ArrayList<>();
         this.pauseTimes = new ArrayList<>();
         this.timer = new Timer();
+        this.paused = false;
     }
 
     @Override
@@ -42,10 +43,11 @@ public class PathFollowWithEvents extends Command {
     public void execute() {
         pathFollowCommand.execute();
 
-        double time = 0, checkTime = 0;
-        Pair<Double, Command> event;
+        double time = timer.get();
+        double checkTime = 0;
+        Pair<Double, Command> event = null;
+
         if(pauseTimes.size() > 0) {
-            time = timer.get();
             event = pauseTimes.get(0);
             checkTime = event.getFirst();
             
@@ -60,6 +62,9 @@ public class PathFollowWithEvents extends Command {
                 
                 pauseTimes.remove(0);
 
+                if(pauseTimes.size() == 0)
+                    break;
+                
                 event = pauseTimes.get(0);
                 checkTime = event.getFirst();
             }
@@ -84,6 +89,8 @@ public class PathFollowWithEvents extends Command {
 
                 unstartedCommands.remove(0);
 
+                if(unstartedCommands.size() == 0)
+                    break;
                 event = unstartedCommands.get(0);
                 checkTime = event.getFirst();
             }
