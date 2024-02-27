@@ -26,6 +26,7 @@ public class PathFollowWithEvents extends Command {
         this.pathFollowCommand = pathFollowCommand;
 
         this.runningCommands = new ArrayList<>();
+        this.pauseTimes = new ArrayList<>();
         this.timer = new Timer();
     }
 
