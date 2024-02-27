@@ -42,45 +42,51 @@ public class PathFollowWithEvents extends Command {
     public void execute() {
         pathFollowCommand.execute();
 
-        double time = timer.get();
-        Pair<Double, Command> event = pauseTimes.get(0);
-        double checkTime = event.getFirst();
-        
-        while(time > checkTime) {
-            Command command = event.getSecond();
-            pause();
-
-            interruptCommands(command);
-
-            runningCommands.add(command);
-            command.initialize();
-            
-            pauseTimes.remove(0);
-
+        double time = 0, checkTime = 0;
+        Pair<Double, Command> event;
+        if(pauseTimes.size() > 0) {
+            time = timer.get();
             event = pauseTimes.get(0);
             checkTime = event.getFirst();
+            
+            while(time > checkTime) {
+                Command command = event.getSecond();
+                pause();
+
+                interruptCommands(command);
+
+                runningCommands.add(command);
+                command.initialize();
+                
+                pauseTimes.remove(0);
+
+                event = pauseTimes.get(0);
+                checkTime = event.getFirst();
+            }
         }
 
-        event = unstartedCommands.get(0);
-        checkTime = event.getFirst();
-
-        while(time > checkTime) {
-            Command command = event.getSecond();
-
-            if(!paused && !Collections.disjoint(command.getRequirements(), pathFollowCommand.getRequirements())) {
-                System.out.println("Cannot run a command that requires the path following command when running the pathfollow");
-                continue;
-            }
-
-            interruptCommands(command);
-
-            runningCommands.add(command);
-            command.initialize();
-
-            unstartedCommands.remove(0);
-
+        if(unstartedCommands.size() > 0) {
             event = unstartedCommands.get(0);
             checkTime = event.getFirst();
+
+            while(time > checkTime) {
+                Command command = event.getSecond();
+
+                if(!paused && !Collections.disjoint(command.getRequirements(), pathFollowCommand.getRequirements())) {
+                    System.out.println("Cannot run a command that requires the path following command when running the pathfollow");
+                    continue;
+                }
+
+                interruptCommands(command);
+
+                runningCommands.add(command);
+                command.initialize();
+
+                unstartedCommands.remove(0);
+
+                event = unstartedCommands.get(0);
+                checkTime = event.getFirst();
+            }
         }
 
         for(int i = 0; i < runningCommands.size(); i++) {
