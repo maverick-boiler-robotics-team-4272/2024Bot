@@ -126,10 +126,10 @@ public class RobotConstants {
     }
 
     public static class ArmConstants {
-        public static final double ARM_PID_P = 0.75;
+        public static final double ARM_PID_P = 0.90;
         public static final double ARM_PID_I = 0.0001;
         public static final double ARM_PID_D = 0.0;
-        public static final double ARM_PID_F = 0.35;
+        public static final double ARM_PID_F = 0.25;
 
         public static final double ARM_LENGTH = Meters.convertFrom(16.0, Inches);
 
