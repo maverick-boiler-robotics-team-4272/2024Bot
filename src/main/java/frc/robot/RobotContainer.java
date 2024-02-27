@@ -255,7 +255,7 @@ public class RobotContainer {
         AUTO_CHOOSER.addOption("Tune Path", () -> new TuneAutoCommand(drivetrain));
         AUTO_CHOOSER.addOption("Stress Path", () -> new StressTestAuto(drivetrain));
         AUTO_CHOOSER.addOption("Three Piece Close", () -> new ThreePieceClose(drivetrain, armElevator));
-        AUTO_CHOOSER.addOption("Two Center Rush", () -> new TwoCenterRush(drivetrain, armElevator));
+        AUTO_CHOOSER.addOption("Two Center Rush", () -> new TwoCenterRush(drivetrain, armElevator, shooter));
         
         AUTO_TABLE.putData("Auto Chooser", AUTO_CHOOSER);
         AUTO_TABLE.putData("Side Chooser", CONTAINER_CHOOSER);
@@ -269,6 +269,8 @@ public class RobotContainer {
                 new ShootState(shooter, 1.0, 1.0)
             ).withTimeout(1.0)
         );
+        NamedCommands.registerCommand("Disable", new InstantCommand(drivetrain::disableVisionFusion));
+        NamedCommands.registerCommand("Enable", new InstantCommand(drivetrain::enableVisionFusion));
     }
 
     /**
