@@ -38,7 +38,7 @@ public class Shooter extends SubsystemBase implements Loggable {
             .build();
 
         shooterMotor2 = VortexBuilder.createWithDefaults(SHOOTER_MOTOR_2_ID)
-            .asFollower(shooterMotor1, true)
+            // .asFollower(shooterMotor1, true)
             .withCurrentLimit(80)
             // .withIdleMode(IdleMode.kCoast)
             .withAllPeriodicFramerates(65535)
@@ -62,6 +62,12 @@ public class Shooter extends SubsystemBase implements Loggable {
 
     public void rev(double percent) {
         shooterMotor1.set(percent);
+        shooterMotor2.set(percent);
+    }
+
+    public void runMotors(double power1, double power2) {
+        shooterMotor1.set(power1);
+        shooterMotor2.set(power2);
     }
 
     public void feed(double percent) {
