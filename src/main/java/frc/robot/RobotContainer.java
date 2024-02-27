@@ -260,11 +260,11 @@ public class RobotContainer {
 
     public void registerNamedCommands() {
         NamedCommands.registerCommand("Shoot", new AutoShootState(shooter, 1, 1));
-        NamedCommands.registerCommand("Intake", new IntakeFeedCommand(intake, shooter, () -> 1.0));
+        NamedCommands.registerCommand("Intake", new IntakeFeedCommand(intake, shooter, () -> 1.0).withTimeout(1.0));
         NamedCommands.registerCommand("DriveBy", new ParallelCommandGroup(
                 new IntakeState(intake, () -> 1.0),
                 new ShootState(shooter, 1.0, 1.0)
-            ).withTimeout(2.0)
+            ).withTimeout(1.0)
         );
     }
 
