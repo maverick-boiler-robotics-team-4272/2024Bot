@@ -6,6 +6,13 @@
   "configurations": [
     {
       "type": "java",
+      "name": "Mirror",
+      "request": "launch",
+      "mainClass": "frc.robot.precomputations.Mirror",
+      "projectName": "2024Bot"
+    },
+    {
+      "type": "java",
       "name": "BoundingBox",
       "request": "launch",
       "mainClass": "frc.robot.precomputations.BoundingBox",
