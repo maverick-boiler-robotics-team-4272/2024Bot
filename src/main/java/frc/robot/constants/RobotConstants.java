@@ -103,7 +103,8 @@ public class RobotConstants {
         // AMP(new Rotation2d(0.813), 0.190),
         CLIMB(Rotation2d.fromDegrees(0.0), 0.0),
         PRE_CLIMB(Rotation2d.fromDegrees(35.0), Meters.convertFrom(13.0, Inches)),
-        TRAP(MIN_ARM_ANGLE, MAX_ELEVATOR_HEIGHT);
+        TRAP(MIN_ARM_ANGLE, MAX_ELEVATOR_HEIGHT),
+        AUTO_LINE(Rotation2d.fromDegrees(42.0), Meters.convertFrom(10, Inches));
 
         private Rotation2d armAngle;
         private double elevatorHeight;
@@ -154,7 +155,7 @@ public class RobotConstants {
         public static final double ELEVATOR_PID_D = 0.0;
         public static final double ELEVATOR_PID_F = 0.5;
 
-        public static final double ELEVATOR_HEIGHT_DEADZONE = Meters.convertFrom(1.0, Centimeters);
+        public static final double ELEVATOR_HEIGHT_DEADZONE = Meters.convertFrom(2.0, Centimeters);
 
         public static final double BLOCKING_HEIGHT = Meters.convertFrom(4.0, Inches);
 
