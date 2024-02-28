@@ -165,7 +165,7 @@ public class RobotContainer {
         );
 
         new Trigger(driverController.getButton("back")::get).whileTrue(
-            new GoToArmElevatorState(armElevator, TEST).repeatedly()
+            new InstantCommand(drivetrain::resetModules, drivetrain)
         );
     }
 
@@ -182,11 +182,11 @@ public class RobotContainer {
         JoystickPOV operatorDPad = operatorController.getPOV("d-pad");
 
         climber.setDefaultCommand(
-            new  ClimbState(climber, operatorRightStick::getDeadzonedY)
+            new ClimbState(climber, operatorRightStick::getDeadzonedY)
         );
 
         new Trigger(operatorController.getButton("a")::get).whileTrue(
-            new ImbalancedShootState(shooter, 1.0, 0.5, 0.4)
+            new ImbalancedShootState(shooter, 0.1, 0.05, 0.2)
         );
 
         new Trigger(operatorController.getButton("y")::get).onTrue(
