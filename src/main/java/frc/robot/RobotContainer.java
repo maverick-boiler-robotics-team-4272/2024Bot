@@ -104,6 +104,30 @@ public class RobotContainer {
         configureOperatorBindings();
     }
 
+    public void configureRuntimeDriverBindings() {
+        JoystickAxes driveLeftAxes = driverController.getAxes("left");
+
+        new Trigger(driverController.getButton("x")::get).whileTrue(
+            new SelectCommand<Integer>(Map.of(
+                0,
+                new ParallelCommandGroup(
+                    new InstantCommand(() -> driverController.setRumble(RumbleType.kBothRumble, 1.0)),
+                    new PathFindToPositionState(drivetrain, getGlobalPositions().AMP_POSE)
+                ),
+                90, 
+                new GoToPositionState(drivetrain, getGlobalPositions().AMP_POSE)
+                ),
+                () -> driverDPadValue
+            )
+        ).onFalse(
+            new InstantCommand(() -> driverController.setRumble(RumbleType.kBothRumble, 0.0))
+        );
+
+        new Trigger(driverController.getButton("a")::get).whileTrue(
+            new FacePositionState(drivetrain, driveLeftAxes::getDeadzonedX, driveLeftAxes::getDeadzonedY, getGlobalPositions().SPEAKER_POSITION)
+        );
+    }
+
     public void configureDriverBindings() {
         JoystickAxes driveLeftAxes = driverController.getAxes("left");
         driveLeftAxes.setDeadzone(0.1).setDeadzoneMode(DeadzoneMode.kMagnitude).setPowerScale(3);
@@ -128,22 +152,6 @@ public class RobotContainer {
                 new InstantCommand(() -> driverController.setRumble(RumbleType.kBothRumble, 0.0))
             )  
         );
-
-        new Trigger(driverController.getButton("x")::get).whileTrue(
-            new SelectCommand<Integer>(Map.of(
-                0,
-                new ParallelCommandGroup(
-                    new InstantCommand(() -> driverController.setRumble(RumbleType.kBothRumble, 1.0)),
-                    new PathFindToPositionState(drivetrain, AMP_POSE)
-                ),
-                90, 
-                new GoToPositionState(drivetrain, AMP_POSE)
-                ),
-                () -> driverDPadValue
-            )
-        ).onFalse(
-            new InstantCommand(() -> driverController.setRumble(RumbleType.kBothRumble, 0.0))
-        );
         
         new Trigger(driverController.getButton("b")::get).onTrue(
             new ResetHeadingState(drivetrain)
@@ -151,10 +159,6 @@ public class RobotContainer {
 
         new Trigger(driverController.getButton("y")::get).onTrue(
             new ResetToLimelightState(drivetrain, FRONT_LIMELIGHT)
-        );
-
-        new Trigger(driverController.getButton("a")::get).whileTrue(
-            new FacePositionState(drivetrain, driveLeftAxes::getDeadzonedX, driveLeftAxes::getDeadzonedY, SPEAKER_POSITION)
         );
 
         //Arm ----------------------------------------------------
@@ -253,8 +257,8 @@ public class RobotContainer {
     }
 
     public void configureAutoChoosers() {
-        CONTAINER_CHOOSER.setDefaultOption("Red", getRedTrajectories());
-        CONTAINER_CHOOSER.addOption("Blue", getBlueTrajectories());
+        CONTAINER_CHOOSER.setDefaultOption("Red", "Red");
+        CONTAINER_CHOOSER.addOption("Blue", "Blue");
 
         AUTO_CHOOSER.addOption("Two Center Rush", () -> new TwoCenterRush(drivetrain, armElevator, shooter));
         AUTO_CHOOSER.addOption("Two Stage Rush", () -> new TwoStageRush(drivetrain, armElevator, shooter));
@@ -282,7 +286,13 @@ public class RobotContainer {
      */
     public Command getAutonomousCommand() {
         if(!hasGlobalTrajectories()) {
-            setGlobalTrajectories(CONTAINER_CHOOSER.getSelected());
+            if(CONTAINER_CHOOSER.getSelected().equals("Red")) {
+                setGlobalTrajectories(Paths.getRedTrajectories());
+                setGlobalPositions(RED_POSITIONS);
+            } else {
+                setGlobalTrajectories(Paths.getBlueTrajectories());
+                setGlobalPositions(BLUE_POSITIONS);
+            }
         }
 
         return AUTO_CHOOSER.getSelected().get();
