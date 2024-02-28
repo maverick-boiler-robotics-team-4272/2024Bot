@@ -256,11 +256,8 @@ public class RobotContainer {
         CONTAINER_CHOOSER.setDefaultOption("Red", getRedTrajectories());
         CONTAINER_CHOOSER.addOption("Blue", getBlueTrajectories());
 
-        AUTO_CHOOSER.setDefaultOption("Test Path", () -> new TestAutoCommand(drivetrain));
-        AUTO_CHOOSER.addOption("Tune Path", () -> new TuneAutoCommand(drivetrain));
-        AUTO_CHOOSER.addOption("Stress Path", () -> new StressTestAuto(drivetrain));
-        AUTO_CHOOSER.addOption("Three Piece Close", () -> new ThreePieceClose(drivetrain, armElevator));
         AUTO_CHOOSER.addOption("Two Center Rush", () -> new TwoCenterRush(drivetrain, armElevator, shooter));
+        AUTO_CHOOSER.addOption("Two Stage Rush", () -> new TwoStageRush(drivetrain, armElevator, shooter));
         
         AUTO_TABLE.putData("Auto Chooser", AUTO_CHOOSER);
         AUTO_TABLE.putData("Side Chooser", CONTAINER_CHOOSER).withWidget(BuiltInWidgets.kSplitButtonChooser);
