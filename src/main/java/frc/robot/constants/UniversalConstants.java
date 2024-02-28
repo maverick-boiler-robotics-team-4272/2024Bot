@@ -4,6 +4,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
+import frc.robot.utils.paths.PositionsContainer;
 
 import static edu.wpi.first.units.Units.*;
 
@@ -24,4 +25,18 @@ public class UniversalConstants {
     public static final double FIELD_HALF_HEIGHT_METERS = FIELD_HEIGHT_METERS / 2.0;
 
     public static final double PI2 = Math.PI * 2.0;
+
+    public static final PositionsContainer RED_POSITIONS = new PositionsContainer("Red");
+    public static final PositionsContainer BLUE_POSITIONS = new PositionsContainer("Blue");
+    private static PositionsContainer globalPositions;
+
+    public static void setGlobalPositions(PositionsContainer positions) {
+        if(globalPositions != null)
+            return;
+        globalPositions = positions;
+    }
+
+    public static boolean hasGlobalPositions() {
+        return globalPositions != null;
+    }
 }
