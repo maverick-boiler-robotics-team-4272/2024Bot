@@ -32,6 +32,7 @@ public class TrajectoryContainer {
 
     public final Path TWO_CENTER_RUSH;
     public final Path THREE_PIECE_CLOSE;
+    public final Path TWO_STAGE_RUSH;
 
     public TrajectoryContainer(String prefix) {
         TEST_PATH = new Path(prefix + " Test Path");
@@ -40,5 +41,6 @@ public class TrajectoryContainer {
 
         TWO_CENTER_RUSH = new Path(prefix + " Two Center Rush");
         THREE_PIECE_CLOSE = new Path(prefix + " Three Piece Close");
+        TWO_STAGE_RUSH = new Path(prefix + " Two Stage Rush");
     }
 }
