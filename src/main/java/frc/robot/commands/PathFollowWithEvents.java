@@ -41,7 +41,8 @@ public class PathFollowWithEvents extends Command {
 
     @Override
     public void execute() {
-        pathFollowCommand.execute();
+        if(!paused)
+            pathFollowCommand.execute();
 
         double time = timer.get();
         double checkTime = 0;
