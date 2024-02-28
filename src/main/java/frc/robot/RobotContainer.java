@@ -38,7 +38,10 @@ import frc.robot.commands.autos.*;
 import frc.robot.constants.Norms;
 import frc.robot.constants.AutoConstants.Paths;
 import frc.robot.utils.periodics.CANPeriodic;
+import frc.robot.utils.periodics.Candle;
+
 import static frc.robot.constants.AutoConstants.Paths.*;
+import static frc.robot.constants.HardwareMap.*;
 import static frc.robot.constants.TelemetryConstants.Limelights.*;
 import static frc.robot.constants.TelemetryConstants.ShuffleboardTables.*;
 import static frc.robot.constants.UniversalConstants.*;
@@ -64,6 +67,7 @@ public class RobotContainer {
     ArmElevatorSubsystem armElevator = new ArmElevatorSubsystem();
     Shooter shooter = new Shooter();
     Climber climber = new Climber();
+    Candle candle = new Candle(CANDLE_ID);
 
     int driverDPadValue = -1;
 
@@ -83,6 +87,8 @@ public class RobotContainer {
         
         Paths.initializeTrajectories();
         configureAutoChoosers();
+
+        configureCandleBindings();
     }
 
     /**
@@ -280,6 +286,18 @@ public class RobotContainer {
         );
         NamedCommands.registerCommand("Disable", new InstantCommand(drivetrain::disableVisionFusion));
         NamedCommands.registerCommand("Enable", new InstantCommand(drivetrain::enableVisionFusion));
+    }
+
+    public void configureCandleBindings() {
+        new Trigger(shooter::lidarTripped).onTrue(
+            new InstantCommand(() -> {
+                candle.setLEDs(0, 255, 0);
+            })
+        ).onFalse(
+            new InstantCommand(() -> {
+                candle.setLEDs(0, 0, 0);
+            })
+        );
     }
 
     /**
