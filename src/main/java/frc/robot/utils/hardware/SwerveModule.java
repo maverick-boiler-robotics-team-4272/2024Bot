@@ -104,6 +104,10 @@ public class SwerveModule extends SwerveModuleBase implements Loggable {
         return new SwerveModuleState(driveEncoder.getVelocity(), getMotorRotation());
     }
 
+    public void resetModule() {
+        steerEncoder.setPosition(-externalEncoder.getPosition());
+    }
+
     @Override
     public void goToState(SwerveModuleState state) {
         SwerveModuleState optimized = optimize(state, getMotorRotation());
