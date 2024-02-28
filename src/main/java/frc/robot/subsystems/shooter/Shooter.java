@@ -5,7 +5,7 @@ import org.littletonrobotics.junction.*;
 import frc.robot.utils.logging.*;
 
 // Hardware
-import com.revrobotics.CANSparkBase.IdleMode;
+import com.revrobotics.CANSparkLowLevel.PeriodicFrame;
 
 import frc.robot.utils.hardware.*;
 
@@ -32,23 +32,35 @@ public class Shooter extends SubsystemBase implements Loggable {
     public Shooter() {
         shooterMotor1 = VortexBuilder.createWithDefaults(SHOOTER_MOTOR_1_ID)
             .withCurrentLimit(80)
-            // .withIdleMode(IdleMode.kCoast)
             .withInversion(true)
-            .withAllPeriodicFramerates(65535)
+            .withPeriodicFramerate(PeriodicFrame.kStatus1, 500)
+            .withPeriodicFramerate(PeriodicFrame.kStatus2, 500)
+            .withPeriodicFramerate(PeriodicFrame.kStatus3, 500)
+            .withPeriodicFramerate(PeriodicFrame.kStatus4, 500)
+            .withPeriodicFramerate(PeriodicFrame.kStatus5, 500)
+            .withPeriodicFramerate(PeriodicFrame.kStatus6, 500)
             .build();
 
         shooterMotor2 = VortexBuilder.createWithDefaults(SHOOTER_MOTOR_2_ID)
             // .asFollower(shooterMotor1, true)
             .withCurrentLimit(80)
-            // .withIdleMode(IdleMode.kCoast)
-            .withAllPeriodicFramerates(65535)
+            .withPeriodicFramerate(PeriodicFrame.kStatus1, 500)
+            .withPeriodicFramerate(PeriodicFrame.kStatus2, 500)
+            .withPeriodicFramerate(PeriodicFrame.kStatus3, 500)
+            .withPeriodicFramerate(PeriodicFrame.kStatus4, 500)
+            .withPeriodicFramerate(PeriodicFrame.kStatus5, 500)
+            .withPeriodicFramerate(PeriodicFrame.kStatus6, 500)
             .build();
-            
+        
         feedMotor = VortexBuilder.createWithDefaults(FEED_MOTOR_ID)
             .withCurrentLimit(40)
             .withInversion(true)
-            .withAllPeriodicFramerates(65535)
-            // .withIdleMode(IdleMode.kCoast)
+            .withPeriodicFramerate(PeriodicFrame.kStatus1, 500)
+            .withPeriodicFramerate(PeriodicFrame.kStatus2, 500)
+            .withPeriodicFramerate(PeriodicFrame.kStatus3, 500)
+            .withPeriodicFramerate(PeriodicFrame.kStatus4, 500)
+            .withPeriodicFramerate(PeriodicFrame.kStatus5, 500)
+            .withPeriodicFramerate(PeriodicFrame.kStatus6, 500)
             .build();
 
         try {

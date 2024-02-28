@@ -8,6 +8,7 @@ import frc.robot.utils.logging.*;
 import frc.robot.utils.hardware.*;
 import com.revrobotics.*;
 import com.revrobotics.CANSparkBase.ControlType;
+import com.revrobotics.CANSparkLowLevel.PeriodicFrame;
 
 // Math
 import edu.wpi.first.math.controller.ArmFeedforward;
@@ -62,11 +63,17 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
             .withSoftLimits(MAX_ELEVATOR_HEIGHT, MIN_ELEVATOR_HEIGHT)
             .withPIDParams(ELEVATOR_PID_P, ELEVATOR_PID_I, ELEVATOR_PID_D)
             .withInversion(true)
+            .withPeriodicFramerate(PeriodicFrame.kStatus1, 500)
+            .withPeriodicFramerate(PeriodicFrame.kStatus3, 500)
             .withCurrentLimit(50)
             .build();
+        
         elevatorMotor2 = NEOBuilder.createWithDefaults(ELEVATOR_MOTOR_2_ID)
             .asFollower(elevatorMotor1, true)
             .withCurrentLimit(50)
+            .withPeriodicFramerate(PeriodicFrame.kStatus1, 500)
+            .withPeriodicFramerate(PeriodicFrame.kStatus2, 500)
+            .withPeriodicFramerate(PeriodicFrame.kStatus3, 500)
             .getUnburntNeo();
         armMotor = VortexBuilder.createWithDefaults(ARM_MOTOR_ID)
             .withPositionConversionFactor(ARM_RATIO)
@@ -75,6 +82,8 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
             .withSoftLimits(MAX_ARM_ANGLE.getRadians(), MIN_ARM_ANGLE.getRadians())
             .withPIDParams(ARM_PID_P, ARM_PID_I, ARM_PID_D)
             .withPIDPositionWrapping(0, 2 * Math.PI)
+            .withPeriodicFramerate(PeriodicFrame.kStatus1, 500)
+            .withPeriodicFramerate(PeriodicFrame.kStatus3, 500)
             .getUnburntNeo();
 
         armElevatorInputs = new ArmElevatorInputsAutoLogged();
