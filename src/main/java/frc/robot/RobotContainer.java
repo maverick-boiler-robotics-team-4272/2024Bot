@@ -134,7 +134,7 @@ public class RobotContainer {
         );
     }
 
-    public void configureDriverBindings() {
+    private void configureDriverBindings() {
         JoystickAxes driveLeftAxes = driverController.getAxes("left");
         driveLeftAxes.setDeadzone(0.1).setDeadzoneMode(DeadzoneMode.kMagnitude).setPowerScale(3);
 
@@ -180,7 +180,7 @@ public class RobotContainer {
         );
     }
 
-    public void configureOperatorBindings() {
+    private void configureOperatorBindings() {
         JoystickAxes operatorRightStick = operatorController.getAxes("right");
         operatorRightStick.setDeadzone(0.1).setPowerScale(2.0).setDeadzoneMode(DeadzoneMode.kYAxis);
 
@@ -262,7 +262,7 @@ public class RobotContainer {
         );
     }
 
-    public void configureAutoChoosers() {
+    private void configureAutoChoosers() {
         CONTAINER_CHOOSER.setDefaultOption("Red", "Red");
         CONTAINER_CHOOSER.addOption("Blue", "Blue");
 
@@ -276,7 +276,7 @@ public class RobotContainer {
         AUTO_TABLE.putData("Side Chooser", CONTAINER_CHOOSER).withWidget(BuiltInWidgets.kSplitButtonChooser);
     }
 
-    public void registerNamedCommands() {
+    private void registerNamedCommands() {
         NamedCommands.registerCommand("Shoot", new AutoShootState(shooter, 1, 1));
         NamedCommands.registerCommand("Intake", new IntakeFeedCommand(intake, shooter, () -> 1.0).withTimeout(7.5));
         NamedCommands.registerCommand("DriveBy", new ParallelCommandGroup(
@@ -288,7 +288,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("Enable", new InstantCommand(drivetrain::enableVisionFusion));
     }
 
-    public void configureCandleBindings() {
+    private void configureCandleBindings() {
         new Trigger(shooter::lidarTripped).onTrue(
             new InstantCommand(() -> {
                 candle.setLEDs(0, 255, 0);
