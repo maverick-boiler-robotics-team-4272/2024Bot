@@ -253,8 +253,8 @@ public class RobotContainer {
     }
 
     public void configureAutoChoosers() {
-        CONTAINER_CHOOSER.setDefaultOption("Red", getRedTrajectories());
-        CONTAINER_CHOOSER.addOption("Blue", getBlueTrajectories());
+        CONTAINER_CHOOSER.setDefaultOption("Red", "Red");
+        CONTAINER_CHOOSER.addOption("Blue", "Blue");
 
         AUTO_CHOOSER.setDefaultOption("Test Path", () -> new TestAutoCommand(drivetrain));
         AUTO_CHOOSER.addOption("Tune Path", () -> new TuneAutoCommand(drivetrain));
@@ -285,7 +285,13 @@ public class RobotContainer {
      */
     public Command getAutonomousCommand() {
         if(!hasGlobalTrajectories()) {
-            setGlobalTrajectories(CONTAINER_CHOOSER.getSelected());
+            if(CONTAINER_CHOOSER.getSelected().equals("Red")) {
+                setGlobalTrajectories(Paths.getRedTrajectories());
+                setGlobalPositions(RED_POSITIONS);
+            } else {
+                setGlobalTrajectories(Paths.getBlueTrajectories());
+                setGlobalPositions(BLUE_POSITIONS);
+            }
         }
 
         return AUTO_CHOOSER.getSelected().get();
