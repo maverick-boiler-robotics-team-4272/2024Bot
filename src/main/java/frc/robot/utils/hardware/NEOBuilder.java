@@ -163,30 +163,21 @@ public class NEOBuilder {
         return this;
     }
 
+    /**
+     * 
+     * 
+     * <p>Status Frame 0: Applied Set, Faults, Sticky Faults, Is Follower, Default: 10ms</p>
+     * <p>Status Frame 1: Motor Velocity, Motor Temperature, Motor Voltage, Motor Current, Default: 20ms</p>
+     * <p>Status Frame 2: Motor Position, Default: 20ms</p>
+     * <p>Status Frame 3: Analog Sensor Voltage, Analog Sensor Velocity, Analog Sensor Position, Default: 50ms</p>
+     * <p>Status Frame 4: Alternate Encoder Velocity, Alternate Encoder Position, Default: 20ms</p>
+     * <p>Status Frame 5: Duty Cycle Absolute Encoder Position, Default: 200ms</p>
+     * <p>Status Frame 6: Duty Cycle Absolute Encoder Velocity, Default: 500ms</p>
+     * @param frame which frame you wish to set
+     * @param ms period time in milliseconds
+     */
     public NEOBuilder withPeriodicFramerate(PeriodicFrame frame, int ms) {
         motor.setPeriodicFramePeriod(frame, ms);
-
-        return this;
-    }
-
-    public NEOBuilder withPeriodicFramerates(int ms0, int ms1, int ms2, int ms3, int ms4, int ms5) {
-        motor.setPeriodicFramePeriod(PeriodicFrame.kStatus0, ms0);
-        motor.setPeriodicFramePeriod(PeriodicFrame.kStatus1, ms1);
-        motor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, ms2);
-        motor.setPeriodicFramePeriod(PeriodicFrame.kStatus3, ms3);
-        motor.setPeriodicFramePeriod(PeriodicFrame.kStatus4, ms4);
-        motor.setPeriodicFramePeriod(PeriodicFrame.kStatus5, ms5);
-
-        return this;
-    }
-
-    public NEOBuilder withAllPeriodicFramerates(int ms) {
-        motor.setPeriodicFramePeriod(PeriodicFrame.kStatus0, ms);
-        motor.setPeriodicFramePeriod(PeriodicFrame.kStatus1, ms);
-        motor.setPeriodicFramePeriod(PeriodicFrame.kStatus2, ms);
-        motor.setPeriodicFramePeriod(PeriodicFrame.kStatus3, ms);
-        motor.setPeriodicFramePeriod(PeriodicFrame.kStatus4, ms);
-        motor.setPeriodicFramePeriod(PeriodicFrame.kStatus5, ms);
 
         return this;
     }

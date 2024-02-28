@@ -148,7 +148,7 @@ public class PathFollowState extends PositionalDriveState {
             } else {
                 Pose2d initHolo = trajectory.getInitialTargetHolonomicPose();
 
-                requiredSubsystem.setGyroscopeReading(initHolo.getRotation().unaryMinus());
+                requiredSubsystem.setGyroscopeReading(initHolo.getRotation());
                 requiredSubsystem.setRobotPose(initHolo);
             }
         }
@@ -217,6 +217,14 @@ public class PathFollowState extends PositionalDriveState {
         }
 
         return timeStopped && positionStopped ? time && position : time || position;
+    }
+
+    public void pause() {
+        timer.stop();
+    }
+
+    public void unpause() {
+        timer.start();
     }
 
     public static boolean posesAlmostEqual(Pose2d a, Pose2d b, Pose2d delta) {

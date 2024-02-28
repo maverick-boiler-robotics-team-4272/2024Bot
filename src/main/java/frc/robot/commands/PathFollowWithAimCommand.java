@@ -2,6 +2,8 @@ package frc.robot.commands;
 
 import static frc.robot.constants.UniversalConstants.SPEAKER_SHOT_POSITION;
 
+import java.util.function.BooleanSupplier;
+
 import com.pathplanner.lib.path.PathPlannerTrajectory;
 
 import edu.wpi.first.math.geometry.Translation3d;
@@ -12,14 +14,28 @@ import frc.robot.subsystems.drivetrain.Drivetrain;
 import frc.robot.subsystems.drivetrain.states.PathFollowWithAiming;
 
 public class PathFollowWithAimCommand extends ParallelCommandGroup {
-    public PathFollowWithAimCommand(Drivetrain drivetrain, ArmElevatorSubsystem armElevator, PathPlannerTrajectory path, Translation3d target) {
-        super(
-            new PathFollowWithAiming(drivetrain, path, target.toTranslation2d()),
-            new TargetPositionState(armElevator, () -> drivetrain.getRobotPose().getTranslation(), target)
+    private PathFollowWithAiming pathFollowCommand;
+
+    public PathFollowWithAimCommand(Drivetrain drivetrain, ArmElevatorSubsystem armElevator, PathPlannerTrajectory path, Translation3d target, BooleanSupplier lidar) {
+        addCommands(
+            (pathFollowCommand = new PathFollowWithAiming(drivetrain, path, target.toTranslation2d())),
+            new TargetPositionState(armElevator, () -> drivetrain.getRobotPose().getTranslation(), target, lidar)
         );
     }
 
+    public PathFollowWithAimCommand(Drivetrain drivetrain, ArmElevatorSubsystem armElevator, PathPlannerTrajectory path, BooleanSupplier lidar) {
+        this(drivetrain, armElevator, path, SPEAKER_SHOT_POSITION, lidar);
+    }
+
     public PathFollowWithAimCommand(Drivetrain drivetrain, ArmElevatorSubsystem armElevator, PathPlannerTrajectory path) {
-        this(drivetrain, armElevator, path, SPEAKER_SHOT_POSITION);
+        this(drivetrain, armElevator, path, SPEAKER_SHOT_POSITION, () -> true);
+    }
+
+    public void pausePathFollowing() {
+        pathFollowCommand.pause();
+    }
+
+    public void unpausePathFollowing() {
+        pathFollowCommand.unpause();
     }
 }

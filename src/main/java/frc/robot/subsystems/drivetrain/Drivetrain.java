@@ -166,4 +166,10 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
         return states;
         
     }
+
+    public void resetModules() {
+        for(SwerveModule module : modules) {
+            module.resetModule();
+        }
+    }
 }

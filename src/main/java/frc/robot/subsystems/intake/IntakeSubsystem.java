@@ -6,6 +6,7 @@ import frc.robot.utils.logging.*;
 
 // Hardware
 import com.revrobotics.CANSparkBase.IdleMode;
+import com.revrobotics.CANSparkLowLevel.PeriodicFrame;
 
 import frc.robot.utils.hardware.*;
 
@@ -27,9 +28,20 @@ public class IntakeSubsystem extends SubsystemBase implements Loggable {
     public IntakeSubsystem() {
         intakeMotor = VortexBuilder.createWithDefaults(INTAKE_MOTOR_1_ID)
             .withIdleMode(IdleMode.kCoast)
-            .withAllPeriodicFramerates(65535)
+            .withPeriodicFramerate(PeriodicFrame.kStatus1, 500)
+            .withPeriodicFramerate(PeriodicFrame.kStatus2, 500)
+            .withPeriodicFramerate(PeriodicFrame.kStatus3, 500)
+            .withPeriodicFramerate(PeriodicFrame.kStatus4, 500)
+            .withPeriodicFramerate(PeriodicFrame.kStatus5, 500)
+            .withPeriodicFramerate(PeriodicFrame.kStatus6, 500)
             .withCurrentLimit(80)
             .build();
+
+        try {
+            Thread.sleep(100);
+        } catch(InterruptedException e) {
+
+        }
 
         intakeInputs = new IntakeInputsAutoLogged();
     }

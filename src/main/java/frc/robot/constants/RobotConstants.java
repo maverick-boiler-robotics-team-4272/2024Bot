@@ -99,9 +99,12 @@ public class RobotConstants {
         HOME(Rotation2d.fromDegrees(35.0), Meters.convertFrom(0.5, Inches)),
         WHITE_LINE(new Rotation2d(0.74), 0),
         TEST(Rotation2d.fromDegrees(0.0), Meters.convertFrom(12.0, Inches)),
-        AMP(Rotation2d.fromDegrees(-20.0), Meters.convertFrom(16.0, Inches)),
+        AMP(Rotation2d.fromDegrees(-20.0), Meters.convertFrom(19.0, Inches)),
+        // AMP(new Rotation2d(0.813), 0.190),
         CLIMB(Rotation2d.fromDegrees(0.0), 0.0),
-        TRAP(MIN_ARM_ANGLE, MAX_ELEVATOR_HEIGHT);
+        PRE_CLIMB(Rotation2d.fromDegrees(35.0), Meters.convertFrom(13.0, Inches)),
+        TRAP(MIN_ARM_ANGLE, MAX_ELEVATOR_HEIGHT),
+        AUTO_LINE(Rotation2d.fromDegrees(42.0), Meters.convertFrom(10, Inches));
 
         private Rotation2d armAngle;
         private double elevatorHeight;
@@ -123,10 +126,10 @@ public class RobotConstants {
     }
 
     public static class ArmConstants {
-        public static final double ARM_PID_P = 0.75;
+        public static final double ARM_PID_P = 0.90;
         public static final double ARM_PID_I = 0.0001;
         public static final double ARM_PID_D = 0.0;
-        public static final double ARM_PID_F = 0.35;
+        public static final double ARM_PID_F = 0.25;
 
         public static final double ARM_LENGTH = Meters.convertFrom(16.0, Inches);
 
@@ -134,7 +137,7 @@ public class RobotConstants {
 
         public static final double ARM_RATIO = Rotation2d.fromDegrees(7.872).getRadians();
 
-        public static final double ARM_OFFSET = 33.0;
+        public static final double ARM_OFFSET = 31.0;
 
         public static final Rotation2d MAX_ARM_ANGLE = Rotation2d.fromDegrees(50.0);
         public static final Rotation2d MIN_ARM_ANGLE = Rotation2d.fromDegrees(-20.0);
@@ -152,9 +155,9 @@ public class RobotConstants {
         public static final double ELEVATOR_PID_D = 0.0;
         public static final double ELEVATOR_PID_F = 0.5;
 
-        public static final double ELEVATOR_HEIGHT_DEADZONE = Meters.convertFrom(1.0, Centimeters);
+        public static final double ELEVATOR_HEIGHT_DEADZONE = Meters.convertFrom(2.0, Centimeters);
 
-        public static final double BLOCKING_HEIGHT = Meters.convertFrom(3.0, Inches);
+        public static final double BLOCKING_HEIGHT = Meters.convertFrom(4.0, Inches);
 
         public static final Translation3d ELEVATOR_TRANSLATION = new Translation3d(0, Meters.convertFrom(2.0, Inches), Meters.convertFrom(14.5, Inches));
 
@@ -162,5 +165,19 @@ public class RobotConstants {
 
         public static final double MAX_ELEVATOR_HEIGHT = Meters.convertFrom(20.0, Inches);
         public static final double MIN_ELEVATOR_HEIGHT = Meters.convertFrom(0, Inches);
+    }
+
+    public static class ClimberConstants {
+        private ClimberConstants() {
+            throw new UnsupportedOperationException("Cannot instantiate a constants class");
+        }
+
+        public static final double CLIMBER_P = 1.5;
+        public static final double CLIMBER_I = 0.0;
+        public static final double CLIMBER_D = 0.0;
+        public static final double CLIMBER_F = 0.0;
+
+        public static final double CLIMBER_MIN_HEIGHT = 0.0;
+        public static final double CLIMBER_MAX_HEIGHT = 240.0;
     }
 }

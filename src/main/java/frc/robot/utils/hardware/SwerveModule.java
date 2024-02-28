@@ -8,6 +8,7 @@ import frc.robot.utils.logging.Loggable;
 import com.revrobotics.*;
 import com.revrobotics.CANSparkBase.*;
 import com.revrobotics.CANSparkBase.ControlType;
+import com.revrobotics.CANSparkLowLevel.PeriodicFrame;
 
 // Math
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -57,6 +58,8 @@ public class SwerveModule extends SwerveModuleBase implements Loggable {
             .withPositionConversionFactor(WHEEL_RADIUS * PI2 / (DRIVE_RATIO * Units.Inches.convertFrom(1.0, Units.Meters)))
             .withPosition(0)
             .withPIDFParams(DRIVE_PID_P, DRIVE_PID_I, DRIVE_PID_D, DRIVE_PID_F)
+            .withPeriodicFramerate(PeriodicFrame.kStatus3, 500)
+            .withPeriodicFramerate(PeriodicFrame.kStatus4, 500)
             .build();
         drivePidController = driveMotor.getPIDController();
         driveEncoder = driveMotor.getEncoder();
@@ -67,6 +70,8 @@ public class SwerveModule extends SwerveModuleBase implements Loggable {
             .withPIDFParams(STEER_PID_P, STEER_PID_I, STEER_PID_D, STEER_PID_F)
             .withMaxIAccum(STEER_PID_I_MAX)
             .withPIDPositionWrapping(-180, 180)
+            .withPeriodicFramerate(PeriodicFrame.kStatus3, 500)
+            .withPeriodicFramerate(PeriodicFrame.kStatus4, 500)
             .getUnburntNeo();
         steerPidController = steerMotor.getPIDController();
 
@@ -76,7 +81,7 @@ public class SwerveModule extends SwerveModuleBase implements Loggable {
 
         steerMotor.burnFlash();
         try {
-            Thread.sleep(2000);
+            Thread.sleep(200);
         } catch (InterruptedException e) {
             
         }
@@ -102,6 +107,10 @@ public class SwerveModule extends SwerveModuleBase implements Loggable {
 
     public SwerveModuleState getState() {
         return new SwerveModuleState(driveEncoder.getVelocity(), getMotorRotation());
+    }
+
+    public void resetModule() {
+        steerEncoder.setPosition(-externalEncoder.getPosition());
     }
 
     @Override

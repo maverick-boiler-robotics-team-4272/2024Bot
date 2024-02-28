@@ -21,7 +21,7 @@ public class Vortex extends CANSparkFlex implements Loggable {
     @Override
     public void log(String subdirectory, String humanReadableName) {
         motorInputs.motorVoltage = getBusVoltage();
-        // motorInputs.outputCurrent = getOutputCurrent();
+        motorInputs.outputCurrent = getOutputCurrent();
         motorInputs.motorVelocity = encoder.getVelocity();
         motorInputs.motorPosition = encoder.getPosition();
         // motorInputs.stalling = motorInputs.outputCurrent >= motorInputs.currentLimit * 0.9 && motorInputs.motorVelocity / encoder.getVelocityConversionFactor() < 100;

@@ -8,6 +8,7 @@ import frc.robot.utils.logging.*;
 import frc.robot.utils.hardware.*;
 import com.revrobotics.*;
 import com.revrobotics.CANSparkBase.ControlType;
+import com.revrobotics.CANSparkLowLevel.PeriodicFrame;
 
 // Math
 import edu.wpi.first.math.controller.ArmFeedforward;
@@ -28,10 +29,12 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
     public static class ArmElevatorInputs {
         public double currentArmAngleRadians;
         public double desiredArmAngleRadians;
+        public double safeArmAngleRadians;
         public double armAngleErrorRadians;
 
         public double currentElevatorHeight;
         public double desiredElevatorHeight;
+        public double safeElevatorHeight;
         public double elevatorHeightError;
     }
 
@@ -60,11 +63,17 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
             .withSoftLimits(MAX_ELEVATOR_HEIGHT, MIN_ELEVATOR_HEIGHT)
             .withPIDParams(ELEVATOR_PID_P, ELEVATOR_PID_I, ELEVATOR_PID_D)
             .withInversion(true)
+            .withPeriodicFramerate(PeriodicFrame.kStatus1, 500)
+            .withPeriodicFramerate(PeriodicFrame.kStatus3, 500)
             .withCurrentLimit(50)
             .build();
+        
         elevatorMotor2 = NEOBuilder.createWithDefaults(ELEVATOR_MOTOR_2_ID)
             .asFollower(elevatorMotor1, true)
             .withCurrentLimit(50)
+            .withPeriodicFramerate(PeriodicFrame.kStatus1, 500)
+            .withPeriodicFramerate(PeriodicFrame.kStatus2, 500)
+            .withPeriodicFramerate(PeriodicFrame.kStatus3, 500)
             .getUnburntNeo();
         armMotor = VortexBuilder.createWithDefaults(ARM_MOTOR_ID)
             .withPositionConversionFactor(ARM_RATIO)
@@ -73,6 +82,8 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
             .withSoftLimits(MAX_ARM_ANGLE.getRadians(), MIN_ARM_ANGLE.getRadians())
             .withPIDParams(ARM_PID_P, ARM_PID_I, ARM_PID_D)
             .withPIDPositionWrapping(0, 2 * Math.PI)
+            .withPeriodicFramerate(PeriodicFrame.kStatus1, 500)
+            .withPeriodicFramerate(PeriodicFrame.kStatus3, 500)
             .getUnburntNeo();
 
         armElevatorInputs = new ArmElevatorInputsAutoLogged();
@@ -117,7 +128,6 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
 
     public void goToPos(Rotation2d r, double h) {
         desiredArmAngle = r;
-        setElevatorHeight(h);
 
         armElevatorInputs.desiredArmAngleRadians = r.getRadians();
         armElevatorInputs.desiredElevatorHeight = h;
@@ -150,6 +160,33 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
         elevatorEncoder.setPosition(0);
     }
 
+    public void handleSafety() {
+        double elevatorHeight = elevatorEncoder.getPosition();
+
+        double safeTheta = Math.acos(Math.min(1, Math.max((elevatorHeight + ELEVATOR_TRANSLATION.getZ() - BLOCKING_HEIGHT) / ARM_LENGTH, -1.0)));
+        double safeHeight = -ARM_LENGTH * desiredArmAngle.getSin() + BLOCKING_HEIGHT;
+
+        // Height safe, angle safe
+        // Height safe, angle  not
+        // Height  not, angle safe
+        // Height  not, angle not
+
+        if(Math.abs(desiredArmAngle.getRadians() + Math.PI / 2.0) > Math.abs(safeTheta)) {
+            setShooterRotation(desiredArmAngle);
+        } else {
+            setShooterRotation(new Rotation2d(safeTheta + Math.PI / 2.0));
+        }
+
+        if(armElevatorInputs.desiredElevatorHeight > safeHeight) {
+            setElevatorHeight(armElevatorInputs.desiredElevatorHeight);
+        } else {
+            setElevatorHeight(safeHeight);
+        }
+
+        armElevatorInputs.safeArmAngleRadians = safeTheta;
+        armElevatorInputs.safeElevatorHeight = safeHeight;
+    }
+
     @Override
     public void log(String subdirectory, String humanReadableName) {
         elevatorMotor1.log(subdirectory + "/" + humanReadableName, "ElevatorMotor1");
@@ -168,7 +205,7 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
 
     @Override
     public void periodic() {
-        setShooterRotation(desiredArmAngle);
+        handleSafety();
         log("Subsystems", "ArmElevator");
     }
 }
