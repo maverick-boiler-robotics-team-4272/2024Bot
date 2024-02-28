@@ -37,7 +37,7 @@ public class CANPeriodic implements Periodic, Loggable {
     private CANInputsAutoLogged inputs;
 
     private CANPeriodic() {
-        filter = new AverageFilter(10);
+        filter = new AverageFilter(20);
         inputs = new CANInputsAutoLogged();
 
         PeriodicsUtil.registerPeriodic(this);
