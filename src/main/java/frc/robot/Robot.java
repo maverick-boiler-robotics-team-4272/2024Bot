@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import static frc.robot.constants.UniversalConstants.*;
+
 import org.littletonrobotics.junction.*;
 import org.littletonrobotics.junction.LoggedRobot;
 import org.littletonrobotics.junction.Logger;
@@ -126,6 +128,11 @@ public class Robot extends LoggedRobot {
         if (m_autonomousCommand != null) {
             m_autonomousCommand.cancel();
         }
+
+        if(!hasGlobalPositions())
+            setGlobalPositions(BLUE_POSITIONS);
+
+        m_robotContainer.configureRuntimeDriverBindings();
 
         m_robotContainer.drivetrain.enableVisionFusion();
 

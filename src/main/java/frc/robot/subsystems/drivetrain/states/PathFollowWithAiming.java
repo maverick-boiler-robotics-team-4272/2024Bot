@@ -1,6 +1,6 @@
 package frc.robot.subsystems.drivetrain.states;
 
-import static frc.robot.constants.UniversalConstants.SPEAKER_SHOT_POSITION;
+import static frc.robot.constants.UniversalConstants.*;
 
 import com.pathplanner.lib.path.PathPlannerTrajectory;
 
@@ -18,7 +18,7 @@ public class PathFollowWithAiming extends PathFollowState {
     }
 
     public PathFollowWithAiming(Drivetrain drivetrain, PathPlannerTrajectory path) {
-        this(drivetrain, path, SPEAKER_SHOT_POSITION.toTranslation2d());
+        this(drivetrain, path, getGlobalPositions().SPEAKER_SHOT_POSITION.toTranslation2d());
     }
 
     @Override

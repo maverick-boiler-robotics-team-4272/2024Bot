@@ -1,6 +1,6 @@
 package frc.robot.commands;
 
-import static frc.robot.constants.UniversalConstants.SPEAKER_SHOT_POSITION;
+import static frc.robot.constants.UniversalConstants.*;
 
 import java.util.function.BooleanSupplier;
 
@@ -24,11 +24,11 @@ public class PathFollowWithAimCommand extends ParallelCommandGroup {
     }
 
     public PathFollowWithAimCommand(Drivetrain drivetrain, ArmElevatorSubsystem armElevator, PathPlannerTrajectory path, BooleanSupplier lidar) {
-        this(drivetrain, armElevator, path, SPEAKER_SHOT_POSITION, lidar);
+        this(drivetrain, armElevator, path, getGlobalPositions().SPEAKER_SHOT_POSITION, lidar);
     }
 
     public PathFollowWithAimCommand(Drivetrain drivetrain, ArmElevatorSubsystem armElevator, PathPlannerTrajectory path) {
-        this(drivetrain, armElevator, path, SPEAKER_SHOT_POSITION, () -> true);
+        this(drivetrain, armElevator, path, getGlobalPositions().SPEAKER_SHOT_POSITION, () -> true);
     }
 
     public void pausePathFollowing() {
