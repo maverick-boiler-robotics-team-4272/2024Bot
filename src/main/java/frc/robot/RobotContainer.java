@@ -224,6 +224,10 @@ public class RobotContainer {
             )
         );
 
+        new Trigger(operatorController.getButton("rightBumper")::get).whileTrue(
+            new GoToArmElevatorState(armElevator, AMP).repeatedly()
+        );
+
         new Trigger(operatorLeftTrigger::isTriggered).whileTrue(
             new IntakeFeedCommand(intake, shooter, () -> 0.9)
         );
