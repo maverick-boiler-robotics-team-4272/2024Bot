@@ -7,6 +7,7 @@ package frc.robot;
 
 // Controllers
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.team4272.controllers.XboxController;
 import frc.team4272.controllers.utilities.*;
@@ -262,7 +263,7 @@ public class RobotContainer {
         AUTO_CHOOSER.addOption("Two Center Rush", () -> new TwoCenterRush(drivetrain, armElevator, shooter));
         
         AUTO_TABLE.putData("Auto Chooser", AUTO_CHOOSER);
-        AUTO_TABLE.putData("Side Chooser", CONTAINER_CHOOSER);
+        AUTO_TABLE.putData("Side Chooser", CONTAINER_CHOOSER).withWidget(BuiltInWidgets.kSplitButtonChooser);
     }
 
     public void registerNamedCommands() {

@@ -61,6 +61,10 @@ public class IntakeSubsystem extends SubsystemBase implements Loggable {
         intakeMotor.stopMotor();
     }
 
+    public void setIntakeCurrentLimit() {
+        intakeMotor.setSmartCurrentLimit(80);
+    }
+
     @Override
     public void periodic() {
         log("Subsystems", "IntakeSubsystem");
