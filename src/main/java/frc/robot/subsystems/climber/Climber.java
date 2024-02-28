@@ -3,15 +3,14 @@ package frc.robot.subsystems.climber;
 
 // Logging
 import org.littletonrobotics.junction.*;
-
-import com.revrobotics.SparkPIDController;
-import com.revrobotics.CANSparkBase.ControlType;
-import com.revrobotics.CANSparkLowLevel.PeriodicFrame;
-
 import frc.robot.utils.logging.*;
+
 
 // Hardware
 import frc.robot.utils.hardware.*;
+import com.revrobotics.SparkPIDController;
+import com.revrobotics.CANSparkBase.ControlType;
+import com.revrobotics.CANSparkLowLevel.PeriodicFrame;
 
 // Subsystem
 import edu.wpi.first.wpilibj2.command.SubsystemBase;

@@ -1,14 +1,13 @@
 package frc.robot.subsystems.armelevator.states;
 
 
-import static frc.robot.constants.RobotConstants.ArmElevatorSetpoints.HOME;
+import static frc.robot.constants.RobotConstants.ArmElevatorSetpoints.*;
 
 import java.util.function.BooleanSupplier;
 import java.util.function.Supplier;
 
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
-import frc.robot.constants.RobotConstants.ArmElevatorSetpoints;
 import frc.robot.subsystems.armelevator.ArmElevatorSubsystem;
 import frc.team4272.globals.State;
 
