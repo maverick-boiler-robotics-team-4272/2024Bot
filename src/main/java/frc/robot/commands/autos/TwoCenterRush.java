@@ -17,6 +17,7 @@ import frc.robot.subsystems.drivetrain.Drivetrain;
 import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.shooter.states.AutoShootState;
 import frc.robot.subsystems.shooter.states.LidarStoppedFeedState;
+import frc.robot.subsystems.shooter.states.OutfeedState;
 import frc.robot.subsystems.shooter.states.ShootState;
 
 public class TwoCenterRush extends SequentialCommandGroup {
@@ -38,10 +39,11 @@ public class TwoCenterRush extends SequentialCommandGroup {
             }),
             new ParallelRaceGroup(
                 new AutoAimCommand(drivetrain, armElevator, () -> 0, () -> 0),
-                // new LidarStoppedFeedState(shooter, () -> 0.5).andThen(
-                    // new WaitCommand(0.1),
+                new LidarStoppedFeedState(shooter, () -> 0.8).andThen(
+                    new OutfeedState(shooter, () -> 0.2).withTimeout(0.2),
+                    new WaitCommand(0.1),
                     new AutoShootState(shooter, 1.0, 1.0)
-                // )
+                )
             ),
             new InstantCommand(() -> {
                 drivetrain.disableVisionFusion();
@@ -55,8 +57,10 @@ public class TwoCenterRush extends SequentialCommandGroup {
                 aimingPath.pausePathFollowing();
                 drivetrain.enableVisionFusion();
             }),
-            new AutoAimCommand(drivetrain, armElevator, () -> 0, () -> 0).withTimeout(0.35),
-            new AutoShootState(shooter, 1.0, 1.0),
+            new ParallelCommandGroup(
+                new AutoAimCommand(drivetrain, armElevator, () -> 0, () -> 0).withTimeout(0.35),
+                new AutoShootState(shooter, 1.0, 1.0)
+            ),
             new InstantCommand(() -> {
                 drivetrain.disableVisionFusion();
                 aimingPath.unpausePathFollowing();
