@@ -6,6 +6,7 @@ import org.littletonrobotics.junction.*;
 
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase.ControlType;
+import com.revrobotics.CANSparkLowLevel.PeriodicFrame;
 
 import frc.robot.utils.logging.*;
 
@@ -31,17 +32,20 @@ public class Climber extends SubsystemBase implements Loggable {
 
     public Climber() {
         climberMotor = VortexBuilder.createWithDefaults(CLIMBER_MOTOR_1_ID)
-            .withCurrentLimit(60)
+            .withCurrentLimit(40)
             .withPIDParams(CLIMBER_P, CLIMBER_I, CLIMBER_D)
             .withSoftLimits(CLIMBER_MAX_HEIGHT, CLIMBER_MIN_HEIGHT)
             // .withInversion(true)
             // .withAllPeriodicFramerates(65535)
+            .withPeriodicFramerate(PeriodicFrame.kStatus1, 500)
+            .withPeriodicFramerate(PeriodicFrame.kStatus3, 500)
+            .withPeriodicFramerate(PeriodicFrame.kStatus4, 500)
             .build();
 
         try {
             Thread.sleep(100);
         } catch(InterruptedException e) {
-            
+
         }
 
         climberController = climberMotor.getPIDController();

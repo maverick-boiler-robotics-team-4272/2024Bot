@@ -172,12 +172,12 @@ public class RobotConstants {
             throw new UnsupportedOperationException("Cannot instantiate a constants class");
         }
 
-        public static final double CLIMBER_P = 1.0;
+        public static final double CLIMBER_P = 1.5;
         public static final double CLIMBER_I = 0.0;
         public static final double CLIMBER_D = 0.0;
         public static final double CLIMBER_F = 0.0;
 
         public static final double CLIMBER_MIN_HEIGHT = 0.0;
-        public static final double CLIMBER_MAX_HEIGHT = 80.0;
+        public static final double CLIMBER_MAX_HEIGHT = 240.0;
     }
 }
