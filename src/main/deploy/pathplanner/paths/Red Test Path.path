@@ -9,28 +9,35 @@
       "prevControl": null,
       "nextControl": {
         "x": 3.0,
-        "y": 7.0
+        "y": 6.5
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-<<<<<<< HEAD
-        "x": 6.431655202825382,
-        "y": 4.087081954477746
+        "x": 5.0,
+        "y": 5.0
       },
       "prevControl": {
-        "x": 5.431655202825382,
-        "y": 4.087081954477746
-=======
-        "x": 6.576859073000659,
-        "y": 5.908484642081392
+        "x": 4.0,
+        "y": 6.0
+      },
+      "nextControl": {
+        "x": 6.0,
+        "y": 4.0
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 6.310555138925006,
+        "y": 0.9262270306013297
       },
       "prevControl": {
-        "x": 5.576859073000659,
-        "y": 5.908484642081392
->>>>>>> 5cc7ad34f738ebfc1175e86e1898c5df9db9cb3e
+        "x": 6.060555138925006,
+        "y": 2.4262270306013303
       },
       "nextControl": null,
       "isLocked": false,
@@ -52,10 +59,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Center Rush",
-  "previewStartingState": {
-    "rotation": 0,
-    "velocity": 0
-  },
-  "useDefaultConstraints": true
+  "folder": "Tests",
+  "previewStartingState": null,
+  "useDefaultConstraints": false
 }

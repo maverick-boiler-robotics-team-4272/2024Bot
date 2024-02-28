@@ -6,7 +6,6 @@ import frc.robot.utils.logging.*;
 
 // Hardware
 import com.revrobotics.CANSparkLowLevel.PeriodicFrame;
-
 import frc.robot.utils.hardware.*;
 
 // Subsystem
