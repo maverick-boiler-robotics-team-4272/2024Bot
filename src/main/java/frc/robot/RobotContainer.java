@@ -295,6 +295,16 @@ public class RobotContainer {
                 candle.setLEDs(0, 0, 0);
             })
         );
+
+        new Trigger(intake::isMotorStalling).onTrue(
+            new InstantCommand(() -> {
+                candle.setLEDs(255, 0, 0);
+            })
+        ).onFalse(
+            new InstantCommand(() -> {
+                candle.setLEDs(0, 0, 0);
+            })
+        );
     }
 
     /**
