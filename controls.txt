@@ -2,7 +2,7 @@ OTFPF = On The Fly Path Follow
 
 Driver Controls:
     A: Face Speaker
-    B: Reset heading
+    B: Reset heading (set current face direction to forwards)
     X: OTFPF
     Y: Reset odometry (Limelight)
 
@@ -12,34 +12,38 @@ Driver Controls:
     Left Stick: Unassigned
     Right Stick: Unassigned
 
-    Back: Unassigned
+    Back: Reset modules (Reset module rotation based on mavcoders)
     Start: Unassigned
 
     D-Pad: OTFPF selection
 
     Left Trigger: Unassigned
-    Right Trigger: Rev
+    Right Trigger: Unassigned
 
     Left Joystick: Drivetrain Translation
     Right Joystick: Drivetrian rotation
 
 
 Operator Controls:
-    A: Outfeed
+    A: Amp Outfeed
     B: Zero Elevator
     X: Unassigned
     Y: Reset odometry (Limelight)
 
     Left Bumper: Rev
-    Right Bumper: Shoot
+    Right Bumper: Amp Setpoint (For use while climbing)
 
-    Left Stick: Unassigned
-    Right Stick: Unassigned
+    Left Stick Click: Unassigned
+    Right Stick Click: Unassigned
 
     Back: Unassigned
     Start: Unassigned
 
     D-Pad: Arm Elevator Setpoints
+        Up: Amp Setpoint
+        Right: Trap Setpoint
+        Down: Pre Climb Setpoint
+        Left: White Line Setpoint
 
 
     Left Trigger: Feed and Intake
