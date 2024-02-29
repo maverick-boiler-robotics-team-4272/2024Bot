@@ -178,6 +178,6 @@ public class RobotConstants {
         public static final double CLIMBER_F = 0.0;
 
         public static final double CLIMBER_MIN_HEIGHT = 0.0;
-        public static final double CLIMBER_MAX_HEIGHT = 240.0;
+        public static final double CLIMBER_MAX_HEIGHT = 144.0;
     }
 }
