@@ -9,7 +9,7 @@ import org.json.simple.parser.*;
 
 public class Mirror {
     public static void main(String[] args) {
-        mirrorPath("Two Center Rush", "Blue");
+        
     }
 
     private static void mirrorPath(String pathName, String from) {
@@ -36,6 +36,32 @@ public class Mirror {
                 if (nextControl != null)
                     flipPoint(nextControl);
             }
+
+            JSONArray rotationTargets = (JSONArray) obj.get("rotationTargets");
+
+            for(int i = 0; i < rotationTargets.size(); i++) {
+                JSONObject target = (JSONObject)rotationTargets.get(i);
+
+                double rotation = (Double)target.get("rotationDegrees");
+
+                rotation = 180 - rotation;
+
+                target.put("rotationDegrees", rotation);
+            }
+
+            JSONObject endState = (JSONObject) obj.get("goalEndState");
+
+            JSONObject previewState = (JSONObject) obj.get("previewStartingState");
+
+            flipRotation(endState);
+            flipRotation(previewState);
+
+
+            FileWriter writer = new FileWriter("./src/main/deploy/pathplanner/paths/" + to + " " + pathName + ".path");
+
+            writer.write(obj.toJSONString());
+
+            writer.close();
         } catch(Exception e) {
             e.printStackTrace();
         }
@@ -47,5 +73,19 @@ public class Mirror {
         x = FIELD_WIDTH_METERS - x;
 
         point.put("x", x); // Suck it warning
+    }
+
+    private static void flipRotation(JSONObject rotation) {
+        Double r = (Double) rotation.get("rotation");
+        String name = "rotation";
+
+        if(r == null) {
+            r = (Double) rotation.get(name = "rotationDegrees");
+        }
+
+        double rot = r;
+        rot = 180 - rot;
+
+        rotation.put(name, rot);
     }
 }
