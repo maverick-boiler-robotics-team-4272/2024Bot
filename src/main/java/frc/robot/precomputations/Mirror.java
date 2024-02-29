@@ -9,7 +9,10 @@ import org.json.simple.parser.*;
 
 public class Mirror {
     public static void main(String[] args) {
-        
+        mirrorPath("Three Piece Close", "Blue");
+        mirrorPath("Two Center Rush", "Blue");
+        mirrorPath("Two Piece Close", "Blue");
+        mirrorPath("Two Stage Rush", "Blue");
     }
 
     private static void mirrorPath(String pathName, String from) {
@@ -42,11 +45,7 @@ public class Mirror {
             for(int i = 0; i < rotationTargets.size(); i++) {
                 JSONObject target = (JSONObject)rotationTargets.get(i);
 
-                double rotation = (Double)target.get("rotationDegrees");
-
-                rotation = 180 - rotation;
-
-                target.put("rotationDegrees", rotation);
+                flipRotation(target);
             }
 
             JSONObject endState = (JSONObject) obj.get("goalEndState");
@@ -64,11 +63,12 @@ public class Mirror {
             writer.close();
         } catch(Exception e) {
             e.printStackTrace();
+            System.out.println("Error in path " + pathName);
         }
     }
 
     private static void flipPoint(JSONObject point) {
-        double x = (Double) point.get("x");
+        double x = ensureDouble(point.get("x"));
 
         x = FIELD_WIDTH_METERS - x;
 
@@ -76,16 +76,28 @@ public class Mirror {
     }
 
     private static void flipRotation(JSONObject rotation) {
-        Double r = (Double) rotation.get("rotation");
+        Double r = ensureDouble(rotation.get("rotation"));
         String name = "rotation";
 
         if(r == null) {
-            r = (Double) rotation.get(name = "rotationDegrees");
+            r = ensureDouble(rotation.get(name = "rotationDegrees"));
         }
 
         double rot = r;
         rot = 180 - rot;
 
         rotation.put(name, rot);
+    }
+
+    private static Double ensureDouble(Object obj) {
+        if(obj == null) {
+            return null;
+        } if(obj instanceof Double) {
+            return (Double)obj;
+        } else if(obj instanceof Long) {
+            return ((Long)obj).doubleValue();
+        }
+        
+        throw new IllegalArgumentException("Passed in object must be either a Long or a Double");
     }
 }
