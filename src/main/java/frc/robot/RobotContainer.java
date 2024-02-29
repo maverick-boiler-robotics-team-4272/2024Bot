@@ -132,6 +132,10 @@ public class RobotContainer {
         new Trigger(driverController.getButton("a")::get).whileTrue(
             new FacePositionState(drivetrain, driveLeftAxes::getDeadzonedX, driveLeftAxes::getDeadzonedY, getGlobalPositions().SPEAKER_POSITION)
         );
+
+        new Trigger(driverController.getButton("leftBumper")::get).whileTrue(
+            new AutoAimCommand(drivetrain, armElevator, driveLeftAxes::getDeadzonedX, driveLeftAxes::getDeadzonedY)  
+        );
     }
 
     private void configureDriverBindings() {
@@ -170,10 +174,6 @@ public class RobotContainer {
         //Arm ----------------------------------------------------
 
         armElevator.setDefaultCommand(new GoToArmElevatorState(armElevator, HOME));
-
-        new Trigger(driverController.getButton("leftBumper")::get).whileTrue(
-            new AutoAimCommand(drivetrain, armElevator, driveLeftAxes::getDeadzonedX, driveLeftAxes::getDeadzonedY)  
-        );
 
         new Trigger(driverController.getButton("back")::get).whileTrue(
             new InstantCommand(drivetrain::resetModules, drivetrain)
