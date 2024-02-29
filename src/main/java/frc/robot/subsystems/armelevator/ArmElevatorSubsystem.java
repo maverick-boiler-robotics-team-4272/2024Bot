@@ -78,7 +78,7 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
         armMotor = VortexBuilder.createWithDefaults(ARM_MOTOR_ID)
             .withPositionConversionFactor(ARM_RATIO)
             .withCurrentLimit(40)
-            .withPosition(0.0)
+            // .withPosition(0.0)
             .withSoftLimits(MAX_ARM_ANGLE.getRadians(), MIN_ARM_ANGLE.getRadians())
             .withPIDParams(ARM_PID_P, ARM_PID_I, ARM_PID_D)
             .withPIDPositionWrapping(0, 2 * Math.PI)
