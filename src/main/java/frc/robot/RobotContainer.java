@@ -288,12 +288,12 @@ public class RobotContainer {
     private void configureCandleBindings() {
         new Trigger(shooter::lidarTripped).onTrue(
             new InstantCommand(() -> {
-                candle.setLEDs(0, 255, 0);
-            })
+                candle.setLEDs(255, 192, 203);
+            }).ignoringDisable(true)
         ).onFalse(
             new InstantCommand(() -> {
                 candle.setLEDs(0, 0, 0);
-            })
+            }).ignoringDisable(true)
         );
 
         new Trigger(intake::isMotorStalling).onTrue(
