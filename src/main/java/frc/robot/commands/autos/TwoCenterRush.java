@@ -52,14 +52,18 @@ public class TwoCenterRush extends SequentialCommandGroup {
             })
         ));
 
-        eventPath.addPauseTime(7.25, new SequentialCommandGroup(
+        eventPath.addPauseTime(8.5, new SequentialCommandGroup(
             new InstantCommand(() -> {
                 aimingPath.pausePathFollowing();
                 drivetrain.enableVisionFusion();
             }),
-            new ParallelCommandGroup(
-                new AutoAimCommand(drivetrain, armElevator, () -> 0, () -> 0).withTimeout(0.35),
-                new AutoShootState(shooter, 1.0, 1.0)
+            new ParallelRaceGroup(
+                new AutoAimCommand(drivetrain, armElevator, () -> 0, () -> 0),
+                new LidarStoppedFeedState(shooter, () -> 0.8).andThen(
+                    new OutfeedState(shooter, () -> 0.2).withTimeout(0.2),
+                    new WaitCommand(0.1),
+                    new AutoShootState(shooter, 1.0, 1.0)
+                )
             ),
             new InstantCommand(() -> {
                 drivetrain.disableVisionFusion();
@@ -72,7 +76,7 @@ public class TwoCenterRush extends SequentialCommandGroup {
             new InstantCommand(drivetrain::disableVisionFusion),
             new InstantCommand(drivetrain::resetModules),
             new GoToArmElevatorState(armElevator, AUTO_LINE).withTimeout(0.25),
-            new AutoShootState(shooter, 1.0, 1.0),
+            new AutoShootState(shooter, 0.8, 1.0),
             eventPath
         );
     }
