@@ -25,15 +25,14 @@ public class NEO extends CANSparkMax implements Loggable {
         motorInputs.outputCurrent = getOutputCurrent();
         motorInputs.motorVelocity = encoder.getVelocity();
         motorInputs.motorPosition = encoder.getPosition();
-        // motorInputs.stalling = motorInputs.outputCurrent >= motorInputs.currentLimit * 0.9 && motorInputs.motorVelocity / encoder.getVelocityConversionFactor() < 100;
+        motorInputs.stalling = motorInputs.outputCurrent >= motorInputs.currentLimit * 0.9 && motorInputs.motorVelocity / encoder.getVelocityConversionFactor() < 100;
         // motorInputs.motorTemperatureCelsius = getMotorTemperature();
 
         Logger.processInputs(subdirectory + "/" + humanReadableName, motorInputs);
     }
 
     public boolean isStalled() {
-        // return motorInputs.stalling;
-        return false;
+        return motorInputs.stalling;
     }
 
     @Override
