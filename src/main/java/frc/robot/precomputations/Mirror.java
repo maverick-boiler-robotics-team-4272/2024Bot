@@ -7,6 +7,9 @@ import java.io.*;
 import org.json.simple.*;
 import org.json.simple.parser.*;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+
 public class Mirror {
     public static void main(String[] args) {
         mirrorPath("Three Piece Close", "Blue");
@@ -55,9 +58,12 @@ public class Mirror {
             flipRotation(previewState);
 
 
+            ObjectMapper mapper = new ObjectMapper();
+            mapper.enable(SerializationFeature.INDENT_OUTPUT);
+            
             FileWriter writer = new FileWriter("./src/main/deploy/pathplanner/paths/" + to + " " + pathName + ".path");
 
-            writer.write(obj.toJSONString());
+            mapper.writeValue(writer, obj);
 
             writer.close();
         } catch(Exception e) {
