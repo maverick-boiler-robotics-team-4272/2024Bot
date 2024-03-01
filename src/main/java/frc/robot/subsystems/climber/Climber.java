@@ -31,7 +31,8 @@ public class Climber extends SubsystemBase implements Loggable {
 
     public Climber() {
         climberMotor = VortexBuilder.createWithDefaults(CLIMBER_MOTOR_1_ID)
-            .withCurrentLimit(40)
+            .withCurrentLimit(20)
+            .withPosition(0.0)
             .withPIDParams(CLIMBER_P, CLIMBER_I, CLIMBER_D)
             .withSoftLimits(CLIMBER_MAX_HEIGHT, CLIMBER_MIN_HEIGHT)
             // .withInversion(true)
