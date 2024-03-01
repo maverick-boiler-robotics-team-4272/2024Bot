@@ -11,7 +11,6 @@ public class Mirror {
     public static void main(String[] args) {
         mirrorPath("Three Piece Close", "Blue");
         mirrorPath("Two Center Rush", "Blue");
-        mirrorPath("Two Piece Close", "Blue");
         mirrorPath("Two Stage Rush", "Blue");
     }
 
