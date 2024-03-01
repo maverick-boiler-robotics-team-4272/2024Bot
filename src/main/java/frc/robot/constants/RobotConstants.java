@@ -155,6 +155,9 @@ public class RobotConstants {
         public static final double ELEVATOR_PID_D = 0.0;
         public static final double ELEVATOR_PID_F = 0.5;
 
+        public static final double ELEVATOR_OUTPUT_MAX = 1.0;
+        public static final double ELEVATOR_OUTPUT_MIN = -0.75;
+
         public static final double ELEVATOR_HEIGHT_DEADZONE = Meters.convertFrom(2.0, Centimeters);
 
         public static final double BLOCKING_HEIGHT = Meters.convertFrom(4.0, Inches);
