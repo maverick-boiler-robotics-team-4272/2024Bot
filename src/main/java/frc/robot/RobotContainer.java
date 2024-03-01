@@ -239,8 +239,14 @@ public class RobotContainer {
             new GoToArmElevatorState(armElevator, AMP).repeatedly()
         );
 
-        new Trigger(operatorLeftTrigger::isTriggered).whileTrue(
+        new Trigger(operatorLeftTrigger::isTriggered).and(() -> !operatorController.getButton("back").get()).whileTrue(
             new IntakeFeedCommand(intake, shooter, () -> 0.9)
+        );
+        new Trigger(operatorLeftTrigger::isTriggered).and(operatorController.getButton("back")::get).whileTrue(
+            new ParallelCommandGroup(
+                new IntakeState(intake, () -> 0.9),
+                new OutfeedState(shooter, () -> 0.9)
+            )
         );
 
         new Trigger(operatorRightTrigger::isTriggered).whileTrue(
