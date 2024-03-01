@@ -27,6 +27,7 @@ public class IntakeSubsystem extends SubsystemBase implements Loggable {
 
     public IntakeSubsystem() {
         intakeMotor = VortexBuilder.createWithDefaults(INTAKE_MOTOR_1_ID)
+            .withCurrentLimit(80)
             .withIdleMode(IdleMode.kCoast)
             .withPeriodicFramerate(PeriodicFrame.kStatus1, 500)
             .withPeriodicFramerate(PeriodicFrame.kStatus2, 500)
@@ -34,11 +35,10 @@ public class IntakeSubsystem extends SubsystemBase implements Loggable {
             .withPeriodicFramerate(PeriodicFrame.kStatus4, 500)
             .withPeriodicFramerate(PeriodicFrame.kStatus5, 500)
             .withPeriodicFramerate(PeriodicFrame.kStatus6, 500)
-            .withCurrentLimit(80)
             .build();
 
         try {
-            Thread.sleep(100);
+            Thread.sleep(200);
         } catch(InterruptedException e) {
 
         }
