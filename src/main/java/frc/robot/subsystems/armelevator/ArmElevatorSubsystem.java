@@ -62,6 +62,7 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
             .withPositionConversionFactor(ELEVATOR_RATIO)
             .withSoftLimits(MAX_ELEVATOR_HEIGHT, MIN_ELEVATOR_HEIGHT)
             .withPIDParams(ELEVATOR_PID_P, ELEVATOR_PID_I, ELEVATOR_PID_D)
+            .withPIDClamping(ELEVATOR_OUTPUT_MIN, ELEVATOR_OUTPUT_MAX)
             .withInversion(true)
             .withPeriodicFramerate(PeriodicFrame.kStatus1, 500)
             .withPeriodicFramerate(PeriodicFrame.kStatus3, 500)

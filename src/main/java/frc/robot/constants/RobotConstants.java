@@ -126,10 +126,10 @@ public class RobotConstants {
     }
 
     public static class ArmConstants {
-        public static final double ARM_PID_P = 0.90;
+        public static final double ARM_PID_P = 1.2;
         public static final double ARM_PID_I = 0.0001;
         public static final double ARM_PID_D = 0.0;
-        public static final double ARM_PID_F = 0.25;
+        public static final double ARM_PID_F = 0.17;
 
         public static final double ARM_LENGTH = Meters.convertFrom(16.0, Inches);
 
@@ -137,7 +137,7 @@ public class RobotConstants {
 
         public static final double ARM_RATIO = Rotation2d.fromDegrees(7.872).getRadians();
 
-        public static final double ARM_OFFSET = 31.0;
+        public static final double ARM_OFFSET = 33.5;
 
         public static final Rotation2d MAX_ARM_ANGLE = Rotation2d.fromDegrees(50.0);
         public static final Rotation2d MIN_ARM_ANGLE = Rotation2d.fromDegrees(-20.0);
@@ -154,6 +154,9 @@ public class RobotConstants {
         public static final double ELEVATOR_PID_I = 0.0;
         public static final double ELEVATOR_PID_D = 0.0;
         public static final double ELEVATOR_PID_F = 0.5;
+
+        public static final double ELEVATOR_OUTPUT_MAX = 1.0;
+        public static final double ELEVATOR_OUTPUT_MIN = -0.75;
 
         public static final double ELEVATOR_HEIGHT_DEADZONE = Meters.convertFrom(2.0, Centimeters);
 

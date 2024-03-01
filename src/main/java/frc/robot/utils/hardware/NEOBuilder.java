@@ -72,6 +72,15 @@ public class NEOBuilder {
         return this;
     }
 
+    public NEOBuilder withPIDClamping(double min, double max) {
+        if(motorController == null)
+            motorController = motor.getPIDController();
+
+        motorController.setOutputRange(min, max);
+
+        return this;
+    }
+
     public NEOBuilder withMaxIAccum(double max) {
         if(motorController == null)
             motorController = motor.getPIDController();
