@@ -18,6 +18,9 @@ public class ClimbState extends State<Climber> {
 
     @Override
     public void execute() {
-        requiredSubsystem.setClimerHeight(-Math.round(power.getAsDouble()) * CLIMBER_MAX_HEIGHT);
+        double val = Math.round(power.getAsDouble() - 1.0);
+        if(val != 1.0) {
+            requiredSubsystem.setClimerHeight(val / 2.0 * CLIMBER_MAX_HEIGHT);
+        }
     }
 }
