@@ -236,7 +236,7 @@ public class RobotContainer {
         );
 
         new Trigger(operatorController.getButton("rightBumper")::get).whileTrue(
-            new GoToArmElevatorState(armElevator, AMP).repeatedly()
+            new GoToArmElevatorState(armElevator, CLIMB).repeatedly()
         );
 
         new Trigger(operatorLeftTrigger::isTriggered).and(() -> !operatorController.getButton("back").get()).whileTrue(
