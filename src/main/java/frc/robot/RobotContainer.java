@@ -69,7 +69,7 @@ public class RobotContainer {
     Climber climber = new Climber();
     Candle candle = new Candle(CANDLE_ID);
 
-    int driverDPadValue = -1;
+    // int driverDPadValue = -1;
 
     // The robots IO devices are defined here
     XboxController driverController = new XboxController(0);
@@ -113,21 +113,21 @@ public class RobotContainer {
     public void configureRuntimeDriverBindings() {
         JoystickAxes driveLeftAxes = driverController.getAxes("left");
 
-        new Trigger(driverController.getButton("x")::get).whileTrue(
-            new SelectCommand<Integer>(Map.of(
-                0,
-                new ParallelCommandGroup(
-                    new InstantCommand(() -> driverController.setRumble(RumbleType.kBothRumble, 1.0)),
-                    new PathFindToPositionState(drivetrain, getGlobalPositions().AMP_POSE)
-                ),
-                90, 
-                new GoToPositionState(drivetrain, getGlobalPositions().AMP_POSE)
-                ),
-                () -> driverDPadValue
-            )
-        ).onFalse(
-            new InstantCommand(() -> driverController.setRumble(RumbleType.kBothRumble, 0.0))
-        );
+        // new Trigger(driverController.getButton("x")::get).whileTrue(
+        //     new SelectCommand<Integer>(Map.of(
+        //         0,
+        //         new ParallelCommandGroup(
+        //             new InstantCommand(() -> driverController.setRumble(RumbleType.kBothRumble, 1.0)),
+        //             new PathFindToPositionState(drivetrain, getGlobalPositions().AMP_POSE)
+        //         ),
+        //         90, 
+        //         new GoToPositionState(drivetrain, getGlobalPositions().AMP_POSE)
+        //         ),
+        //         () -> driverDPadValue
+        //     )
+        // ).onFalse(
+        //     new InstantCommand(() -> driverController.setRumble(RumbleType.kBothRumble, 0.0))
+        // );
 
         new Trigger(driverController.getButton("a")::get).whileTrue(
             new FacePositionState(drivetrain, driveLeftAxes::getDeadzonedX, driveLeftAxes::getDeadzonedY, getGlobalPositions().SPEAKER_POSITION)
@@ -154,14 +154,14 @@ public class RobotContainer {
             new DriveState(drivetrain, driveLeftAxes::getDeadzonedX, driveLeftAxes::getDeadzonedY, driveRightAxes::getDeadzonedX)
         );
 
-        new Trigger(() -> !driverController.getPOV("d-pad").getDirection().equals(Direction.NONE)).onTrue(
-            new SequentialCommandGroup(
-                new InstantCommand(() -> driverController.setRumble(RumbleType.kBothRumble, 1.0)),
-                new InstantCommand(() -> {driverDPadValue = driverController.getPOV("d-pad").getValue();}),
-                new WaitCommand(0.12),
-                new InstantCommand(() -> driverController.setRumble(RumbleType.kBothRumble, 0.0))
-            )  
-        );
+        // new Trigger(() -> !driverController.getPOV("d-pad").getDirection().equals(Direction.NONE)).onTrue(
+        //     new SequentialCommandGroup(
+        //         new InstantCommand(() -> driverController.setRumble(RumbleType.kBothRumble, 1.0)),
+        //         new InstantCommand(() -> {driverDPadValue = driverController.getPOV("d-pad").getValue();}),
+        //         new WaitCommand(0.12),
+        //         new InstantCommand(() -> driverController.setRumble(RumbleType.kBothRumble, 0.0))
+        //     )  
+        // );
         
         new Trigger(driverController.getButton("b")::get).onTrue(
             new ResetHeadingState(drivetrain)
