@@ -42,7 +42,7 @@ public class RobotConstants {
         public static final double FRONT_LEFT_OFFSET  = 115.0;
         public static final double FRONT_RIGHT_OFFSET = 291.0;
         public static final double BACK_LEFT_OFFSET   = 165.0;
-        public static final double BACK_RIGHT_OFFSET  = 98.0;
+        public static final double BACK_RIGHT_OFFSET  = 297.0;
         
         public static class SwerveModuleConstants {
             private SwerveModuleConstants() {
