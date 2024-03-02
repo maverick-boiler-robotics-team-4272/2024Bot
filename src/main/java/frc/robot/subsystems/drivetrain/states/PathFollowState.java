@@ -189,6 +189,8 @@ public class PathFollowState extends PositionalDriveState {
 
     @Override
     public void execute() {
+        if(trajectory == null)
+            return;
         desiredState = trajectory.sample(timer.get());
         desiredPose = desiredState.getTargetHolonomicPose();
 
