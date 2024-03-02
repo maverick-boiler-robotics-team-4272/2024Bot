@@ -88,7 +88,7 @@ public class RobotContainer {
         Paths.initializeTrajectories();
         configureAutoChoosers();
 
-        configureCandleBindings();
+        configureSignalingBindings();
     }
 
     /**
@@ -217,7 +217,7 @@ public class RobotContainer {
                         Direction.UP_RIGHT,
                         new PrintCommand("Up Right on d-pad not assigned"),
                         Direction.RIGHT,
-                        new GoToArmElevatorState(armElevator, TRAP).repeatedly(),
+                        new GoToArmElevatorState(armElevator, SUB_SHOT).repeatedly(),
                         Direction.DOWN_RIGHT,
                         new PrintCommand("Down Right on d-pad not assigned"),
                         Direction.DOWN,
@@ -293,7 +293,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("Enable", new InstantCommand(drivetrain::enableVisionFusion));
     }
 
-    private void configureCandleBindings() {
+    private void configureSignalingBindings() {
         new Trigger(shooter::lidarTripped).onTrue(
             new InstantCommand(() -> {
                 candle.setLEDs(255, 192, 203);

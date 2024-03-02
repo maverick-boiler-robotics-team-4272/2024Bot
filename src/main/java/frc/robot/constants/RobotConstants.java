@@ -106,7 +106,8 @@ public class RobotConstants {
         CLIMB(new Rotation2d(0), MAX_ELEVATOR_HEIGHT),
         PRE_CLIMB(Rotation2d.fromDegrees(35.0), Meters.convertFrom(13.0, Inches)),
         TRAP(MIN_ARM_ANGLE, MAX_ELEVATOR_HEIGHT),
-        AUTO_LINE(Rotation2d.fromDegrees(45.0), Meters.convertFrom(13.0, Inches));
+        AUTO_LINE(Rotation2d.fromDegrees(48.0), Meters.convertFrom(13.0, Inches)),
+        SUB_SHOT(Rotation2d.fromDegrees(48.0), Meters.convertFrom(13.0, Inches));
 
         private Rotation2d armAngle;
         private double elevatorHeight;
@@ -139,7 +140,7 @@ public class RobotConstants {
 
         public static final double ARM_RATIO = Rotation2d.fromDegrees(7.872).getRadians();
 
-        public static final double ARM_OFFSET = 33.5;
+        public static final double ARM_OFFSET = 32.7;
 
         public static final Rotation2d MAX_ARM_ANGLE = Rotation2d.fromDegrees(50.0);
         public static final Rotation2d MIN_ARM_ANGLE = Rotation2d.fromDegrees(-20.0);
@@ -159,12 +160,13 @@ public class RobotConstants {
 
         public static final double ELEVATOR_OUTPUT_MAX = 1.0;
         public static final double ELEVATOR_OUTPUT_MIN = -0.75;
+        
 
         public static final double ELEVATOR_HEIGHT_DEADZONE = Meters.convertFrom(2.0, Centimeters);
 
         public static final double BLOCKING_HEIGHT = Meters.convertFrom(4.0, Inches);
 
-        public static final Translation3d ELEVATOR_TRANSLATION = new Translation3d(0, Meters.convertFrom(2.0, Inches), Meters.convertFrom(14.5, Inches));
+        public static final Translation3d ELEVATOR_TRANSLATION = new Translation3d(0, Meters.convertFrom(2.0, Inches), Meters.convertFrom(12.0, Inches));
 
         public static final double ELEVATOR_RATIO = Meters.convertFrom(18.0, Millimeters) / 1.0; //Find empericaly
 
