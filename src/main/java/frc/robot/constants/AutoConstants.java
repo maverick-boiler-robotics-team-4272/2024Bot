@@ -19,7 +19,7 @@ public class AutoConstants {
             throw new UnsupportedOperationException("Cannot construct a constants class");
         }
 
-        public static final double POSITION_PID_P = 1.5;
+        public static final double POSITION_PID_P = 2.0;
         public static final double POSITION_PID_I = 0.0;
         public static final double POSITION_PID_D = 0.0;
         
@@ -41,17 +41,17 @@ public class AutoConstants {
     
     public static  class Paths {
         public static final SendableChooser<Supplier<Command>> AUTO_CHOOSER = new SendableChooser<>();
-        public static final SendableChooser<TrajectoryContainer> CONTAINER_CHOOSER = new SendableChooser<>();
+        public static final SendableChooser<String> CONTAINER_CHOOSER = new SendableChooser<>();
 
-        private static TrajectoryContainer RED_TRAJECTORIES;
-        private static TrajectoryContainer BLUE_TRAJECTORIES;
+        private static TrajectoryContainer redTrajectories;
+        private static TrajectoryContainer blueTrajectories;
 
         public static TrajectoryContainer getBlueTrajectories() {
-            return BLUE_TRAJECTORIES;
+            return blueTrajectories;
         }
 
         public static TrajectoryContainer getRedTrajectories() {
-            return RED_TRAJECTORIES;
+            return redTrajectories;
         }
 
         private static TrajectoryContainer globalTrajectories = null;
@@ -73,8 +73,8 @@ public class AutoConstants {
         }
 
         public static void initializeTrajectories() {
-            RED_TRAJECTORIES = new TrajectoryContainer("Red");
-            BLUE_TRAJECTORIES = new TrajectoryContainer("Blue");
+            redTrajectories = new TrajectoryContainer("Red");
+            blueTrajectories = new TrajectoryContainer("Blue");
         }
     }
 }

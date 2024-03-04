@@ -7,7 +7,7 @@ public class AutoShootState extends SequentialCommandGroup {
     public AutoShootState(Shooter shooter, double shootPower, double feedPower) {
         super(
             new RevState(shooter, shootPower).withTimeout(0.5),
-            new ShootState(shooter, shootPower, feedPower).withTimeout(0.5)
+            new ShootState(shooter, shootPower, feedPower, true)
         );
     }
 }

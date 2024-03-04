@@ -7,7 +7,7 @@ public class MotorInputs {
     public double motorVoltage;
     // public double motorTemperatureCelsius;
     public double outputCurrent;
-    // public boolean stalling;
+    public boolean stalling;
 
     public double currentLimit;
     public double freeLimit;

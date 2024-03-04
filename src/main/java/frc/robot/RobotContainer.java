@@ -7,6 +7,7 @@ package frc.robot;
 
 // Controllers
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.team4272.controllers.XboxController;
 import frc.team4272.controllers.utilities.*;
@@ -37,7 +38,10 @@ import frc.robot.commands.autos.*;
 import frc.robot.constants.Norms;
 import frc.robot.constants.AutoConstants.Paths;
 import frc.robot.utils.periodics.CANPeriodic;
+import frc.robot.utils.periodics.Candle;
+
 import static frc.robot.constants.AutoConstants.Paths.*;
+import static frc.robot.constants.HardwareMap.*;
 import static frc.robot.constants.TelemetryConstants.Limelights.*;
 import static frc.robot.constants.TelemetryConstants.ShuffleboardTables.*;
 import static frc.robot.constants.UniversalConstants.*;
@@ -63,8 +67,9 @@ public class RobotContainer {
     ArmElevatorSubsystem armElevator = new ArmElevatorSubsystem();
     Shooter shooter = new Shooter();
     Climber climber = new Climber();
+    Candle candle = new Candle(CANDLE_ID);
 
-    int driverDPadValue = -1;
+    // int driverDPadValue = -1;
 
     // The robots IO devices are defined here
     XboxController driverController = new XboxController(0);
@@ -82,6 +87,8 @@ public class RobotContainer {
         
         Paths.initializeTrajectories();
         configureAutoChoosers();
+
+        configureSignalingBindings();
     }
 
     /**
@@ -103,7 +110,35 @@ public class RobotContainer {
         configureOperatorBindings();
     }
 
-    public void configureDriverBindings() {
+    public void configureRuntimeDriverBindings() {
+        JoystickAxes driveLeftAxes = driverController.getAxes("left");
+
+        // new Trigger(driverController.getButton("x")::get).whileTrue(
+        //     new SelectCommand<Integer>(Map.of(
+        //         0,
+        //         new ParallelCommandGroup(
+        //             new InstantCommand(() -> driverController.setRumble(RumbleType.kBothRumble, 1.0)),
+        //             new PathFindToPositionState(drivetrain, getGlobalPositions().AMP_POSE)
+        //         ),
+        //         90, 
+        //         new GoToPositionState(drivetrain, getGlobalPositions().AMP_POSE)
+        //         ),
+        //         () -> driverDPadValue
+        //     )
+        // ).onFalse(
+        //     new InstantCommand(() -> driverController.setRumble(RumbleType.kBothRumble, 0.0))
+        // );
+
+        new Trigger(driverController.getButton("a")::get).whileTrue(
+            new FacePositionState(drivetrain, driveLeftAxes::getDeadzonedX, driveLeftAxes::getDeadzonedY, getGlobalPositions().SPEAKER_POSITION)
+        );
+
+        new Trigger(driverController.getButton("leftBumper")::get).whileTrue(
+            new AutoAimCommand(drivetrain, armElevator, driveLeftAxes::getDeadzonedX, driveLeftAxes::getDeadzonedY)  
+        );
+    }
+
+    private void configureDriverBindings() {
         JoystickAxes driveLeftAxes = driverController.getAxes("left");
         driveLeftAxes.setDeadzone(0.1).setDeadzoneMode(DeadzoneMode.kMagnitude).setPowerScale(3);
 
@@ -119,30 +154,14 @@ public class RobotContainer {
             new DriveState(drivetrain, driveLeftAxes::getDeadzonedX, driveLeftAxes::getDeadzonedY, driveRightAxes::getDeadzonedX)
         );
 
-        new Trigger(() -> !driverController.getPOV("d-pad").getDirection().equals(Direction.NONE)).onTrue(
-            new SequentialCommandGroup(
-                new InstantCommand(() -> driverController.setRumble(RumbleType.kBothRumble, 1.0)),
-                new InstantCommand(() -> {driverDPadValue = driverController.getPOV("d-pad").getValue();}),
-                new WaitCommand(0.12),
-                new InstantCommand(() -> driverController.setRumble(RumbleType.kBothRumble, 0.0))
-            )  
-        );
-
-        new Trigger(driverController.getButton("x")::get).whileTrue(
-            new SelectCommand<Integer>(Map.of(
-                0,
-                new ParallelCommandGroup(
-                    new InstantCommand(() -> driverController.setRumble(RumbleType.kBothRumble, 1.0)),
-                    new PathFindToPositionState(drivetrain, AMP_POSE)
-                ),
-                90, 
-                new GoToPositionState(drivetrain, AMP_POSE)
-                ),
-                () -> driverDPadValue
-            )
-        ).onFalse(
-            new InstantCommand(() -> driverController.setRumble(RumbleType.kBothRumble, 0.0))
-        );
+        // new Trigger(() -> !driverController.getPOV("d-pad").getDirection().equals(Direction.NONE)).onTrue(
+        //     new SequentialCommandGroup(
+        //         new InstantCommand(() -> driverController.setRumble(RumbleType.kBothRumble, 1.0)),
+        //         new InstantCommand(() -> {driverDPadValue = driverController.getPOV("d-pad").getValue();}),
+        //         new WaitCommand(0.12),
+        //         new InstantCommand(() -> driverController.setRumble(RumbleType.kBothRumble, 0.0))
+        //     )  
+        // );
         
         new Trigger(driverController.getButton("b")::get).onTrue(
             new ResetHeadingState(drivetrain)
@@ -152,24 +171,16 @@ public class RobotContainer {
             new ResetToLimelightState(drivetrain, FRONT_LIMELIGHT)
         );
 
-        new Trigger(driverController.getButton("a")::get).whileTrue(
-            new FacePositionState(drivetrain, driveLeftAxes::getDeadzonedX, driveLeftAxes::getDeadzonedY, SPEAKER_POSITION)
-        );
-
         //Arm ----------------------------------------------------
 
         armElevator.setDefaultCommand(new GoToArmElevatorState(armElevator, HOME));
-
-        new Trigger(driverController.getButton("leftBumper")::get).whileTrue(
-            new AutoAimCommand(drivetrain, armElevator, driveLeftAxes::getDeadzonedX, driveLeftAxes::getDeadzonedY)  
-        );
 
         new Trigger(driverController.getButton("back")::get).whileTrue(
             new InstantCommand(drivetrain::resetModules, drivetrain)
         );
     }
 
-    public void configureOperatorBindings() {
+    private void configureOperatorBindings() {
         JoystickAxes operatorRightStick = operatorController.getAxes("right");
         operatorRightStick.setDeadzone(0.1).setPowerScale(2.0).setDeadzoneMode(DeadzoneMode.kYAxis);
 
@@ -186,7 +197,7 @@ public class RobotContainer {
         );
 
         new Trigger(operatorController.getButton("a")::get).whileTrue(
-            new ImbalancedShootState(shooter, 0.1, 0.05, 0.2)
+            new ImbalancedShootState(shooter, 0.25, 0.05, 0.2)
         );
 
         new Trigger(operatorController.getButton("y")::get).onTrue(
@@ -206,7 +217,7 @@ public class RobotContainer {
                         Direction.UP_RIGHT,
                         new PrintCommand("Up Right on d-pad not assigned"),
                         Direction.RIGHT,
-                        new GoToArmElevatorState(armElevator, TRAP).repeatedly(),
+                        new GoToArmElevatorState(armElevator, SUB_SHOT).repeatedly(),
                         Direction.DOWN_RIGHT,
                         new PrintCommand("Down Right on d-pad not assigned"),
                         Direction.DOWN,
@@ -225,11 +236,17 @@ public class RobotContainer {
         );
 
         new Trigger(operatorController.getButton("rightBumper")::get).whileTrue(
-            new GoToArmElevatorState(armElevator, AMP).repeatedly()
+            new GoToArmElevatorState(armElevator, CLIMB).repeatedly()
         );
 
-        new Trigger(operatorLeftTrigger::isTriggered).whileTrue(
+        new Trigger(operatorLeftTrigger::isTriggered).and(() -> !operatorController.getButton("back").get()).whileTrue(
             new IntakeFeedCommand(intake, shooter, () -> 0.9)
+        );
+        new Trigger(operatorLeftTrigger::isTriggered).and(operatorController.getButton("back")::get).whileTrue(
+            new ParallelCommandGroup(
+                new IntakeState(intake, () -> 0.9),
+                new OutfeedState(shooter, () -> 0.9)
+            )
         );
 
         new Trigger(operatorRightTrigger::isTriggered).whileTrue(
@@ -251,23 +268,23 @@ public class RobotContainer {
         );
     }
 
-    public void configureAutoChoosers() {
-        CONTAINER_CHOOSER.setDefaultOption("Red", getRedTrajectories());
-        CONTAINER_CHOOSER.addOption("Blue", getBlueTrajectories());
+    private void configureAutoChoosers() {
+        CONTAINER_CHOOSER.setDefaultOption("Red", "Red");
+        CONTAINER_CHOOSER.addOption("Blue", "Blue");
 
-        AUTO_CHOOSER.setDefaultOption("Test Path", () -> new TestAutoCommand(drivetrain));
-        AUTO_CHOOSER.addOption("Tune Path", () -> new TuneAutoCommand(drivetrain));
-        AUTO_CHOOSER.addOption("Stress Path", () -> new StressTestAuto(drivetrain));
-        AUTO_CHOOSER.addOption("Three Piece Close", () -> new ThreePieceClose(drivetrain, armElevator));
         AUTO_CHOOSER.addOption("Two Center Rush", () -> new TwoCenterRush(drivetrain, armElevator, shooter));
+        AUTO_CHOOSER.addOption("Two Stage Rush", () -> new TwoStageRush(drivetrain, armElevator, shooter));
+        AUTO_CHOOSER.addOption("Three Piece Close", () -> new ThreePieceClose(drivetrain, armElevator, shooter));
+        AUTO_CHOOSER.addOption("Two Piece", () -> new TwoPiece(drivetrain, armElevator, shooter, intake));
+        AUTO_CHOOSER.addOption("Fire And Back", () -> new FireAndSit(drivetrain, armElevator, shooter));
         
         AUTO_TABLE.putData("Auto Chooser", AUTO_CHOOSER);
-        AUTO_TABLE.putData("Side Chooser", CONTAINER_CHOOSER);
+        AUTO_TABLE.putData("Side Chooser", CONTAINER_CHOOSER).withWidget(BuiltInWidgets.kSplitButtonChooser);
     }
 
-    public void registerNamedCommands() {
+    private void registerNamedCommands() {
         NamedCommands.registerCommand("Shoot", new AutoShootState(shooter, 1, 1));
-        NamedCommands.registerCommand("Intake", new IntakeFeedCommand(intake, shooter, () -> 1.0).withTimeout(1.0));
+        NamedCommands.registerCommand("Intake", new IntakeFeedCommand(intake, shooter, () -> 1.0).withTimeout(7.5));
         NamedCommands.registerCommand("DriveBy", new ParallelCommandGroup(
                 new IntakeState(intake, () -> 1.0),
                 new ShootState(shooter, 1.0, 1.0)
@@ -277,6 +294,28 @@ public class RobotContainer {
         NamedCommands.registerCommand("Enable", new InstantCommand(drivetrain::enableVisionFusion));
     }
 
+    private void configureSignalingBindings() {
+        new Trigger(shooter::lidarTripped).onTrue(
+            new InstantCommand(() -> {
+                candle.setLEDs(255, 192, 203);
+            }).ignoringDisable(true)
+        ).onFalse(
+            new InstantCommand(() -> {
+                candle.setLEDs(0, 0, 0);
+            }).ignoringDisable(true)
+        );
+
+        new Trigger(intake::isMotorStalling).onTrue(
+            new InstantCommand(() -> {
+                candle.setLEDs(255, 0, 0);
+            })
+        ).onFalse(
+            new InstantCommand(() -> {
+                candle.setLEDs(0, 0, 0);
+            })
+        );
+    }
+
     /**
      * Use this to pass the autonomous command to the main {@link Robot} class.
      *
@@ -284,7 +323,13 @@ public class RobotContainer {
      */
     public Command getAutonomousCommand() {
         if(!hasGlobalTrajectories()) {
-            setGlobalTrajectories(CONTAINER_CHOOSER.getSelected());
+            if(CONTAINER_CHOOSER.getSelected().equals("Red")) {
+                setGlobalTrajectories(Paths.getRedTrajectories());
+                setGlobalPositions(RED_POSITIONS);
+            } else {
+                setGlobalTrajectories(Paths.getBlueTrajectories());
+                setGlobalPositions(BLUE_POSITIONS);
+            }
         }
 
         return AUTO_CHOOSER.getSelected().get();

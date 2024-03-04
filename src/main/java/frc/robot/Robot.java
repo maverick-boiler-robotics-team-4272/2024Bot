@@ -4,6 +4,9 @@
 
 package frc.robot;
 
+import static frc.robot.constants.AutoConstants.Paths.CONTAINER_CHOOSER;
+import static frc.robot.constants.UniversalConstants.*;
+
 import org.littletonrobotics.junction.*;
 import org.littletonrobotics.junction.LoggedRobot;
 import org.littletonrobotics.junction.Logger;
@@ -41,7 +44,7 @@ public class Robot extends LoggedRobot {
         Logger.recordMetadata("ProjectName", "MyProject"); // Set a metadata value
 
         if (isReal()) {
-            Logger.addDataReceiver(new WPILOGWriter("/home/lvuser/Logs")); // Log to a USB stick ("/U/logs")
+            Logger.addDataReceiver(new WPILOGWriter("/U/Logs")); // Log to a USB stick ("/U/logs")
             Logger.addDataReceiver(new NT4Publisher()); // Publish data to NetworkTables
             new PowerDistribution(10, ModuleType.kRev); // Enables power distribution logging
         } else {
@@ -126,6 +129,16 @@ public class Robot extends LoggedRobot {
         if (m_autonomousCommand != null) {
             m_autonomousCommand.cancel();
         }
+
+        if(!hasGlobalPositions()) {
+            if(CONTAINER_CHOOSER.getSelected().equals("Red")) {
+                setGlobalPositions(RED_POSITIONS);
+            } else {
+                setGlobalPositions(BLUE_POSITIONS);
+            }
+        }
+
+        m_robotContainer.configureRuntimeDriverBindings();
 
         m_robotContainer.drivetrain.enableVisionFusion();
 

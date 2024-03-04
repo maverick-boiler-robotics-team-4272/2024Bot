@@ -5,6 +5,8 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 
 import static edu.wpi.first.units.Units.*;
+import static frc.robot.constants.RobotConstants.ArmConstants.MAX_ARM_ANGLE;
+import static frc.robot.constants.RobotConstants.ArmConstants.MAX_SAFE_ANGLE;
 import static frc.robot.constants.RobotConstants.ArmConstants.MIN_ARM_ANGLE;
 import static frc.robot.constants.RobotConstants.ElevatorConstants.MAX_ELEVATOR_HEIGHT;
 
@@ -40,7 +42,7 @@ public class RobotConstants {
         public static final double FRONT_LEFT_OFFSET  = 115.0;
         public static final double FRONT_RIGHT_OFFSET = 291.0;
         public static final double BACK_LEFT_OFFSET   = 165.0;
-        public static final double BACK_RIGHT_OFFSET  = 98.0;
+        public static final double BACK_RIGHT_OFFSET  = 297.0;
         
         public static class SwerveModuleConstants {
             private SwerveModuleConstants() {
@@ -101,10 +103,11 @@ public class RobotConstants {
         TEST(Rotation2d.fromDegrees(0.0), Meters.convertFrom(12.0, Inches)),
         AMP(Rotation2d.fromDegrees(-20.0), Meters.convertFrom(19.0, Inches)),
         // AMP(new Rotation2d(0.813), 0.190),
-        CLIMB(Rotation2d.fromDegrees(0.0), 0.0),
+        CLIMB(new Rotation2d(0), MAX_ELEVATOR_HEIGHT),
         PRE_CLIMB(Rotation2d.fromDegrees(35.0), Meters.convertFrom(13.0, Inches)),
         TRAP(MIN_ARM_ANGLE, MAX_ELEVATOR_HEIGHT),
-        AUTO_LINE(Rotation2d.fromDegrees(42.0), Meters.convertFrom(10, Inches));
+        AUTO_LINE(Rotation2d.fromDegrees(48.0), Meters.convertFrom(13.0, Inches)),
+        SUB_SHOT(Rotation2d.fromDegrees(48.0), Meters.convertFrom(13.0, Inches));
 
         private Rotation2d armAngle;
         private double elevatorHeight;
@@ -126,10 +129,10 @@ public class RobotConstants {
     }
 
     public static class ArmConstants {
-        public static final double ARM_PID_P = 0.90;
+        public static final double ARM_PID_P = 1.2;
         public static final double ARM_PID_I = 0.0001;
         public static final double ARM_PID_D = 0.0;
-        public static final double ARM_PID_F = 0.25;
+        public static final double ARM_PID_F = 0.17;
 
         public static final double ARM_LENGTH = Meters.convertFrom(16.0, Inches);
 
@@ -137,12 +140,12 @@ public class RobotConstants {
 
         public static final double ARM_RATIO = Rotation2d.fromDegrees(7.872).getRadians();
 
-        public static final double ARM_OFFSET = 31.0;
+        public static final double ARM_OFFSET = 32.7;
 
         public static final Rotation2d MAX_ARM_ANGLE = Rotation2d.fromDegrees(50.0);
         public static final Rotation2d MIN_ARM_ANGLE = Rotation2d.fromDegrees(-20.0);
 
-        public static final Rotation2d MAX_SAFE_ANGLE = Rotation2d.fromRotations(45.0);
+        public static final Rotation2d MAX_SAFE_ANGLE = Rotation2d.fromDegrees(45.0);
     }
 
     public static class ShooterConstants {
@@ -155,11 +158,15 @@ public class RobotConstants {
         public static final double ELEVATOR_PID_D = 0.0;
         public static final double ELEVATOR_PID_F = 0.5;
 
+        public static final double ELEVATOR_OUTPUT_MAX = 1.0;
+        public static final double ELEVATOR_OUTPUT_MIN = -0.75;
+        
+
         public static final double ELEVATOR_HEIGHT_DEADZONE = Meters.convertFrom(2.0, Centimeters);
 
         public static final double BLOCKING_HEIGHT = Meters.convertFrom(4.0, Inches);
 
-        public static final Translation3d ELEVATOR_TRANSLATION = new Translation3d(0, Meters.convertFrom(2.0, Inches), Meters.convertFrom(14.5, Inches));
+        public static final Translation3d ELEVATOR_TRANSLATION = new Translation3d(0, Meters.convertFrom(2.0, Inches), Meters.convertFrom(12.0, Inches));
 
         public static final double ELEVATOR_RATIO = Meters.convertFrom(18.0, Millimeters) / 1.0; //Find empericaly
 
@@ -178,6 +185,6 @@ public class RobotConstants {
         public static final double CLIMBER_F = 0.0;
 
         public static final double CLIMBER_MIN_HEIGHT = 0.0;
-        public static final double CLIMBER_MAX_HEIGHT = 240.0;
+        public static final double CLIMBER_MAX_HEIGHT = 150.0;
     }
 }

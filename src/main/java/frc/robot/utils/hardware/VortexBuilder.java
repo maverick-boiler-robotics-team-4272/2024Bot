@@ -71,6 +71,15 @@ public class VortexBuilder {
         return this;
     }
 
+    public VortexBuilder withPIDClamping(double min, double max) {
+        if(motorController == null)
+            motorController = motor.getPIDController();
+
+        motorController.setOutputRange(min, max);
+
+        return this;
+    }
+
     public VortexBuilder withMaxIAccum(double max) {
         if(motorController == null)
             motorController = motor.getPIDController();

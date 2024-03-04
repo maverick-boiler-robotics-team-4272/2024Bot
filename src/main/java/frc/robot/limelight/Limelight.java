@@ -36,6 +36,7 @@ public final class Limelight implements Periodic, Loggable {
     private LimelightInputsAutoLogged inputs;
     private boolean updatedInputs = false;
     private boolean filtered = false;
+    private double[] updateCycleRobotPose = new double[7];
 
     // TODO: Tune this size
     private static final int FILTER_SIZE = 10;
@@ -74,10 +75,14 @@ public final class Limelight implements Periodic, Loggable {
         double[] pose = LimelightHelpers.getBotPose(tableName);
         if(pose.length != 7) return new double[7];
         if(!updatedInputs) {
+            for(int i = 0; i < 7; i++)
+                updateCycleRobotPose[i] = pose[i];
+
             inputs.unfilteredPose = new Pose2d(pose[0] + FIELD_HALF_WIDTH_METERS, pose[1] + FIELD_HALF_HEIGHT_METERS, Rotation2d.fromDegrees(pose[5]));
             updatedInputs = true;
         }
-        return pose;
+
+        return updateCycleRobotPose;
     }
 
     public double[] getBotPoseInTargetSpace() {
