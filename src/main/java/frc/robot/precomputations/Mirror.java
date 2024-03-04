@@ -51,12 +51,13 @@ public class Mirror {
             }
 
             JSONObject endState = (JSONObject) obj.get("goalEndState");
-
             JSONObject previewState = (JSONObject) obj.get("previewStartingState");
-
-            flipRotation(endState);
-            flipRotation(previewState);
-
+            
+            if (endState != null)
+                flipRotation(endState);
+            
+            if (previewState != null)
+                flipRotation(previewState);
 
             ObjectMapper mapper = new ObjectMapper();
             mapper.enable(SerializationFeature.INDENT_OUTPUT);
