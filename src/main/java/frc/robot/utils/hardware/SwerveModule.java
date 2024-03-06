@@ -27,13 +27,13 @@ public class SwerveModule extends SwerveModuleBase implements Loggable {
     
     @AutoLog
     public static class SwerveModuleInputs {
+        public SwerveModuleState currentState;
+        public SwerveModuleState desiredState;
+
         public double currentMotorAngleDegrees;
         public double currentSpeedMetersPerSecond;
         public double desiredMotorAngleDegrees;
         public double desiredSpeedMetersPerSecond;
-
-        public double speedError;
-        public double currentDesiredSpeedRatio;
     }
 
     private NEO driveMotor;
@@ -106,7 +106,8 @@ public class SwerveModule extends SwerveModuleBase implements Loggable {
     }
 
     public SwerveModuleState getState() {
-        return new SwerveModuleState(driveEncoder.getVelocity(), getMotorRotation());
+        moduleInputs.currentState = new SwerveModuleState(driveEncoder.getVelocity(), getMotorRotation());
+        return new SwerveModuleState(moduleInputs.currentState.speedMetersPerSecond, moduleInputs.currentState.angle);
     }
 
     public void resetModule() {
@@ -115,13 +116,12 @@ public class SwerveModule extends SwerveModuleBase implements Loggable {
 
     @Override
     public void goToState(SwerveModuleState state) {
-        SwerveModuleState optimized = optimize(state, getMotorRotation());
+        moduleInputs.desiredState = state;
 
-        moduleInputs.desiredMotorAngleDegrees = optimized.angle.getDegrees();
-        moduleInputs.desiredSpeedMetersPerSecond = optimized.speedMetersPerSecond;
+        SwerveModuleState optimized = optimize(state, getMotorRotation());
         
-        drivePidController.setReference(moduleInputs.desiredSpeedMetersPerSecond, ControlType.kVelocity);
-        steerPidController.setReference(moduleInputs.desiredMotorAngleDegrees, ControlType.kPosition);
+        drivePidController.setReference(optimized.speedMetersPerSecond, ControlType.kVelocity);
+        steerPidController.setReference(optimized.angle.getDegrees(), ControlType.kPosition);
     }
 
     @Override
@@ -138,9 +138,6 @@ public class SwerveModule extends SwerveModuleBase implements Loggable {
     public void log(String subdirectory, String humanReadableName) {
         moduleInputs.currentMotorAngleDegrees = steerEncoder.getPosition();
         moduleInputs.currentSpeedMetersPerSecond = driveEncoder.getVelocity();
-
-        moduleInputs.speedError = moduleInputs.desiredSpeedMetersPerSecond - moduleInputs.currentSpeedMetersPerSecond;
-        moduleInputs.currentDesiredSpeedRatio = moduleInputs.desiredSpeedMetersPerSecond / moduleInputs.currentSpeedMetersPerSecond;
 
         driveMotor.log(subdirectory + "/" + humanReadableName, "DriveMotor");
         steerMotor.log(subdirectory + "/" + humanReadableName, "SteerMotor");
