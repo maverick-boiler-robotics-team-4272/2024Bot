@@ -12,21 +12,21 @@ public class PathFollowWithEvents extends Command {
     private List<Pair<Double, Command>> unstartedCommands;
     private List<Pair<Double, Command>> pauseTimes;
     private List<Command> runningCommands;
+    private Command pauseCommand;
     private Timer timer;
     private boolean paused;
 
     public PathFollowWithEvents(Command pathFollowCommand, Path path) {
         m_requirements.addAll(pathFollowCommand.getRequirements());
 
-        this.unstartedCommands = new ArrayList<>(path.trajectory.getEventCommands());
-        this.unstartedCommands.sort((a, b) -> {
-            return Double.compare(a.getFirst(), b.getFirst());
-        });
+        this.unstartedCommands = new ArrayList<>(path.events);
+        this.unstartedCommands.sort(Comparator.comparing(Pair<Double, Command>::getFirst));
 
         this.pathFollowCommand = pathFollowCommand;
 
         this.runningCommands = new ArrayList<>();
-        this.pauseTimes = new ArrayList<>();
+        this.pauseTimes = new ArrayList<>(path.pauses);
+        this.pauseTimes.sort(Comparator.comparing(Pair<Double, Command>::getFirst));
         this.timer = new Timer();
         this.paused = false;
     }
@@ -58,7 +58,7 @@ public class PathFollowWithEvents extends Command {
 
                 interruptCommands(command);
 
-                runningCommands.add(command);
+                pauseCommand = command;
                 command.initialize();
                 
                 pauseTimes.remove(0);
@@ -95,6 +95,17 @@ public class PathFollowWithEvents extends Command {
                 event = unstartedCommands.get(0);
                 checkTime = event.getFirst();
             }
+        }
+
+        if(pauseCommand != null) {
+            pauseCommand.execute();
+
+            if(pauseCommand.isFinished()) {
+                pauseCommand.end(false);
+                unpause();
+
+                pauseCommand = null;
+            } 
         }
 
         for(int i = 0; i < runningCommands.size(); i++) {

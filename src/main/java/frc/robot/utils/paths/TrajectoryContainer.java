@@ -1,20 +1,73 @@
 package frc.robot.utils.paths;
 
+// Java Util
+import java.util.*;
+
+// Files
+import java.io.*;
+import edu.wpi.first.wpilibj.Filesystem;
+
+// JSON
+import org.json.simple.*;
+import org.json.simple.parser.JSONParser;
+
+
 // Pathplanner
 import com.pathplanner.lib.path.*;
+import com.pathplanner.lib.auto.CommandUtil;
 
+import edu.wpi.first.math.Pair;
 // Math
 import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+
+// Commands
+import edu.wpi.first.wpilibj2.command.Command;
 
 public class TrajectoryContainer {
     public static class Path {
         public final PathPlannerTrajectory trajectory;
         public final PathPlannerPath path;
+        public final List<Pair<Double, Command>> events;
+        public final List<Pair<Double, Command>> pauses;
 
         public Path(String name, ChassisSpeeds initialSpeeds, Rotation2d initialRotation) {
             path = PathPlannerPath.fromPathFile(name);
             trajectory = path.getTrajectory(initialSpeeds, initialRotation);
+
+            events = new ArrayList<>();
+            pauses = new ArrayList<>();
+            
+            try (BufferedReader br = new BufferedReader(new FileReader(Filesystem.getDeployDirectory() + "/pathplanner/paths/" + name + ".path"))) {
+                StringBuilder fileContentBuilder = new StringBuilder();
+                String line;
+                while ((line = br.readLine()) != null) {
+                    fileContentBuilder.append(line);
+                }
+
+                String fileContent = fileContentBuilder.toString();
+                JSONObject json = (JSONObject) new JSONParser().parse(fileContent);
+
+                for (var markerJson : (JSONArray) json.get("eventMarkers")) {
+                    JSONObject marker = (JSONObject) markerJson;
+                    String markerName = (String) marker.get("name");
+                    Double waypointPos = (Double) marker.get("waypointRelativePos");
+
+                    int index = (int) Math.round(waypointPos / PathSegment.RESOLUTION);
+                    double time = trajectory.getState(index).timeSeconds;
+
+                    Command command = CommandUtil.commandFromJson((JSONObject) marker.get("command"), false);
+                    
+                    if(markerName.equals("Pause")) {
+                        pauses.add(Pair.of(time, command));
+                    } else {
+                        events.add(Pair.of(time, command));
+                    }
+                }
+            } catch (Exception e) {
+                throw new RuntimeException(e);
+            }
+            
         }
 
         public Path(String name) {
