@@ -5,8 +5,7 @@
 package frc.robot;
 
 
-// Controllers
-import edu.wpi.first.wpilibj.GenericHID.RumbleType;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.team4272.controllers.XboxController;
@@ -20,15 +19,11 @@ import frc.robot.subsystems.armelevator.ArmElevatorSubsystem;
 import frc.robot.subsystems.drivetrain.Drivetrain;
 import frc.robot.subsystems.intake.IntakeSubsystem;
 import frc.robot.subsystems.shooter.Shooter;
-import frc.robot.subsystems.climber.Climber;
-
 // States
 import frc.robot.subsystems.intake.states.*;
 import frc.robot.subsystems.armelevator.states.*;
 import frc.robot.subsystems.shooter.states.*;
 import frc.robot.subsystems.drivetrain.states.*;
-import frc.robot.subsystems.climber.states.*;
-
 // Commands
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.commands.*;
@@ -66,7 +61,6 @@ public class RobotContainer {
     IntakeSubsystem intake = new IntakeSubsystem();
     ArmElevatorSubsystem armElevator = new ArmElevatorSubsystem();
     Shooter shooter = new Shooter();
-    Climber climber = new Climber();
     Candle candle = new Candle(CANDLE_ID);
 
     // int driverDPadValue = -1;
@@ -113,23 +107,7 @@ public class RobotContainer {
     public void configureRuntimeDriverBindings() {
         JoystickAxes driveLeftAxes = driverController.getAxes("left");
 
-        // new Trigger(driverController.getButton("x")::get).whileTrue(
-        //     new SelectCommand<Integer>(Map.of(
-        //         0,
-        //         new ParallelCommandGroup(
-        //             new InstantCommand(() -> driverController.setRumble(RumbleType.kBothRumble, 1.0)),
-        //             new PathFindToPositionState(drivetrain, getGlobalPositions().AMP_POSE)
-        //         ),
-        //         90, 
-        //         new GoToPositionState(drivetrain, getGlobalPositions().AMP_POSE)
-        //         ),
-        //         () -> driverDPadValue
-        //     )
-        // ).onFalse(
-        //     new InstantCommand(() -> driverController.setRumble(RumbleType.kBothRumble, 0.0))
-        // );
-
-        new Trigger(driverController.getButton("a")::get).whileTrue(
+        new Trigger(driverController.getButton("rightStick")::get).whileTrue(
             new FacePositionState(drivetrain, driveLeftAxes::getDeadzonedX, driveLeftAxes::getDeadzonedY, getGlobalPositions().SPEAKER_POSITION)
         );
 
@@ -153,15 +131,6 @@ public class RobotContainer {
         drivetrain.setDefaultCommand(
             new DriveState(drivetrain, driveLeftAxes::getDeadzonedX, driveLeftAxes::getDeadzonedY, driveRightAxes::getDeadzonedX)
         );
-
-        // new Trigger(() -> !driverController.getPOV("d-pad").getDirection().equals(Direction.NONE)).onTrue(
-        //     new SequentialCommandGroup(
-        //         new InstantCommand(() -> driverController.setRumble(RumbleType.kBothRumble, 1.0)),
-        //         new InstantCommand(() -> {driverDPadValue = driverController.getPOV("d-pad").getValue();}),
-        //         new WaitCommand(0.12),
-        //         new InstantCommand(() -> driverController.setRumble(RumbleType.kBothRumble, 0.0))
-        //     )  
-        // );
         
         new Trigger(driverController.getButton("b")::get).onTrue(
             new ResetHeadingState(drivetrain)
@@ -191,10 +160,6 @@ public class RobotContainer {
         operatorRightTrigger.setDeadzone(0.1).setPowerScaling(2);
 
         JoystickPOV operatorDPad = operatorController.getPOV("d-pad");
-
-        climber.setDefaultCommand(
-            new ClimbState(climber, operatorRightStick::getDeadzonedY)
-        );
 
         new Trigger(operatorController.getButton("a")::get).whileTrue(
             new ImbalancedShootState(shooter, 0.25, 0.05, 0.2)
@@ -295,7 +260,7 @@ public class RobotContainer {
     }
 
     private void configureSignalingBindings() {
-        new Trigger(shooter::lidarTripped).onTrue(
+        new Trigger(shooter::beginLidarTripped).onTrue(
             new InstantCommand(() -> {
                 candle.setLEDs(255, 192, 203);
             }).ignoringDisable(true)
