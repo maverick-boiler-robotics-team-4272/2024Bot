@@ -114,6 +114,14 @@ public class RobotContainer {
         new Trigger(driverController.getButton("leftBumper")::get).whileTrue(
             new AutoAimCommand(drivetrain, armElevator, driveLeftAxes::getDeadzonedX, driveLeftAxes::getDeadzonedY)  
         );
+
+        new Trigger(driverController.getButton("a")::get).whileTrue(
+            new RotLockState(drivetrain, driveLeftAxes::getDeadzonedX, driveLeftAxes::getDeadzonedY, getGlobalPositions().AMP_POSE::getRotation)
+        );
+
+        new Trigger(driverController.getButton("x")::get).whileTrue(
+            new RotLockState(drivetrain, driveLeftAxes::getDeadzonedX, driveLeftAxes::getDeadzonedY, () -> getGlobalPositions().TO_SOURCE)
+        );
     }
 
     private void configureDriverBindings() {
