@@ -213,19 +213,19 @@ public class RobotContainer {
         );
 
         new Trigger(operatorLeftTrigger::isTriggered).and(() -> !operatorController.getButton("back").get()).whileTrue(
-            new IntakeFeedCommand(intake, shooter, () -> 0.9)
+            new IntakeFeedCommand(intake, shooter, 0.9)
         );
         new Trigger(operatorLeftTrigger::isTriggered).and(operatorController.getButton("back")::get).whileTrue(
             new ParallelCommandGroup(
-                new IntakeState(intake, () -> 0.9),
-                new OutfeedState(shooter, () -> 0.9)
+                new IntakeState(intake, 0.9),
+                new OutfeedState(shooter, 0.9)
             )
         );
 
         new Trigger(operatorRightTrigger::isTriggered).whileTrue(
             new ParallelCommandGroup(
-                new OuttakeState(intake, () -> 0.9),
-                new OutfeedState(shooter, () -> 0.9)
+                new OuttakeState(intake, 0.9),
+                new OutfeedState(shooter, 0.9)
             )
         );
 
@@ -257,9 +257,9 @@ public class RobotContainer {
 
     private void registerNamedCommands() {
         NamedCommands.registerCommand("Shoot", new AutoShootState(shooter, 1, 1));
-        NamedCommands.registerCommand("Intake", new IntakeFeedCommand(intake, shooter, () -> 1.0).withTimeout(7.5));
+        NamedCommands.registerCommand("Intake", new IntakeFeedCommand(intake, shooter, 1.0).withTimeout(7.5));
         NamedCommands.registerCommand("DriveBy", new ParallelCommandGroup(
-                new IntakeState(intake, () -> 1.0),
+                new IntakeState(intake, 1.0),
                 new ShootState(shooter, 1.0, 1.0)
             ).withTimeout(2.5)
         );

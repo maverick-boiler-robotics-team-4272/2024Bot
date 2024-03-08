@@ -50,8 +50,8 @@ public class ThreePieceClose extends SequentialCommandGroup {
             }),
             new ParallelRaceGroup(
                 new AutoAimCommand(drivetrain, armElevator, () -> 0, () -> 0),
-                new LidarStoppedFeedState(shooter, () -> 0.8).andThen(
-                    new OutfeedState(shooter, () -> 0.2).withTimeout(0.2),
+                new LidarStoppedFeedState(shooter, 0.8).andThen(
+                    new OutfeedState(shooter, 0.2).withTimeout(0.2),
                     new WaitCommand(0.1),
                     new AutoShootState(shooter, 1.0, 1.0).withTimeout(5)
                 )
@@ -70,8 +70,8 @@ public class ThreePieceClose extends SequentialCommandGroup {
             }),
             new ParallelRaceGroup(
                 new AutoAimCommand(drivetrain, armElevator, () -> 0, () -> 0),
-                new LidarStoppedFeedState(shooter, () -> 0.8).andThen(
-                    new OutfeedState(shooter, () -> 0.2).withTimeout(0.2),
+                new LidarStoppedFeedState(shooter, 0.8).andThen(
+                    new OutfeedState(shooter, 0.2).withTimeout(0.2),
                     new WaitCommand(0.1),
                     new AutoShootState(shooter, 1.0, 1.0)
                 )
@@ -90,8 +90,8 @@ public class ThreePieceClose extends SequentialCommandGroup {
             }),
             new ParallelRaceGroup(
                 new AutoAimCommand(drivetrain, armElevator, () -> 0, () -> 0),
-                new LidarStoppedFeedState(shooter, () -> 0.8).andThen(
-                    new OutfeedState(shooter, () -> 0.2).withTimeout(0.2),
+                new LidarStoppedFeedState(shooter, 0.8).andThen(
+                    new OutfeedState(shooter, 0.2).withTimeout(0.2),
                     new WaitCommand(0.1),
                     new AutoShootState(shooter, 1.0, 1.0)
                 )
@@ -110,8 +110,8 @@ public class ThreePieceClose extends SequentialCommandGroup {
             }),
             new ParallelRaceGroup(
                 new AutoAimCommand(drivetrain, armElevator, () -> 0, () -> 0),
-                new LidarStoppedFeedState(shooter, () -> 0.8).andThen(
-                    new OutfeedState(shooter, () -> 0.2).withTimeout(0.2),
+                new LidarStoppedFeedState(shooter, 0.8).andThen(
+                    new OutfeedState(shooter, 0.2).withTimeout(0.2),
                     new WaitCommand(0.1),
                     new AutoShootState(shooter, 1.0, 1.0)
                 )
