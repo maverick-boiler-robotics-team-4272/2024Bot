@@ -1,21 +1,19 @@
 package frc.robot.subsystems.intake.states;
 
-import java.util.function.DoubleSupplier;
-
 import frc.robot.subsystems.intake.IntakeSubsystem;
 import frc.team4272.globals.State;
 
 public class OuttakeState extends State<IntakeSubsystem> {
-    private DoubleSupplier outtakePower;
+    private double outtakePower;
 
-    public OuttakeState(IntakeSubsystem intake, DoubleSupplier power) {
+    public OuttakeState(IntakeSubsystem intake, double power) {
         super(intake);
         this.outtakePower = power;
     }
 
     @Override
-    public void execute() {
-        requiredSubsystem.runMotor(-outtakePower.getAsDouble());
+    public void initialize() {
+        requiredSubsystem.runMotor(-outtakePower);
     }
 
     @Override

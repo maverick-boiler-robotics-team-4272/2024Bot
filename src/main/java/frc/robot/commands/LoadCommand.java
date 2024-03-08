@@ -12,7 +12,7 @@ public class LoadCommand extends SequentialCommandGroup {
     public LoadCommand(Shooter shooter, ArmElevatorSubsystem armElevator) {
         super(
             new GoToArmElevatorState(armElevator, HOME),
-            new LidarStoppedFeedState(shooter, () -> 0.5)
+            new LidarStoppedFeedState(shooter, 0.5)
         );
 
         addRequirements(shooter, armElevator);
