@@ -65,6 +65,11 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
         drivetrainInputs.currentStates = new SwerveModuleState[4];
         drivetrainInputs.setStates = new SwerveModuleState[4];
 
+        for(int i = 0; i < 4; i++) {
+            drivetrainInputs.currentStates[i] = new SwerveModuleState();
+            drivetrainInputs.setStates[i] = new SwerveModuleState();
+        }
+
         poseEstimator = new SwerveDrivePoseEstimator(
             kinematics,
             gyroscope.getRotation(),

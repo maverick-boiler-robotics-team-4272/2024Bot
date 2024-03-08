@@ -91,6 +91,9 @@ public class SwerveModule extends SwerveModuleBase implements Loggable {
         steerEncoder.setPosition(-externalEncoder.getPosition());
         moduleInputs = new SwerveModuleInputsAutoLogged();
 
+        moduleInputs.currentState = new SwerveModuleState();
+        moduleInputs.desiredState = new SwerveModuleState();
+
     }
 
     public void setCoastMode(boolean mode) {
