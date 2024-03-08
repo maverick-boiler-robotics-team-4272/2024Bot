@@ -11,6 +11,6 @@ public class LidarStoppedFeedState extends FeedState {
 
     @Override
     public boolean isFinished() {
-        return requiredSubsystem.lidarTripped();
+        return requiredSubsystem.endLidarTripped();
     }
 }

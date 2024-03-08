@@ -25,7 +25,7 @@ public class TwoCenterRush extends SequentialCommandGroup {
         PathFollowWithAimCommand aimingPath = new PathFollowWithAimCommand(
             drivetrain, armElevator, 
             getGlobalTrajectories().TWO_CENTER_RUSH.trajectory,
-            shooter::lidarTripped
+            shooter::endLidarTripped
         );
         PathFollowWithEvents eventPath = new PathFollowWithEvents(
             aimingPath, 
