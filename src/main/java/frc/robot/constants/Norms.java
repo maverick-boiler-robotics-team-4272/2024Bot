@@ -1,11 +1,12 @@
 package frc.robot.constants;
 
-import static frc.robot.constants.TelemetryConstants.Limelights.FRONT_LIMELIGHT;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import frc.robot.subsystems.drivetrain.Drivetrain;
 import frc.robot.utils.logging.Norm;
 import frc.robot.utils.logging.Norm.Metric;
+
+import static frc.robot.constants.TelemetryConstants.Limelights.FRONT_LIMELIGHT;
 
 public class Norms {
     private Norms() {

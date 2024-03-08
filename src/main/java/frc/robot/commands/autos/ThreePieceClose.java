@@ -1,21 +1,17 @@
 package frc.robot.commands.autos;
 
-import static frc.robot.constants.AutoConstants.Paths.getGlobalTrajectories;
+// Commands / States
+import edu.wpi.first.wpilibj2.command.*;
+import frc.robot.commands.*;
+import frc.robot.subsystems.shooter.states.*;
 
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
-import frc.robot.commands.AutoAimCommand;
-import frc.robot.commands.PathFollowWithAimCommand;
-import frc.robot.commands.PathFollowWithEvents;
+// Subsystems
 import frc.robot.subsystems.armelevator.ArmElevatorSubsystem;
 import frc.robot.subsystems.drivetrain.Drivetrain;
 import frc.robot.subsystems.shooter.Shooter;
-import frc.robot.subsystems.shooter.states.AutoShootState;
-import frc.robot.subsystems.shooter.states.LidarStoppedFeedState;
-import frc.robot.subsystems.shooter.states.OutfeedState;
-import frc.robot.subsystems.shooter.states.RevState;
+
+// Constants
+import static frc.robot.constants.AutoConstants.Paths.getGlobalTrajectories;
 
 public class ThreePieceClose extends SequentialCommandGroup {
     public ThreePieceClose(Drivetrain drivetrain, ArmElevatorSubsystem armElevator, Shooter shooter) {

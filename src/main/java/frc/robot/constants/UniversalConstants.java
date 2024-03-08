@@ -1,8 +1,8 @@
 package frc.robot.constants;
 
-import static edu.wpi.first.units.Units.*;
-
 import frc.robot.utils.misc.PositionsContainer;
+
+import static edu.wpi.first.units.Units.*;
 
 public class UniversalConstants {
     private UniversalConstants() {

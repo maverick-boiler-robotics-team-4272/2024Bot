@@ -1,9 +1,13 @@
 package frc.robot.commands;
 
+// Commands / States
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.subsystems.drivetrain.Drivetrain;
 import frc.robot.subsystems.drivetrain.states.PathFollowState;
 
+// Subsystems
+import frc.robot.subsystems.drivetrain.Drivetrain;
+
+// Constants
 import static frc.robot.constants.AutoConstants.PathFollowConstants.DEFAULT_POSE_DELTA;
 import static frc.robot.constants.AutoConstants.Paths.getGlobalTrajectories;
 

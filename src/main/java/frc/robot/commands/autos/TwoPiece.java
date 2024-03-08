@@ -1,28 +1,26 @@
 package frc.robot.commands.autos;
 
-import static frc.robot.constants.RobotConstants.ArmElevatorSetpoints.HOME;
-import static frc.robot.constants.TelemetryConstants.Limelights.FRONT_LIMELIGHT;
-import static frc.robot.constants.UniversalConstants.getGlobalPositions;
 
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
-import frc.robot.commands.AutoAimCommand;
-import frc.robot.commands.IntakeFeedCommand;
+// Commands / States
+import edu.wpi.first.wpilibj2.command.*;
+import frc.robot.commands.*;
+import frc.robot.subsystems.armelevator.states.*;
+import frc.robot.subsystems.drivetrain.states.*;
+import frc.robot.subsystems.shooter.states.*;
+
+// Subsystems
 import frc.robot.subsystems.armelevator.ArmElevatorSubsystem;
-import frc.robot.subsystems.armelevator.states.GoToArmElevatorState;
 import frc.robot.subsystems.drivetrain.Drivetrain;
-import frc.robot.subsystems.drivetrain.states.DriveState;
-import frc.robot.subsystems.drivetrain.states.ResetHeadingState;
-import frc.robot.subsystems.drivetrain.states.RotLockState;
-import frc.robot.subsystems.drivetrain.states.SetHeadingState;
 import frc.robot.subsystems.intake.IntakeSubsystem;
 import frc.robot.subsystems.shooter.Shooter;
-import frc.robot.subsystems.shooter.states.AutoShootState;
-import frc.robot.subsystems.shooter.states.LidarStoppedFeedState;
+
+// Math
+import edu.wpi.first.math.geometry.Rotation2d;
+
+// Constants
+import static frc.robot.constants.RobotConstants.ArmElevatorSetpoints.*;
+import static frc.robot.constants.TelemetryConstants.Limelights.*;
+import static frc.robot.constants.UniversalConstants.getGlobalPositions;
 
 public class TwoPiece extends SequentialCommandGroup {
     public TwoPiece(Drivetrain drivetrain, ArmElevatorSubsystem armElevator, Shooter shooter, IntakeSubsystem intake) {
