@@ -3,13 +3,14 @@ package frc.robot.subsystems.armelevator;
 // Logging
 import org.littletonrobotics.junction.*;
 import frc.robot.utils.logging.*;
-
+import frc.robot.utils.misc.InterpolationMap;
 // Hardware
 import frc.robot.utils.hardware.*;
 import com.revrobotics.*;
 import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkLowLevel.PeriodicFrame;
 
+import edu.wpi.first.math.Pair;
 // Math
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.geometry.*;
@@ -49,6 +50,9 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
     
     private SparkPIDController elevatorController;
     private SparkPIDController armController;
+
+    @SuppressWarnings({ "unchecked", "unused" })
+    private InterpolationMap map = new InterpolationMap((Pair<Double, Double>[])new Pair[] {});
 
     private ArmFeedforward armFeedforward = new ArmFeedforward(0, ARM_PID_F, 0, 0);
 
@@ -145,6 +149,7 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
 
         Rotation2d theta = new Rotation2d(distFromSpeaker, position.getZ() - (height + ELEVATOR_TRANSLATION.getZ()));
         
+        TESTING_TABLE.putNumber("Auto Aim angle", theta.getDegrees());
 
         if(theta.getDegrees() > MAX_SAFE_ANGLE.getDegrees()) {
             theta = MAX_SAFE_ANGLE;
