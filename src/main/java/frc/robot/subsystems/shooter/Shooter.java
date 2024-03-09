@@ -88,6 +88,10 @@ public class Shooter extends SubsystemBase implements Loggable {
         return endLidarTripped() && beginLidarTripped();
     }
 
+    public boolean lidarTripped() {
+        return endLidarTripped() || beginLidarTripped();
+    }
+
     public void rev(double percent) {
         shooterMotor1.set(percent);
         shooterMotor2.set(percent);

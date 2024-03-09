@@ -28,7 +28,7 @@ public class ShootState extends State<Shooter> {
 
     @Override
     public boolean isFinished() {
-        return useLidar && !requiredSubsystem.endLidarTripped();
+        return useLidar && !requiredSubsystem.lidarTripped();
     }
 
     @Override
