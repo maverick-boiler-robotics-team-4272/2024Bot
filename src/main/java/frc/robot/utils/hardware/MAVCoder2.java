@@ -29,6 +29,10 @@ public class MAVCoder2 implements Loggable {
         this.encoder.setZeroOffset(MAV_2_ANGLE_OFFSET + offset);
     }
 
+    public SparkAbsoluteEncoder getEncoder() {
+        return encoder;
+    }
+
     public double getPosition() {
         return encoder.getPosition();
     }

@@ -61,6 +61,7 @@ public class SwerveModule extends SwerveModuleBase implements Loggable {
             .withPeriodicFramerate(PeriodicFrame.kStatus3, 500)
             .withPeriodicFramerate(PeriodicFrame.kStatus4, 500)
             .build();
+
         drivePidController = driveMotor.getPIDController();
         driveEncoder = driveMotor.getEncoder();
 
@@ -73,11 +74,13 @@ public class SwerveModule extends SwerveModuleBase implements Loggable {
             .withPeriodicFramerate(PeriodicFrame.kStatus3, 500)
             .withPeriodicFramerate(PeriodicFrame.kStatus4, 500)
             .getUnburntNeo();
+        
+        externalEncoder = new MAVCoder2(steerMotor, offset);
+        
         steerPidController = steerMotor.getPIDController();
-
+        steerPidController.setFeedbackDevice(externalEncoder.getEncoder());
         steerEncoder = steerMotor.getEncoder();
 
-        externalEncoder = new MAVCoder2(steerMotor, offset);
 
         steerMotor.burnFlash();
         try {
