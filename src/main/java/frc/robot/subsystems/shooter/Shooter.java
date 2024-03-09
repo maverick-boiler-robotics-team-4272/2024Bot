@@ -115,6 +115,7 @@ public class Shooter extends SubsystemBase implements Loggable {
         beginLidar.log(subdirectory + "/" + humanReadableName, "BeginFeedLidar");
 
         shooterInputs.endLidarTripped = endLidarTripped();
+        shooterInputs.beginLidarTripped = beginLidarTripped();
 
         Logger.processInputs(subdirectory + "/" + humanReadableName, shooterInputs);
     }
