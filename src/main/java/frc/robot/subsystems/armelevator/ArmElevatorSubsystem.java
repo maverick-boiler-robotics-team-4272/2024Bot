@@ -8,6 +8,7 @@ import frc.robot.utils.misc.InterpolationMap;
 import frc.robot.utils.hardware.*;
 import com.revrobotics.*;
 import com.revrobotics.CANSparkBase.ControlType;
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.PeriodicFrame;
 
 import edu.wpi.first.math.Pair;
@@ -21,6 +22,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 // Constants
 import frc.robot.constants.RobotConstants.ArmElevatorSetpoint;
 import static frc.robot.constants.HardwareMap.*;
+import static frc.robot.constants.RobotConstants.NOMINAL_VOLTAGE;
 import static frc.robot.constants.RobotConstants.ArmConstants.*;
 import static frc.robot.constants.RobotConstants.ElevatorConstants.*;
 
@@ -66,7 +68,8 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
     private Rotation2d desiredArmAngle;
 
     public ArmElevatorSubsystem() {
-        elevatorMotor1 = NEOBuilder.createWithDefaults(ELEVATOR_MOTOR_1_ID)
+        elevatorMotor1 = NEOBuilder.create(ELEVATOR_MOTOR_1_ID)
+            .withVoltageCompensation(NOMINAL_VOLTAGE)
             .withPosition(0)
             .withPositionConversionFactor(ELEVATOR_RATIO)
             .withSoftLimits(MAX_ELEVATOR_HEIGHT, MIN_ELEVATOR_HEIGHT)
@@ -78,14 +81,20 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
             .withCurrentLimit(50)
             .build();
         
-        elevatorMotor2 = NEOBuilder.createWithDefaults(ELEVATOR_MOTOR_2_ID)
+        elevatorMotor2 = NEOBuilder.create(ELEVATOR_MOTOR_2_ID)
+            .withVoltageCompensation(NOMINAL_VOLTAGE)
+            .withIdleMode(IdleMode.kBrake)
             .asFollower(elevatorMotor1, true)
             .withCurrentLimit(50)
             .withPeriodicFramerate(PeriodicFrame.kStatus1, 500)
             .withPeriodicFramerate(PeriodicFrame.kStatus2, 500)
             .withPeriodicFramerate(PeriodicFrame.kStatus3, 500)
             .getUnburntNeo();
-        armMotor = VortexBuilder.createWithDefaults(ARM_MOTOR_ID)
+
+        armMotor = VortexBuilder.create(ARM_MOTOR_ID)
+            .withVoltageCompensation(NOMINAL_VOLTAGE)
+            .withIdleMode(IdleMode.kBrake)
+            .withInversion(false)
             .withPositionConversionFactor(ARM_RATIO)
             .withCurrentLimit(40)
             // .withPosition(0.0)

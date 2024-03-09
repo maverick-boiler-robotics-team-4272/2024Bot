@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 // Constants
 import static frc.robot.constants.HardwareMap.*;
+import static frc.robot.constants.RobotConstants.NOMINAL_VOLTAGE;
 
 public class IntakeSubsystem extends SubsystemBase implements Loggable {
     @AutoLog
@@ -26,7 +27,9 @@ public class IntakeSubsystem extends SubsystemBase implements Loggable {
     private Vortex intakeMotor;
 
     public IntakeSubsystem() {
-        intakeMotor = VortexBuilder.createWithDefaults(INTAKE_MOTOR_1_ID)
+        intakeMotor = VortexBuilder.create(INTAKE_MOTOR_1_ID)
+            .withVoltageCompensation(NOMINAL_VOLTAGE)
+            .withInversion(false)
             .withCurrentLimit(80)
             .withIdleMode(IdleMode.kCoast)
             .withPeriodicFramerate(PeriodicFrame.kStatus1, 500)

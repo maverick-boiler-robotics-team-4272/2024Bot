@@ -10,6 +10,7 @@ import frc.robot.utils.logging.*;
 import frc.robot.utils.hardware.*;
 import com.revrobotics.SparkPIDController;
 import com.revrobotics.CANSparkBase.ControlType;
+import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkLowLevel.PeriodicFrame;
 
 // Subsystem
@@ -17,6 +18,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 // Constants
 import static frc.robot.constants.HardwareMap.*;
+import static frc.robot.constants.RobotConstants.NOMINAL_VOLTAGE;
 import static frc.robot.constants.RobotConstants.ClimberConstants.*;
 
 public class Climber extends SubsystemBase implements Loggable {
@@ -30,13 +32,14 @@ public class Climber extends SubsystemBase implements Loggable {
     private ClimberInputsAutoLogged climberInputs;
 
     public Climber() {
-        climberMotor = VortexBuilder.createWithDefaults(CLIMBER_MOTOR_1_ID)
+        climberMotor = VortexBuilder.create(CLIMBER_MOTOR_1_ID)
+            .withVoltageCompensation(NOMINAL_VOLTAGE)
+            .withIdleMode(IdleMode.kBrake)
+            .withInversion(false)
             .withCurrentLimit(40)
             .withPosition(0.0)
             .withPIDParams(CLIMBER_P, CLIMBER_I, CLIMBER_D)
             .withSoftLimits(CLIMBER_MAX_HEIGHT, CLIMBER_MIN_HEIGHT)
-            // .withInversion(true)
-            // .withAllPeriodicFramerates(65535)
             .withPeriodicFramerate(PeriodicFrame.kStatus1, 500)
             .withPeriodicFramerate(PeriodicFrame.kStatus3, 500)
             .withPeriodicFramerate(PeriodicFrame.kStatus4, 500)
