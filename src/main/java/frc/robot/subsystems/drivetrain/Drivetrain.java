@@ -35,6 +35,8 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
         public Pose2d estimatedPose;
         public Pose2d desiredPose;
 
+        public double speakerDistance;
+
         public SwerveModuleState[] currentStates;
         public SwerveModuleState[] setStates;
     }
@@ -163,6 +165,12 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
         for(int i = 0; i < modules.length; i++) {
             modules[i].log(subdirectory + "/" + humanReadableName, "Module" + i);
             drivetrainInputs.currentStates[i] = modules[i].getState();
+        }
+
+        if(hasGlobalPositions()) {
+            drivetrainInputs.speakerDistance = getGlobalPositions().SPEAKER_POSITION.getDistance(getRobotPose().getTranslation());
+        } else {
+            drivetrainInputs.speakerDistance = 0.0;
         }
 
         gyroscope.log(subdirectory + "/" + humanReadableName, "Pigeon");
