@@ -264,11 +264,12 @@ public class RobotContainer {
         CONTAINER_CHOOSER.setDefaultOption("Red", "Red");
         CONTAINER_CHOOSER.addOption("Blue", "Blue");
 
-        AUTO_CHOOSER.addOption("Two Center Rush", () -> new TwoCenterRush(drivetrain, armElevator, shooter));
-        AUTO_CHOOSER.addOption("Two Stage Rush", () -> new TwoStageRush(drivetrain, armElevator, shooter));
-        AUTO_CHOOSER.addOption("Three Piece Close", () -> new ThreePieceClose(drivetrain, armElevator, shooter));
-        AUTO_CHOOSER.addOption("Two Piece", () -> new TwoPiece(drivetrain, armElevator, shooter, intake));
-        AUTO_CHOOSER.addOption("Fire And Back", () -> new FireAndSit(drivetrain, armElevator, shooter));
+        AUTO_CHOOSER.addOption("P28", () -> new TwoCenterRush(drivetrain, armElevator, shooter));
+        AUTO_CHOOSER.addOption("P16", () -> new TwoStageRush(drivetrain, armElevator, shooter));
+        AUTO_CHOOSER.addOption("P14", () -> new OneFourRush(drivetrain, armElevator, shooter));
+        AUTO_CHOOSER.addOption("P123", () -> new ThreePieceClose(drivetrain, armElevator, shooter));
+        AUTO_CHOOSER.addOption("P two Any", () -> new TwoPiece(drivetrain, armElevator, shooter, intake));
+        AUTO_CHOOSER.addOption("P Shoot", () -> new FireAndSit(drivetrain, armElevator, shooter));
         
         AUTO_TABLE.putData("Auto Chooser", AUTO_CHOOSER);
         AUTO_TABLE.putData("Side Chooser", CONTAINER_CHOOSER).withWidget(BuiltInWidgets.kSplitButtonChooser);
@@ -284,6 +285,7 @@ public class RobotContainer {
         );
         NamedCommands.registerCommand("Disable", new InstantCommand(drivetrain::disableVisionFusion));
         NamedCommands.registerCommand("Enable", new InstantCommand(drivetrain::enableVisionFusion));
+        NamedCommands.registerCommand("AutoAim", new AutoAimCommand(drivetrain, armElevator, () -> 0, () -> 0));
     }
 
     private void configureSignalingBindings() {
