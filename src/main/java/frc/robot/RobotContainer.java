@@ -112,7 +112,17 @@ public class RobotContainer {
         );
 
         new Trigger(driverController.getButton("leftBumper")::get).whileTrue(
-            new AutoAimCommand(drivetrain, armElevator, driveLeftAxes::getDeadzonedX, driveLeftAxes::getDeadzonedY)  
+            new ParallelCommandGroup(
+                new AutoAimCommand(drivetrain, armElevator, driveLeftAxes::getDeadzonedX, driveLeftAxes::getDeadzonedY), 
+                new SequentialCommandGroup(
+                    new ShootState(shooter, 1.0, 0.0) {
+                        public boolean isFinished() {
+                            return driverController.getButton("rightBumper").get();
+                        }
+                    },
+                    new ShootState(shooter, 1.0, 1.0)
+                )
+            )        
         );
 
         new Trigger(driverController.getButton("a")::get).whileTrue(
@@ -138,6 +148,10 @@ public class RobotContainer {
         TESTING_TABLE.putData("Go To Angle", new InstantCommand(() -> {
             armElevator.goToPos(Rotation2d.fromDegrees(TESTING_TABLE.getNumber("Arm Angle Setpoint")), 0);
         }, armElevator));
+        
+        new Trigger(driveTriggerRight::isTriggered).whileTrue(
+            new IntakeFeedCommand(intake, shooter, 0.9)
+        );
 
         //Drivetrain --------------------------------------------------------
         
