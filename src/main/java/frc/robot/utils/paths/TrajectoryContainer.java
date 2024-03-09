@@ -39,6 +39,7 @@ public class TrajectoryContainer {
 
             if(target != null) {
                 initialPathRotation = target.getTarget();
+                System.out.println(name + " og Rotation: " + initialRotation);
             } else {
                 throw new IllegalStateException(name + ": Path must have a rotation target at the beginning. This is the initial rotation of the robot on the path.");
             }
@@ -84,7 +85,7 @@ public class TrajectoryContainer {
     }
 
     private static final ChassisSpeeds INITIAL_SPEEDS = new ChassisSpeeds(0, 0, 0);
-    private static final Rotation2d INITIAL_ROTATION = new Rotation2d(180);
+    private static final Rotation2d INITIAL_ROTATION = Rotation2d.fromDegrees(180);
 
     public final Path TWO_CENTER_RUSH;
     public final Path THREE_PIECE_CLOSE; //p123

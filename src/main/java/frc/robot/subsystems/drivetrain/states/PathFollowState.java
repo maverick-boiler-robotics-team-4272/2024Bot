@@ -154,8 +154,8 @@ public class PathFollowState extends PositionalDriveState implements Pausable {
                 Pose2d initHolo = trajectory.getInitialTargetHolonomicPose();
                 Pose2d initialPose = new Pose2d(initHolo.getTranslation(), path.initialPathRotation);
 
-                requiredSubsystem.setGyroscopeReading(path.initialPathRotation);
                 requiredSubsystem.setRobotPose(initialPose);
+                requiredSubsystem.setGyroscopeReading(path.initialPathRotation);
             }
         }
     }
