@@ -17,8 +17,8 @@ public class InterpolationMap {
     public double getInterpolatedValue(double measured) {
         int n = 1;
 
-        for(; n < interpolants.size(); n++) {
-            if(measured > interpolants.get(n).getFirst()) {
+        for(; n < interpolants.size() - 1; n++) {
+            if(measured < interpolants.get(n).getFirst()) {
                 break;
             }
         }
