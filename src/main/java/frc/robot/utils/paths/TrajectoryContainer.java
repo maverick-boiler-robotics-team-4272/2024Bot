@@ -87,9 +87,10 @@ public class TrajectoryContainer {
     private static final Rotation2d INITIAL_ROTATION = new Rotation2d(180);
 
     public final Path TWO_CENTER_RUSH;
-    public final Path THREE_PIECE_CLOSE;
+    public final Path THREE_PIECE_CLOSE; //p123
     public final Path TWO_STAGE_RUSH;
     public final Path P_14;
+    public final Path P_123PLUS;
     
     public final Path P_1238;
 
@@ -101,6 +102,7 @@ public class TrajectoryContainer {
         //New Naming convention
         //P for piece ### labling the pieces and the order they are grabed
         P_14 = new Path(prefix + " P14");
+        P_123PLUS = new Path(prefix + " P123Plus");
         P_1238 = new Path(prefix + " P1238");
     }
 }

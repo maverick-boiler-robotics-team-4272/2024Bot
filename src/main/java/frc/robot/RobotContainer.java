@@ -232,7 +232,12 @@ public class RobotContainer {
         );
 
         new Trigger(operatorLeftTrigger::isTriggered).and(() -> !operatorController.getButton("back").get()).whileTrue(
-            new IntakeFeedCommand(intake, shooter, 0.9)
+            new SequentialCommandGroup(
+                new IntakeFeedCommand(intake, shooter, 0.9).until(shooter::beginLidarTripped),
+                new ScheduleCommand(
+                    new IntakeFeedCommand(intake, shooter, 0.9)
+                )
+            )
         );
         new Trigger(operatorLeftTrigger::isTriggered).and(operatorController.getButton("back")::get).whileTrue(
             new ParallelCommandGroup(
@@ -285,7 +290,14 @@ public class RobotContainer {
         );
         NamedCommands.registerCommand("Disable", new InstantCommand(drivetrain::disableVisionFusion));
         NamedCommands.registerCommand("Enable", new InstantCommand(drivetrain::enableVisionFusion));
-        NamedCommands.registerCommand("AutoAim", new AutoAimCommand(drivetrain, armElevator, () -> 0, () -> 0));
+        NamedCommands.registerCommand("AutoAim", Commands.defer(() -> new AutoAimCommand(drivetrain, armElevator, () -> 0, () -> 0), Set.of(drivetrain, armElevator)));
+        NamedCommands.registerCommand("AutoShoot", new ParallelRaceGroup(
+            Commands.defer(() -> new AutoAimCommand(drivetrain, armElevator, () -> 0, () -> 0), Set.of(drivetrain, armElevator)),
+            new AutoShootState(shooter, 1.0, 1.0).beforeStarting(
+                new WaitCommand(0.25)
+            )
+        ));
+
     }
 
     private void configureSignalingBindings() {
