@@ -24,7 +24,7 @@ public class ThreePieceClose extends SequentialCommandGroup {
         PathFollowWithEvents events = new PathFollowWithEvents(aim, getGlobalTrajectories().THREE_PIECE_CLOSE);
 
         events.addPauseTime(0.4, new SequentialCommandGroup(
-            new InstantCommand(aim::pausePathFollowing),
+            new InstantCommand(aim::pause),
             new ParallelRaceGroup(
                 new AutoAimCommand(drivetrain, armElevator, () -> 0, () -> 0),
                 new RevState(shooter, 1.0).withTimeout(0.75).andThen(
@@ -34,14 +34,14 @@ public class ThreePieceClose extends SequentialCommandGroup {
             ),
             new InstantCommand(() -> {
                 drivetrain.disableVisionFusion();
-                aim.unpausePathFollowing();
+                aim.unpause();
                 events.unpause();
             })
         ));
         
         events.addPauseTime(2.5, new SequentialCommandGroup(
             new InstantCommand(() -> {
-                aim.pausePathFollowing();
+                aim.pause();
                 drivetrain.enableVisionFusion();
             }),
             new ParallelRaceGroup(
@@ -54,14 +54,14 @@ public class ThreePieceClose extends SequentialCommandGroup {
             ),
             new InstantCommand(() -> {
                 drivetrain.disableVisionFusion();
-                aim.unpausePathFollowing();
+                aim.unpause();
                 events.unpause();
             })
         ));
 
         events.addPauseTime(4.5, new SequentialCommandGroup(
             new InstantCommand(() -> {
-                aim.pausePathFollowing();
+                aim.pause();
                 drivetrain.enableVisionFusion();
             }),
             new ParallelRaceGroup(
@@ -74,14 +74,14 @@ public class ThreePieceClose extends SequentialCommandGroup {
             ),
             new InstantCommand(() -> {
                 drivetrain.disableVisionFusion();
-                aim.unpausePathFollowing();
+                aim.unpause();
                 events.unpause();
             })
         ));
 
         events.addPauseTime(5.2, new SequentialCommandGroup(
             new InstantCommand(() -> {
-                aim.pausePathFollowing();
+                aim.pause();
                 drivetrain.enableVisionFusion();
             }),
             new ParallelRaceGroup(
@@ -94,14 +94,14 @@ public class ThreePieceClose extends SequentialCommandGroup {
             ),
             new InstantCommand(() -> {
                 drivetrain.disableVisionFusion();
-                aim.unpausePathFollowing();
+                aim.unpause();
                 events.unpause();
             })
         ));
 
         events.addPauseTime(9.0, new SequentialCommandGroup(
             new InstantCommand(() -> {
-                aim.pausePathFollowing();
+                aim.pause();
                 drivetrain.enableVisionFusion();
             }),
             new ParallelRaceGroup(
@@ -114,7 +114,7 @@ public class ThreePieceClose extends SequentialCommandGroup {
             ),
             new InstantCommand(() -> {
                 drivetrain.disableVisionFusion();
-                aim.unpausePathFollowing();
+                aim.unpause();
                 events.unpause();
             })
         ));
