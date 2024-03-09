@@ -23,7 +23,7 @@ public class RobotConstants {
         public static final double DRIVEBASE_HALF_WIDTH = Meters.convertFrom(9.875, Inches);
         public static final double DRIVEBASE_HALF_HEIGHT = Meters.convertFrom(8.875, Inches);
         public static final double MAX_TRANSLATIONAL_SPEED = 4.0;
-        public static final double MAX_ROTATIONAL_SPEED = 2 * Math.PI;
+        public static final double MAX_ROTATIONAL_SPEED = 5 * Math.PI;
 
         public static final Translation2d FRONT_LEFT_POSITION  = new Translation2d(-DRIVEBASE_HALF_WIDTH,  DRIVEBASE_HALF_HEIGHT);
         public static final Translation2d FRONT_RIGHT_POSITION = new Translation2d(-DRIVEBASE_HALF_WIDTH, -DRIVEBASE_HALF_HEIGHT);
