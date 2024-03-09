@@ -35,10 +35,10 @@ public class RobotConstants {
         // public static final Translation2d BACK_LEFT_POSITION   = new Translation2d( WHEEL_DISTANCE,  WHEEL_DISTANCE);
         // public static final Translation2d BACK_RIGHT_POSITION  = new Translation2d( WHEEL_DISTANCE, -WHEEL_DISTANCE);
 
-        public static final double FRONT_LEFT_OFFSET  = 115.0;
-        public static final double FRONT_RIGHT_OFFSET = 291.0;
-        public static final double BACK_LEFT_OFFSET   = 165.0;
-        public static final double BACK_RIGHT_OFFSET  = 297.0;
+        public static final double FRONT_LEFT_OFFSET  = 0.0;
+        public static final double FRONT_RIGHT_OFFSET = 0.0;
+        public static final double BACK_LEFT_OFFSET   = 0.0;
+        public static final double BACK_RIGHT_OFFSET  = 0.0;
         
         public static class SwerveModuleConstants {
             private SwerveModuleConstants() {
@@ -137,7 +137,7 @@ public class RobotConstants {
 
         public static final double ARM_RATIO = Rotation2d.fromDegrees(7.872).getRadians();
 
-        public static final double ARM_OFFSET = 32.7;
+        public static final double ARM_OFFSET = 0.0;
 
         public static final Rotation2d MAX_ARM_ANGLE = Rotation2d.fromDegrees(50.0);
         public static final Rotation2d MIN_ARM_ANGLE = Rotation2d.fromDegrees(-20.0);
