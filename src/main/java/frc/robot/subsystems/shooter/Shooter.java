@@ -18,13 +18,15 @@ import static frc.robot.constants.RobotConstants.ShooterConstants.*;
 public class Shooter extends SubsystemBase implements Loggable {
     @AutoLog
     public static class ShooterInputs {
-        public boolean lidarTripped;
+        public boolean endLidarTripped;
+        public boolean beginLidarTripped;
     }
 
     private Vortex shooterMotor1;
     private Vortex shooterMotor2;
     private Vortex feedMotor;
-    private Lidar lidar;
+    private Lidar endLidar;
+    private Lidar beginLidar;
 
     private ShooterInputsAutoLogged shooterInputs;
 
@@ -68,13 +70,22 @@ public class Shooter extends SubsystemBase implements Loggable {
             
         }
 
-        lidar = new Lidar(LIDAR_1_ID);
+        endLidar = new Lidar(LIDAR_1_ID);
+        beginLidar = new Lidar(LIDAR_2_ID);
 
         shooterInputs = new ShooterInputsAutoLogged();
     }
 
-    public boolean lidarTripped() {
-        return lidar.getRangeMeters() <= MAX_EMPTY_LIDAR_DISTANCE;
+    public boolean endLidarTripped() {
+        return endLidar.getRangeMeters() <= MAX_EMPTY_LIDAR_DISTANCE;
+    }
+
+    public boolean beginLidarTripped() {
+        return beginLidar.getRangeMeters() <= MAX_EMPTY_LIDAR_DISTANCE;
+    }
+
+    public boolean lidarsTripped() {
+        return endLidarTripped() && beginLidarTripped();
     }
 
     public void rev(double percent) {
@@ -96,9 +107,10 @@ public class Shooter extends SubsystemBase implements Loggable {
         shooterMotor1.log(subdirectory + "/" + humanReadableName, "ShooterMotor1");
         shooterMotor2.log(subdirectory + "/" + humanReadableName, "ShooterMotor2");
         feedMotor.log(subdirectory + "/" + humanReadableName, "FeedMotor");
-        lidar.log(subdirectory + "/" + humanReadableName, "FeedLidar");
+        endLidar.log(subdirectory + "/" + humanReadableName, "EndFeedLidar");
+        beginLidar.log(subdirectory + "/" + humanReadableName, "BeginFeedLidar");
 
-        shooterInputs.lidarTripped = lidarTripped();
+        shooterInputs.endLidarTripped = endLidarTripped();
 
         Logger.processInputs(subdirectory + "/" + humanReadableName, shooterInputs);
     }

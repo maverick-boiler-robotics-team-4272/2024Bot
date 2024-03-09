@@ -3,13 +3,14 @@ package frc.robot.subsystems.armelevator;
 // Logging
 import org.littletonrobotics.junction.*;
 import frc.robot.utils.logging.*;
-
+import frc.robot.utils.misc.InterpolationMap;
 // Hardware
 import frc.robot.utils.hardware.*;
 import com.revrobotics.*;
 import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkLowLevel.PeriodicFrame;
 
+import edu.wpi.first.math.Pair;
 // Math
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.geometry.*;
@@ -49,6 +50,15 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
     
     private SparkPIDController elevatorController;
     private SparkPIDController armController;
+
+    @SuppressWarnings({ "unchecked" })
+    private InterpolationMap map = new InterpolationMap((Pair<Double, Double>[])new Pair[] {
+        new Pair<Double, Double>(1.67, 45.0),
+        new Pair<Double, Double>(2.20, 40.0),
+        new Pair<Double, Double>(2.65, 37.0),
+        new Pair<Double, Double>(3.37, 33.5),
+        new Pair<Double, Double>(4.73, 30.0)
+    });
 
     private ArmFeedforward armFeedforward = new ArmFeedforward(0, ARM_PID_F, 0, 0);
 
@@ -139,15 +149,20 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
     }
 
     public void targetPos(Translation2d drivetrainPos, Translation3d position) {
-        double height = elevatorEncoder.getPosition();
+        // double height = elevatorEncoder.getPosition();
 
-        double distFromSpeaker = Math.hypot(drivetrainPos.getX() - position.getX(), drivetrainPos.getY() - position.getY()) + ELEVATOR_TRANSLATION.getY();
+        // double distFromSpeaker = Math.hypot(drivetrainPos.getX() - position.getX(), drivetrainPos.getY() - position.getY()) + ELEVATOR_TRANSLATION.getY();
 
-        Rotation2d theta = new Rotation2d(distFromSpeaker, position.getZ() - (height + ELEVATOR_TRANSLATION.getZ()));
+        // Rotation2d theta = new Rotation2d(distFromSpeaker, position.getZ() - (height + ELEVATOR_TRANSLATION.getZ()));
         
+        // TESTING_TABLE.putNumber("Auto Aim Angle", theta.getDegrees());
 
+        Rotation2d theta = Rotation2d.fromDegrees(map.getInterpolatedValue(drivetrainPos.getDistance(position.toTranslation2d())));
+        
         if(theta.getDegrees() > MAX_SAFE_ANGLE.getDegrees()) {
             theta = MAX_SAFE_ANGLE;
+        } else if(theta.getDegrees() < MIN_SAFE_ANGLE.getDegrees()) {
+            theta = MIN_SAFE_ANGLE;
         }
 
         goToPos(theta, 0.0);

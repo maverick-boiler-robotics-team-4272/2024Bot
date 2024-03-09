@@ -1,22 +1,20 @@
 package frc.robot.subsystems.shooter.states;
 
-import java.util.function.DoubleSupplier;
-
 import frc.robot.subsystems.shooter.Shooter;
 import frc.team4272.globals.State;
 
 public class OutfeedState extends State<Shooter> {
-    private DoubleSupplier power;
+    private double power;
     
-    public OutfeedState(Shooter shooter, DoubleSupplier power) {
+    public OutfeedState(Shooter shooter, double power) {
         super(shooter);
 
         this.power = power;
     }
 
     @Override
-    public void execute() {
-        requiredSubsystem.feed(-power.getAsDouble());
+    public void initialize() {
+        requiredSubsystem.feed(-power);
     }
 
     @Override

@@ -5,10 +5,8 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 
 import static edu.wpi.first.units.Units.*;
-import static frc.robot.constants.RobotConstants.ArmConstants.MAX_ARM_ANGLE;
-import static frc.robot.constants.RobotConstants.ArmConstants.MAX_SAFE_ANGLE;
-import static frc.robot.constants.RobotConstants.ArmConstants.MIN_ARM_ANGLE;
-import static frc.robot.constants.RobotConstants.ElevatorConstants.MAX_ELEVATOR_HEIGHT;
+import static frc.robot.constants.RobotConstants.ArmConstants.*;
+import static frc.robot.constants.RobotConstants.ElevatorConstants.*;
 
 public class RobotConstants {
     private RobotConstants() {
@@ -144,6 +142,7 @@ public class RobotConstants {
         public static final Rotation2d MIN_ARM_ANGLE = Rotation2d.fromDegrees(-20.0);
 
         public static final Rotation2d MAX_SAFE_ANGLE = Rotation2d.fromDegrees(45.0);
+        public static final Rotation2d MIN_SAFE_ANGLE = Rotation2d.fromDegrees(10.0);
     }
 
     public static class ShooterConstants {
@@ -157,7 +156,7 @@ public class RobotConstants {
         public static final double ELEVATOR_PID_F = 0.5;
 
         public static final double ELEVATOR_OUTPUT_MAX = 1.0;
-        public static final double ELEVATOR_OUTPUT_MIN = -0.75;
+        public static final double ELEVATOR_OUTPUT_MIN = -0.50;
         
 
         public static final double ELEVATOR_HEIGHT_DEADZONE = Meters.convertFrom(2.0, Centimeters);

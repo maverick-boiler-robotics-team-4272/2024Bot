@@ -1,17 +1,21 @@
 package frc.robot.commands;
 
-import static frc.robot.constants.UniversalConstants.*;
+// Commands / States
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import frc.robot.subsystems.armelevator.states.TargetPositionState;
+import frc.robot.subsystems.drivetrain.states.PathFollowWithAiming;
 
+// Subsystems
+import frc.robot.subsystems.armelevator.ArmElevatorSubsystem;
+import frc.robot.subsystems.drivetrain.Drivetrain;
+
+// Utilities
+import edu.wpi.first.math.geometry.Translation3d;
 import java.util.function.BooleanSupplier;
-
 import com.pathplanner.lib.path.PathPlannerTrajectory;
 
-import edu.wpi.first.math.geometry.Translation3d;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import frc.robot.subsystems.armelevator.ArmElevatorSubsystem;
-import frc.robot.subsystems.armelevator.states.TargetPositionState;
-import frc.robot.subsystems.drivetrain.Drivetrain;
-import frc.robot.subsystems.drivetrain.states.PathFollowWithAiming;
+// Constants
+import static frc.robot.constants.UniversalConstants.*;
 
 public class PathFollowWithAimCommand extends ParallelCommandGroup {
     private PathFollowWithAiming pathFollowCommand;
