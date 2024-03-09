@@ -91,7 +91,6 @@ public class SwerveModule extends SwerveModuleBase implements Loggable {
 
         System.out.println(externalEncoder.getPosition());
 
-        steerEncoder.setPosition(externalEncoder.getPosition());
         moduleInputs = new SwerveModuleInputsAutoLogged();
 
         moduleInputs.currentState = new SwerveModuleState();
