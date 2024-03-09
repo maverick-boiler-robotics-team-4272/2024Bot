@@ -24,9 +24,9 @@ public class MAVCoder2 implements Loggable {
         this.encoder = motor.getAbsoluteEncoder(SparkAbsoluteEncoder.Type.kDutyCycle);
         this.inputs = new MAVCoder2InputsAutoLogged();
 
-        this.encoder.setInverted(true);
         this.encoder.setPositionConversionFactor(MAV_2_POSITION_FACTOR);
         this.encoder.setZeroOffset(MAV_2_ANGLE_OFFSET + offset);
+        this.encoder.setInverted(true);
     }
 
     public SparkAbsoluteEncoder getEncoder() {
