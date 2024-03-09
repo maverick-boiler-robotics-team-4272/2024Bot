@@ -69,6 +69,7 @@ public class RobotConstants {
         public static final double MAV_2_MIN_OUTPUT = 0.03;
         public static final double MAV_2_MAX_OUTPUT = 0.97;
         public static final double MAV_2_POSITION_FACTOR = 360.0 / (MAV_2_MAX_OUTPUT - MAV_2_MIN_OUTPUT);
+        public static final double MAV_2_ANGLE_OFFSET = MAV_2_MIN_OUTPUT * MAV_2_POSITION_FACTOR;
     }
 
     public static interface ArmElevatorSetpoint {
