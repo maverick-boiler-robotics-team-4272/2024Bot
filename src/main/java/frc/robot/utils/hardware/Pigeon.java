@@ -45,7 +45,7 @@ public class Pigeon extends Pigeon2 implements Gyroscope, Loggable {
 
     @Override
     public void setRotation(Rotation2d rotation) {
-        offset = getYaw().getValueAsDouble() - rotation.getDegrees();
+        offset = getYaw().getValueAsDouble() + rotation.getDegrees();
     }
 
     @Override
