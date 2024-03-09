@@ -20,7 +20,7 @@ public class OneFourRush extends SequentialCommandGroup {
             new PathFollowWithEvents(
                 new PathFollowState(
                     drivetrain, 
-                    getGlobalTrajectories().P_14.trajectory, 
+                    getGlobalTrajectories().P_14, 
                     true, 
                     false
                 ), 

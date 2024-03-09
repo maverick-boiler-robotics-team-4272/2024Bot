@@ -21,7 +21,7 @@ public class ThreePieceClose extends SequentialCommandGroup {
             new PathFollowWithEvents(
                 new PathFollowState(
                     drivetrain, 
-                    getGlobalTrajectories().THREE_PIECE_CLOSE.trajectory,
+                    getGlobalTrajectories().THREE_PIECE_CLOSE,
                     true,
                     false
                 ), 

@@ -17,7 +17,7 @@ public class TwoStageRush extends SequentialCommandGroup {
     public TwoStageRush(Drivetrain drivetrain, ArmElevatorSubsystem armElevator, Shooter shooter) {
         PathFollowWithAimCommand aimingPath = new PathFollowWithAimCommand(
             drivetrain, armElevator, 
-            getGlobalTrajectories().TWO_STAGE_RUSH.trajectory,
+            getGlobalTrajectories().TWO_STAGE_RUSH,
             shooter::endLidarTripped
         );
         PathFollowWithEvents eventPath = new PathFollowWithEvents(
@@ -27,7 +27,7 @@ public class TwoStageRush extends SequentialCommandGroup {
 
         eventPath.addPauseTime(0.5, new SequentialCommandGroup(
             new InstantCommand(() -> {
-                aimingPath.pausePathFollowing();
+                aimingPath.pause();
                 drivetrain.enableVisionFusion();
             }),
             new ParallelRaceGroup(
@@ -38,14 +38,14 @@ public class TwoStageRush extends SequentialCommandGroup {
             ),
             new InstantCommand(() -> {
                 drivetrain.disableVisionFusion();
-                aimingPath.unpausePathFollowing();
+                aimingPath.unpause();
                 eventPath.unpause();
             })
         ));
 
         eventPath.addPauseTime(2.25, new SequentialCommandGroup(
             new InstantCommand(() -> {
-                aimingPath.pausePathFollowing();
+                aimingPath.pause();
                 drivetrain.enableVisionFusion();
             }),
             new ParallelRaceGroup(
@@ -59,14 +59,14 @@ public class TwoStageRush extends SequentialCommandGroup {
             ),
             new InstantCommand(() -> {
                 drivetrain.disableVisionFusion();
-                aimingPath.unpausePathFollowing();
+                aimingPath.unpause();
                 eventPath.unpause();
             })
         ));
 
         eventPath.addPauseTime(10.0, new SequentialCommandGroup(
             new InstantCommand(() -> {
-                aimingPath.pausePathFollowing();
+                aimingPath.pause();
                 drivetrain.enableVisionFusion();
             }),
             new ParallelRaceGroup(
@@ -79,7 +79,7 @@ public class TwoStageRush extends SequentialCommandGroup {
             ),
             new InstantCommand(() -> {
                 drivetrain.disableVisionFusion();
-                aimingPath.unpausePathFollowing();
+                aimingPath.unpause();
                 eventPath.unpause();
             })
         ));

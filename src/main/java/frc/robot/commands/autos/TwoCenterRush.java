@@ -20,7 +20,7 @@ public class TwoCenterRush extends SequentialCommandGroup {
     public TwoCenterRush(Drivetrain drivetrain, ArmElevatorSubsystem armElevator, Shooter shooter) {
         PathFollowWithAimCommand aimingPath = new PathFollowWithAimCommand(
             drivetrain, armElevator, 
-            getGlobalTrajectories().TWO_CENTER_RUSH.trajectory,
+            getGlobalTrajectories().TWO_CENTER_RUSH,
             shooter::endLidarTripped
         );
         PathFollowWithEvents eventPath = new PathFollowWithEvents(
@@ -30,7 +30,7 @@ public class TwoCenterRush extends SequentialCommandGroup {
 
         eventPath.addPauseTime(1.75, new SequentialCommandGroup(
             new InstantCommand(() -> {
-                aimingPath.pausePathFollowing();
+                aimingPath.pause();
                 drivetrain.enableVisionFusion();
             }),
             new ParallelRaceGroup(
@@ -43,14 +43,14 @@ public class TwoCenterRush extends SequentialCommandGroup {
             ),
             new InstantCommand(() -> {
                 drivetrain.disableVisionFusion();
-                aimingPath.unpausePathFollowing();
+                aimingPath.unpause();
                 eventPath.unpause();
             })
         ));
 
         eventPath.addPauseTime(8.5, new SequentialCommandGroup(
             new InstantCommand(() -> {
-                aimingPath.pausePathFollowing();
+                aimingPath.pause();
                 drivetrain.enableVisionFusion();
             }),
             new ParallelRaceGroup(
@@ -63,7 +63,7 @@ public class TwoCenterRush extends SequentialCommandGroup {
             ),
             new InstantCommand(() -> {
                 drivetrain.disableVisionFusion();
-                aimingPath.unpausePathFollowing();
+                aimingPath.unpause();
                 eventPath.unpause();
             })
         ));

@@ -17,7 +17,7 @@ import static frc.robot.constants.AutoConstants.Paths.getGlobalTrajectories;
 public class TuneAutoCommand extends SequentialCommandGroup {
     public TuneAutoCommand(Drivetrain drivetrain) {
         super(
-            new PathFollowState(drivetrain, getGlobalTrajectories().TUNE_PATH.trajectory, false, false)
+            new PathFollowState(drivetrain, getGlobalTrajectories().TUNE_PATH, false, false)
         );
     }
 }

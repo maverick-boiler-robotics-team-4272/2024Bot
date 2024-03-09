@@ -27,6 +27,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class TrajectoryContainer {
     public static class Path {
         public final PathPlannerTrajectory trajectory;
+        public final Rotation2d initialPathRotation;
         public final PathPlannerPath path;
         public final List<Pair<Double, Command>> events;
         public final List<Pair<Double, Command>> pauses;
@@ -34,6 +35,13 @@ public class TrajectoryContainer {
         public Path(String name, ChassisSpeeds initialSpeeds, Rotation2d initialRotation) {
             path = PathPlannerPath.fromPathFile(name);
             trajectory = path.getTrajectory(initialSpeeds, initialRotation);
+            RotationTarget target = path.getPoint(0).rotationTarget;
+
+            if(target != null) {
+                initialPathRotation = target.getTarget();
+            } else {
+                throw new IllegalStateException("Path must have a rotation target at the beginning. This is the initial rotation of the robot on the path.");
+            }
 
             events = new ArrayList<>();
             pauses = new ArrayList<>();
