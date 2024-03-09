@@ -23,7 +23,6 @@ import frc.robot.constants.RobotConstants.ArmElevatorSetpoint;
 import static frc.robot.constants.HardwareMap.*;
 import static frc.robot.constants.RobotConstants.ArmConstants.*;
 import static frc.robot.constants.RobotConstants.ElevatorConstants.*;
-import static frc.robot.constants.TelemetryConstants.ShuffleboardTables.*;
 
 public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
     @AutoLog
@@ -129,7 +128,7 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
     }
 
     private void setElevatorHeight(double h) {
-        elevatorController.setReference(h, ControlType.kPosition, 0, TESTING_TABLE.getNumber("Elevator PID F"));
+        elevatorController.setReference(h, ControlType.kPosition, 0, ELEVATOR_PID_F);
     }
 
     public boolean isAtPosition() {
@@ -149,14 +148,6 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
     }
 
     public void targetPos(Translation2d drivetrainPos, Translation3d position) {
-        // double height = elevatorEncoder.getPosition();
-
-        // double distFromSpeaker = Math.hypot(drivetrainPos.getX() - position.getX(), drivetrainPos.getY() - position.getY()) + ELEVATOR_TRANSLATION.getY();
-
-        // Rotation2d theta = new Rotation2d(distFromSpeaker, position.getZ() - (height + ELEVATOR_TRANSLATION.getZ()));
-        
-        // TESTING_TABLE.putNumber("Auto Aim Angle", theta.getDegrees());
-
         Rotation2d theta = Rotation2d.fromDegrees(map.getInterpolatedValue(drivetrainPos.getDistance(position.toTranslation2d())));
         
         if(theta.getDegrees() > MAX_SAFE_ANGLE.getDegrees()) {

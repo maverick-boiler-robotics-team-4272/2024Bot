@@ -4,8 +4,6 @@
 
 package frc.robot;
 
-
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.team4272.controllers.XboxController;
@@ -143,11 +141,6 @@ public class RobotContainer {
 
         JoystickTrigger driveTriggerRight = driverController.getTrigger("right");
         driveTriggerRight.setDeadzone(0.1).setPowerScaling(2);
-
-        TESTING_TABLE.putNumber("Arm Angle Setpoint", 35);
-        TESTING_TABLE.putData("Go To Angle", new InstantCommand(() -> {
-            armElevator.goToPos(Rotation2d.fromDegrees(TESTING_TABLE.getNumber("Arm Angle Setpoint")), 0);
-        }, armElevator));
         
         new Trigger(driveTriggerRight::isTriggered).whileTrue(
             new IntakeFeedCommand(intake, shooter, 0.9)
