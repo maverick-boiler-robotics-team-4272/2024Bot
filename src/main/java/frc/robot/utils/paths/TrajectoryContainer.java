@@ -90,6 +90,8 @@ public class TrajectoryContainer {
     public final Path THREE_PIECE_CLOSE;
     public final Path TWO_STAGE_RUSH;
     public final Path P_14;
+    
+    public final Path P_1238;
 
     public TrajectoryContainer(String prefix) {
         TWO_CENTER_RUSH = new Path(prefix + " Two Center Rush");
@@ -99,5 +101,6 @@ public class TrajectoryContainer {
         //New Naming convention
         //P for piece ### labling the pieces and the order they are grabed
         P_14 = new Path(prefix + " P14");
+        P_1238 = new Path(prefix + " P1238");
     }
 }
