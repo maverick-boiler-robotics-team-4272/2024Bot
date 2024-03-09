@@ -200,14 +200,6 @@ public class NEOBuilder {
         return motor;
     }
 
-    public static NEOBuilder createWithDefaults(int id) {
-        return new NEOBuilder(id)
-            .withCurrentLimit(CURRENT_LIMIT)
-            .withVoltageCompensation(NOMINAL_VOLTAGE)
-            .withIdleMode(IdleMode.kBrake)
-            .withInversion(false);
-    }
-
     public static NEOBuilder create(int id) {
         return new NEOBuilder(id);
     }
