@@ -22,11 +22,21 @@ public class PathFollowWithEvents extends Command {
         this.unstartedCommands = new ArrayList<>(path.events);
         this.unstartedCommands.sort(Comparator.comparing(Pair<Double, Command>::getFirst));
 
+        for(var pair : this.unstartedCommands) {
+            m_requirements.addAll(pair.getSecond().getRequirements());
+        }
+
         this.pathFollowCommand = pathFollowCommand;
 
         this.runningCommands = new ArrayList<>();
+
         this.pauseTimes = new ArrayList<>(path.pauses);
         this.pauseTimes.sort(Comparator.comparing(Pair<Double, Command>::getFirst));
+        
+        for(var pair : this.pauseTimes) {
+            m_requirements.addAll(pair.getSecond().getRequirements());
+        }
+
         this.timer = new Timer();
         this.paused = false;
     }
