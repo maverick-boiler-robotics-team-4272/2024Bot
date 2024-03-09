@@ -86,9 +86,9 @@ public class SwerveModule extends SwerveModuleBase implements Loggable {
             
         }
 
-        System.out.println(externalEncoder.getUnoffsetPosition());
+        System.out.println(externalEncoder.getPosition());
 
-        steerEncoder.setPosition(-externalEncoder.getPosition());
+        steerEncoder.setPosition(externalEncoder.getPosition());
         moduleInputs = new SwerveModuleInputsAutoLogged();
 
         moduleInputs.currentState = new SwerveModuleState();
@@ -114,7 +114,7 @@ public class SwerveModule extends SwerveModuleBase implements Loggable {
     }
 
     public void resetModule() {
-        steerEncoder.setPosition(-externalEncoder.getPosition());
+        steerEncoder.setPosition(externalEncoder.getPosition());
     }
 
     @Override

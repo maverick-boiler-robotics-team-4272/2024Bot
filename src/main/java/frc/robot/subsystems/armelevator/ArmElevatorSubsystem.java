@@ -113,7 +113,7 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
             Thread.sleep(300);
         } catch (InterruptedException e) {}
         
-        System.out.println(String.format("ArmElevatorPos: %.2f", armAbsoluteEncoder.getUnoffsetPosition()));
+        System.out.println(String.format("ArmElevatorPos: %.2f", armAbsoluteEncoder.getPosition()));
 
         armController = armMotor.getPIDController();
         elevatorController = elevatorMotor1.getPIDController();
@@ -121,7 +121,7 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
         armEncoder = armMotor.getEncoder();
         elevatorEncoder = elevatorMotor1.getEncoder();
 
-        armEncoder.setPosition(-armAbsoluteEncoder.getPosition() * Math.PI / 180.0);
+        armEncoder.setPosition(armAbsoluteEncoder.getPosition() * Math.PI / 180.0);
     }
 
     private void setShooterRotation(Rotation2d r) {
