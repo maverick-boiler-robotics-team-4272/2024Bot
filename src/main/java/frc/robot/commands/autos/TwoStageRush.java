@@ -17,7 +17,7 @@ public class TwoStageRush extends SequentialCommandGroup {
     public TwoStageRush(Drivetrain drivetrain, ArmElevatorSubsystem armElevator, Shooter shooter) {
         PathFollowWithAimCommand aimingPath = new PathFollowWithAimCommand(
             drivetrain, armElevator, 
-            getGlobalTrajectories().TWO_STAGE_RUSH.trajectory,
+            getGlobalTrajectories().TWO_STAGE_RUSH,
             shooter::endLidarTripped
         );
         PathFollowWithEvents eventPath = new PathFollowWithEvents(

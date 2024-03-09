@@ -18,7 +18,7 @@ public class ThreePieceClose extends SequentialCommandGroup {
         PathFollowWithAimCommand aim = new PathFollowWithAimCommand(
             drivetrain, 
             armElevator, 
-            getGlobalTrajectories().THREE_PIECE_CLOSE.trajectory
+            getGlobalTrajectories().THREE_PIECE_CLOSE
         );
 
         PathFollowWithEvents events = new PathFollowWithEvents(aim, getGlobalTrajectories().THREE_PIECE_CLOSE);

@@ -91,7 +91,10 @@ public class GoToPositionState extends PathFollowState {
     
     @Override
     public void initialize() {
-        setTrajectory(TrajectoryBuilder.goToPosition(requiredSubsystem, endPose));
+        // setPath(TrajectoryBuilder.goToPosition(requiredSubsystem, endPose));
+        
+        // TODO: Fix this. Make it work with the new pathing.
+        setPath(null);
 
         super.initialize();
     }
