@@ -36,28 +36,12 @@
         "y": 4.85453586291788
       },
       "prevControl": {
-        "x": 2.43075066655495,
-        "y": 4.5937847168717845
+        "x": 2.4071983110976722,
+        "y": 4.597391293672431
       },
       "nextControl": {
-        "x": 2.4865037833385686,
-        "y": 5.115287008963975
-      },
-      "isLocked": false,
-      "linkedName": null
-    },
-    {
-      "anchor": {
-        "x": 2.7250346808385935,
-        "y": 4.617729235458472
-      },
-      "prevControl": {
-        "x": 2.6520575790190883,
-        "y": 4.603819440022057
-      },
-      "nextControl": {
-        "x": 2.7980117826580986,
-        "y": 4.631639030894887
+        "x": 2.4684941677575676,
+        "y": 4.903870576971923
       },
       "isLocked": false,
       "linkedName": null
@@ -147,9 +131,9 @@
       "rotateFast": true
     },
     {
-      "waypointRelativePos": 4.0,
+      "waypointRelativePos": 3.0,
       "rotationDegrees": -111.94080928091485,
-      "rotateFast": false
+      "rotateFast": true
     },
     {
       "waypointRelativePos": 1,
@@ -157,18 +141,18 @@
       "rotateFast": false
     },
     {
-      "waypointRelativePos": 5.0,
+      "waypointRelativePos": 4.0,
       "rotationDegrees": -153.43494882292214,
       "rotateFast": false
     },
     {
-      "waypointRelativePos": 7.0,
+      "waypointRelativePos": 6.0,
       "rotationDegrees": -176.02750405924942,
       "rotateFast": false
     },
     {
       "waypointRelativePos": 1.9,
-      "rotationDegrees": 159.35689826429524,
+      "rotationDegrees": -153.20578608952965,
       "rotateFast": false
     }
   ],
@@ -239,7 +223,7 @@
     },
     {
       "name": "Second",
-      "waypointRelativePos": 3.1,
+      "waypointRelativePos": 2.55,
       "command": {
         "type": "parallel",
         "data": {
@@ -256,7 +240,7 @@
     },
     {
       "name": "Pause",
-      "waypointRelativePos": 4.8500000000000005,
+      "waypointRelativePos": 3.8500000000000005,
       "command": {
         "type": "parallel",
         "data": {
@@ -273,7 +257,7 @@
     },
     {
       "name": "Third",
-      "waypointRelativePos": 6.3,
+      "waypointRelativePos": 5.3,
       "command": {
         "type": "parallel",
         "data": {
