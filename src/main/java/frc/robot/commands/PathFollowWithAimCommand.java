@@ -4,6 +4,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.subsystems.armelevator.states.TargetPositionState;
 import frc.robot.subsystems.drivetrain.states.PathFollowWithAiming;
+import frc.robot.utils.misc.Pausable;
 import frc.robot.utils.paths.TrajectoryContainer.Path;
 // Subsystems
 import frc.robot.subsystems.armelevator.ArmElevatorSubsystem;
@@ -16,7 +17,7 @@ import java.util.function.BooleanSupplier;
 // Constants
 import static frc.robot.constants.UniversalConstants.*;
 
-public class PathFollowWithAimCommand extends ParallelCommandGroup {
+public class PathFollowWithAimCommand extends ParallelCommandGroup implements Pausable {
     private PathFollowWithAiming pathFollowCommand;
 
     public PathFollowWithAimCommand(Drivetrain drivetrain, ArmElevatorSubsystem armElevator, Path path, Translation3d target, BooleanSupplier lidar) {
@@ -34,11 +35,11 @@ public class PathFollowWithAimCommand extends ParallelCommandGroup {
         this(drivetrain, armElevator, path, getGlobalPositions().SPEAKER_SHOT_POSITION, () -> true);
     }
 
-    public void pausePathFollowing() {
+    public void pause() {
         pathFollowCommand.pause();
     }
 
-    public void unpausePathFollowing() {
+    public void unpause() {
         pathFollowCommand.unpause();
     }
 }

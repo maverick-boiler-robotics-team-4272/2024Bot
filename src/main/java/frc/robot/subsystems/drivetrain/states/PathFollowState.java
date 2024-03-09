@@ -8,12 +8,13 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.subsystems.drivetrain.Drivetrain;
+import frc.robot.utils.misc.Pausable;
 import frc.robot.utils.paths.TrajectoryContainer.Path;
 
 import static frc.robot.constants.AutoConstants.PathFollowConstants.*;
 import static frc.robot.constants.TelemetryConstants.Limelights.*;
 
-public class PathFollowState extends PositionalDriveState {
+public class PathFollowState extends PositionalDriveState implements Pausable {
     private Path path;
     private PathPlannerTrajectory trajectory;
     private Pose2d desiredPose;
