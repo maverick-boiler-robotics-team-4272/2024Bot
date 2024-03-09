@@ -26,14 +26,14 @@ public class OneTwoThreePlus extends SequentialCommandGroup {
             new PathFollowWithEvents(
                 new PathFollowState(
                     drivetrain, 
-                    getGlobalTrajectories().THREE_PIECE_CLOSE,
+                    getGlobalTrajectories().P_123PLUS,
                     true,
                     false
                 ).withEndConditions(
                     true, 
                     false, 
                     DEFAULT_POSE_DELTA), 
-                getGlobalTrajectories().THREE_PIECE_CLOSE
+                getGlobalTrajectories().P_123PLUS
             ),
             new ParallelRaceGroup(
                 new AutoAimCommand(drivetrain, armElevator, () -> 0, () -> 0),

@@ -273,6 +273,7 @@ public class RobotContainer {
         AUTO_CHOOSER.addOption("P16", () -> new TwoStageRush(drivetrain, armElevator, shooter));
         AUTO_CHOOSER.addOption("P14", () -> new OneFourRush(drivetrain, armElevator, shooter));
         AUTO_CHOOSER.addOption("P123", () -> new ThreePieceClose(drivetrain, armElevator, shooter));
+        AUTO_CHOOSER.addOption("P123Plus", () -> new OneTwoThreePlus(drivetrain, armElevator, shooter));
         AUTO_CHOOSER.addOption("P two Any", () -> new TwoPiece(drivetrain, armElevator, shooter, intake));
         AUTO_CHOOSER.addOption("P Shoot", () -> new FireAndSit(drivetrain, armElevator, shooter));
         
