@@ -28,8 +28,5 @@ public class ThreePieceClose extends SequentialCommandGroup {
                 getGlobalTrajectories().THREE_PIECE_CLOSE
             )
         );
-
-
-        
     }
 }
