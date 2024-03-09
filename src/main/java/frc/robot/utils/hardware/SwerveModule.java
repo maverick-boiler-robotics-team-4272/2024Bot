@@ -19,6 +19,7 @@ import edu.wpi.first.units.Units;
 // Swerve Software
 import frc.team4272.swerve.utils.SwerveModuleBase;
 
+import static frc.robot.constants.RobotConstants.NOMINAL_VOLTAGE;
 // Constants
 import static frc.robot.constants.RobotConstants.DrivetrainConstants.SwerveModuleConstants.*;
 import static frc.robot.constants.UniversalConstants.*;
@@ -51,7 +52,10 @@ public class SwerveModule extends SwerveModuleBase implements Loggable {
 
     public SwerveModule(int id, double offset) {
         // driveMotor = new NEO(id);
-        driveMotor = NEOBuilder.createWithDefaults(id)
+        driveMotor = NEOBuilder.create(id)
+            .withVoltageCompensation(NOMINAL_VOLTAGE)
+            .withIdleMode(IdleMode.kBrake)
+            .withInversion(false)
             .withCurrentLimit(40)
             .withPIDPositionWrapping(-180, 180)
             .withVelocityConversionFactor(WHEEL_RADIUS * PI2 / (60.0 * DRIVE_RATIO * Units.Inches.convertFrom(1.0, Units.Meters)))
@@ -64,7 +68,10 @@ public class SwerveModule extends SwerveModuleBase implements Loggable {
         drivePidController = driveMotor.getPIDController();
         driveEncoder = driveMotor.getEncoder();
 
-        steerMotor = NEOBuilder.createWithDefaults(id + 10)
+        steerMotor = NEOBuilder.create(id + 10)
+            .withVoltageCompensation(NOMINAL_VOLTAGE)
+            .withIdleMode(IdleMode.kBrake)
+            .withInversion(false)
             .withCurrentLimit(40)
             .withPositionConversionFactor(360.0 / STEER_RATIO)
             .withPIDFParams(STEER_PID_P, STEER_PID_I, STEER_PID_D, STEER_PID_F)

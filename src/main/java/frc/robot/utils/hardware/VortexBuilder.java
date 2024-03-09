@@ -199,14 +199,6 @@ public class VortexBuilder {
         return motor;
     }
 
-    public static VortexBuilder createWithDefaults(int id) {
-        return new VortexBuilder(id)
-            .withCurrentLimit(CURRENT_LIMIT)
-            .withVoltageCompensation(NOMINAL_VOLTAGE)
-            .withIdleMode(IdleMode.kBrake)
-            .withInversion(false);
-    }
-
     public static VortexBuilder create(int id) {
         return new VortexBuilder(id);
     }
