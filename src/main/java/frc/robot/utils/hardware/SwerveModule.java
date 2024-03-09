@@ -73,9 +73,11 @@ public class SwerveModule extends SwerveModuleBase implements Loggable {
             .withPeriodicFramerate(PeriodicFrame.kStatus3, 500)
             .withPeriodicFramerate(PeriodicFrame.kStatus4, 500)
             .getUnburntNeo();
+
         steerPidController = steerMotor.getPIDController();
 
         steerEncoder = steerMotor.getEncoder();
+        steerPidController.setFeedbackDevice(steerEncoder);
 
         externalEncoder = new MAVCoder2(steerMotor, offset);
 
