@@ -163,6 +163,11 @@ public class PathFollowWithEvents extends Command {
         }
     }
 
+    @Override
+    public boolean isFinished() {
+        return pathFollowCommand.isFinished();
+    }
+
     public void addPauseTime(double time, Command command) {
         pauseTimes.add(new Pair<>(time, command));
     }
