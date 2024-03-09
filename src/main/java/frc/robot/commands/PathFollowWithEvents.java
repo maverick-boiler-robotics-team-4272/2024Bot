@@ -4,10 +4,11 @@ import java.util.*;
 import edu.wpi.first.math.Pair;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.utils.misc.Pausable;
 import frc.robot.utils.paths.TrajectoryContainer.Path;
 
 public class PathFollowWithEvents extends Command {
-    private Command pathFollowCommand;
+    private Pausable pathFollowCommand;
     private List<Pair<Double, Command>> unstartedCommands;
     private List<Pair<Double, Command>> pauseTimes;
     private List<Command> runningCommands;
@@ -15,7 +16,7 @@ public class PathFollowWithEvents extends Command {
     private Timer timer;
     private boolean paused;
 
-    public PathFollowWithEvents(Command pathFollowCommand, Path path) {
+    public PathFollowWithEvents(Pausable pathFollowCommand, Path path) {
         m_requirements.addAll(pathFollowCommand.getRequirements());
 
         this.unstartedCommands = new ArrayList<>(path.events);
@@ -54,6 +55,7 @@ public class PathFollowWithEvents extends Command {
             while(time > checkTime) {
                 Command command = event.getSecond();
                 pause();
+                pathFollowCommand.pause();
 
                 interruptCommands(command);
 
@@ -102,6 +104,7 @@ public class PathFollowWithEvents extends Command {
             if(pauseCommand.isFinished()) {
                 pauseCommand.end(false);
                 unpause();
+                pathFollowCommand.unpause();
 
                 pauseCommand = null;
             } 
