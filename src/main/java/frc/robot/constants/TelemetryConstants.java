@@ -22,6 +22,7 @@ public class TelemetryConstants {
         }
 
         public static final ShuffleboardTable AUTO_TABLE = ShuffleboardTable.getTable("Auto");
+        public static final ShuffleboardTable OVERRIDE_TABLE = ShuffleboardTable.getTable("Overrides");
         public static final ShuffleboardTable TESTING_TABLE = ShuffleboardTable.getTable("Testing");
     }
 }
