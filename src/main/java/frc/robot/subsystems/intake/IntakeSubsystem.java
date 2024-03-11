@@ -49,6 +49,12 @@ public class IntakeSubsystem extends SubsystemBase implements Loggable {
         intakeInputs = new IntakeInputsAutoLogged();
     }
 
+    public void resetIntakeMotor() {
+        intakeMotor.setInverted(false);
+        intakeMotor.setSmartCurrentLimit(80);
+        intakeMotor.setIdleMode(IdleMode.kCoast);
+    }
+
     @Override
     public void log(String subdirectory, String humanReadableName) {
         intakeMotor.log(subdirectory + "/" + humanReadableName, "IntakeMotor");

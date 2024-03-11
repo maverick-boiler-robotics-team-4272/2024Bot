@@ -114,6 +114,22 @@ public class Shooter extends SubsystemBase implements Loggable {
         feedMotor.set(percent);
     }
 
+    public void resetShooterMotors() {
+        shooterMotor1.setInverted(true);
+        shooterMotor1.setSmartCurrentLimit(80);
+        shooterMotor1.setIdleMode(IdleMode.kBrake);
+
+        shooterMotor2.setInverted(false);
+        shooterMotor2.setSmartCurrentLimit(80);
+        shooterMotor2.setIdleMode(IdleMode.kBrake);
+    }
+
+    public void resetFeedMotor() {
+        feedMotor.setInverted(true);
+        feedMotor.setSmartCurrentLimit(40);
+        feedMotor.setIdleMode(IdleMode.kBrake);
+    }
+
     @Override
     public void log(String subdirectory, String humanReadableName) {
         shooterMotor1.log(subdirectory + "/" + humanReadableName, "ShooterMotor1");

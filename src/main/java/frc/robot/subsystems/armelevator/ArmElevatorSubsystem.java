@@ -132,6 +132,13 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
         armEncoder.setPosition(-armAbsoluteEncoder.getPosition() * Math.PI / 180.0);
     }
 
+    public void resetArmMotor() {
+        armMotor.setInverted(false);
+        armMotor.setIdleMode(IdleMode.kBrake);
+        armMotor.setSmartCurrentLimit(40);
+        armEncoder.setPosition(-armAbsoluteEncoder.getPosition() * Math.PI / 180.0);
+    }
+
     private void setShooterRotation(Rotation2d r) {
         armController.setReference(r.getRadians(), ControlType.kPosition, 0, armFeedforward.calculate(armEncoder.getPosition(), 0));
     }
