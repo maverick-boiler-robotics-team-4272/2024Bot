@@ -221,7 +221,7 @@ public class RobotContainer {
         );
 
         new Trigger(operatorController.getButton("rightBumper")::get).whileTrue(
-            new GoToArmElevatorState(armElevator, CLIMB).repeatedly()
+            new GoToArmElevatorState(armElevator, SOURCE).repeatedly()
         );
 
         new Trigger(operatorLeftTrigger::isTriggered).and(() -> !operatorController.getButton("back").get()).whileTrue(
@@ -265,6 +265,7 @@ public class RobotContainer {
         AUTO_CHOOSER.addOption("P28", () -> new TwoCenterRush(drivetrain, armElevator, shooter));
         AUTO_CHOOSER.addOption("P16", () -> new TwoStageRush(drivetrain, armElevator, shooter));
         AUTO_CHOOSER.addOption("P14", () -> new OneFourRush(drivetrain, armElevator, shooter));
+        AUTO_CHOOSER.addOption("P45", () -> new FourFive(drivetrain));
         AUTO_CHOOSER.addOption("P123", () -> new ThreePieceClose(drivetrain, armElevator, shooter));
         AUTO_CHOOSER.addOption("P123Plus", () -> new OneTwoThreePlus(drivetrain, armElevator, shooter));
         AUTO_CHOOSER.addOption("P1238", () -> new OneTwoThreeEight(drivetrain, armElevator, shooter));

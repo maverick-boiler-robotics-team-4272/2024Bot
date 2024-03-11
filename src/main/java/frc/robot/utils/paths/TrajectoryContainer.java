@@ -91,6 +91,7 @@ public class TrajectoryContainer {
     public final Path THREE_PIECE_CLOSE; //p123
     public final Path TWO_STAGE_RUSH;
     public final Path P_14;
+    public final Path P_45;
     public final Path P_123PLUS;
     
     public final Path P_1238;
@@ -105,5 +106,6 @@ public class TrajectoryContainer {
         P_14 = new Path(prefix + " P14");
         P_123PLUS = new Path(prefix + " P123Plus");
         P_1238 = new Path(prefix + " P1238");
+        P_45 = new Path(prefix + " P45");
     }
 }

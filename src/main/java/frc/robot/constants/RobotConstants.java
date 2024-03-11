@@ -103,7 +103,8 @@ public class RobotConstants {
         PRE_CLIMB(Rotation2d.fromDegrees(35.0), Meters.convertFrom(13.0, Inches)),
         TRAP(MIN_ARM_ANGLE, MAX_ELEVATOR_HEIGHT),
         AUTO_LINE(Rotation2d.fromDegrees(48.0), Meters.convertFrom(13.0, Inches)),
-        SUB_SHOT(Rotation2d.fromDegrees(48.0), Meters.convertFrom(13.0, Inches));
+        SUB_SHOT(Rotation2d.fromDegrees(48.0), Meters.convertFrom(13.0, Inches)),
+        SOURCE(Rotation2d.fromDegrees(48.0), Meters.convertFrom(5.0, Inches));
 
         private Rotation2d armAngle;
         private double elevatorHeight;
