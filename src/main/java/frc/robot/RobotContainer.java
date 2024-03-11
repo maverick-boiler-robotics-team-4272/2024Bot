@@ -279,20 +279,17 @@ public class RobotContainer {
     private void registerNamedCommands() {
         NamedCommands.registerCommand("Shoot", new AutoShootState(shooter, 1, 1));
         NamedCommands.registerCommand("Intake", new IntakeFeedCommand(intake, shooter, 1.0).withTimeout(7.5));
-        NamedCommands.registerCommand("DriveBy", new ParallelCommandGroup(
-                new IntakeState(intake, 1.0),
-                new ShootState(shooter, 1.0, 1.0)
-            ).withTimeout(2.5)
-        );
         NamedCommands.registerCommand("Disable", new InstantCommand(drivetrain::disableVisionFusion));
         NamedCommands.registerCommand("Enable", new InstantCommand(drivetrain::enableVisionFusion));
         NamedCommands.registerCommand("AutoAim", Commands.defer(() -> new AutoAimCommand(drivetrain, armElevator, () -> 0, () -> 0), Set.of(drivetrain, armElevator)));
         NamedCommands.registerCommand("AutoShoot", new ParallelRaceGroup(
             Commands.defer(() -> new AutoAimCommand(drivetrain, armElevator, () -> 0, () -> 0), Set.of(drivetrain, armElevator)),
-            new AutoShootState(shooter, 1.0, 1.0).beforeStarting(
-                new WaitCommand(0.25)
-            )
+            new AutoShootState(shooter, 1.0, 1.0)//.beforeStarting(
+            //     new WaitCommand(0.25)
+            // )
         ));
+
+        NamedCommands.registerCommand("Index", new LidarStoppedFeedState(shooter, 1.0, 0.1));
 
     }
 
