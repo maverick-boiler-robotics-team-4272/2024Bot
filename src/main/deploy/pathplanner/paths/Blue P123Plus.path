@@ -112,16 +112,16 @@
     },
     {
       "anchor": {
-        "x": 2.942107422676385,
-        "y": 6.068169828647349
+        "x": 2.75,
+        "y": 6.48
       },
       "prevControl": {
-        "x": 2.764502452081828,
-        "y": 6.314843398917565
+        "x": 2.572395029405443,
+        "y": 6.726673570270217
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "P123End"
     }
   ],
   "rotationTargets": [
@@ -281,7 +281,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -172.05652818940956,
+    "rotation": -165.62,
     "rotateFast": false
   },
   "reversed": false,
