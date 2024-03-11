@@ -238,7 +238,7 @@ public class RobotContainer {
         new Trigger(operatorLeftTrigger::isTriggered).and(operatorController.getButton("back")::get).whileTrue(
             new ParallelCommandGroup(
                 new IntakeState(intake, 0.9),
-                new OutfeedState(shooter, 0.9)
+                new FeedState(shooter, 0.9)
             )
         );
 
