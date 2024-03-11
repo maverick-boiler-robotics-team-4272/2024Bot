@@ -227,7 +227,7 @@ public class RobotContainer {
             new GoToArmElevatorState(armElevator, SOURCE).repeatedly()
         );
 
-        new Trigger(operatorLeftTrigger::isTriggered).and(() -> !operatorController.getButton("back").get()).whileTrue(
+        new Trigger(operatorLeftTrigger::isTriggered).whileTrue(
             new SequentialCommandGroup(
                 new IntakeFeedCommand(intake, shooter, 0.9).until(shooter::beginLidarTripped),
                 new ScheduleCommand(
@@ -235,6 +235,7 @@ public class RobotContainer {
                 )
             )
         );
+        
         new Trigger(operatorLeftTrigger::isTriggered).and(operatorController.getButton("back")::get).whileTrue(
             new ParallelCommandGroup(
                 new IntakeState(intake, 0.9),
@@ -247,6 +248,10 @@ public class RobotContainer {
                 new OuttakeState(intake, 0.9),
                 new OutfeedState(shooter, 0.9)
             )
+        );
+
+        new Trigger(operatorLeftTrigger::isTriggered).and(operatorController.getButton("rightBumper")::get).whileTrue(
+            new ShootState(shooter, -0.5, -0.5)
         );
 
         new Trigger(operatorController.getButton("leftBumper")::get).whileTrue(
