@@ -185,7 +185,7 @@ public class RobotContainer {
         JoystickPOV operatorDPad = operatorController.getPOV("d-pad");
 
         new Trigger(operatorController.getButton("a")::get).whileTrue(
-            new ImbalancedShootState(shooter, 0.25, 0.05, 0.2)
+            new ImbalancedShootState(shooter, 0.50, 0.05, 0.2)
         );
 
         new Trigger(operatorController.getButton("y")::get).onTrue(
@@ -224,7 +224,7 @@ public class RobotContainer {
         );
 
         new Trigger(operatorController.getButton("rightBumper")::get).whileTrue(
-            new GoToArmElevatorState(armElevator, CLIMB).repeatedly()
+            new GoToArmElevatorState(armElevator, SOURCE).repeatedly()
         );
 
         new Trigger(operatorLeftTrigger::isTriggered).and(() -> !operatorController.getButton("back").get()).whileTrue(
@@ -268,8 +268,10 @@ public class RobotContainer {
         AUTO_CHOOSER.addOption("P28", () -> new TwoCenterRush(drivetrain, armElevator, shooter));
         AUTO_CHOOSER.addOption("P16", () -> new TwoStageRush(drivetrain, armElevator, shooter));
         AUTO_CHOOSER.addOption("P14", () -> new OneFourRush(drivetrain, armElevator, shooter));
+        AUTO_CHOOSER.addOption("P45", () -> new FourFive(drivetrain));
         AUTO_CHOOSER.addOption("P123", () -> new ThreePieceClose(drivetrain, armElevator, shooter));
         AUTO_CHOOSER.addOption("P123Plus", () -> new OneTwoThreePlus(drivetrain, armElevator, shooter));
+        AUTO_CHOOSER.addOption("P1238", () -> new OneTwoThreeEight(drivetrain, armElevator, shooter));
         AUTO_CHOOSER.addOption("P two Any", () -> new TwoPiece(drivetrain, armElevator, shooter, intake));
         AUTO_CHOOSER.addOption("P Shoot", () -> new FireAndSit(drivetrain, armElevator, shooter));
         
@@ -280,20 +282,17 @@ public class RobotContainer {
     private void registerNamedCommands() {
         NamedCommands.registerCommand("Shoot", new AutoShootState(shooter, 1, 1));
         NamedCommands.registerCommand("Intake", new IntakeFeedCommand(intake, shooter, 1.0).withTimeout(7.5));
-        NamedCommands.registerCommand("DriveBy", new ParallelCommandGroup(
-                new IntakeState(intake, 1.0),
-                new ShootState(shooter, 1.0, 1.0)
-            ).withTimeout(2.5)
-        );
         NamedCommands.registerCommand("Disable", new InstantCommand(drivetrain::disableVisionFusion));
         NamedCommands.registerCommand("Enable", new InstantCommand(drivetrain::enableVisionFusion));
         NamedCommands.registerCommand("AutoAim", Commands.defer(() -> new AutoAimCommand(drivetrain, armElevator, () -> 0, () -> 0), Set.of(drivetrain, armElevator)));
         NamedCommands.registerCommand("AutoShoot", new ParallelRaceGroup(
             Commands.defer(() -> new AutoAimCommand(drivetrain, armElevator, () -> 0, () -> 0), Set.of(drivetrain, armElevator)),
-            new AutoShootState(shooter, 1.0, 1.0).beforeStarting(
-                new WaitCommand(0.25)
-            )
+            new AutoShootState(shooter, 1.0, 1.0)//.beforeStarting(
+            //     new WaitCommand(0.25)
+            // )
         ));
+
+        NamedCommands.registerCommand("Index", new LidarStoppedFeedState(shooter, 1.0, 0.1));
 
     }
 
