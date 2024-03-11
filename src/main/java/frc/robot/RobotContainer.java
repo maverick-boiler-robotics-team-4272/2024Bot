@@ -182,7 +182,7 @@ public class RobotContainer {
         JoystickPOV operatorDPad = operatorController.getPOV("d-pad");
 
         new Trigger(operatorController.getButton("a")::get).whileTrue(
-            new ImbalancedShootState(shooter, 0.25, 0.05, 0.2)
+            new ImbalancedShootState(shooter, 0.50, 0.05, 0.2)
         );
 
         new Trigger(operatorController.getButton("y")::get).onTrue(
