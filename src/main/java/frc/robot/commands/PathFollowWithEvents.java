@@ -91,7 +91,13 @@ public class PathFollowWithEvents extends Command {
 
                 if(!paused && !Collections.disjoint(command.getRequirements(), pathFollowCommand.getRequirements())) {
                     System.out.println("Cannot run a command that requires the path following command when running the pathfollow");
-                    continue;
+                    unstartedCommands.remove(0);
+
+                    if(unstartedCommands.size() == 0) {
+                        break;
+                    } else {
+                        continue;
+                    }
                 }
 
                 interruptCommands(command);
