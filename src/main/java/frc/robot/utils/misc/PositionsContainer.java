@@ -21,6 +21,6 @@ public class PositionsContainer {
         AMP_POSE = new Pose2d(red ? FIELD_WIDTH_METERS - Meters.convertFrom(72.5, Inches) : Meters.convertFrom(72.5, Inches), Meters.convertFrom(300, Inches), new Rotation2d(Math.PI / 2));;
         TO_DRIVERSTATION = Rotation2d.fromDegrees(red ? 0 : 180);
 
-        TO_SOURCE = Rotation2d.fromDegrees(red ? -120.0 : -60.0);
+        TO_SOURCE = Rotation2d.fromDegrees(red ? 60.0 : 120.0);
     }
 }
