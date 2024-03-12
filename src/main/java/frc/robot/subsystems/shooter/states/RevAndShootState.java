@@ -23,6 +23,7 @@ public class RevAndShootState extends State<Shooter> {
     @Override
     public void initialize() {
         requiredSubsystem.rev(revPower);
+        startedFeed = false;
     }
 
     @Override
