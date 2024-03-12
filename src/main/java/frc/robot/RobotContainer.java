@@ -123,7 +123,7 @@ public class RobotContainer {
                     },
                     new ShootState(shooter, 1.0, 1.0)
                 )
-            )        
+            )
         );
 
         new Trigger(driverController.getButton("a")::get).whileTrue(
@@ -144,10 +144,9 @@ public class RobotContainer {
 
         JoystickTrigger driveTriggerRight = driverController.getTrigger("right");
         driveTriggerRight.setDeadzone(0.1).setPowerScaling(2);
-        
-        new Trigger(driveTriggerRight::isTriggered).whileTrue(
-            new IntakeFeedCommand(intake, shooter, 0.9)
-        );
+
+        JoystickTrigger driveTriggerLeft = driverController.getTrigger("left");
+        driveTriggerLeft.setDeadzone(0.1).setPowerScaling(2);
 
         //Drivetrain --------------------------------------------------------
         
@@ -163,13 +162,22 @@ public class RobotContainer {
             new ResetToLimelightState(drivetrain, FRONT_LIMELIGHT)
         );
 
-        //Arm ----------------------------------------------------
-
-        armElevator.setDefaultCommand(new GoToArmElevatorState(armElevator, HOME));
-
         new Trigger(driverController.getButton("back")::get).whileTrue(
             new InstantCommand(drivetrain::resetModules, drivetrain)
         );
+
+        //Arm ----------------------------------------------------
+
+        //TODO: Fix this
+        new Trigger(driveTriggerLeft::isTriggered).whileTrue(
+            new ParallelRaceGroup(
+                new RevAndShootState(shooter, 0.4, 1.0, driveTriggerRight::isTriggered),
+                new GoToArmElevatorState(armElevator, WHITE_LINE).repeatedly()
+            )
+        );
+
+        armElevator.setDefaultCommand(new GoToArmElevatorState(armElevator, HOME));
+
     }
 
     private void configureOperatorBindings() {
@@ -209,7 +217,7 @@ public class RobotContainer {
                         Direction.DOWN_RIGHT,
                         new PrintCommand("Down Right on d-pad not assigned"),
                         Direction.DOWN,
-                        new GoToArmElevatorState(armElevator, PRE_CLIMB).repeatedly(),
+                        new GoToArmElevatorState(armElevator, PODIUM).repeatedly(),
                         Direction.DOWN_LEFT,
                         new PrintCommand("Down Left on d-pad not assigned"),
                         Direction.LEFT,
@@ -251,7 +259,13 @@ public class RobotContainer {
         );
 
         new Trigger(operatorLeftTrigger::isTriggered).and(operatorController.getButton("rightBumper")::get).whileTrue(
-            new ShootState(shooter, -0.5, -0.5)
+            new ShootState(shooter, -0.5, -0.5) {
+                public boolean isFinished() {
+                    return shooter.beginLidarTripped();
+                }
+            }.andThen(
+                new LidarStoppedFeedState(shooter, 0.5)
+            )
         );
 
         new Trigger(operatorController.getButton("leftBumper")::get).whileTrue(
