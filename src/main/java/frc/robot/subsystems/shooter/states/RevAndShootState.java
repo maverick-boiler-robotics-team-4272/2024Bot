@@ -23,6 +23,10 @@ public class RevAndShootState extends State<Shooter> {
         this.startedFeed = false;
     }
 
+    public RevAndShootState(Shooter shooter, double revPower, double feedPower, BooleanSupplier startFeed) {
+        this(shooter, revPower, feedPower, false, startFeed);
+    }
+
     @Override
     public void initialize() {
         requiredSubsystem.rev(revPower);
