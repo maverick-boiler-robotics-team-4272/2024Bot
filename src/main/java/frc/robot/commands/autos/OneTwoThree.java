@@ -36,6 +36,7 @@ public class OneTwoThree extends SequentialCommandGroup {
                 getGlobalTrajectories().THREE_PIECE_CLOSE
             ),
             new ParallelRaceGroup(
+                
                 new AutoAimCommand(drivetrain, armElevator, () -> 0, () -> 0),
                 new AutoShootState(shooter, 1.0, 1.0)
             )

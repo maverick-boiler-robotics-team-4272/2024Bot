@@ -291,6 +291,7 @@ public class RobotContainer {
         AUTO_CHOOSER.addOption("P123", () -> new OneTwoThree(drivetrain, armElevator, shooter));
         AUTO_CHOOSER.addOption("P123Plus", () -> new OneTwoThreePlus(drivetrain, armElevator, shooter));
         AUTO_CHOOSER.addOption("P1238", () -> new OneTwoThreeEight(drivetrain, armElevator, shooter));
+        AUTO_CHOOSER.addOption("P1238Plus", () -> new OneTwoThreeEightPlus(drivetrain, armElevator, shooter));
         AUTO_CHOOSER.addOption("P two Any", () -> new TwoPiece(drivetrain, armElevator, shooter, intake));
         AUTO_CHOOSER.addOption("P Shoot", () -> new FireAndSit(drivetrain, armElevator, shooter));
         
@@ -316,7 +317,7 @@ public class RobotContainer {
     }
 
     private void configureSignalingBindings() {
-        new Trigger(shooter::beginLidarTripped).onTrue(
+        new Trigger(shooter::lidarTripped).onTrue(
             new InstantCommand(() -> {
                 candle.setLEDs(255, 192, 203);
             }).ignoringDisable(true)
@@ -343,6 +344,13 @@ public class RobotContainer {
         OVERRIDE_TABLE.putData("Reset Feed Motor", new InstantCommand(shooter::resetFeedMotor, shooter));
         OVERRIDE_TABLE.putData("Reset Arm Motor", new InstantCommand(armElevator::resetArmMotor, armElevator));
         OVERRIDE_TABLE.putData("Reset Swerve Modules", new InstantCommand(drivetrain::resetModules, drivetrain));
+        OVERRIDE_TABLE.putData("Reset All", new InstantCommand(() -> {
+            intake.resetIntakeMotor();
+            shooter.resetShooterMotors();
+            shooter.resetFeedMotor();
+            armElevator.resetArmMotor();
+            drivetrain.resetModules();
+        }, intake, shooter, armElevator, drivetrain));
     }
 
     /**
