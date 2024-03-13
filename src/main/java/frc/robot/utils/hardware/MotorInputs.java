@@ -5,7 +5,7 @@ import org.littletonrobotics.junction.AutoLog;
 @AutoLog
 public class MotorInputs {
     public double motorVoltage;
-    // public double motorTemperatureCelsius;
+    public double motorTemperatureCelsius;
     public double outputCurrent;
     public boolean stalling;
 
