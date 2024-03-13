@@ -166,13 +166,20 @@ public class RobotContainer {
             new InstantCommand(drivetrain::resetModules, drivetrain)
         );
 
+        new Trigger(driverController.getButton("start")::get).whileTrue(
+            new RevAndShootState(shooter, 0.35, 0.5, driveTriggerRight::isTriggered)
+        );
+
         //Arm ----------------------------------------------------
 
         //TODO: Fix this
         new Trigger(driveTriggerLeft::isTriggered).whileTrue(
-            new ParallelRaceGroup(
-                new RevAndShootState(shooter, 0.4, 1.0, driveTriggerRight::isTriggered),
-                new GoToArmElevatorState(armElevator, WHITE_LINE).repeatedly()
+            new SequentialCommandGroup(
+                new LidarStoppedFeedState(shooter, 0.4),
+                new ParallelRaceGroup(
+                    new RevAndShootState(shooter, 0.45, 1.0, driveTriggerRight::isTriggered),
+                    new GoToArmElevatorState(armElevator, WHITE_LINE).repeatedly()
+                )
             )
         );
 
