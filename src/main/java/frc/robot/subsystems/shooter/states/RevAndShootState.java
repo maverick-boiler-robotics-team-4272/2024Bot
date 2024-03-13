@@ -8,14 +8,17 @@ import frc.team4272.globals.State;
 public class RevAndShootState extends State<Shooter> {
     private double revPower;
     private double feedPower;
+    private boolean useLidar;
+
     private BooleanSupplier startFeed;
     private boolean startedFeed;
 
-    public RevAndShootState(Shooter shooter, double revPower, double feedPower, BooleanSupplier startFeed) {
+    public RevAndShootState(Shooter shooter, double revPower, double feedPower, boolean useLidar, BooleanSupplier startFeed) {
         super(shooter);
 
         this.revPower = revPower;
         this.feedPower = feedPower;
+        this.useLidar = useLidar;
         this.startFeed = startFeed;
         this.startedFeed = false;
     }
@@ -42,6 +45,6 @@ public class RevAndShootState extends State<Shooter> {
 
     @Override
     public boolean isFinished() {
-        return !requiredSubsystem.lidarTripped();
+        return useLidar && !requiredSubsystem.lidarTripped();
     }
 }

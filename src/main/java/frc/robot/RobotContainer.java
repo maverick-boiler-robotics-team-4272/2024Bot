@@ -171,7 +171,7 @@ public class RobotContainer {
         //TODO: Fix this
         new Trigger(driveTriggerLeft::isTriggered).whileTrue(
             new ParallelRaceGroup(
-                new RevAndShootState(shooter, 0.4, 1.0, driveTriggerRight::isTriggered),
+                new RevAndShootState(shooter, 0.4, 1.0, false, driveTriggerRight::isTriggered),
                 new GoToArmElevatorState(armElevator, WHITE_LINE).repeatedly()
             )
         );
