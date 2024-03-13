@@ -17,8 +17,8 @@ import static frc.robot.constants.AutoConstants.PathFollowConstants.DEFAULT_POSE
 import static frc.robot.constants.AutoConstants.Paths.getGlobalTrajectories;
 import static frc.robot.constants.RobotConstants.ArmElevatorSetpoints.HOME;
 
-public class ThreePieceClose extends SequentialCommandGroup {
-    public ThreePieceClose(Drivetrain drivetrain, ArmElevatorSubsystem armElevator, Shooter shooter) {
+public class OneTwoThree extends SequentialCommandGroup {
+    public OneTwoThree(Drivetrain drivetrain, ArmElevatorSubsystem armElevator, Shooter shooter) {
         super(
             new InstantCommand(drivetrain::disableVisionFusion),
             new InstantCommand(drivetrain::resetModules),

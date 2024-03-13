@@ -284,11 +284,11 @@ public class RobotContainer {
         CONTAINER_CHOOSER.setDefaultOption("Red", "Red");
         CONTAINER_CHOOSER.addOption("Blue", "Blue");
 
-        AUTO_CHOOSER.addOption("P28", () -> new TwoCenterRush(drivetrain, armElevator, shooter));
-        AUTO_CHOOSER.addOption("P16", () -> new TwoStageRush(drivetrain, armElevator, shooter));
+        AUTO_CHOOSER.addOption("P28", () -> new TwoEight(drivetrain, armElevator, shooter));
+        AUTO_CHOOSER.addOption("P16", () -> new OneSix(drivetrain, armElevator, shooter));
         AUTO_CHOOSER.addOption("P14", () -> new OneFourRush(drivetrain, armElevator, shooter));
         AUTO_CHOOSER.addOption("P45", () -> new FourFive(drivetrain));
-        AUTO_CHOOSER.addOption("P123", () -> new ThreePieceClose(drivetrain, armElevator, shooter));
+        AUTO_CHOOSER.addOption("P123", () -> new OneTwoThree(drivetrain, armElevator, shooter));
         AUTO_CHOOSER.addOption("P123Plus", () -> new OneTwoThreePlus(drivetrain, armElevator, shooter));
         AUTO_CHOOSER.addOption("P1238", () -> new OneTwoThreeEight(drivetrain, armElevator, shooter));
         AUTO_CHOOSER.addOption("P two Any", () -> new TwoPiece(drivetrain, armElevator, shooter, intake));

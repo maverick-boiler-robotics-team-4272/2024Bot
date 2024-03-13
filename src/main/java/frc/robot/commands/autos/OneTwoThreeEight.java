@@ -9,7 +9,7 @@ import frc.robot.subsystems.drivetrain.states.PathFollowState;
 import frc.robot.subsystems.intake.IntakeSubsystem;
 import frc.robot.subsystems.shooter.Shooter;
 
-public class OneTwoThreeEight extends ThreePieceClose {
+public class OneTwoThreeEight extends OneTwoThree {
     public OneTwoThreeEight(Drivetrain drivetrain, ArmElevatorSubsystem armElevator, Shooter shooter) {
         super(drivetrain, armElevator, shooter);
 
