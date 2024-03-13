@@ -5,9 +5,6 @@ import com.revrobotics.*;
 import com.revrobotics.CANSparkBase.*;
 import com.revrobotics.CANSparkLowLevel.PeriodicFrame;
 
-// Constants
-import static frc.robot.constants.RobotConstants.*;
-
 public class NEOBuilder {
     private NEO motor;
     private RelativeEncoder motorEncoder;

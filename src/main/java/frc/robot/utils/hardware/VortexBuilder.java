@@ -5,9 +5,6 @@ import com.revrobotics.CANSparkBase.*;
 import com.revrobotics.CANSparkLowLevel.PeriodicFrame;
 import com.revrobotics.*;
 
-// Constants
-import static frc.robot.constants.RobotConstants.*;
-
 public class VortexBuilder {
     private Vortex motor;
     private SparkPIDController motorController;
