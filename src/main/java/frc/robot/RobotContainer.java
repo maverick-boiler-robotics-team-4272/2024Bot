@@ -167,7 +167,7 @@ public class RobotContainer {
         );
 
         new Trigger(driverController.getButton("start")::get).whileTrue(
-            new RevAndShootState(shooter, 0.35, 0.5, driveTriggerRight::isTriggered)
+            new RevAndShootState(shooter, 0.35, 0.5, false, driveTriggerRight::isTriggered)
         );
 
         //Arm ----------------------------------------------------
@@ -177,7 +177,7 @@ public class RobotContainer {
             new SequentialCommandGroup(
                 new LidarStoppedFeedState(shooter, 0.4),
                 new ParallelRaceGroup(
-                    new RevAndShootState(shooter, 0.45, 1.0, driveTriggerRight::isTriggered),
+                    new RevAndShootState(shooter, 0.45, 1.0, false, driveTriggerRight::isTriggered),
                     new GoToArmElevatorState(armElevator, WHITE_LINE).repeatedly()
                 )
             )
