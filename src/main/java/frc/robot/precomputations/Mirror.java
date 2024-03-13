@@ -13,9 +13,11 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 
 public class Mirror {
     public static void main(String[] args) {
+        mirrorPath("P14", "Blue");
+        mirrorPath("P45", "Blue");
+        mirrorPath("P123Plus", "Blue");
+        mirrorPath("P1238", "Blue");
         mirrorPath("Three Piece Close", "Blue");
-        mirrorPath("Two Center Rush", "Blue");
-        mirrorPath("Two Stage Rush", "Blue");
     }
 
     private static void mirrorPath(String pathName, String from) {
