@@ -8,11 +8,14 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.subsystems.drivetrain.Drivetrain;
+import frc.robot.utils.misc.Pausable;
+import frc.robot.utils.paths.TrajectoryContainer.Path;
 
 import static frc.robot.constants.AutoConstants.PathFollowConstants.*;
 import static frc.robot.constants.TelemetryConstants.Limelights.*;
 
-public class PathFollowState extends PositionalDriveState {
+public class PathFollowState extends PositionalDriveState implements Pausable {
+    private Path path;
     private PathPlannerTrajectory trajectory;
     private Pose2d desiredPose;
     private State desiredState;
@@ -29,7 +32,7 @@ public class PathFollowState extends PositionalDriveState {
 
     public PathFollowState(
         Drivetrain drivetrain,
-        PathPlannerTrajectory trajectory,
+        Path path,
         PIDController xController,
         PIDController yController,
         PIDController thetaController,
@@ -41,7 +44,8 @@ public class PathFollowState extends PositionalDriveState {
     ) {
         super(drivetrain, xController, yController, thetaController);
         
-        this.trajectory = trajectory;
+        this.path = path;
+        this.trajectory = path.trajectory;
         this.timer = new Timer();
         this.positionStopped = positionStopped;
         this.timeStopped = timeStopped;
@@ -52,19 +56,19 @@ public class PathFollowState extends PositionalDriveState {
 
     public PathFollowState(
         Drivetrain drivetrain,
-        PathPlannerTrajectory trajectory,
+        Path path,
         boolean positionStopped,
         boolean timeStopped,
         Pose2d positionDelta,
         boolean updateOdometry,
         boolean updateFromAprilTag
     ) {
-        this(drivetrain, trajectory, X_CONTROLLER, Y_CONTROLLER, THETA_CONTROLLER, positionStopped, timeStopped, positionDelta, updateOdometry, updateFromAprilTag);
+        this(drivetrain, path, X_CONTROLLER, Y_CONTROLLER, THETA_CONTROLLER, positionStopped, timeStopped, positionDelta, updateOdometry, updateFromAprilTag);
     }
 
     public PathFollowState(
         Drivetrain drivetrain,
-        PathPlannerTrajectory trajectory,
+        Path path,
         PIDController xController,
         PIDController yController,
         PIDController thetaController,
@@ -72,45 +76,45 @@ public class PathFollowState extends PositionalDriveState {
         boolean timeStopped,
         Pose2d positionDelta
     ) {
-        this(drivetrain, trajectory, xController, yController, thetaController, positionStopped, timeStopped, positionDelta, false, false);
+        this(drivetrain, path, xController, yController, thetaController, positionStopped, timeStopped, positionDelta, false, false);
     }
 
     public PathFollowState(
         Drivetrain drivetrain,
-        PathPlannerTrajectory trajectory,
+        Path path,
         boolean positionStopped,
         boolean timeStopped,
         Pose2d positionDelta
     ) {
-        this(drivetrain, trajectory, Y_CONTROLLER, X_CONTROLLER, THETA_CONTROLLER, positionStopped, timeStopped, positionDelta, false, false);
+        this(drivetrain, path, Y_CONTROLLER, X_CONTROLLER, THETA_CONTROLLER, positionStopped, timeStopped, positionDelta, false, false);
     }
 
     public PathFollowState(
         Drivetrain drivetrain,
-        PathPlannerTrajectory trajectory,
+        Path path,
         PIDController xController,
         PIDController yController,
         PIDController thetaController,
         boolean updateOdometry,
         boolean updateFromAprilTag
     ) {
-        this(drivetrain, trajectory, xController, yController, thetaController, true, true, DEFAULT_POSE_DELTA, updateOdometry, updateFromAprilTag);
+        this(drivetrain, path, xController, yController, thetaController, true, true, DEFAULT_POSE_DELTA, updateOdometry, updateFromAprilTag);
     }
 
     public PathFollowState(
         Drivetrain drivetrain,
-        PathPlannerTrajectory trajectory,
+        Path path,
         boolean updateOdometry,
         boolean updateFromAprilTag
     ) {
-        this(drivetrain, trajectory, X_CONTROLLER, Y_CONTROLLER, THETA_CONTROLLER, true, true, DEFAULT_POSE_DELTA, updateOdometry, updateFromAprilTag);
+        this(drivetrain, path, X_CONTROLLER, Y_CONTROLLER, THETA_CONTROLLER, true, true, DEFAULT_POSE_DELTA, updateOdometry, updateFromAprilTag);
     }
 
     public PathFollowState(
         Drivetrain drivetrain,
-        PathPlannerTrajectory trajectory
+        Path path
     ) {
-        this(drivetrain, trajectory, X_CONTROLLER, Y_CONTROLLER, THETA_CONTROLLER, true, true, DEFAULT_POSE_DELTA, false, false);
+        this(drivetrain, path, X_CONTROLLER, Y_CONTROLLER, THETA_CONTROLLER, true, true, DEFAULT_POSE_DELTA, false, false);
     }
 
     public PathFollowState withEndConditions(boolean positionStopped, boolean timeStopped, Pose2d positionDelta) {
@@ -128,17 +132,18 @@ public class PathFollowState extends PositionalDriveState {
         return this;
     }
 
-    protected void setTrajectory(PathPlannerTrajectory trajectory) {
-        this.trajectory = trajectory;
+    protected void setPath(Path path) {
+        this.path = path;
+        this.trajectory = path.trajectory;
     }
 
     @Override
     public void initialize() {
-        if(trajectory == null)
+        if(path == null)
             return;
         super.initialize();
 
-        endPose = trajectory.getEndState().getTargetHolonomicPose();
+        endPose = path.trajectory.getEndState().getTargetHolonomicPose();
         timer.restart();
 
         if(updateOdometry) {
@@ -147,9 +152,10 @@ public class PathFollowState extends PositionalDriveState {
                 requiredSubsystem.setGyroscopeReading(FRONT_LIMELIGHT.getRobotPose().getRotation());
             } else {
                 Pose2d initHolo = trajectory.getInitialTargetHolonomicPose();
+                Pose2d initialPose = new Pose2d(initHolo.getTranslation(), path.initialPathRotation);
 
-                requiredSubsystem.setGyroscopeReading(initHolo.getRotation());
-                requiredSubsystem.setRobotPose(initHolo);
+                requiredSubsystem.setRobotPose(initialPose);
+                requiredSubsystem.setGyroscopeReading(path.initialPathRotation);
             }
         }
     }
@@ -189,7 +195,7 @@ public class PathFollowState extends PositionalDriveState {
 
     @Override
     public void execute() {
-        if(trajectory == null)
+        if(path == null)
             return;
         desiredState = trajectory.sample(timer.get());
         desiredPose = desiredState.getTargetHolonomicPose();
@@ -205,7 +211,7 @@ public class PathFollowState extends PositionalDriveState {
 
     @Override
     public boolean isFinished() {
-        if(trajectory == null)
+        if(path == null)
             return true;
         boolean time = false;
         boolean position = false;

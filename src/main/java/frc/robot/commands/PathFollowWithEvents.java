@@ -1,32 +1,42 @@
 package frc.robot.commands;
 
 import java.util.*;
-
 import edu.wpi.first.math.Pair;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.utils.misc.Pausable;
 import frc.robot.utils.paths.TrajectoryContainer.Path;
 
 public class PathFollowWithEvents extends Command {
-    private Command pathFollowCommand;
+    private Pausable pathFollowCommand;
     private List<Pair<Double, Command>> unstartedCommands;
     private List<Pair<Double, Command>> pauseTimes;
     private List<Command> runningCommands;
+    private Command pauseCommand;
     private Timer timer;
     private boolean paused;
 
-    public PathFollowWithEvents(Command pathFollowCommand, Path path) {
+    public PathFollowWithEvents(Pausable pathFollowCommand, Path path) {
         m_requirements.addAll(pathFollowCommand.getRequirements());
 
-        this.unstartedCommands = new ArrayList<>(path.trajectory.getEventCommands());
-        this.unstartedCommands.sort((a, b) -> {
-            return Double.compare(a.getFirst(), b.getFirst());
-        });
+        this.unstartedCommands = new ArrayList<>(path.events);
+        this.unstartedCommands.sort(Comparator.comparing(Pair<Double, Command>::getFirst));
+
+        for(var pair : this.unstartedCommands) {
+            m_requirements.addAll(pair.getSecond().getRequirements());
+        }
 
         this.pathFollowCommand = pathFollowCommand;
 
         this.runningCommands = new ArrayList<>();
-        this.pauseTimes = new ArrayList<>();
+
+        this.pauseTimes = new ArrayList<>(path.pauses);
+        this.pauseTimes.sort(Comparator.comparing(Pair<Double, Command>::getFirst));
+        
+        for(var pair : this.pauseTimes) {
+            m_requirements.addAll(pair.getSecond().getRequirements());
+        }
+
         this.timer = new Timer();
         this.paused = false;
     }
@@ -55,10 +65,11 @@ public class PathFollowWithEvents extends Command {
             while(time > checkTime) {
                 Command command = event.getSecond();
                 pause();
+                pathFollowCommand.pause();
 
                 interruptCommands(command);
 
-                runningCommands.add(command);
+                pauseCommand = command;
                 command.initialize();
                 
                 pauseTimes.remove(0);
@@ -80,7 +91,13 @@ public class PathFollowWithEvents extends Command {
 
                 if(!paused && !Collections.disjoint(command.getRequirements(), pathFollowCommand.getRequirements())) {
                     System.out.println("Cannot run a command that requires the path following command when running the pathfollow");
-                    continue;
+                    unstartedCommands.remove(0);
+
+                    if(unstartedCommands.size() == 0) {
+                        break;
+                    } else {
+                        continue;
+                    }
                 }
 
                 interruptCommands(command);
@@ -95,6 +112,18 @@ public class PathFollowWithEvents extends Command {
                 event = unstartedCommands.get(0);
                 checkTime = event.getFirst();
             }
+        }
+
+        if(pauseCommand != null) {
+            pauseCommand.execute();
+
+            if(pauseCommand.isFinished()) {
+                pauseCommand.end(false);
+                unpause();
+                pathFollowCommand.unpause();
+
+                pauseCommand = null;
+            } 
         }
 
         for(int i = 0; i < runningCommands.size(); i++) {
@@ -138,6 +167,11 @@ public class PathFollowWithEvents extends Command {
         for(Command command : runningCommands) {
             command.end(true);
         }
+    }
+
+    @Override
+    public boolean isFinished() {
+        return pathFollowCommand.isFinished();
     }
 
     public void addPauseTime(double time, Command command) {

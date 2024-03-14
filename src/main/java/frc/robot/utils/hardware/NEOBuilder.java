@@ -5,9 +5,6 @@ import com.revrobotics.*;
 import com.revrobotics.CANSparkBase.*;
 import com.revrobotics.CANSparkLowLevel.PeriodicFrame;
 
-// Constants
-import static frc.robot.constants.RobotConstants.*;
-
 public class NEOBuilder {
     private NEO motor;
     private RelativeEncoder motorEncoder;
@@ -198,14 +195,6 @@ public class NEOBuilder {
 
     public NEO getUnburntNeo() {
         return motor;
-    }
-
-    public static NEOBuilder createWithDefaults(int id) {
-        return new NEOBuilder(id)
-            .withCurrentLimit(CURRENT_LIMIT)
-            .withVoltageCompensation(NOMINAL_VOLTAGE)
-            .withIdleMode(IdleMode.kBrake)
-            .withInversion(false);
     }
 
     public static NEOBuilder create(int id) {

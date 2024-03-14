@@ -5,9 +5,6 @@ import com.revrobotics.CANSparkBase.*;
 import com.revrobotics.CANSparkLowLevel.PeriodicFrame;
 import com.revrobotics.*;
 
-// Constants
-import static frc.robot.constants.RobotConstants.*;
-
 public class VortexBuilder {
     private Vortex motor;
     private SparkPIDController motorController;
@@ -197,14 +194,6 @@ public class VortexBuilder {
 
     public Vortex getUnburntNeo() {
         return motor;
-    }
-
-    public static VortexBuilder createWithDefaults(int id) {
-        return new VortexBuilder(id)
-            .withCurrentLimit(CURRENT_LIMIT)
-            .withVoltageCompensation(NOMINAL_VOLTAGE)
-            .withIdleMode(IdleMode.kBrake)
-            .withInversion(false);
     }
 
     public static VortexBuilder create(int id) {

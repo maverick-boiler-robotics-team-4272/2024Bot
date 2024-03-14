@@ -31,15 +31,17 @@ public final class Limelight implements Periodic, Loggable {
         kOn
     }
 
+    private static final int ARRAY_LENGTH = 11;
+
     private final String tableName;
     private String logName;
     private LimelightInputsAutoLogged inputs;
     private boolean updatedInputs = false;
     private boolean filtered = false;
-    private double[] updateCycleRobotPose = new double[7];
+    private double[] updateCycleRobotPose = new double[ARRAY_LENGTH];
 
     // TODO: Tune this size
-    private static final int FILTER_SIZE = 10;
+    private static final int FILTER_SIZE = 11;
 
     private MedianFilter xPositionFilter = new MedianFilter(FILTER_SIZE);
     private MedianFilter yPositionFilter = new MedianFilter(FILTER_SIZE);
@@ -73,9 +75,9 @@ public final class Limelight implements Periodic, Loggable {
 
     public double[] getBotPose() {
         double[] pose = LimelightHelpers.getBotPose(tableName);
-        if(pose.length != 7) return new double[7];
+        if(pose.length != ARRAY_LENGTH) return new double[ARRAY_LENGTH];
         if(!updatedInputs) {
-            for(int i = 0; i < 7; i++)
+            for(int i = 0; i < ARRAY_LENGTH; i++)
                 updateCycleRobotPose[i] = pose[i];
 
             inputs.unfilteredPose = new Pose2d(pose[0] + FIELD_HALF_WIDTH_METERS, pose[1] + FIELD_HALF_HEIGHT_METERS, Rotation2d.fromDegrees(pose[5]));
@@ -87,7 +89,7 @@ public final class Limelight implements Periodic, Loggable {
 
     public double[] getBotPoseInTargetSpace() {
         double[] pose = LimelightHelpers.getBotPose_TargetSpace(tableName);
-        if(pose.length != 7) return new double[7];
+        if(pose.length != ARRAY_LENGTH) return new double[ARRAY_LENGTH];
         return pose;
     }
 

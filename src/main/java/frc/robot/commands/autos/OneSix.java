@@ -1,31 +1,24 @@
 package frc.robot.commands.autos;
 
-import static frc.robot.constants.AutoConstants.Paths.getGlobalTrajectories;
-import static frc.robot.constants.RobotConstants.ArmElevatorSetpoints.AUTO_LINE;
+// Commands / States
+import edu.wpi.first.wpilibj2.command.*;
+import frc.robot.commands.*;
+import frc.robot.subsystems.shooter.states.*;
 
-import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
-import frc.robot.commands.AutoAimCommand;
-import frc.robot.commands.PathFollowWithAimCommand;
-import frc.robot.commands.PathFollowWithEvents;
+// Subsystems
 import frc.robot.subsystems.armelevator.ArmElevatorSubsystem;
-import frc.robot.subsystems.armelevator.states.GoToArmElevatorState;
 import frc.robot.subsystems.drivetrain.Drivetrain;
 import frc.robot.subsystems.shooter.Shooter;
-import frc.robot.subsystems.shooter.states.AutoShootState;
-import frc.robot.subsystems.shooter.states.LidarStoppedFeedState;
-import frc.robot.subsystems.shooter.states.OutfeedState;
-import frc.robot.subsystems.shooter.states.ShootState;
 
-public class TwoStageRush extends SequentialCommandGroup {
-    public TwoStageRush(Drivetrain drivetrain, ArmElevatorSubsystem armElevator, Shooter shooter) {
+// Constants
+import static frc.robot.constants.AutoConstants.Paths.getGlobalTrajectories;
+
+public class OneSix extends SequentialCommandGroup {
+    public OneSix(Drivetrain drivetrain, ArmElevatorSubsystem armElevator, Shooter shooter) {
         PathFollowWithAimCommand aimingPath = new PathFollowWithAimCommand(
             drivetrain, armElevator, 
-            getGlobalTrajectories().TWO_STAGE_RUSH.trajectory,
-            shooter::lidarTripped
+            getGlobalTrajectories().TWO_STAGE_RUSH,
+            shooter::endLidarTripped
         );
         PathFollowWithEvents eventPath = new PathFollowWithEvents(
             aimingPath, 
@@ -34,7 +27,7 @@ public class TwoStageRush extends SequentialCommandGroup {
 
         eventPath.addPauseTime(0.5, new SequentialCommandGroup(
             new InstantCommand(() -> {
-                aimingPath.pausePathFollowing();
+                aimingPath.pause();
                 drivetrain.enableVisionFusion();
             }),
             new ParallelRaceGroup(
@@ -45,20 +38,20 @@ public class TwoStageRush extends SequentialCommandGroup {
             ),
             new InstantCommand(() -> {
                 drivetrain.disableVisionFusion();
-                aimingPath.unpausePathFollowing();
+                aimingPath.unpause();
                 eventPath.unpause();
             })
         ));
 
         eventPath.addPauseTime(2.25, new SequentialCommandGroup(
             new InstantCommand(() -> {
-                aimingPath.pausePathFollowing();
+                aimingPath.pause();
                 drivetrain.enableVisionFusion();
             }),
             new ParallelRaceGroup(
                 new AutoAimCommand(drivetrain, armElevator, () -> 0, () -> 0),
-                new LidarStoppedFeedState(shooter, () -> 0.8).andThen(
-                    new OutfeedState(shooter, () -> 0.2).withTimeout(0.2),
+                new LidarStoppedFeedState(shooter, 0.8).andThen(
+                    new OutfeedState(shooter, 0.2).withTimeout(0.2),
                     new WaitCommand(0.1),
                     new AutoShootState(shooter, 1.0, 1.0).withTimeout(5)
                 )
@@ -66,27 +59,27 @@ public class TwoStageRush extends SequentialCommandGroup {
             ),
             new InstantCommand(() -> {
                 drivetrain.disableVisionFusion();
-                aimingPath.unpausePathFollowing();
+                aimingPath.unpause();
                 eventPath.unpause();
             })
         ));
 
         eventPath.addPauseTime(10.0, new SequentialCommandGroup(
             new InstantCommand(() -> {
-                aimingPath.pausePathFollowing();
+                aimingPath.pause();
                 drivetrain.enableVisionFusion();
             }),
             new ParallelRaceGroup(
                 new AutoAimCommand(drivetrain, armElevator, () -> 0, () -> 0),
-                new LidarStoppedFeedState(shooter, () -> 0.8).andThen(
-                    new OutfeedState(shooter, () -> 0.2).withTimeout(0.2),
+                new LidarStoppedFeedState(shooter, 0.8).andThen(
+                    new OutfeedState(shooter, 0.2).withTimeout(0.2),
                     new WaitCommand(0.1),
                     new AutoShootState(shooter, 1.0, 1.0)
                 )
             ),
             new InstantCommand(() -> {
                 drivetrain.disableVisionFusion();
-                aimingPath.unpausePathFollowing();
+                aimingPath.unpause();
                 eventPath.unpause();
             })
         ));

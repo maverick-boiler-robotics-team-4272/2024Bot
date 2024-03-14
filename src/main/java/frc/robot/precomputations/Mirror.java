@@ -4,6 +4,7 @@ import static frc.robot.constants.UniversalConstants.FIELD_WIDTH_METERS;
 
 import java.io.*;
 
+import org.ejml.equation.ParseError;
 import org.json.simple.*;
 import org.json.simple.parser.*;
 
@@ -12,9 +13,11 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 
 public class Mirror {
     public static void main(String[] args) {
+        mirrorPath("P14", "Blue");
+        mirrorPath("P45", "Blue");
+        mirrorPath("P123Plus", "Blue");
+        mirrorPath("P1238", "Blue");
         mirrorPath("Three Piece Close", "Blue");
-        mirrorPath("Two Center Rush", "Blue");
-        mirrorPath("Two Stage Rush", "Blue");
     }
 
     private static void mirrorPath(String pathName, String from) {
@@ -31,6 +34,17 @@ public class Mirror {
                 JSONObject anchor = (JSONObject) waypoint.get("anchor");
                 JSONObject prevControl = (JSONObject) waypoint.get("prevControl");
                 JSONObject nextControl = (JSONObject) waypoint.get("nextControl");
+                String linkedName = (String) waypoint.get("linkedName");
+
+                if(linkedName != null) {
+                    if(!linkedName.startsWith(from)) {
+                        throw new ParseError("Linked name must start with either red or blue, based on which path you are mirroring");
+                    } else {
+                        linkedName = to + linkedName.substring(from.length());
+
+                        waypoint.put("linkedName", linkedName);
+                    }
+                }
 
                 if (anchor != null)
                     flipPoint(anchor);

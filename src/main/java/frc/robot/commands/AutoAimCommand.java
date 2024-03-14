@@ -1,15 +1,18 @@
 package frc.robot.commands;
 
-import static frc.robot.constants.UniversalConstants.*;
+// Commands / States
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import frc.robot.subsystems.armelevator.states.TargetPositionState;
+import frc.robot.subsystems.drivetrain.states.FacePositionState;
+
+// Subsystems
+import frc.robot.subsystems.armelevator.ArmElevatorSubsystem;
+import frc.robot.subsystems.drivetrain.Drivetrain;
 
 import java.util.function.DoubleSupplier;
 
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import frc.robot.subsystems.armelevator.ArmElevatorSubsystem;
-import frc.robot.subsystems.armelevator.states.TargetPositionState;
-import frc.robot.subsystems.drivetrain.Drivetrain;
-import frc.robot.subsystems.drivetrain.states.FacePositionState;
-
+// Constants
+import static frc.robot.constants.UniversalConstants.*;
 public class AutoAimCommand extends ParallelCommandGroup {
     public AutoAimCommand(Drivetrain drivetrain, ArmElevatorSubsystem armElevator, DoubleSupplier xSpeed, DoubleSupplier ySpeed) {
         super(

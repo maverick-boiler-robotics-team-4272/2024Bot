@@ -94,8 +94,10 @@ public class PathFindToPositionState extends PathFollowState {
     
     @Override
     public void initialize() {
-        setTrajectory(TrajectoryBuilder.pathFindToPosition(requiredSubsystem, endPose));
+        // setPath(TrajectoryBuilder.pathFindToPosition(requiredSubsystem, endPose));
 
+        // TODO: Fix this. Make it work with the new pathing.
+        setPath(null);
         super.initialize();
     }
 }

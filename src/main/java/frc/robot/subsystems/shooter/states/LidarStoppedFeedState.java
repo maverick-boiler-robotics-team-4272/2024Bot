@@ -1,16 +1,18 @@
 package frc.robot.subsystems.shooter.states;
 
-import java.util.function.DoubleSupplier;
-
 import frc.robot.subsystems.shooter.Shooter;
 
-public class LidarStoppedFeedState extends FeedState {
-    public LidarStoppedFeedState(Shooter shooter, DoubleSupplier percent) {
-        super(shooter, percent);
+public class LidarStoppedFeedState extends ShootState {
+    public LidarStoppedFeedState(Shooter shooter, double revSpeed, double feedSpeed) {
+        super(shooter, revSpeed, feedSpeed);
+    }
+
+    public LidarStoppedFeedState(Shooter shooter, double percent) {
+        this(shooter, -0.1, percent);
     }
 
     @Override
     public boolean isFinished() {
-        return requiredSubsystem.lidarTripped();
+        return requiredSubsystem.endLidarTripped();
     }
 }

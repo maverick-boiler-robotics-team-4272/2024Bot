@@ -25,7 +25,6 @@ import static frc.robot.constants.HardwareMap.*;
 import static frc.robot.constants.RobotConstants.DrivetrainConstants.*;
 import static frc.robot.constants.RobotConstants.DrivetrainConstants.SwerveModuleConstants.*;
 import static frc.robot.constants.TelemetryConstants.Limelights.*;
-import static frc.robot.constants.TelemetryConstants.ShuffleboardTables.*;
 import static frc.robot.constants.UniversalConstants.*;
 
 
@@ -34,6 +33,11 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
     public static class DrivetrainInputs {
         public Pose2d estimatedPose;
         public Pose2d desiredPose;
+
+        public double speakerDistance;
+
+        public SwerveModuleState[] currentStates;
+        public SwerveModuleState[] setStates;
     }
 
     private DrivetrainInputsAutoLogged drivetrainInputs;
@@ -59,6 +63,14 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
         drivetrainInputs.estimatedPose = new Pose2d();
         drivetrainInputs.desiredPose = new Pose2d();
 
+        drivetrainInputs.currentStates = new SwerveModuleState[4];
+        drivetrainInputs.setStates = new SwerveModuleState[4];
+
+        for(int i = 0; i < 4; i++) {
+            drivetrainInputs.currentStates[i] = new SwerveModuleState();
+            drivetrainInputs.setStates[i] = new SwerveModuleState();
+        }
+
         poseEstimator = new SwerveDrivePoseEstimator(
             kinematics,
             gyroscope.getRotation(),
@@ -76,6 +88,16 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
         super.drive(speeds);
         
         updateOdometry();
+    }
+
+    @Override
+    public void setStates(SwerveModuleState... states) {
+        if(states.length != numModules) throw new IllegalArgumentException("Number of states provided doesnt match number of modules");
+
+        for(int i = 0; i < states.length; i++) {
+            modules[i].goToState(states[i]);
+            drivetrainInputs.setStates[i] = states[i];
+        }
     }
 
     public void updateOdometry() {
@@ -141,6 +163,13 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
     public void log(String subdirectory, String humanReadableName) {
         for(int i = 0; i < modules.length; i++) {
             modules[i].log(subdirectory + "/" + humanReadableName, "Module" + i);
+            drivetrainInputs.currentStates[i] = modules[i].getState();
+        }
+
+        if(hasGlobalPositions()) {
+            drivetrainInputs.speakerDistance = getGlobalPositions().SPEAKER_POSITION.getDistance(getRobotPose().getTranslation());
+        } else {
+            drivetrainInputs.speakerDistance = 0.0;
         }
 
         gyroscope.log(subdirectory + "/" + humanReadableName, "Pigeon");
@@ -151,10 +180,6 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
     @Override
     public void periodic() {
         log("Subsystems", "Drivetrain");
-
-        for(int i = 0; i < numModules; i++) {
-            TESTING_TABLE.putNumber("Module " + i + " Mav Reading", modules[i].getMotorRotation().getDegrees());
-        }
     }
 
     public SwerveModuleState[] getModuleStates() {

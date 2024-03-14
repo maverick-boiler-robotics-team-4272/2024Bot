@@ -5,10 +5,8 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 
 import static edu.wpi.first.units.Units.*;
-import static frc.robot.constants.RobotConstants.ArmConstants.MAX_ARM_ANGLE;
-import static frc.robot.constants.RobotConstants.ArmConstants.MAX_SAFE_ANGLE;
-import static frc.robot.constants.RobotConstants.ArmConstants.MIN_ARM_ANGLE;
-import static frc.robot.constants.RobotConstants.ElevatorConstants.MAX_ELEVATOR_HEIGHT;
+import static frc.robot.constants.RobotConstants.ArmConstants.*;
+import static frc.robot.constants.RobotConstants.ElevatorConstants.*;
 
 public class RobotConstants {
     private RobotConstants() {
@@ -25,14 +23,12 @@ public class RobotConstants {
         public static final double DRIVEBASE_HALF_WIDTH = Meters.convertFrom(9.875, Inches);
         public static final double DRIVEBASE_HALF_HEIGHT = Meters.convertFrom(8.875, Inches);
         public static final double MAX_TRANSLATIONAL_SPEED = 4.0;
-        public static final double MAX_ROTATIONAL_SPEED = 2 * Math.PI;
+        public static final double MAX_ROTATIONAL_SPEED = 3 * Math.PI;
 
         public static final Translation2d FRONT_LEFT_POSITION  = new Translation2d(-DRIVEBASE_HALF_WIDTH,  DRIVEBASE_HALF_HEIGHT);
         public static final Translation2d FRONT_RIGHT_POSITION = new Translation2d(-DRIVEBASE_HALF_WIDTH, -DRIVEBASE_HALF_HEIGHT);
         public static final Translation2d BACK_LEFT_POSITION   = new Translation2d( DRIVEBASE_HALF_WIDTH,  DRIVEBASE_HALF_HEIGHT);
         public static final Translation2d BACK_RIGHT_POSITION  = new Translation2d( DRIVEBASE_HALF_WIDTH, -DRIVEBASE_HALF_HEIGHT);
-
-        public static final double WHEEL_DISTANCE = Meters.convertFrom(1, Feet);
 
         // public static final Translation2d FRONT_LEFT_POSITION  = new Translation2d(-WHEEL_DISTANCE,  WHEEL_DISTANCE);
         // public static final Translation2d FRONT_RIGHT_POSITION = new Translation2d(-WHEEL_DISTANCE, -WHEEL_DISTANCE);
@@ -104,10 +100,11 @@ public class RobotConstants {
         AMP(Rotation2d.fromDegrees(-20.0), Meters.convertFrom(19.0, Inches)),
         // AMP(new Rotation2d(0.813), 0.190),
         CLIMB(new Rotation2d(0), MAX_ELEVATOR_HEIGHT),
-        PRE_CLIMB(Rotation2d.fromDegrees(35.0), Meters.convertFrom(13.0, Inches)),
-        TRAP(MIN_ARM_ANGLE, MAX_ELEVATOR_HEIGHT),
+        PODIUM(Rotation2d.fromDegrees(30.0), Meters.convertFrom(13.0, Inches)),
+        TRAP(Rotation2d.fromDegrees(48.0), Meters.convertFrom(15.0, Inches)),
         AUTO_LINE(Rotation2d.fromDegrees(48.0), Meters.convertFrom(13.0, Inches)),
-        SUB_SHOT(Rotation2d.fromDegrees(48.0), Meters.convertFrom(13.0, Inches));
+        SUB_SHOT(Rotation2d.fromDegrees(48.0), Meters.convertFrom(13.0, Inches)),
+        SOURCE(Rotation2d.fromDegrees(48.0), Meters.convertFrom(5.0, Inches));
 
         private Rotation2d armAngle;
         private double elevatorHeight;
@@ -146,6 +143,7 @@ public class RobotConstants {
         public static final Rotation2d MIN_ARM_ANGLE = Rotation2d.fromDegrees(-20.0);
 
         public static final Rotation2d MAX_SAFE_ANGLE = Rotation2d.fromDegrees(45.0);
+        public static final Rotation2d MIN_SAFE_ANGLE = Rotation2d.fromDegrees(10.0);
     }
 
     public static class ShooterConstants {
@@ -159,14 +157,14 @@ public class RobotConstants {
         public static final double ELEVATOR_PID_F = 0.5;
 
         public static final double ELEVATOR_OUTPUT_MAX = 1.0;
-        public static final double ELEVATOR_OUTPUT_MIN = -0.75;
+        public static final double ELEVATOR_OUTPUT_MIN = -0.50;
         
 
         public static final double ELEVATOR_HEIGHT_DEADZONE = Meters.convertFrom(2.0, Centimeters);
 
         public static final double BLOCKING_HEIGHT = Meters.convertFrom(4.0, Inches);
 
-        public static final Translation3d ELEVATOR_TRANSLATION = new Translation3d(0, Meters.convertFrom(2.0, Inches), Meters.convertFrom(12.0, Inches));
+        public static final Translation3d ELEVATOR_TRANSLATION = new Translation3d(0, Meters.convertFrom(2.0, Inches), Meters.convertFrom(12.5, Inches));
 
         public static final double ELEVATOR_RATIO = Meters.convertFrom(18.0, Millimeters) / 1.0; //Find empericaly
 

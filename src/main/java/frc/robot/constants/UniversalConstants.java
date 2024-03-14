@@ -1,6 +1,6 @@
 package frc.robot.constants;
 
-import frc.robot.utils.paths.PositionsContainer;
+import frc.robot.utils.misc.PositionsContainer;
 
 import static edu.wpi.first.units.Units.*;
 
