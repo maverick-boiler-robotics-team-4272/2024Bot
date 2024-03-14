@@ -206,10 +206,10 @@ public class RobotContainer {
         new Trigger(operatorController.getButton("y")::get).onTrue(
             new ResetToLimelightState(drivetrain, FRONT_LIMELIGHT)
         );
-
-        // new Trigger(operatorController.getButton("b")::get).whileTrue(
-        //     new  ZeroElevatorState(armElevator).repeatedly()
-        // );
+            
+        new Trigger(operatorController.getButton("x")::get).whileTrue(
+            new GoToArmElevatorState(armElevator, TRAP).repeatedly()
+        );
 
         new Trigger(operatorDPad::isTriggered).whileTrue(
             new SelectCommand<Direction>(
@@ -258,13 +258,7 @@ public class RobotContainer {
             )
         );
 
-        new Trigger(operatorRightTrigger::isTriggered).whileTrue(
-            new ParallelCommandGroup(
-                new OuttakeState(intake, 0.9),
-                new OutfeedState(shooter, 0.9)
-            )
-        );
-
+        
         new Trigger(operatorLeftTrigger::isTriggered).and(operatorController.getButton("rightBumper")::get).whileTrue(
             new ShootState(shooter, -0.5, -0.5) {
                 public boolean isFinished() {
@@ -275,6 +269,13 @@ public class RobotContainer {
             )
         );
 
+        new Trigger(operatorRightTrigger::isTriggered).whileTrue(
+            new ParallelCommandGroup(
+                new OuttakeState(intake, 0.9),
+                new OutfeedState(shooter, 0.9)
+            )
+        );
+        
         new Trigger(operatorController.getButton("leftBumper")::get).whileTrue(
             new SequentialCommandGroup(
                 new ShootState(shooter, 1.0, 0.0) {
@@ -286,9 +287,6 @@ public class RobotContainer {
             )
         );
 
-        new Trigger(operatorController.getButton("x")::get).whileTrue(
-            new GoToArmElevatorState(armElevator, TRAP).repeatedly()
-        );
     }
 
     private void configureAutoChoosers() {

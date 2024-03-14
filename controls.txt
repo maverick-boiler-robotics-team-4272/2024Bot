@@ -1,23 +1,23 @@
 OTFPF = On The Fly Path Follow
 
 Driver Controls:
-    A: Face Speaker
+    A: Rotate to place in amp
     B: Reset heading (set current face direction to forwards)
-    X: OTFPF
+    X: Rotate to pick up from source from intake
     Y: Reset odometry (Limelight)
 
-    Left Bumper: Auto Aim
+    Left Bumper: Auto Aim and Rev
     Right Bumper: Shoot
 
     Left Stick: Unassigned
-    Right Stick: Unassigned
+    Right Stick: Face speaker
 
     Back: Reset modules (Reset module rotation based on mavcoders)
-    Start: Unassigned
+    Start: Rev to speeds to fire over stage
 
-    D-Pad: OTFPF selection
+    D-Pad: Unassigned
 
-    Left Trigger: Unassigned
+    Left Trigger: Set to setpoint and rev speed for firing over stage
     Right Trigger: Unassigned
 
     Left Joystick: Drivetrain Translation
@@ -26,12 +26,12 @@ Driver Controls:
 
 Operator Controls:
     A: Amp Outfeed
-    B: Zero Elevator
-    X: Unassigned
+    B: Unassigned
+    X: Trap Setpoint
     Y: Reset odometry (Limelight)
 
     Left Bumper: Rev
-    Right Bumper: Amp Setpoint (For use while climbing)
+    Right Bumper: Source intake through shooter setpoint
 
     Left Stick Click: Unassigned
     Right Stick Click: Unassigned
@@ -41,13 +41,17 @@ Operator Controls:
 
     D-Pad: Arm Elevator Setpoints
         Up: Amp Setpoint
-        Right: Trap Setpoint
-        Down: Pre Climb Setpoint
+        Right: Subwoofer Shot Setpoint
+        Down: Podium Shot Setpoint
         Left: White Line Setpoint
 
 
-    Left Trigger: Feed and Intake
+    Left Trigger:
+        Back Button Pressed: Override Lidars
+        Right Bumper Pressed: Intake through shooter
+        Other: Intake and Feed
+
     Right Trigger: Outfeed and Outtake
 
-    Left Joystick: (Up/Down) Climber
-    Right Joystick: 
+    Left Joystick: Unassigned
+    Right Joystick: Unassigned
