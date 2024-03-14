@@ -285,6 +285,10 @@ public class RobotContainer {
                 new ShootState(shooter, 1.0, 1.0)
             )
         );
+
+        new Trigger(operatorController.getButton("x")::get).whileTrue(
+            new GoToArmElevatorState(armElevator, TRAP).repeatedly()
+        );
     }
 
     private void configureAutoChoosers() {
