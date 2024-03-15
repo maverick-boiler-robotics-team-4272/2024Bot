@@ -4,6 +4,7 @@ package frc.robot.subsystems.armelevator;
 import org.littletonrobotics.junction.*;
 import frc.robot.utils.logging.*;
 import frc.robot.utils.misc.InterpolationMap;
+import frc.team4272.globals.MathUtils;
 // Hardware
 import frc.robot.utils.hardware.*;
 import com.revrobotics.*;
@@ -136,7 +137,12 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
         armMotor.setInverted(false);
         armMotor.setIdleMode(IdleMode.kBrake);
         armMotor.setSmartCurrentLimit(40);
-        armEncoder.setPosition(-armAbsoluteEncoder.getPosition() * Math.PI / 180.0);
+        // armMotor.setSoftLimit(SoftLimitDirection.kForward, (float)MAX_ARM_ANGLE.getRadians());
+        // armMotor.setSoftLimit(SoftLimitDirection.kReverse, (float)MIN_ARM_ANGLE.getRadians());
+
+        double position = armAbsoluteEncoder.getPosition();
+
+        armEncoder.setPosition(-MathUtils.inputModulo(position, -180, 180) * Math.PI / 180.0);
     }
 
     private void setShooterRotation(Rotation2d r) {
