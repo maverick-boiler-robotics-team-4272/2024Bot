@@ -360,6 +360,12 @@ public class RobotContainer {
             armElevator.resetArmMotor();
             drivetrain.resetModules();
         }, intake, shooter, armElevator, drivetrain));
+        OVERRIDE_TABLE.putData("Reset All But Arm", new InstantCommand(() -> {
+            intake.resetIntakeMotor();
+            shooter.resetShooterMotors();
+            shooter.resetFeedMotor();
+            drivetrain.resetModules();
+        }, intake, shooter, drivetrain));
     }
 
     /**
