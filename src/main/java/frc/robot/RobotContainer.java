@@ -42,6 +42,10 @@ import static frc.robot.constants.RobotConstants.ArmElevatorSetpoints.*;
 
 import java.util.*;
 
+import com.ctre.phoenix.led.Animation;
+import com.ctre.phoenix.led.RainbowAnimation;
+import com.ctre.phoenix.led.RgbFadeAnimation;
+import com.ctre.phoenix.led.SingleFadeAnimation;
 import com.pathplanner.lib.auto.NamedCommands;
 
 /**
@@ -327,13 +331,15 @@ public class RobotContainer {
     }
 
     private void configureSignalingBindings() {
+        Animation rainbowAnimation = new RainbowAnimation(1.0, 0.5, 512);
+        
         new Trigger(shooter::lidarTripped).onTrue(
             new InstantCommand(() -> {
-                candle.setLEDs(255, 192, 203);
+                candle.animate(rainbowAnimation);
             }).ignoringDisable(true)
         ).onFalse(
             new InstantCommand(() -> {
-                candle.setLEDs(0, 0, 0);
+                candle.animate(null);
             }).ignoringDisable(true)
         );
 
