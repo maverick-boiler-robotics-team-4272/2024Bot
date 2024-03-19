@@ -42,6 +42,10 @@ import static frc.robot.constants.RobotConstants.ArmElevatorSetpoints.*;
 
 import java.util.*;
 
+import com.ctre.phoenix.led.Animation;
+import com.ctre.phoenix.led.RainbowAnimation;
+import com.ctre.phoenix.led.RgbFadeAnimation;
+import com.ctre.phoenix.led.SingleFadeAnimation;
 import com.pathplanner.lib.auto.NamedCommands;
 
 /**
@@ -301,6 +305,7 @@ public class RobotContainer {
         AUTO_CHOOSER.addOption("P123Plus", () -> new OneTwoThreePlus(drivetrain, armElevator, shooter));
         AUTO_CHOOSER.addOption("P1238", () -> new OneTwoThreeEight(drivetrain, armElevator, shooter));
         AUTO_CHOOSER.addOption("P1238Plus", () -> new OneTwoThreeEightPlus(drivetrain, armElevator, shooter));
+        AUTO_CHOOSER.addOption("P1238PlusTest", () -> new OneTwoThreePlusTwo(drivetrain, armElevator, shooter));
         AUTO_CHOOSER.addOption("P two Any", () -> new TwoPiece(drivetrain, armElevator, shooter, intake));
         AUTO_CHOOSER.addOption("P Shoot", () -> new FireAndSit(drivetrain, armElevator, shooter));
         
@@ -326,13 +331,15 @@ public class RobotContainer {
     }
 
     private void configureSignalingBindings() {
+        Animation rainbowAnimation = new RainbowAnimation(1.0, 0.5, 512);
+        
         new Trigger(shooter::lidarTripped).onTrue(
             new InstantCommand(() -> {
-                candle.setLEDs(255, 192, 203);
+                candle.animate(rainbowAnimation);
             }).ignoringDisable(true)
         ).onFalse(
             new InstantCommand(() -> {
-                candle.setLEDs(0, 0, 0);
+                candle.animate(null);
             }).ignoringDisable(true)
         );
 
@@ -360,6 +367,12 @@ public class RobotContainer {
             armElevator.resetArmMotor();
             drivetrain.resetModules();
         }, intake, shooter, armElevator, drivetrain));
+        OVERRIDE_TABLE.putData("Reset All But Arm", new InstantCommand(() -> {
+            intake.resetIntakeMotor();
+            shooter.resetShooterMotors();
+            shooter.resetFeedMotor();
+            drivetrain.resetModules();
+        }, intake, shooter, drivetrain));
     }
 
     /**
