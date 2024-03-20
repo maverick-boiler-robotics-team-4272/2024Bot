@@ -4,22 +4,37 @@ import static frc.robot.constants.UniversalConstants.FIELD_WIDTH_METERS;
 
 import java.io.*;
 
-import org.ejml.equation.ParseError;
 import org.json.simple.*;
 import org.json.simple.parser.*;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
-public class Mirror {
-    public static void main(String[] args) {
-        mirrorPath("P14", "Blue");
-        mirrorPath("P45", "Blue");
-        mirrorPath("P123Plus", "Blue");
-        mirrorPath("P1238", "Blue");
-        mirrorPath("Three Piece Close", "Blue");
+class MirrorException extends RuntimeException {
+        public MirrorException() {
+            super();
+        }
+
+        public MirrorException(String message) {
+            super(message);
+        }
+
+        public MirrorException(Throwable cause) {
+            super(cause);
+        }
+
+        public MirrorException(String message, Throwable cause) {
+            super(message, cause);
+        }
     }
 
+public class Mirror {
+    public static void main(String[] args) {
+        // For mirroring a path:
+        // mirrorPath([path name without side suffix], [side suffix]);
+    }
+
+    @SuppressWarnings({ "unchecked", "unused" })
     private static void mirrorPath(String pathName, String from) {
         String to = from == "Red" ? "Blue" : "Red";
 
@@ -38,7 +53,7 @@ public class Mirror {
 
                 if(linkedName != null) {
                     if(!linkedName.startsWith(from)) {
-                        throw new ParseError("Linked name must start with either red or blue, based on which path you are mirroring");
+                        throw new MirrorException("Linked name " + linkedName + " must start with " + from);
                     } else {
                         linkedName = to + linkedName.substring(from.length());
 
@@ -82,11 +97,12 @@ public class Mirror {
 
             writer.close();
         } catch(Exception e) {
+            System.out.println("Error while mirroring path " + from + " " + pathName);
             e.printStackTrace();
-            System.out.println("Error in path " + pathName);
         }
     }
 
+    @SuppressWarnings({ "unchecked" })
     private static void flipPoint(JSONObject point) {
         double x = ensureDouble(point.get("x"));
 
@@ -95,12 +111,17 @@ public class Mirror {
         point.put("x", x); // Suck it warning
     }
 
+    @SuppressWarnings({ "unchecked" })
     private static void flipRotation(JSONObject rotation) {
         Double r = ensureDouble(rotation.get("rotation"));
         String name = "rotation";
 
         if(r == null) {
             r = ensureDouble(rotation.get(name = "rotationDegrees"));
+        }
+
+        if(r == null) {
+            throw new MirrorException(new IllegalArgumentException("Passed in object must have either a rotation or rotationDegrees property"));
         }
 
         double rot = r;
@@ -118,6 +139,6 @@ public class Mirror {
             return ((Long)obj).doubleValue();
         }
         
-        throw new IllegalArgumentException("Passed in object must be either a Long or a Double");
+        throw new MirrorException(new IllegalArgumentException("Passed in object must be either a Long or a Double"));
     }
 }
