@@ -171,7 +171,7 @@ public class RobotContainer {
         );
 
         new Trigger(driverController.getButton("start")::get).whileTrue(
-            new RevAndShootState(shooter, 0.35, 0.5, false, driveTriggerRight::isTriggered)
+            new RevAndShootState(shooter, 0.4, 0.5, false, driveTriggerRight::isTriggered)
         );
 
         //Arm ----------------------------------------------------
@@ -244,6 +244,10 @@ public class RobotContainer {
 
         new Trigger(operatorController.getButton("rightBumper")::get).whileTrue(
             new GoToArmElevatorState(armElevator, SOURCE).repeatedly()
+        );
+
+        new Trigger(operatorController.getButton("b")::get).whileTrue(
+            new GoToArmElevatorState(armElevator, TRAP).repeatedly()
         );
 
         new Trigger(operatorLeftTrigger::isTriggered).whileTrue(
