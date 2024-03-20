@@ -22,8 +22,8 @@ public class RobotConstants {
         }
         public static final double DRIVEBASE_HALF_WIDTH = Meters.convertFrom(9.875, Inches);
         public static final double DRIVEBASE_HALF_HEIGHT = Meters.convertFrom(8.875, Inches);
-        public static final double MAX_TRANSLATIONAL_SPEED = 4.0;
-        public static final double MAX_ROTATIONAL_SPEED = 3 * Math.PI;
+        public static final double MAX_TRANSLATIONAL_SPEED = 5.0;
+        public static final double MAX_ROTATIONAL_SPEED = 4 * Math.PI;
 
         public static final Translation2d FRONT_LEFT_POSITION  = new Translation2d(-DRIVEBASE_HALF_WIDTH,  DRIVEBASE_HALF_HEIGHT);
         public static final Translation2d FRONT_RIGHT_POSITION = new Translation2d(-DRIVEBASE_HALF_WIDTH, -DRIVEBASE_HALF_HEIGHT);
@@ -46,7 +46,7 @@ public class RobotConstants {
             }
 
             public static final double WHEEL_RADIUS = 2.0; // Inches
-            public static final double MAX_MODULE_SPEED = MetersPerSecond.convertFrom(14.5, FeetPerSecond);
+            public static final double MAX_MODULE_SPEED = MetersPerSecond.convertFrom(17.0, FeetPerSecond);
 
             public static final double DRIVE_RATIO = 6.75 / 1.0 * 14.0 / 16.0; // Swapped a gear, slightly different ratio... grr...
             public static final double STEER_RATIO = 150.0 / 7.0;
