@@ -14,10 +14,12 @@ import org.littletonrobotics.junction.networktables.NT4Publisher;
 import org.littletonrobotics.junction.wpilog.WPILOGReader;
 import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.utils.hardware.Pigeon;
 import frc.robot.utils.periodics.PeriodicsUtil;
 
 /**
@@ -136,6 +138,12 @@ public class Robot extends LoggedRobot {
             } else {
                 setGlobalPositions(BLUE_POSITIONS);
             }
+        }
+
+        if(CONTAINER_CHOOSER.getSelected().equals("Red")) {
+            Pigeon gyro = m_robotContainer.drivetrain.getGyroscope();
+
+            gyro.setRotation(gyro.getRotation().plus(Rotation2d.fromDegrees(180)));
         }
 
         m_robotContainer.configureRuntimeDriverBindings();
