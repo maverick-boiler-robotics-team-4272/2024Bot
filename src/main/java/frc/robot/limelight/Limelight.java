@@ -40,7 +40,6 @@ public final class Limelight implements Periodic, Loggable {
     private boolean filtered = false;
     private double[] updateCycleRobotPose = new double[ARRAY_LENGTH];
 
-    // TODO: Tune this size
     private static final int FILTER_SIZE = 11;
 
     private MedianFilter xPositionFilter = new MedianFilter(FILTER_SIZE);
