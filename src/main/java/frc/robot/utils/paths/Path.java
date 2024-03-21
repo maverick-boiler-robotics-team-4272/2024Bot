@@ -79,7 +79,17 @@ public class Path {
         this.trajectory = this.path.getTrajectory(initialSpeeds, initialRotation);
         this.initialPathRotation = initialRotation;
 
-        this.events = List.of();
+        var markers = path.getEventMarkers();
+
+        this.events = new ArrayList<>();
+
+        for(var marker : markers) {
+            int index = (int) Math.round(marker.getWaypointRelativePos() / PathSegment.RESOLUTION);
+            double time = this.trajectory.getState(index).timeSeconds;
+
+            events.add(new Pair<Double,Command>(time, marker.getCommand()));
+        }
+
         this.pauses = List.of();
     }
 
