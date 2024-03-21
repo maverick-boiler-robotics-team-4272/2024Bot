@@ -11,22 +11,22 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
 class MirrorException extends RuntimeException {
-        public MirrorException() {
-            super();
-        }
-
-        public MirrorException(String message) {
-            super(message);
-        }
-
-        public MirrorException(Throwable cause) {
-            super(cause);
-        }
-
-        public MirrorException(String message, Throwable cause) {
-            super(message, cause);
-        }
+    public MirrorException() {
+        super();
     }
+
+    public MirrorException(String message) {
+        super(message);
+    }
+
+    public MirrorException(Throwable cause) {
+        super(cause);
+    }
+
+    public MirrorException(String message, Throwable cause) {
+        super(message, cause);
+    }
+}
 
 public class Mirror {
     public static void main(String[] args) {
