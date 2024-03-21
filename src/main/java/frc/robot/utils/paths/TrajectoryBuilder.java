@@ -18,32 +18,24 @@ import frc.robot.subsystems.drivetrain.Drivetrain;
 import static frc.robot.constants.RobotConstants.DrivetrainConstants.*;
 
 public class TrajectoryBuilder {
-    public static PathPlannerPath buildPath(Pose2d start, Pose2d end) {
+    public static Path goToPosition(Drivetrain drivetrain, Pose2d position) {
+        Pose2d start = drivetrain.getRobotPose();
+
         PathPlannerPath path = new PathPlannerPath(
-            PathPlannerPath.bezierFromPoses(new Pose2d(start.getTranslation(), start.minus(end).getRotation()), end), 
+            PathPlannerPath.bezierFromPoses(new Pose2d(start.getTranslation(), start.minus(position).getRotation()), position), 
             new PathConstraints(
                 MAX_TRANSLATIONAL_SPEED, 
                 3.0, //3g's but sidways
                 MAX_ROTATIONAL_SPEED, 
                 Rotation2d.fromDegrees(720).getRadians()
             ), 
-            new GoalEndState(0, end.getRotation())
+            new GoalEndState(0, position.getRotation())
         );
 
-        return path;
+        return new Path(path, ChassisSpeeds.fromRobotRelativeSpeeds(drivetrain.getChassisSpeeds(), start.getRotation()), start.getRotation());
     }
 
-    public static PathPlannerTrajectory goToPosition(Drivetrain drivetrain, Pose2d position) {
-        PathPlannerTrajectory trajectory = new PathPlannerTrajectory(
-            buildPath(drivetrain.getRobotPose(), position),
-            ChassisSpeeds.fromRobotRelativeSpeeds(drivetrain.getChassisSpeeds(), drivetrain.getRobotPose().getRotation()), 
-            drivetrain.getRobotPose().getRotation()
-        );
-
-        return trajectory;
-    }
-
-    public static PathPlannerTrajectory pathFindToPosition(Drivetrain drivetrain, Pose2d position) {
+    public static Path pathFindToPosition(Drivetrain drivetrain, Pose2d position) {
         Pathfinding.setStartPosition(drivetrain.getRobotPose().getTranslation());
         Pathfinding.setGoalPosition(position.getTranslation());
 
@@ -61,11 +53,7 @@ public class TrajectoryBuilder {
             return null;
         }
 
-        return new PathPlannerTrajectory(
-            foundPath,
-            ChassisSpeeds.fromRobotRelativeSpeeds(drivetrain.getChassisSpeeds(), drivetrain.getRobotPose().getRotation()),
-            drivetrain.getRobotPose().getRotation()
-        );
+        return new Path(foundPath);
 
     }
 
