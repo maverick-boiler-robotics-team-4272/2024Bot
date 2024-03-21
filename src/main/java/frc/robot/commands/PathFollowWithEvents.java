@@ -5,7 +5,7 @@ import edu.wpi.first.math.Pair;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.utils.misc.Pausable;
-import frc.robot.utils.paths.TrajectoryContainer.Path;
+import frc.robot.utils.paths.Path;
 
 public class PathFollowWithEvents extends Command {
     private Pausable pathFollowCommand;

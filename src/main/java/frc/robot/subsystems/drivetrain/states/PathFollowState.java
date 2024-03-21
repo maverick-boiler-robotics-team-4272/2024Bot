@@ -9,7 +9,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.Timer;
 import frc.robot.subsystems.drivetrain.Drivetrain;
 import frc.robot.utils.misc.Pausable;
-import frc.robot.utils.paths.TrajectoryContainer.Path;
+import frc.robot.utils.paths.Path;
 
 import static frc.robot.constants.AutoConstants.PathFollowConstants.*;
 import static frc.robot.constants.TelemetryConstants.Limelights.*;
