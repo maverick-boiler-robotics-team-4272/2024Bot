@@ -45,7 +45,7 @@ public class PathFollowState extends PositionalDriveState implements Pausable {
         super(drivetrain, xController, yController, thetaController);
         
         this.path = path;
-        this.trajectory = path.trajectory;
+        this.trajectory = path == null ? null : path.trajectory;
         this.timer = new Timer();
         this.positionStopped = positionStopped;
         this.timeStopped = timeStopped;
@@ -134,7 +134,7 @@ public class PathFollowState extends PositionalDriveState implements Pausable {
 
     protected void setPath(Path path) {
         this.path = path;
-        this.trajectory = path.trajectory;
+        this.trajectory = path == null ? null : path.trajectory;
     }
 
     @Override
@@ -198,6 +198,7 @@ public class PathFollowState extends PositionalDriveState implements Pausable {
     public void execute() {
         if(path == null)
             return;
+        
         desiredState = trajectory.sample(timer.get());
         desiredPose = desiredState.getTargetHolonomicPose();
 
