@@ -79,8 +79,8 @@ public class Path {
         this.trajectory = this.path.getTrajectory(initialSpeeds, initialRotation);
         this.initialPathRotation = initialRotation;
 
-        this.events = null;
-        this.pauses = null;
+        this.events = List.of();
+        this.pauses = List.of();
     }
 
     public Path(PathPlannerPath path) {
