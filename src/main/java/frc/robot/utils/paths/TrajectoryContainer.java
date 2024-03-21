@@ -10,6 +10,9 @@ public class TrajectoryContainer {
     public final Path P_123PLUS_SUB;
     
     public final Path P_1238;
+    public final Path P_456;
+    public final Path P_876;
+    public final Path P_6123;
 
     public TrajectoryContainer(String prefix) {
         TWO_CENTER_RUSH = new Path(prefix + " Two Center Rush");
@@ -24,5 +27,9 @@ public class TrajectoryContainer {
         P_45 = new Path(prefix + " P45");
 
         P_123PLUS_SUB = new Path(prefix + " P123Plus2");
+
+        P_456 = new Path(prefix + " P456");
+        P_876 = new Path(prefix + " P876");
+        P_6123 = new Path(prefix + " P6123");
     }
 }
