@@ -138,7 +138,7 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
     }
 
     public void setRobotPose(Pose2d pose) {
-        poseEstimator.resetPosition(gyroscope.getRotation(), getPositions(), pose);
+        poseEstimator.resetPosition(gyroscope.getRotation().unaryMinus(), getPositions(), pose);
     }
 
     public void setToZero() {
@@ -148,7 +148,7 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
     public void setGyroscopeReading(Rotation2d heading) {
         gyroscope.setRotation(heading);
 
-        poseEstimator.resetPosition(gyroscope.getRotation(), getPositions(), poseEstimator.getEstimatedPosition());
+        setRobotPose(poseEstimator.getEstimatedPosition());
     }
 
     public void enableVisionFusion() {
