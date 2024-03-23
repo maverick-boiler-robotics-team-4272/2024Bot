@@ -189,6 +189,16 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
         elevatorEncoder.setPosition(0);
     }
 
+    public void elevatorGoNyrooom() {
+        elevatorMotor1.setSmartCurrentLimit(80);
+        elevatorMotor2.setSmartCurrentLimit(80);
+    }
+
+    public void elevatorGoNotSoNyroom() {
+        elevatorMotor1.setSmartCurrentLimit(50);
+        elevatorMotor2.setSmartCurrentLimit(50);
+    }
+
     public void handleSafety() {
         double elevatorHeight = elevatorEncoder.getPosition();
 

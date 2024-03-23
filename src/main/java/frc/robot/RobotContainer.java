@@ -295,6 +295,13 @@ public class RobotContainer {
             )
         );
 
+        TESTING_TABLE.putBoolean("Elevator Nyroom", false).withWidget(BuiltInWidgets.kToggleButton);
+
+        new Trigger(() -> TESTING_TABLE.getBoolean("Elevator Nyroom")).onTrue(
+            new InstantCommand(armElevator::elevatorGoNyrooom, armElevator)
+        ).onFalse(
+            new InstantCommand(armElevator::elevatorGoNotSoNyroom, armElevator)
+        );
     }
 
     private void configureAutoChoosers() {
