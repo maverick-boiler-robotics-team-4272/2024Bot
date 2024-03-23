@@ -55,11 +55,15 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
 
     @SuppressWarnings({ "unchecked" })
     private InterpolationMap map = new InterpolationMap((Pair<Double, Double>[])new Pair[] {
-        new Pair<Double, Double>(1.67, 45.0),
-        new Pair<Double, Double>(2.20, 40.0),
-        new Pair<Double, Double>(2.65, 37.0),
-        new Pair<Double, Double>(3.37, 33.5),
-        new Pair<Double, Double>(4.73, 30.0)
+        new Pair<Double, Double>(1.9, 45.0),
+        new Pair<Double, Double>(2.15, 42.0),
+        new Pair<Double, Double>(2.4, 40.0),
+        new Pair<Double, Double>(2.7, 37.0),
+        new Pair<Double, Double>(3.0, 35.0),
+        new Pair<Double, Double>(3.2, 34.0),
+        new Pair<Double, Double>(3.7, 31.5),
+        new Pair<Double, Double>(4.2, 30.0),
+        new Pair<Double, Double>(4.8, 29.0)
     });
 
     private ArmFeedforward armFeedforward = new ArmFeedforward(0, ARM_PID_F, 0, 0);
