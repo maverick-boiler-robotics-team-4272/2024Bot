@@ -21,7 +21,12 @@ public class PathFollowWithAiming extends PathFollowState {
     }
 
     @Override
-    public Rotation2d getDesiredTheta() {
-        return target.minus(requiredSubsystem.getRobotPose().getTranslation()).getAngle();
+    public void execute() {
+        super.execute();
+
+        thetaDriver.setDesiredAngle(target.minus(requiredSubsystem.getRobotPose().getTranslation()).getAngle());
+        thetaDriver.setFeedForward(0.0);
+
+        drive();
     }
 }
