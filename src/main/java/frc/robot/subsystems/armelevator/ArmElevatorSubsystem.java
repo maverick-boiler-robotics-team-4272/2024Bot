@@ -26,6 +26,7 @@ import static frc.robot.constants.HardwareMap.*;
 import static frc.robot.constants.RobotConstants.NOMINAL_VOLTAGE;
 import static frc.robot.constants.RobotConstants.ArmConstants.*;
 import static frc.robot.constants.RobotConstants.ElevatorConstants.*;
+import static frc.robot.constants.TelemetryConstants.ShuffleboardTables.TESTING_TABLE;
 
 public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
     @AutoLog
@@ -153,6 +154,22 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
         armController.setReference(r.getRadians(), ControlType.kPosition, 0, armFeedforward.calculate(armEncoder.getPosition(), 0));
     }
 
+    public double getShooterRotation() {
+        return armEncoder.getPosition();
+    }
+
+    public double getShooterDesiredRotation() {
+        return armElevatorInputs.desiredArmAngleRadians;
+    }
+
+    public void pullPidParams() {
+        armController.setP(TESTING_TABLE.getNumber("Arm PID P"));
+        armController.setI(TESTING_TABLE.getNumber("Arm PID I"));
+        armController.setD(TESTING_TABLE.getNumber("Arm PID D"));
+
+        armFeedforward = new ArmFeedforward(0, TESTING_TABLE.getNumber("Arm PID F"), 0, 0);
+    }
+
     private void setElevatorHeight(double h) {
         elevatorController.setReference(h, ControlType.kPosition, 0, ELEVATOR_PID_F);
     }
@@ -175,6 +192,7 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
 
     public void targetPos(Translation2d drivetrainPos, Translation3d position) {
         Rotation2d theta = Rotation2d.fromDegrees(map.getInterpolatedValue(drivetrainPos.getDistance(position.toTranslation2d())));
+        theta = theta.plus(Rotation2d.fromDegrees(-2.0));
         
         if(theta.getDegrees() > MAX_SAFE_ANGLE.getDegrees()) {
             theta = MAX_SAFE_ANGLE;
