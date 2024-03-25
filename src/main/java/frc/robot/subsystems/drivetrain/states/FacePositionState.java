@@ -20,6 +20,8 @@ public class FacePositionState extends AbstractDriveState<ControllerDrivers.YDri
             new ControllerDrivers.XDriver(xSpeed),
             new PositionalDrivers.ThetaDriver(drivetrain, THETA_CONTROLLER)
         );
+
+        this.position = position;
     }
 
     @Override
