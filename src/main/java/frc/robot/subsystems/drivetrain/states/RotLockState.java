@@ -4,9 +4,6 @@ import frc.robot.subsystems.drivetrain.Drivetrain;
 import frc.robot.subsystems.drivetrain.drivers.ControllerDrivers;
 import frc.robot.subsystems.drivetrain.drivers.PositionalDrivers;
 
-import static frc.robot.constants.AutoConstants.PathFollowConstants.*;
-import static frc.robot.constants.RobotConstants.DrivetrainConstants.MAX_TRANSLATIONAL_SPEED;
-
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 

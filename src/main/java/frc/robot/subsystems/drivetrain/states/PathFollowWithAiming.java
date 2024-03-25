@@ -2,7 +2,6 @@ package frc.robot.subsystems.drivetrain.states;
 
 import static frc.robot.constants.UniversalConstants.*;
 
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import frc.robot.subsystems.drivetrain.Drivetrain;
 import frc.robot.utils.paths.Path;

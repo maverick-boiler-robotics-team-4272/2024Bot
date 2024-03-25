@@ -1,6 +1,7 @@
 package frc.robot.subsystems.drivetrain.drivers;
 
 import edu.wpi.first.math.controller.PIDController;
+import frc.robot.subsystems.drivetrain.Drivetrain;
 
 public class PathDrivers {
     public static class XDriver extends PositionalDrivers.XDriver {

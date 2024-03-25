@@ -3,6 +3,7 @@ package frc.robot.subsystems.drivetrain.drivers;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import frc.robot.subsystems.drivetrain.Drivetrain;
 
 public class PositionalDrivers {
     private static final double POSITION_PID_P = 2.0;
@@ -28,7 +29,7 @@ public class PositionalDrivers {
         }
 
         public XDriver(Drivetrain drivetrain) {
-            this(drivetrain, X_CONTROLLER, null);
+            this(drivetrain, X_CONTROLLER);
         }
         
         public void setDesiredXPosition(double xPosition) {

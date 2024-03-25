@@ -1,7 +1,5 @@
 package frc.robot.subsystems.drivetrain.states;
 
-import static frc.robot.constants.RobotConstants.DrivetrainConstants.*;
-
 import java.util.function.DoubleSupplier;
 
 import frc.robot.subsystems.drivetrain.Drivetrain;
