@@ -3,6 +3,8 @@ package frc.robot.subsystems.drivetrain.states;
 import frc.robot.subsystems.drivetrain.Drivetrain;
 import frc.team4272.globals.State;
 
+import edu.wpi.first.math.geometry.Pose2d;
+
 import frc.robot.subsystems.drivetrain.drivers.Driver;
 
 public abstract class AbstractDriveState<X extends Driver, Y extends Driver, T extends Driver> extends State<Drivetrain> {
@@ -31,6 +33,8 @@ public abstract class AbstractDriveState<X extends Driver, Y extends Driver, T e
         } else {
             requiredSubsystem.drive(xDriver.getSpeed(), yDriver.getSpeed(), thetaDriver.getSpeed());
         }
+
+        requiredSubsystem.setDesiredPose(new Pose2d(xDriver.getPostion(), yDriver.getPosition(), new Rotation2d(thetaDriver.getPosition()));
     }
 
     @Override
