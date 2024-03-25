@@ -10,7 +10,7 @@ import frc.robot.subsystems.drivetrain.drivers.PositionalDrivers;
 
 import static frc.robot.constants.AutoConstants.PathFollowConstants.*;
 
-public class PositionState extends AbstractDriveState<PositionalDrivers.XDriver, PositionalDrivers.YDriver, PositionalDrivers.ThetaDriver {
+public class PositionState extends AbstractDriveState<PositionalDrivers.XDriver, PositionalDrivers.YDriver, PositionalDrivers.ThetaDriver> {
     Supplier<Pose2d> pose;
 
     public PositionState(Drivetrain drivetrain, Supplier<Pose2d> pose) {
@@ -22,6 +22,11 @@ public class PositionState extends AbstractDriveState<PositionalDrivers.XDriver,
         );
 
         this.pose = pose;
+    }
+
+    @Override
+    public boolean isFieldRelative() {
+        return true;
     }
 
     @Override

@@ -74,7 +74,7 @@ public class PathFollowState extends AbstractDriveState<PathDrivers.XDriver, Pat
             new PathDrivers.XDriver(drivetrain),
             new PathDrivers.YDriver(drivetrain),
             new PathDrivers.ThetaDriver(drivetrain)
-        )
+        );
 
         this.path = path;
         this.trajectory = path == null ? null : path.trajectory;
@@ -155,6 +155,11 @@ public class PathFollowState extends AbstractDriveState<PathDrivers.XDriver, Pat
     protected void setPath(Path path) {
         this.path = path;
         this.trajectory = path == null ? null : path.trajectory;
+    }
+
+    @Override
+    public boolean isFieldRelative() {
+        return true;
     }
 
     @Override

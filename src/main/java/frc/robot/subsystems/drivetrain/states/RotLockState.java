@@ -27,6 +27,11 @@ public class RotLockState extends AbstractDriveState<ControllerDrivers.YDriver, 
     }
 
     @Override
+    public boolean isFieldRelative() {
+        return true;
+    }
+
+    @Override
     public void execute() {
         thetaDriver.setDesiredAngle(theta.get());
 

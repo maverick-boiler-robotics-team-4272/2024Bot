@@ -19,7 +19,7 @@ public class PathDrivers {
         }
 
         @Override
-        public void getSpeed() {
+        public double getSpeed() {
             return super.getSpeed() - feedForward;
         }
     }
@@ -40,7 +40,7 @@ public class PathDrivers {
         }
 
         @Override
-        public void getSpeed() {
+        public double getSpeed() {
             return super.getSpeed() + feedForward;
         }
     }
@@ -61,7 +61,7 @@ public class PathDrivers {
         }
 
         @Override
-        public void getSpeed() {
+        public double getSpeed() {
             return super.getSpeed() - feedForward;
         }
     }

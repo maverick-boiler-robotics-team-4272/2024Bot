@@ -29,8 +29,13 @@ public class FacePositionState extends AbstractDriveState<ControllerDrivers.YDri
     }
 
     @Override
+    public boolean isFieldRelative() {
+        return true;
+    }
+
+    @Override
     public void execute() {
-        thetaController.setDesiredAngle(position.minus(robotPosition).getAngle());
+        thetaDriver.setDesiredAngle(position.minus(drivetrain.getRobotPose().getTranslation()).getAngle());
 
         drive();
     }
