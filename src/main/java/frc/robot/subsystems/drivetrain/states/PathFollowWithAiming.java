@@ -2,7 +2,6 @@ package frc.robot.subsystems.drivetrain.states;
 
 import static frc.robot.constants.UniversalConstants.*;
 
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import frc.robot.subsystems.drivetrain.Drivetrain;
 import frc.robot.utils.paths.Path;
@@ -21,7 +20,12 @@ public class PathFollowWithAiming extends PathFollowState {
     }
 
     @Override
-    public Rotation2d getDesiredTheta() {
-        return target.minus(requiredSubsystem.getRobotPose().getTranslation()).getAngle();
+    public void execute() {
+        super.execute();
+
+        thetaDriver.setDesiredAngle(target.minus(requiredSubsystem.getRobotPose().getTranslation()).getAngle());
+        thetaDriver.setFeedForward(0.0);
+
+        drive();
     }
 }

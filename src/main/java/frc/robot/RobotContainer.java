@@ -197,6 +197,8 @@ public class RobotContainer {
 
         armElevator.setDefaultCommand(new GoToArmElevatorState(armElevator, HOME));
 
+        TESTING_TABLE.putData("Auto Note Pickup", new AutoNotePickupCommand(drivetrain, intake, shooter));
+
         // TODO: Remove This
         TESTING_TABLE.putNumber("Arm Angle Setpoint", 35);
         TESTING_TABLE.putData("Go To Arm Angle", new FunctionalCommand(() -> {
