@@ -4,7 +4,10 @@
 
 package frc.robot;
 
+import edu.wpi.first.math.filter.Debouncer.DebounceType;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.WidgetType;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.team4272.controllers.XboxController;
 import frc.team4272.controllers.utilities.*;
@@ -38,6 +41,7 @@ import static frc.robot.constants.HardwareMap.*;
 import static frc.robot.constants.TelemetryConstants.Limelights.*;
 import static frc.robot.constants.TelemetryConstants.ShuffleboardTables.*;
 import static frc.robot.constants.UniversalConstants.*;
+import static frc.robot.constants.RobotConstants.ArmConstants.*;
 import static frc.robot.constants.RobotConstants.ArmElevatorSetpoints.*;
 
 import java.util.*;
@@ -74,7 +78,7 @@ public class RobotContainer {
      * The container for the robot. Contains subsystems, OI devices, and commands.
      */
     public RobotContainer() {
-        Norms.initialize(drivetrain);
+        Norms.initialize(drivetrain, armElevator);
         CANPeriodic.setUpLogging();
 
         // Configure the trigger bindings
@@ -162,16 +166,20 @@ public class RobotContainer {
             new ResetHeadingState(drivetrain)
         );
 
-        new Trigger(driverController.getButton("y")::get).onTrue(
-            new ResetToLimelightState(drivetrain, FRONT_LIMELIGHT)
-        );
+        // new Trigger(driverController.getButton("y")::get).onTrue(
+        //     new ResetToLimelightState(drivetrain, FRONT_LIMELIGHT)
+        // );
 
         new Trigger(driverController.getButton("back")::get).whileTrue(
             new InstantCommand(drivetrain::resetModules, drivetrain)
         );
 
         new Trigger(driverController.getButton("start")::get).whileTrue(
-            new RevAndShootState(shooter, 0.4, 0.5, false, driveTriggerRight::isTriggered)
+            new RevAndImbalancedShootState(shooter, 0.15, 0.30, 0.5, false, driveTriggerRight::isTriggered)
+        );
+
+        new Trigger(driverController.getButton("y")::get).whileTrue(
+            new NoteLockState(drivetrain, driveLeftAxes::getDeadzonedX, driveLeftAxes::getDeadzonedY)
         );
 
         //Arm ----------------------------------------------------
@@ -191,6 +199,25 @@ public class RobotContainer {
 
         TESTING_TABLE.putData("Auto Note Pickup", new AutoNotePickupCommand(drivetrain, intake, shooter));
 
+        // TODO: Remove This
+        TESTING_TABLE.putNumber("Arm Angle Setpoint", 35);
+        TESTING_TABLE.putData("Go To Arm Angle", new FunctionalCommand(() -> {
+            armElevator.goToPos(Rotation2d.fromDegrees(TESTING_TABLE.getNumber("Arm Angle Setpoint")), 0);
+        }, () -> {}, b -> {}, () -> false, armElevator));
+
+        TESTING_TABLE.putNumber("Arm PID P", ARM_PID_P);
+        TESTING_TABLE.putNumber("Arm PID I", ARM_PID_I);
+        TESTING_TABLE.putNumber("Arm PID D", ARM_PID_D);
+        TESTING_TABLE.putNumber("Arm PID F", ARM_PID_F);
+
+        TESTING_TABLE.putData("Push Arm PID", new InstantCommand(armElevator::pullPidParams, armElevator));
+
+        TESTING_TABLE.putData("Arm Norm Enabled", new FunctionalCommand(() -> {
+            Norms.getArmNorm().enable();
+            Norms.getArmNorm().reset();
+        }, () -> {}, b -> {
+            Norms.getArmNorm().disable();
+        }, () -> false));
     }
 
     private void configureOperatorBindings() {
@@ -304,6 +331,14 @@ public class RobotContainer {
         ).onFalse(
             new InstantCommand(armElevator::elevatorGoNotSoNyroom, armElevator)
         );
+
+        new Trigger(BACK_LIMELIGHT::getTV)
+            .and(() -> !shooter.lidarTripped())
+            .and(() -> OVERRIDE_TABLE.getBoolean("Auto Note Intake"))
+            .debounce(0.5, DebounceType.kFalling)
+        .whileTrue(
+            new IntakeFeedCommand(intake, shooter, 0.95)
+        );
     }
 
     private void configureAutoChoosers() {
@@ -386,6 +421,8 @@ public class RobotContainer {
             shooter.resetFeedMotor();
             drivetrain.resetModules();
         }, intake, shooter, drivetrain));
+
+        OVERRIDE_TABLE.putBoolean("Auto Note Intake", false).withWidget(BuiltInWidgets.kToggleButton).withSize(2, 1);
     }
 
     /**

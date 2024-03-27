@@ -8,11 +8,11 @@ public class ImbalancedShootState extends State<Shooter> {
     private double shootPower2;
     private double feedPower;
     
-    public ImbalancedShootState(Shooter shooter, double shootPower1, double shootPower2, double feedPower) {
+    public ImbalancedShootState(Shooter shooter, double topShootPower, double bottomShootPower, double feedPower) {
         super(shooter);
 
-        this.shootPower1 = shootPower1;
-        this.shootPower2 = shootPower2;
+        this.shootPower1 = topShootPower;
+        this.shootPower2 = bottomShootPower;
         this.feedPower = feedPower;
     }
 

@@ -14,11 +14,11 @@ public class RevAndImbalancedShootState extends State<Shooter> {
     private BooleanSupplier startFeed;
     private boolean startedFeed;
 
-    public RevAndImbalancedShootState(Shooter shooter, double revPower1, double revPower2, double feedPower, boolean useLidar, BooleanSupplier startFeed) {
+    public RevAndImbalancedShootState(Shooter shooter, double topShootPower, double bottomShootPower, double feedPower, boolean useLidar, BooleanSupplier startFeed) {
         super(shooter);
 
-        this.revPower1 = revPower1;
-        this.revPower2 = revPower2;
+        this.revPower1 = topShootPower;
+        this.revPower2 = bottomShootPower;
         this.feedPower = feedPower;
         this.useLidar = useLidar;
         this.startFeed = startFeed;
