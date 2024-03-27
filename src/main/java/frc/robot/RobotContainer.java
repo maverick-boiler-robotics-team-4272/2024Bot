@@ -189,6 +189,8 @@ public class RobotContainer {
 
         armElevator.setDefaultCommand(new GoToArmElevatorState(armElevator, HOME));
 
+        TESTING_TABLE.putData("Auto Note Pickup", new AutoNotePickupCommand(drivetrain, intake, shooter));
+
     }
 
     private void configureOperatorBindings() {
