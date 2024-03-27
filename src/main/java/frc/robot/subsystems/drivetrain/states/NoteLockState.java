@@ -1,6 +1,5 @@
 package frc.robot.subsystems.drivetrain.states;
 
-import static frc.robot.constants.RobotConstants.DrivetrainConstants.MAX_TRANSLATIONAL_SPEED;
 import static frc.robot.constants.TelemetryConstants.Limelights.BACK_LIMELIGHT;
 import static frc.robot.constants.UniversalConstants.getGlobalPositions;
 
@@ -8,18 +7,19 @@ import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import frc.robot.subsystems.drivetrain.Drivetrain;
-import frc.team4272.globals.MathUtils;
+import frc.robot.subsystems.drivetrain.drivers.ControllerDrivers;
+import frc.robot.subsystems.drivetrain.drivers.PositionalDrivers;
 
-public class NoteLockState extends AbstractDriveState {
-    private DoubleSupplier xSpeed;
-    private DoubleSupplier ySpeed;
+public class NoteLockState extends AbstractDriveState<ControllerDrivers.YDriver, ControllerDrivers.XDriver, PositionalDrivers.ThetaDriver> {
     private Rotation2d sourceRotation;
 
     public NoteLockState(Drivetrain drivetrain, DoubleSupplier xSpeed, DoubleSupplier ySpeed) {
-        super(drivetrain);
-
-        this.xSpeed = xSpeed;
-        this.ySpeed = ySpeed;
+        super(
+            drivetrain,
+            new ControllerDrivers.YDriver(ySpeed),
+            new ControllerDrivers.XDriver(xSpeed),
+            new PositionalDrivers.ThetaDriver(drivetrain)
+        );
     }
 
     @Override
@@ -29,26 +29,19 @@ public class NoteLockState extends AbstractDriveState {
     }
 
     @Override
-    public double getXSpeed() {
-        return ySpeed.getAsDouble() * MAX_TRANSLATIONAL_SPEED;
-    }
-
-    @Override
-    public double getYSpeed() {
-        return -xSpeed.getAsDouble() * MAX_TRANSLATIONAL_SPEED;
-    }
-
-    @Override
-    public double getThetaSpeed() {
-        if(BACK_LIMELIGHT.getTV()) {
-            return BACK_LIMELIGHT.getTX() * 0.1;
-        } else {
-            return MathUtils.inputModulo(requiredSubsystem.getRobotPose().getRotation().minus(sourceRotation).getRadians(), -Math.PI, Math.PI) * 2.5;
-        }
-    }
-
-    @Override
     public boolean isFieldRelative() {
         return true;
+    }
+
+    @Override
+    public void execute() {
+        
+        if(BACK_LIMELIGHT.getTV()) {
+            thetaDriver.setDesiredAngle(sourceRotation.minus(Rotation2d.fromDegrees(BACK_LIMELIGHT.getTX())));
+        } else {
+            thetaDriver.setDesiredAngle(sourceRotation);
+        }
+
+        drive();
     }
 }
