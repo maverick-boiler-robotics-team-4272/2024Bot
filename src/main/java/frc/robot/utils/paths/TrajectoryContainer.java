@@ -11,6 +11,8 @@ public class TrajectoryContainer {
     
     public final Path P_1238;
 
+    public final Path N_8;
+
     public TrajectoryContainer(String prefix) {
         TWO_CENTER_RUSH = new Path(prefix + " Two Center Rush");
         THREE_PIECE_CLOSE = new Path(prefix + " Three Piece Close");
@@ -24,5 +26,7 @@ public class TrajectoryContainer {
         P_45 = new Path(prefix + " P45");
 
         P_123PLUSTWO = new Path(prefix + " P123Plus2");
+
+        N_8 = new Path(prefix + " N8");
     }
 }
