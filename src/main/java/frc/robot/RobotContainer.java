@@ -6,9 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
-import edu.wpi.first.wpilibj.shuffleboard.WidgetType;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.team4272.controllers.XboxController;
 import frc.team4272.controllers.utilities.*;
@@ -21,22 +19,27 @@ import frc.robot.subsystems.armelevator.ArmElevatorSubsystem;
 import frc.robot.subsystems.drivetrain.Drivetrain;
 import frc.robot.subsystems.intake.IntakeSubsystem;
 import frc.robot.subsystems.shooter.Shooter;
+
 // States
 import frc.robot.subsystems.intake.states.*;
 import frc.robot.subsystems.armelevator.states.*;
 import frc.robot.subsystems.shooter.states.*;
 import frc.robot.subsystems.drivetrain.states.*;
+
 // Commands
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.commands.*;
 import frc.robot.commands.autos.*;
 
+// CANdle
+import frc.robot.utils.periodics.Candle;
+import com.ctre.phoenix.led.Animation;
+import com.ctre.phoenix.led.RainbowAnimation;
+
 // Constants
 import frc.robot.constants.Norms;
 import frc.robot.constants.AutoConstants.Paths;
-import frc.robot.constants.RobotConstants.ArmElevatorSetpoint;
 import frc.robot.utils.periodics.CANPeriodic;
-import frc.robot.utils.periodics.Candle;
 
 import static frc.robot.constants.AutoConstants.Paths.*;
 import static frc.robot.constants.HardwareMap.*;
@@ -48,10 +51,6 @@ import static frc.robot.constants.RobotConstants.ArmElevatorSetpoints.*;
 
 import java.util.*;
 
-import com.ctre.phoenix.led.Animation;
-import com.ctre.phoenix.led.RainbowAnimation;
-import com.ctre.phoenix.led.RgbFadeAnimation;
-import com.ctre.phoenix.led.SingleFadeAnimation;
 import com.pathplanner.lib.auto.NamedCommands;
 
 /**
