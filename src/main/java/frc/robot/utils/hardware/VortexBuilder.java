@@ -192,7 +192,7 @@ public class VortexBuilder {
         return motor;
     }
 
-    public Vortex getUnburntNeo() {
+    public Vortex getUnburntVortex() {
         return motor;
     }
 

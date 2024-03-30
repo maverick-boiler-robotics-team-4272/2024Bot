@@ -110,7 +110,7 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
             .withPIDPositionWrapping(0, 2 * Math.PI)
             .withPeriodicFramerate(PeriodicFrame.kStatus1, 500)
             .withPeriodicFramerate(PeriodicFrame.kStatus3, 500)
-            .getUnburntNeo();
+            .getUnburntVortex();
 
         latchMotor = NEOBuilder.create(LATCH_MOTOR_ID)
             .withVoltageCompensation(NOMINAL_VOLTAGE)
