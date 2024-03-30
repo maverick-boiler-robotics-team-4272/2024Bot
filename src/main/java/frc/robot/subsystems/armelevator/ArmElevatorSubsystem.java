@@ -42,9 +42,10 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
         public double elevatorHeightError;
     }
 
-    private NEO elevatorMotor1;
-    private NEO elevatorMotor2;
+    private Vortex elevatorMotor1;
+    private Vortex elevatorMotor2;
     private Vortex armMotor;
+    private NEO latchMotor;
 
     private RelativeEncoder armEncoder;
     private RelativeEncoder elevatorEncoder;
@@ -74,7 +75,7 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
     private Rotation2d desiredArmAngle;
 
     public ArmElevatorSubsystem() {
-        elevatorMotor1 = NEOBuilder.create(ELEVATOR_MOTOR_1_ID)
+        elevatorMotor1 = VortexBuilder.create(ELEVATOR_MOTOR_1_ID)
             .withVoltageCompensation(NOMINAL_VOLTAGE)
             .withPosition(0)
             .withPositionConversionFactor(ELEVATOR_RATIO)
@@ -87,7 +88,7 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
             .withCurrentLimit(50)
             .build();
         
-        elevatorMotor2 = NEOBuilder.create(ELEVATOR_MOTOR_2_ID)
+        elevatorMotor2 = VortexBuilder.create(ELEVATOR_MOTOR_2_ID)
             .withVoltageCompensation(NOMINAL_VOLTAGE)
             .withIdleMode(IdleMode.kBrake)
             .asFollower(elevatorMotor1, true)
@@ -95,7 +96,7 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
             .withPeriodicFramerate(PeriodicFrame.kStatus1, 500)
             .withPeriodicFramerate(PeriodicFrame.kStatus2, 500)
             .withPeriodicFramerate(PeriodicFrame.kStatus3, 500)
-            .getUnburntNeo();
+            .build();
 
         armMotor = VortexBuilder.create(ARM_MOTOR_ID)
             .withVoltageCompensation(NOMINAL_VOLTAGE)
@@ -111,6 +112,13 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
             .withPeriodicFramerate(PeriodicFrame.kStatus3, 500)
             .getUnburntNeo();
 
+        latchMotor = NEOBuilder.create(LATCH_MOTOR_ID)
+            .withVoltageCompensation(NOMINAL_VOLTAGE)
+            .withIdleMode(IdleMode.kCoast)
+            .withInversion(false)
+            .withCurrentLimit(5)
+            .getUnburntNeo();
+
         armElevatorInputs = new ArmElevatorInputsAutoLogged();
 
         armElevatorInputs.currentArmAngleRadians = 0;
@@ -120,8 +128,8 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
 
         desiredArmAngle = Rotation2d.fromRadians(armElevatorInputs.desiredArmAngleRadians);
 
-        armAbsoluteEncoder = new MAVCoder2(elevatorMotor2, ARM_OFFSET);
-        elevatorMotor2.burnFlash();
+        armAbsoluteEncoder = new MAVCoder2(latchMotor, ARM_OFFSET);
+        latchMotor.burnFlash();
 
         try {
             Thread.sleep(300);
@@ -253,6 +261,7 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
         elevatorMotor1.log(subdirectory + "/" + humanReadableName, "ElevatorMotor1");
         elevatorMotor2.log(subdirectory + "/" + humanReadableName, "ElevatorMotor2");
         armMotor.log(subdirectory + "/" + humanReadableName, "ArmMotor");
+        latchMotor.log(subdirectory + "/" + humanReadableName, "LatchMotor");
         armAbsoluteEncoder.log(subdirectory + "/" + humanReadableName, "ArmAbsoluteEncoder");
 
         armElevatorInputs.currentElevatorHeight = elevatorEncoder.getPosition();
