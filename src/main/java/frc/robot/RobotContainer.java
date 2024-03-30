@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.team4272.controllers.XboxController;
@@ -406,6 +407,17 @@ public class RobotContainer {
             new InstantCommand(() -> {
                 candle.setLEDs(0, 0, 0);
             })
+        );
+
+        new Trigger(() -> DriverStation.getMatchTime() < 30.0).onTrue(
+            new SequentialCommandGroup(
+                new InstantCommand(() -> {
+                    candle.setLEDs(0, 0, 0, 255, 0, 512);
+                }).alongWith(new WaitCommand(0.5)),
+                new InstantCommand(() -> {
+                    candle.setLEDs(0, 0, 0, 0, 0, 512);
+                }).alongWith(new WaitCommand(0.5))
+            ).repeatedly().withTimeout(3.0)
         );
     }
 
