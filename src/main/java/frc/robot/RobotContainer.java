@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.units.Units;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.WidgetType;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -33,6 +34,7 @@ import frc.robot.commands.autos.*;
 // Constants
 import frc.robot.constants.Norms;
 import frc.robot.constants.AutoConstants.Paths;
+import frc.robot.constants.RobotConstants.ArmElevatorSetpoint;
 import frc.robot.utils.periodics.CANPeriodic;
 import frc.robot.utils.periodics.Candle;
 
@@ -356,6 +358,7 @@ public class RobotContainer {
         AUTO_CHOOSER.addOption("P1238PlusTest", () -> new OneTwoThreePlusTwo(drivetrain, armElevator, shooter));
         AUTO_CHOOSER.addOption("P two Any", () -> new TwoPiece(drivetrain, armElevator, shooter, intake));
         AUTO_CHOOSER.addOption("P Shoot", () -> new FireAndSit(drivetrain, armElevator, shooter));
+        AUTO_CHOOSER.addOption("N8", () -> new NoEight(drivetrain, armElevator, shooter));
         
         AUTO_TABLE.putData("Auto Chooser", AUTO_CHOOSER);
         AUTO_TABLE.putData("Side Chooser", CONTAINER_CHOOSER).withWidget(BuiltInWidgets.kSplitButtonChooser);
@@ -372,6 +375,11 @@ public class RobotContainer {
             new AutoShootState(shooter, 1.0, 1.0)//.beforeStarting(
             //     new WaitCommand(0.25)
             // )
+        ));
+        NamedCommands.registerCommand("Drop", new SequentialCommandGroup(
+            // new GoToArmElevatorState(armElevator, ArmElevatorSetpoint.createArbitrarySetpoint(Units.Meters.convertFrom(5.0, Units.Inches), new Rotation2d(0.0))),
+            new GoToArmElevatorState(armElevator, HOME),
+            new RevAndShootState(shooter, 0.1, 1.0, () -> true).withTimeout(1.0)
         ));
 
         NamedCommands.registerCommand("Index", new LidarStoppedFeedState(shooter, 1.0, 0.1));
