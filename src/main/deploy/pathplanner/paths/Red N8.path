@@ -1,0 +1,75 @@
+{
+  "rotationTargets" : [ {
+    "waypointRelativePos" : 0.0,
+    "rotationDegrees" : 0.0,
+    "rotateFast" : false
+  } ],
+  "folder" : "Center Rush",
+  "eventMarkers" : [ ],
+  "previewStartingState" : null,
+  "goalEndState" : {
+    "rotation" : 0.0,
+    "velocity" : 0,
+    "rotateFast" : false
+  },
+  "globalConstraints" : {
+    "maxAngularVelocity" : 540.0,
+    "maxAngularAcceleration" : 720.0,
+    "maxVelocity" : 3.0,
+    "maxAcceleration" : 3.0
+  },
+  "version" : 1.0,
+  "waypoints" : [ {
+    "nextControl" : {
+      "x" : 14.06707493663562,
+      "y" : 7.3513176955095005
+    },
+    "anchor" : {
+      "x" : 15.06707493663562,
+      "y" : 7.3513176955095005
+    },
+    "prevControl" : null,
+    "isLocked" : false,
+    "linkedName" : null
+  }, {
+    "nextControl" : {
+      "x" : 8.261743701270062,
+      "y" : 7.429315761244348
+    },
+    "anchor" : {
+      "x" : 8.446989107390328,
+      "y" : 7.419566003027493
+    },
+    "prevControl" : {
+      "x" : 9.445606936722836,
+      "y" : 7.367007169904731
+    },
+    "isLocked" : false,
+    "linkedName" : null
+  }, {
+    "nextControl" : null,
+    "anchor" : {
+      "x" : 14.131098147817434,
+      "y" : 6.37634187382389
+    },
+    "prevControl" : {
+      "x" : 10.735419957411176,
+      "y" : 6.732208048739137
+    },
+    "isLocked" : false,
+    "linkedName" : null
+  } ],
+  "reversed" : false,
+  "useDefaultConstraints" : true,
+  "constraintZones" : [ {
+    "minWaypointRelativePos" : 0,
+    "name" : "New Constraints Zone",
+    "maxWaypointRelativePos" : 2.0,
+    "constraints" : {
+      "maxAngularVelocity" : 540.0,
+      "maxAngularAcceleration" : 720.0,
+      "maxVelocity" : 5.0,
+      "maxAcceleration" : 4.0
+    }
+  } ]
+}

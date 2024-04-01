@@ -3,23 +3,38 @@ package frc.robot.subsystems.drivetrain.states;
 import frc.robot.subsystems.drivetrain.Drivetrain;
 import frc.team4272.globals.State;
 
-public abstract class AbstractDriveState extends State<Drivetrain> {
-    public AbstractDriveState(Drivetrain drivetrain) {
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import frc.robot.subsystems.drivetrain.drivers.Driver;
+
+public abstract class AbstractDriveState<X extends Driver, Y extends Driver, T extends Driver> extends State<Drivetrain> {
+    protected final X xDriver;
+    protected final Y yDriver;
+    protected final T thetaDriver;
+    
+    public AbstractDriveState(Drivetrain drivetrain, X xDriver, Y yDriver, T thetaDriver) {
         super(drivetrain);
+
+        this.xDriver = xDriver;
+        this.yDriver = yDriver;
+        this.thetaDriver = thetaDriver;
     }
 
-    public abstract double getXSpeed();
-    public abstract double getYSpeed();
-    public abstract double getThetaSpeed();
     public abstract boolean isFieldRelative();
 
     @Override
     public void execute() {
+        drive();
+    }
+
+    protected void drive() {
         if(isFieldRelative()) {
-            requiredSubsystem.driveFieldOriented(getXSpeed(), getYSpeed(), getThetaSpeed());
+            requiredSubsystem.driveFieldOriented(xDriver.getSpeed(), yDriver.getSpeed(), thetaDriver.getSpeed());
         } else {
-            requiredSubsystem.drive(getXSpeed(), getYSpeed(), getThetaSpeed());
+            requiredSubsystem.drive(xDriver.getSpeed(), yDriver.getSpeed(), thetaDriver.getSpeed());
         }
+
+        requiredSubsystem.setDesiredPose(new Pose2d(xDriver.getPosition(), yDriver.getPosition(), new Rotation2d(thetaDriver.getPosition())));
     }
 
     @Override

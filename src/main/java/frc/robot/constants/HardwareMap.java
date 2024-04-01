@@ -25,7 +25,7 @@ public class HardwareMap {
 
     public static final int PDH_ID = 10;
 
-    public static final int CLIMBER_MOTOR_1_ID = 27;
+    public static final int LATCH_MOTOR_ID = 27;
     public static final int CLIMBER_MOTOR_2_ID = 37;
 
     public static final int PIGEON_ID = 35;

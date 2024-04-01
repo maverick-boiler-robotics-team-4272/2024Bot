@@ -3,32 +3,38 @@ package frc.robot.subsystems.drivetrain.states;
 import java.util.function.Supplier;
 
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
 import frc.robot.subsystems.drivetrain.Drivetrain;
 
-import static frc.robot.constants.AutoConstants.PathFollowConstants.*;
+import frc.robot.subsystems.drivetrain.drivers.PositionalDrivers;
 
-public class PositionState extends PositionalDriveState {
+
+public class PositionState extends AbstractDriveState<PositionalDrivers.XDriver, PositionalDrivers.YDriver, PositionalDrivers.ThetaDriver> {
     Supplier<Pose2d> pose;
 
     public PositionState(Drivetrain drivetrain, Supplier<Pose2d> pose) {
-        super(drivetrain, X_CONTROLLER, Y_CONTROLLER, THETA_CONTROLLER);
+        super(
+            drivetrain,
+            new PositionalDrivers.XDriver(drivetrain),
+            new PositionalDrivers.YDriver(drivetrain),
+            new PositionalDrivers.ThetaDriver(drivetrain)
+        );
 
         this.pose = pose;
     }
 
     @Override
-    public double getDesiredX() {
-        return pose.get().getX();
+    public boolean isFieldRelative() {
+        return true;
     }
 
     @Override
-    public double getDesiredY() {
-        return pose.get().getY();
-    }
+    public void execute() {
+        Pose2d desiredPose = pose.get();
 
-    @Override
-    public Rotation2d getDesiredTheta() {
-        return pose.get().getRotation();
+        xDriver.setDesiredXPosition(desiredPose.getX());
+        yDriver.setDesiredYPosition(desiredPose.getY());
+        thetaDriver.setDesiredAngle(desiredPose.getRotation());
+
+        drive();
     }
 }

@@ -23,6 +23,7 @@ import frc.team4272.swerve.utils.SwerveModuleBase.PositionedSwerveModule;
 // Constants
 import static frc.robot.constants.HardwareMap.*;
 import static frc.robot.constants.RobotConstants.DrivetrainConstants.*;
+import static frc.robot.constants.RobotConstants.LimelightConstants.*;
 import static frc.robot.constants.RobotConstants.DrivetrainConstants.SwerveModuleConstants.*;
 import static frc.robot.constants.TelemetryConstants.Limelights.*;
 import static frc.robot.constants.UniversalConstants.*;
@@ -38,6 +39,8 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
 
         public SwerveModuleState[] currentStates;
         public SwerveModuleState[] setStates;
+
+        public  Pose2d notePose;
     }
 
     private DrivetrainInputsAutoLogged drivetrainInputs;
@@ -62,6 +65,7 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
 
         drivetrainInputs.estimatedPose = new Pose2d();
         drivetrainInputs.desiredPose = new Pose2d();
+        drivetrainInputs.notePose = new Pose2d();
 
         drivetrainInputs.currentStates = new SwerveModuleState[4];
         drivetrainInputs.setStates = new SwerveModuleState[4];
@@ -131,6 +135,10 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
         return drivetrainInputs.desiredPose;
     }
 
+    public Pose2d getNotePose() {
+        return drivetrainInputs.notePose;
+    }
+
     public void setCoastMode(boolean coast) {
         for(SwerveModule m : modules) {
             m.setCoastMode(coast);
@@ -170,6 +178,18 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
             drivetrainInputs.speakerDistance = getGlobalPositions().SPEAKER_POSITION.getDistance(getRobotPose().getTranslation());
         } else {
             drivetrainInputs.speakerDistance = 0.0;
+        }
+
+        if(BACK_LIMELIGHT.getTV()) {
+            double dy = LIMELIGHT_BACK_POSITION.getZ() * LIMELIGHT_BACK_PITCH.plus(Rotation2d.fromDegrees(BACK_LIMELIGHT.getTY())).getTan();
+            double dx = dy * Rotation2d.fromDegrees(BACK_LIMELIGHT.getTX()).getTan();
+
+            Pose2d ePose = drivetrainInputs.estimatedPose;
+
+            double nx = ePose.getX() - dy * ePose.getRotation().getCos() - dx * ePose.getRotation().getSin();
+            double ny = ePose.getY() - dy * ePose.getRotation().getSin() + dx * ePose.getRotation().getCos();
+
+            drivetrainInputs.notePose = new Pose2d(nx, ny, new Rotation2d(0));
         }
 
         gyroscope.log(subdirectory + "/" + humanReadableName, "Pigeon");

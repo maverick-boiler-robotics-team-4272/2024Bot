@@ -185,4 +185,14 @@ public class RobotConstants {
         public static final double CLIMBER_MIN_HEIGHT = 0.0;
         public static final double CLIMBER_MAX_HEIGHT = 150.0;
     }
+
+    public static class LimelightConstants {
+
+        // X: Left/Right, Y: Front/Back, Z: Up/Down
+        public static final Translation3d LIMELIGHT_FRONT_POSITION = new Translation3d(0.0, 0.262, 0.183);
+        public static final Translation3d LIMELIGHT_BACK_POSITION = new Translation3d(0.0, 0.262 - Meters.convertFrom(25, Inches), Meters.convertFrom(13.75, Inches));
+
+        public static final Rotation2d LIMELIGHT_BACK_PITCH = Rotation2d.fromDegrees(67.80);
+        public static final Rotation2d LIMELIGHT_FRONT_PITCH = Rotation2d.fromDegrees(35.0);
+    }
 }

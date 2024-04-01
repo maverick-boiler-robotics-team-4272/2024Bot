@@ -134,6 +134,10 @@ public final class Limelight implements Periodic, Loggable {
         return (inputs.validTarget = !(pose[0] == 0 && pose[1] == 0 && pose[5] == 0));
     }
 
+    public boolean getTV() {
+        return LimelightHelpers.getTV(tableName);
+    }
+
     public double getTX() {
         return LimelightHelpers.getTX(tableName);
     }
