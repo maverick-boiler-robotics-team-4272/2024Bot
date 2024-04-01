@@ -144,6 +144,8 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
         elevatorEncoder = elevatorMotor1.getEncoder();
 
         armEncoder.setPosition(-armAbsoluteEncoder.getPosition() * Math.PI / 180.0);
+
+        latchMotor.set(-0.1);
     }
 
     public void resetArmMotor() {
@@ -254,6 +256,14 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
 
         armElevatorInputs.safeArmAngleRadians = safeTheta;
         armElevatorInputs.safeElevatorHeight = safeHeight;
+    }
+
+    public void latch() {
+        latchMotor.set(0.50);
+    }
+
+    public void unlatch() {
+        latchMotor.set(-0.50);
     }
 
     @Override

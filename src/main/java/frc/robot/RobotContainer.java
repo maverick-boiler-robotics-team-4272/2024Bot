@@ -327,6 +327,10 @@ public class RobotContainer {
         ).onFalse(
             new InstantCommand(armElevator::elevatorGoNotSoNyroom, armElevator)
         );
+
+        new Trigger(operatorController.getButton("leftStick")::get).toggleOnTrue(
+            new LatchState(armElevator)
+        );
     }
 
     private void configureAutoChoosers() {
