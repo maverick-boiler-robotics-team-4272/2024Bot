@@ -180,10 +180,6 @@ public class RobotContainer {
             new RevAndImbalancedShootState(shooter, 0.15, 0.30, 0.5, false, driveTriggerRight::isTriggered)
         );
 
-        new Trigger(driverController.getButton("y")::get).whileTrue(
-            new NoteLockState(drivetrain, driveLeftAxes::getDeadzonedX, driveLeftAxes::getDeadzonedY)
-        );
-
         //Arm ----------------------------------------------------
 
         //TODO: Fix this
@@ -198,8 +194,6 @@ public class RobotContainer {
         );
 
         armElevator.setDefaultCommand(new GoToArmElevatorState(armElevator, HOME));
-
-        TESTING_TABLE.putData("Auto Note Pickup", new AutoNotePickupCommand(drivetrain, intake, shooter));
 
         // TODO: Remove This
         TESTING_TABLE.putNumber("Arm Angle Setpoint", 35);
@@ -332,14 +326,6 @@ public class RobotContainer {
             new InstantCommand(armElevator::elevatorGoNyrooom, armElevator)
         ).onFalse(
             new InstantCommand(armElevator::elevatorGoNotSoNyroom, armElevator)
-        );
-
-        new Trigger(BACK_LIMELIGHT::getTV)
-            .and(() -> !shooter.lidarTripped())
-            .and(() -> OVERRIDE_TABLE.getBoolean("Auto Note Intake"))
-            .debounce(0.5, DebounceType.kFalling)
-        .whileTrue(
-            new IntakeFeedCommand(intake, shooter, 0.95)
         );
     }
 
