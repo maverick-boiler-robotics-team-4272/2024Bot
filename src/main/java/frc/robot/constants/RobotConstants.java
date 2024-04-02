@@ -35,10 +35,10 @@ public class RobotConstants {
         // public static final Translation2d BACK_LEFT_POSITION   = new Translation2d( WHEEL_DISTANCE,  WHEEL_DISTANCE);
         // public static final Translation2d BACK_RIGHT_POSITION  = new Translation2d( WHEEL_DISTANCE, -WHEEL_DISTANCE);
 
-        public static final double FRONT_LEFT_OFFSET  = 115.0;
-        public static final double FRONT_RIGHT_OFFSET = 235.0;
-        public static final double BACK_LEFT_OFFSET   = 165.0;
-        public static final double BACK_RIGHT_OFFSET  =  98.0;
+        public static final double FRONT_LEFT_OFFSET  = 264.0;
+        public static final double FRONT_RIGHT_OFFSET = 293.0;
+        public static final double BACK_LEFT_OFFSET   = 239.0;
+        public static final double BACK_RIGHT_OFFSET  = 298.0;
         
         public static class SwerveModuleConstants {
             private SwerveModuleConstants() {
@@ -94,7 +94,7 @@ public class RobotConstants {
     // Limelight 2+ Position: (Forward: -0.290m, Up (From ground): 0.345m, L/R: 0.014m, Roll: 0.0deg, Pitch: 0.0deg, Yaw: 180.0deg)
     public static enum ArmElevatorSetpoints implements ArmElevatorSetpoint {
         ZERO(new Rotation2d(0), 0),
-        HOME(Rotation2d.fromDegrees(35.0), Meters.convertFrom(0.5, Inches)),
+        HOME(Rotation2d.fromDegrees(35.0), Meters.convertFrom(0.1, Inches)),
         WHITE_LINE(new Rotation2d(0.74), 0),
         TEST(Rotation2d.fromDegrees(0.0), Meters.convertFrom(12.0, Inches)),
         AMP(Rotation2d.fromDegrees(-20.0), Meters.convertFrom(19.0, Inches)),
@@ -157,7 +157,7 @@ public class RobotConstants {
         public static final double ELEVATOR_PID_F = 0.5;
 
         public static final double ELEVATOR_OUTPUT_MAX = 1.0;
-        public static final double ELEVATOR_OUTPUT_MIN = -0.50;
+        public static final double ELEVATOR_OUTPUT_MIN = -0.65;
         
 
         public static final double ELEVATOR_HEIGHT_DEADZONE = Meters.convertFrom(2.0, Centimeters);
@@ -166,7 +166,7 @@ public class RobotConstants {
 
         public static final Translation3d ELEVATOR_TRANSLATION = new Translation3d(0, Meters.convertFrom(2.0, Inches), Meters.convertFrom(12.5, Inches));
 
-        public static final double ELEVATOR_RATIO = Meters.convertFrom(27.0, Millimeters) / 1.0; //Find empericaly
+        public static final double ELEVATOR_RATIO = Meters.convertFrom(12, Millimeters); //Find empericaly
 
         public static final double MAX_ELEVATOR_HEIGHT = Meters.convertFrom(20.0, Inches);
         public static final double MIN_ELEVATOR_HEIGHT = Meters.convertFrom(0, Inches);
