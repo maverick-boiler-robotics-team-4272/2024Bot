@@ -217,8 +217,8 @@ public class RobotContainer {
     }
 
     private void configureOperatorBindings() {
-        JoystickAxes operatorRightStick = operatorController.getAxes("right");
-        operatorRightStick.setDeadzone(0.1).setPowerScale(2.0).setDeadzoneMode(DeadzoneMode.kYAxis);
+        JoystickAxes operatorLeftStick = operatorController.getAxes("left");
+        operatorLeftStick.setDeadzone(0.1).setPowerScale(2.0).setDeadzoneMode(DeadzoneMode.kYAxis);
 
         JoystickTrigger operatorLeftTrigger = operatorController.getTrigger("left");
         operatorLeftTrigger.setDeadzone(0.1).setPowerScaling(2);
@@ -230,10 +230,6 @@ public class RobotContainer {
 
         new Trigger(operatorController.getButton("a")::get).whileTrue(
             new ImbalancedShootState(shooter, 0.50, 0.05, 0.2)
-        );
-
-        new Trigger(operatorController.getButton("y")::get).onTrue(
-            new ResetToLimelightState(drivetrain, FRONT_LIMELIGHT)
         );
             
         new Trigger(operatorController.getButton("x")::get).whileTrue(
@@ -269,10 +265,6 @@ public class RobotContainer {
 
         new Trigger(operatorController.getButton("rightBumper")::get).whileTrue(
             new GoToArmElevatorState(armElevator, SOURCE).repeatedly()
-        );
-
-        new Trigger(operatorController.getButton("b")::get).whileTrue(
-            new GoToArmElevatorState(armElevator, TRAP).repeatedly()
         );
 
         new Trigger(operatorLeftTrigger::isTriggered).whileTrue(
@@ -330,6 +322,14 @@ public class RobotContainer {
 
         new Trigger(operatorController.getButton("leftStick")::get).toggleOnTrue(
             new LatchState(armElevator)
+        );
+
+        new Trigger(operatorController.getButton("y")::get).whileTrue(
+            new ClimbState(armElevator, operatorLeftStick::getDeadzonedY)
+        );
+
+        new Trigger(operatorController.getButton("b")::get).whileTrue(
+            new ZeroElevatorState(armElevator)
         );
     }
 
