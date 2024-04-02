@@ -115,8 +115,8 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
         latchMotor = NEOBuilder.create(LATCH_MOTOR_ID)
             .withVoltageCompensation(NOMINAL_VOLTAGE)
             .withIdleMode(IdleMode.kCoast)
-            .withInversion(false)
-            .withCurrentLimit(5)
+            .withInversion(true)
+            .withCurrentLimit(1)
             .getUnburntNeo();
 
         armElevatorInputs = new ArmElevatorInputsAutoLogged();
