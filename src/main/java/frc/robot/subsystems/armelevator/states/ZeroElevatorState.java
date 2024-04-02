@@ -9,6 +9,11 @@ public class ZeroElevatorState extends State<ArmElevatorSubsystem> {
     }
 
     @Override
+    public void initialize() {
+        requiredSubsystem.disableSoftLimits();
+    }
+
+    @Override
     public void execute() {
         requiredSubsystem.runElevator(-0.2);
     }
@@ -16,5 +21,6 @@ public class ZeroElevatorState extends State<ArmElevatorSubsystem> {
     @Override
     public void end(boolean interrupted) {
         requiredSubsystem.zeroElevator();
+        requiredSubsystem.enableSoftLimits();
     }
 }

@@ -10,11 +10,14 @@ public class LatchState extends State<ArmElevatorSubsystem> {
 
     @Override
     public void initialize() {
+        
         requiredSubsystem.latch();
+        requiredSubsystem.runElevator(-0.1);
     }
 
     @Override
     public void end(boolean interrupted) {
         requiredSubsystem.unlatch();
+        requiredSubsystem.removeManualControl();
     }
 }
