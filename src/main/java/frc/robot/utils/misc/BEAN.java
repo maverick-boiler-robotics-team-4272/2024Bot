@@ -11,6 +11,10 @@ public class BEAN {
         return new BEAN(beans + bean.beans);
     }
 
+    public BEAN with(BEAN bean) {
+        return new BEAN(beans + bean.beans);
+    }
+
     public BEAN without(BEAN bean) {
         return new BEAN(beans - bean.beans);
     }
@@ -51,4 +55,6 @@ public class BEAN {
     public static final BEAN COFFEE_BEAN = new BEAN(0.95);
     public static final BEAN BAKED_BEAN = new BEAN(1.0);
     public static final BEAN BEAN_SOUP = new BEAN(5.0);
+
+    public static final BEAN BEANBOOZLE = new BEAN(Math.random());
 }
