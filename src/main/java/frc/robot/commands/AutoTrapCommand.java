@@ -15,12 +15,12 @@ import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.shooter.states.RevAndImbalancedShootState;
 
 public class AutoTrapCommand extends SequentialCommandGroup {
-    public AutoTrapCommand(Drivetrain drivetrain, ArmElevatorSubsystem armElevator, Shooter shooter, BooleanSupplier feed) {
+    public AutoTrapCommand(ArmElevatorSubsystem armElevator, Shooter shooter, BooleanSupplier feed) {
         super(
             // new GoToPositionState(drivetrain, getGlobalPositions().TRAP_STAGE_POSE),
             new ParallelCommandGroup(
                 new GoToArmElevatorState(armElevator, TRAP),
-                new RevAndImbalancedShootState(shooter, 1.0, 0.8, 1.0, feed)
+                new RevAndImbalancedShootState(shooter, 0.1, 0.2, 1.0, feed)
             )
         );
     }
