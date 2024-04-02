@@ -22,5 +22,6 @@ public class ZeroElevatorState extends State<ArmElevatorSubsystem> {
     public void end(boolean interrupted) {
         requiredSubsystem.zeroElevator();
         requiredSubsystem.enableSoftLimits();
+        requiredSubsystem.removeManualControl();
     }
 }
