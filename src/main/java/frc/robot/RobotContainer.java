@@ -177,7 +177,7 @@ public class RobotContainer {
         );
 
         new Trigger(driverController.getButton("start")::get).whileTrue(
-            new RevAndImbalancedShootState(shooter, 0.15, 0.30, 0.5, false, driveTriggerRight::isTriggered)
+            new AutoTrapCommand(armElevator, shooter, driveTriggerRight::isTriggered)
         );
 
         //Arm ----------------------------------------------------
