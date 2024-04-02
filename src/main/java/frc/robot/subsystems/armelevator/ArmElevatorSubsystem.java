@@ -10,6 +10,7 @@ import frc.robot.utils.hardware.*;
 import com.revrobotics.*;
 import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkBase.IdleMode;
+import com.revrobotics.CANSparkBase.SoftLimitDirection;
 import com.revrobotics.CANSparkLowLevel.PeriodicFrame;
 
 import edu.wpi.first.math.Pair;
@@ -74,15 +75,18 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
 
     private Rotation2d desiredArmAngle;
 
+    private boolean manualControl = false;
+
     public ArmElevatorSubsystem() {
         elevatorMotor1 = VortexBuilder.create(ELEVATOR_MOTOR_1_ID)
             .withVoltageCompensation(NOMINAL_VOLTAGE)
             .withPosition(0)
+            .withIdleMode(IdleMode.kBrake)
             .withPositionConversionFactor(ELEVATOR_RATIO)
             .withSoftLimits(MAX_ELEVATOR_HEIGHT, MIN_ELEVATOR_HEIGHT)
             .withPIDParams(ELEVATOR_PID_P, ELEVATOR_PID_I, ELEVATOR_PID_D)
             .withPIDClamping(ELEVATOR_OUTPUT_MIN, ELEVATOR_OUTPUT_MAX)
-            .withInversion(true)
+            .withInversion(false)
             .withPeriodicFramerate(PeriodicFrame.kStatus1, 500)
             .withPeriodicFramerate(PeriodicFrame.kStatus3, 500)
             .withCurrentLimit(50)
@@ -214,11 +218,27 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
     }
 
     public void runElevator(double power) {
+        if(!manualControl)
+            manualControl = true;
         elevatorMotor1.set(power);
+    }
+
+    public void removeManualControl() {
+        manualControl = false;
     }
 
     public void zeroElevator() {
         elevatorEncoder.setPosition(0);
+    }
+
+    public void disableSoftLimits() {
+        elevatorMotor1.enableSoftLimit(SoftLimitDirection.kForward, false);
+        elevatorMotor1.enableSoftLimit(SoftLimitDirection.kReverse, false);
+    }
+
+    public void enableSoftLimits() {
+        elevatorMotor1.enableSoftLimit(SoftLimitDirection.kForward, true);
+        elevatorMotor1.enableSoftLimit(SoftLimitDirection.kReverse, true);
     }
 
     public void elevatorGoNyrooom() {
@@ -248,10 +268,12 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
             setShooterRotation(new Rotation2d(safeTheta + Math.PI / 2.0));
         }
 
-        if(armElevatorInputs.desiredElevatorHeight > safeHeight) {
-            setElevatorHeight(armElevatorInputs.desiredElevatorHeight);
-        } else {
-            setElevatorHeight(safeHeight);
+        if(!manualControl) {
+            if(armElevatorInputs.desiredElevatorHeight > safeHeight) {
+                setElevatorHeight(armElevatorInputs.desiredElevatorHeight);
+            } else {
+                setElevatorHeight(safeHeight);
+            }
         }
 
         armElevatorInputs.safeArmAngleRadians = safeTheta;
