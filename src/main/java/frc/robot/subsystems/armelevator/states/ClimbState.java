@@ -22,7 +22,7 @@ public class ClimbState extends State<ArmElevatorSubsystem> {
 
     @Override
     public void execute() {
-        requiredSubsystem.runElevator(-speed.getAsDouble());
+        requiredSubsystem.runElevator(-speed.getAsDouble() / 2.0);
     }
 
     @Override
