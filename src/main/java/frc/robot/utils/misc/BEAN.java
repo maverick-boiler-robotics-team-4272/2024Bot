@@ -35,19 +35,16 @@ public class BEAN {
         return new BEAN(beans * 5.0);
     }
 
-    public static class Beans {
-        public static final BEAN JELLY_BEAN = new BEAN(0.0);
-        public static final BEAN STRING_BEAN = new BEAN(0.05);
-        public static final BEAN LIMA_BEAN = new BEAN(0.1);
-        public static final BEAN BLACK_BEAN = new BEAN(0.25);
-        public static final BEAN CANNELLINI_BEAN = new BEAN(0.4);
-        public static final BEAN PINTO_BEAN = new BEAN(0.5);
-        public static final BEAN FRENCH_CUT_BEAN = new BEAN(0.6);
-        public static final BEAN KIDNEY_BEAN = new BEAN(0.75);
-        public static final BEAN GARBANZO_BEAN = new BEAN(0.9);
-        public static final BEAN COFFEE_BEAN = new BEAN(0.95);
-        public static final BEAN BAKED_BEAN = new BEAN(1.0);
-        public static final BEAN BEAN_SOUP = new BEAN(5.0);
-    }
-
+    public static final BEAN JELLY_BEAN = new BEAN(0.0);
+    public static final BEAN STRING_BEAN = new BEAN(0.05);
+    public static final BEAN LIMA_BEAN = new BEAN(0.1);
+    public static final BEAN BLACK_BEAN = new BEAN(0.25);
+    public static final BEAN CANNELLINI_BEAN = new BEAN(0.4);
+    public static final BEAN PINTO_BEAN = new BEAN(0.5);
+    public static final BEAN FRENCH_CUT_BEAN = new BEAN(0.6);
+    public static final BEAN KIDNEY_BEAN = new BEAN(0.75);
+    public static final BEAN GARBANZO_BEAN = new BEAN(0.9);
+    public static final BEAN COFFEE_BEAN = new BEAN(0.95);
+    public static final BEAN BAKED_BEAN = new BEAN(1.0);
+    public static final BEAN BEAN_SOUP = new BEAN(5.0);
 }
