@@ -95,9 +95,10 @@ public class RobotConstants {
     public static enum ArmElevatorSetpoints implements ArmElevatorSetpoint {
         ZERO(new Rotation2d(0), 0),
         HOME(Rotation2d.fromDegrees(35.0), Meters.convertFrom(0.1, Inches)),
-        WHITE_LINE(new Rotation2d(0.74), 0),
+        WHITE_LINE(Rotation2d.fromDegrees(45), 0),
         TEST(Rotation2d.fromDegrees(0.0), Meters.convertFrom(12.0, Inches)),
         AMP(Rotation2d.fromDegrees(-20.0), Meters.convertFrom(19.0, Inches)),
+        AMP_LOW(Rotation2d.fromDegrees(46), Meters.convertFrom(5.0, Inches)),
         // AMP(new Rotation2d(0.813), 0.190),
         CLIMB(new Rotation2d(0), MAX_ELEVATOR_HEIGHT),
         PODIUM(Rotation2d.fromDegrees(30.0), Meters.convertFrom(13.0, Inches)),
