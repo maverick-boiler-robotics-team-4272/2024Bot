@@ -19,6 +19,10 @@ public class BEAN {
         return new BEAN(-beans);
     }
 
+    public BEAN deepfried() {
+        return new BEAN(beans * 0.2);
+    }
+
     public BEAN refried() {
         return new BEAN(beans * 0.5);
     }

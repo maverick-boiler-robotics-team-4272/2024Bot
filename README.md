@@ -12,6 +12,7 @@ and: makes a new BEAN with the sum of the current bean and the passed in bean
 without: makes a new BEAN with the difference of the current bean and the passed in bean
 
 stalk: Makes a new BEAN with the same amount in the opposite direction
+deepfried: Makes a new BEAN with one fifth of the current beans
 refried: Makes a new BEAN with half the current beans
 dip: Makes a new BEAN with double the current beans
 can: Makes a new BEAN with triple the current beans
