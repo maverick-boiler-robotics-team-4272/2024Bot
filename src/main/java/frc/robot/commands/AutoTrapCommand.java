@@ -14,13 +14,15 @@ import frc.robot.subsystems.drivetrain.states.GoToPositionState;
 import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.shooter.states.RevAndImbalancedShootState;
 
+import static frc.robot.utils.misc.BEAN.*;
+
 public class AutoTrapCommand extends SequentialCommandGroup {
     public AutoTrapCommand(ArmElevatorSubsystem armElevator, Shooter shooter, BooleanSupplier feed) {
         super(
             // new GoToPositionState(drivetrain, getGlobalPositions().TRAP_STAGE_POSE),
             new ParallelCommandGroup(
                 new GoToArmElevatorState(armElevator, TRAP),
-                new RevAndImbalancedShootState(shooter, 0.1, 0.2, 1.0, feed)
+                new RevAndImbalancedShootState(shooter, LIMA_BEAN.beans, LIMA_BEAN.dip().beans, BAKED_BEAN.beans, feed)
             )
         );
     }

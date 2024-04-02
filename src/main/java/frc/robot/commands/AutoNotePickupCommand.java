@@ -17,6 +17,8 @@ import frc.robot.subsystems.drivetrain.states.GoToPositionState;
 import frc.robot.subsystems.intake.IntakeSubsystem;
 import frc.robot.subsystems.shooter.Shooter;
 
+import static frc.robot.utils.misc.BEAN.*;
+
 public class AutoNotePickupCommand extends SequentialCommandGroup {
     public AutoNotePickupCommand(Drivetrain drivetrain, IntakeSubsystem intake, Shooter shooter) {
         addCommands(
@@ -30,7 +32,7 @@ public class AutoNotePickupCommand extends SequentialCommandGroup {
                         drivetrain.disableVisionFusion();
                     }, drivetrain),
                     new ParallelDeadlineGroup(
-                        new IntakeFeedCommand(intake, shooter, 1.0),
+                        new IntakeFeedCommand(intake, shooter, BAKED_BEAN.beans),
                         new GoToPositionState(drivetrain, new Pose2d(notePose.getX(), notePose.getY(), ePose.getTranslation().minus(notePose.getTranslation()).getAngle()))
                     ),
                     new GoToPositionState(drivetrain, ePose),

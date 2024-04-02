@@ -3,6 +3,8 @@ package frc.robot.subsystems.armelevator.states;
 import frc.robot.subsystems.armelevator.ArmElevatorSubsystem;
 import frc.team4272.globals.State;
 
+import static frc.robot.utils.misc.BEAN.*;
+
 public class ZeroElevatorState extends State<ArmElevatorSubsystem> {
     public ZeroElevatorState(ArmElevatorSubsystem armElevator) {
         super(armElevator);
@@ -15,7 +17,7 @@ public class ZeroElevatorState extends State<ArmElevatorSubsystem> {
 
     @Override
     public void execute() {
-        requiredSubsystem.runElevator(-0.2);
+        requiredSubsystem.runElevator(LIMA_BEAN.stalk().dip().beans);
     }
 
     @Override

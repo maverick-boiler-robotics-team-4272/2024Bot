@@ -49,6 +49,7 @@ import static frc.robot.constants.TelemetryConstants.ShuffleboardTables.*;
 import static frc.robot.constants.UniversalConstants.*;
 import static frc.robot.constants.RobotConstants.ArmConstants.*;
 import static frc.robot.constants.RobotConstants.ArmElevatorSetpoints.*;
+import static frc.robot.utils.misc.BEAN.*;
 
 import java.util.*;
 
@@ -126,12 +127,12 @@ public class RobotContainer {
             new ParallelCommandGroup(
                 new AutoAimCommand(drivetrain, armElevator, driveLeftAxes::getDeadzonedX, driveLeftAxes::getDeadzonedY), 
                 new SequentialCommandGroup(
-                    new ShootState(shooter, 1.0, 0.0) {
+                    new ShootState(shooter, BAKED_BEAN.beans, JELLY_BEAN.beans) {
                         public boolean isFinished() {
                             return driverController.getButton("rightBumper").get();
                         }
                     },
-                    new ShootState(shooter, 1.0, 1.0)
+                    new ShootState(shooter, BAKED_BEAN.beans, BAKED_BEAN.beans)
                 )
             )
         );
@@ -185,9 +186,9 @@ public class RobotContainer {
         //TODO: Fix this
         new Trigger(driveTriggerLeft::isTriggered).whileTrue(
             new SequentialCommandGroup(
-                new LidarStoppedFeedState(shooter, 0.4),
+                new LidarStoppedFeedState(shooter, CANNELLINI_BEAN.beans),
                 new ParallelRaceGroup(
-                    new RevAndShootState(shooter, 0.40, 1.0, false, driveTriggerRight::isTriggered),
+                    new RevAndShootState(shooter, CANNELLINI_BEAN.beans, BAKED_BEAN.beans, false, driveTriggerRight::isTriggered),
                     new GoToArmElevatorState(armElevator, WHITE_LINE).repeatedly()
                 )
             )
@@ -229,12 +230,12 @@ public class RobotContainer {
         JoystickPOV operatorDPad = operatorController.getPOV("d-pad");
 
         new Trigger(operatorController.getButton("a")::get).and(() -> !operatorController.getButton("x").get()).whileTrue(
-            new ImbalancedShootState(shooter, 0.50, 0.05, 0.2)
+            new ImbalancedShootState(shooter, PINTO_BEAN.beans, STRING_BEAN.beans, 0.2)
         );
             
         new Trigger(operatorController.getButton("x")::get).whileTrue(
             new GoToArmElevatorState(armElevator, AMP_LOW).repeatedly().alongWith(
-                new RevAndImbalancedShootState(shooter, 0.125, 0.25, 1.0, operatorController.getButton("a")::get)
+                new RevAndImbalancedShootState(shooter, BLACK_BEAN.refried().beans, BLACK_BEAN.beans, BAKED_BEAN.beans, operatorController.getButton("a")::get)
             )
         );
 
@@ -271,46 +272,46 @@ public class RobotContainer {
 
         new Trigger(operatorLeftTrigger::isTriggered).whileTrue(
             new SequentialCommandGroup(
-                new IntakeFeedCommand(intake, shooter, 0.9).until(shooter::beginLidarTripped),
+                new IntakeFeedCommand(intake, shooter, GARBANZO_BEAN.beans).until(shooter::beginLidarTripped),
                 new ScheduleCommand(
-                    new IntakeFeedCommand(intake, shooter, 0.9)
+                    new IntakeFeedCommand(intake, shooter, GARBANZO_BEAN.beans)
                 )
             )
         );
         
         new Trigger(operatorLeftTrigger::isTriggered).and(operatorController.getButton("back")::get).whileTrue(
             new ParallelCommandGroup(
-                new IntakeState(intake, 0.9),
-                new FeedState(shooter, 0.9)
+                new IntakeState(intake, GARBANZO_BEAN.beans),
+                new FeedState(shooter, GARBANZO_BEAN.beans)
             )
         );
 
         
         new Trigger(operatorLeftTrigger::isTriggered).and(operatorController.getButton("rightBumper")::get).whileTrue(
-            new ShootState(shooter, -0.5, -0.5) {
+            new ShootState(shooter, PINTO_BEAN.stalk().beans, PINTO_BEAN.stalk().beans) {
                 public boolean isFinished() {
                     return shooter.beginLidarTripped();
                 }
             }.andThen(
-                new LidarStoppedFeedState(shooter, 0.5)
+                new LidarStoppedFeedState(shooter, PINTO_BEAN.beans)
             )
         );
 
         new Trigger(operatorRightTrigger::isTriggered).whileTrue(
             new ParallelCommandGroup(
-                new OuttakeState(intake, 0.9),
-                new OutfeedState(shooter, 0.9)
+                new OuttakeState(intake, GARBANZO_BEAN.beans),
+                new OutfeedState(shooter, GARBANZO_BEAN.beans)
             )
         );
         
         new Trigger(operatorController.getButton("leftBumper")::get).whileTrue(
             new SequentialCommandGroup(
-                new ShootState(shooter, 1.0, 0.0) {
+                new ShootState(shooter, BAKED_BEAN.beans, JELLY_BEAN.beans) {
                     public boolean isFinished() {
                         return driverController.getButton("rightBumper").get();
                     }
                 },
-                new ShootState(shooter, 1.0, 1.0)
+                new ShootState(shooter, BAKED_BEAN.beans, BAKED_BEAN.beans)
             )
         );
 
@@ -357,24 +358,24 @@ public class RobotContainer {
     }
 
     private void registerNamedCommands() {
-        NamedCommands.registerCommand("Shoot", new AutoShootState(shooter, 1, 1));
-        NamedCommands.registerCommand("Intake", new IntakeFeedCommand(intake, shooter, 1.0).withTimeout(7.5));
+        NamedCommands.registerCommand("Shoot", new AutoShootState(shooter, BAKED_BEAN.beans, BAKED_BEAN.beans));
+        NamedCommands.registerCommand("Intake", new IntakeFeedCommand(intake, shooter, BAKED_BEAN.beans).withTimeout(7.5));
         NamedCommands.registerCommand("Disable", new InstantCommand(drivetrain::disableVisionFusion));
         NamedCommands.registerCommand("Enable", new InstantCommand(drivetrain::enableVisionFusion));
-        NamedCommands.registerCommand("AutoAim", Commands.defer(() -> new AutoAimCommand(drivetrain, armElevator, () -> 0, () -> 0), Set.of(drivetrain, armElevator)));
+        NamedCommands.registerCommand("AutoAim", Commands.defer(() -> new AutoAimCommand(drivetrain, armElevator, () -> JELLY_BEAN.beans, () -> JELLY_BEAN.beans), Set.of(drivetrain, armElevator)));
         NamedCommands.registerCommand("AutoShoot", new ParallelRaceGroup(
-            Commands.defer(() -> new AutoAimCommand(drivetrain, armElevator, () -> 0, () -> 0), Set.of(drivetrain, armElevator)),
-            new AutoShootState(shooter, 1.0, 1.0)//.beforeStarting(
+            Commands.defer(() -> new AutoAimCommand(drivetrain, armElevator, () -> JELLY_BEAN.beans, () -> JELLY_BEAN.beans), Set.of(drivetrain, armElevator)),
+            new AutoShootState(shooter, BAKED_BEAN.beans, BAKED_BEAN.beans)//.beforeStarting(
             //     new WaitCommand(0.25)
             // )
         ));
         NamedCommands.registerCommand("Drop", new SequentialCommandGroup(
             // new GoToArmElevatorState(armElevator, ArmElevatorSetpoint.createArbitrarySetpoint(Units.Meters.convertFrom(5.0, Units.Inches), new Rotation2d(0.0))),
             new GoToArmElevatorState(armElevator, HOME),
-            new RevAndShootState(shooter, 0.1, 1.0, () -> true).withTimeout(1.0)
+            new RevAndShootState(shooter, LIMA_BEAN.beans, BAKED_BEAN.beans, () -> true).withTimeout(1.0)
         ));
 
-        NamedCommands.registerCommand("Index", new LidarStoppedFeedState(shooter, 1.0, 0.1));
+        NamedCommands.registerCommand("Index", new LidarStoppedFeedState(shooter, BAKED_BEAN.beans, LIMA_BEAN.beans));
 
     }
 

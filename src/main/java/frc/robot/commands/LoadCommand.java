@@ -11,12 +11,13 @@ import frc.robot.subsystems.shooter.Shooter;
 
 // Constants
 import static frc.robot.constants.RobotConstants.ArmElevatorSetpoints.*;
+import static frc.robot.utils.misc.BEAN.*;
 
 public class LoadCommand extends SequentialCommandGroup {
     public LoadCommand(Shooter shooter, ArmElevatorSubsystem armElevator) {
         super(
             new GoToArmElevatorState(armElevator, HOME),
-            new LidarStoppedFeedState(shooter, 0.5)
+            new LidarStoppedFeedState(shooter, PINTO_BEAN.beans)
         );
 
         addRequirements(shooter, armElevator);
