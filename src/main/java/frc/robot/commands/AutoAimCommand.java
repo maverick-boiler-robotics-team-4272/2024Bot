@@ -16,8 +16,9 @@ import static frc.robot.constants.UniversalConstants.*;
 public class AutoAimCommand extends ParallelCommandGroup {
     public AutoAimCommand(Drivetrain drivetrain, ArmElevatorSubsystem armElevator, DoubleSupplier xSpeed, DoubleSupplier ySpeed) {
         super(
-            new TargetPositionState(armElevator, () -> drivetrain.getRobotPose().getTranslation(), getGlobalPositions().SPEAKER_SHOT_POSITION),
-            new FacePositionState(drivetrain, xSpeed, ySpeed, getGlobalPositions().SPEAKER_SHOT_POSITION.toTranslation2d())
+            new TargetPositionState(armElevator, () -> drivetrain.getRobotPose().getTranslation(), getGlobalPositions().SPEAKER_TARGET_POSITION),
+            new FacePositionState(drivetrain, xSpeed, ySpeed, getGlobalPositions().SPEAKER_POSITION)
         );
     }
 }
+
