@@ -103,9 +103,9 @@ public class RobotConstants {
         CLIMB(new Rotation2d(0), MAX_ELEVATOR_HEIGHT),
         PODIUM(Rotation2d.fromDegrees(30.0), Meters.convertFrom(13.0, Inches)),
         TRAP(Rotation2d.fromDegrees(45.0), Meters.convertFrom(14.0, Inches)),
-        AUTO_LINE(Rotation2d.fromDegrees(48.0), Meters.convertFrom(13.0, Inches)),
-        SUB_SHOT(Rotation2d.fromDegrees(48.0), Meters.convertFrom(13.0, Inches)),
-        SOURCE(Rotation2d.fromDegrees(48.0), Meters.convertFrom(5.0, Inches));
+        SUB_SHOT(Rotation2d.fromDegrees(46.0), Meters.convertFrom(14.0, Inches)),
+        AUTO_LINE(SUB_SHOT.getArmAngle(), SUB_SHOT.getElevatorHeight()),
+        SOURCE(Rotation2d.fromDegrees(46.0), Meters.convertFrom(5.0, Inches));
 
         private Rotation2d armAngle;
         private double elevatorHeight;
@@ -128,7 +128,7 @@ public class RobotConstants {
 
     public static class ArmConstants {
         public static final double ARM_PID_P = 1.2;
-        public static final double ARM_PID_I = 0.0001;
+        public static final double ARM_PID_I = 0.0003;
         public static final double ARM_PID_D = 0.0;
         public static final double ARM_PID_F = 0.17;
 
