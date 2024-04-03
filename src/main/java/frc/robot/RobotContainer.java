@@ -185,12 +185,9 @@ public class RobotContainer {
 
         //TODO: Fix this
         new Trigger(driveTriggerLeft::isTriggered).whileTrue(
-            new SequentialCommandGroup(
-                new LidarStoppedFeedState(shooter, CANNELLINI_BEAN.beans),
-                new ParallelRaceGroup(
-                    new RevAndShootState(shooter, CANNELLINI_BEAN.beans, BAKED_BEAN.beans, false, driveTriggerRight::isTriggered),
-                    new GoToArmElevatorState(armElevator, WHITE_LINE).repeatedly()
-                )
+            new ParallelRaceGroup(
+                new RevAndShootState(shooter, CANNELLINI_BEAN.beans, BAKED_BEAN.beans, false, driverController.getButton("rightBumper")::get),
+                new GoToArmElevatorState(armElevator, WHITE_LINE).repeatedly()
             )
         );
 
@@ -340,9 +337,9 @@ public class RobotContainer {
         CONTAINER_CHOOSER.setDefaultOption("Red", "Red");
         CONTAINER_CHOOSER.addOption("Blue", "Blue");
 
-        AUTO_CHOOSER.addOption("P28", () -> new TwoEight(drivetrain, armElevator, shooter));
-        AUTO_CHOOSER.addOption("P16", () -> new OneSix(drivetrain, armElevator, shooter));
-        AUTO_CHOOSER.addOption("P14", () -> new OneFourRush(drivetrain, armElevator, shooter));
+        // AUTO_CHOOSER.addOption("P28", () -> new TwoEight(drivetrain, armElevator, shooter));
+        // AUTO_CHOOSER.addOption("P16", () -> new OneSix(drivetrain, armElevator, shooter));
+        // AUTO_CHOOSER.addOption("P14", () -> new OneFourRush(drivetrain, armElevator, shooter));
         AUTO_CHOOSER.addOption("P45", () -> new FourFive(drivetrain));
         AUTO_CHOOSER.addOption("P123", () -> new OneTwoThree(drivetrain, armElevator, shooter));
         AUTO_CHOOSER.addOption("P123Plus", () -> new OneTwoThreePlus(drivetrain, armElevator, shooter));
@@ -351,7 +348,7 @@ public class RobotContainer {
         AUTO_CHOOSER.addOption("P1238PlusTest", () -> new OneTwoThreePlusTwo(drivetrain, armElevator, shooter));
         AUTO_CHOOSER.addOption("P two Any", () -> new TwoPiece(drivetrain, armElevator, shooter, intake));
         AUTO_CHOOSER.addOption("P Shoot", () -> new FireAndSit(drivetrain, armElevator, shooter));
-        AUTO_CHOOSER.addOption("N8", () -> new NoEight(drivetrain, armElevator, shooter));
+        // AUTO_CHOOSER.addOption("N8", () -> new NoEight(drivetrain, armElevator, shooter));
         
         AUTO_TABLE.putData("Auto Chooser", AUTO_CHOOSER);
         AUTO_TABLE.putData("Side Chooser", CONTAINER_CHOOSER).withWidget(BuiltInWidgets.kSplitButtonChooser);
