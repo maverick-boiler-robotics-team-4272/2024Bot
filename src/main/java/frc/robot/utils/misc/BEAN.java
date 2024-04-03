@@ -8,6 +8,7 @@ public class BEAN {
     }
 
     /**
+     * Oooh. More beans!
      * @param bean - The bean to add to the recipe
      * @return A new bean with the combination of the two (addition)
      */
@@ -16,6 +17,7 @@ public class BEAN {
     }
 
     /**
+     * Oooh. More beans!
      * This is the same as and, but we need both for grammatical correctness
      * @param bean - The bean to add to the recipe
      * @return A new bean with the combination of the two (addition)
@@ -25,7 +27,7 @@ public class BEAN {
     }
 
     /**
-     * 
+     * No dying please.
      * @param bean - The bean that we are allergic to
      * @return A new bean without the passed in bean (subtraction)
      */
@@ -34,7 +36,8 @@ public class BEAN {
     }
 
     /**
-     * This is the same as and, but we need both for grammatical correctness
+     * No dying please.
+     * This is the same as without, but we need both for grammatical correctness
      * This should only be used after without, but we have no way of enforcing this
      * @param bean - The bean that we are allergic to
      * @return A new bean without the passed in bean (subtraction)
@@ -44,6 +47,7 @@ public class BEAN {
     }
 
     /**
+     * You eat the stalks?
      * @return A new bean with the same power as this bean, but in reverse
      */
     public BEAN stalk() {
@@ -51,6 +55,7 @@ public class BEAN {
     }
 
     /**
+     * Deepfried... really?
      * @return A new bean with one fifth the power of this bean
      */
     public BEAN deepfried() {
@@ -58,6 +63,7 @@ public class BEAN {
     }
 
     /**
+     * No one likes them anyway
      * @return A new bean with one half the power of this bean
      */
     public BEAN refried() {
@@ -65,6 +71,7 @@ public class BEAN {
     }
 
     /**
+     * Hope you made enough to share
      * @return A new bean with twice the power of this bean
      */
     public BEAN dip() {
@@ -72,6 +79,15 @@ public class BEAN {
     }
 
     /**
+     * Just take the whole bowl while you are at it.
+     * @return A new bean with twice the power of this bean
+     */
+    public BEAN doubleDip() {
+        return new BEAN(beans * 4.0);
+    }
+
+    /**
+     * Not Bush's, but it'll do
      * @return A new bean with 3 times the power of this bean
      */
     public BEAN can() {
@@ -79,6 +95,7 @@ public class BEAN {
     }
 
     /**
+     * Now its a picnic
      * @return A new bean with 5 times the power of this bean
      */
     public BEAN basket() {
