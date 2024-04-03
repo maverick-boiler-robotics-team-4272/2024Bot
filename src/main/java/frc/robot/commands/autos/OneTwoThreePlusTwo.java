@@ -23,8 +23,9 @@ public class OneTwoThreePlusTwo extends SequentialCommandGroup {
         super(
             new InstantCommand(drivetrain::disableVisionFusion),
             new InstantCommand(drivetrain::resetModules),
-            new GoToArmElevatorState(armElevator, SUB_SHOT).raceWith(
-                new AutoShootState(shooter, 1.0, 1.0)
+            new ParallelDeadlineGroup(
+                new AutoShootState(shooter, 1.0, 1.0),
+                new GoToArmElevatorState(armElevator, SUB_SHOT)
             ),
             new GoToArmElevatorState(armElevator, HOME),
             new PathFollowWithEvents(
