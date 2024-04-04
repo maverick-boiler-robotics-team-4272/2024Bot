@@ -22,7 +22,7 @@ public class AutoTrapCommand extends SequentialCommandGroup {
             // new GoToPositionState(drivetrain, getGlobalPositions().TRAP_STAGE_POSE),
             new ParallelCommandGroup(
                 new GoToArmElevatorState(armElevator, TRAP),
-                new RevAndImbalancedShootState(shooter, 0.24, 0.29, BAKED_BEAN.beans, feed)
+                new RevAndImbalancedShootState(shooter, 0.065, 0.345, BAKED_BEAN.beans, feed) //6.5, 34.5// maybe try 40 and offset the bottom
             )
         );
     }
