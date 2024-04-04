@@ -390,7 +390,7 @@ public class RobotContainer {
 
     private void addResetButtons() {
         OVERRIDE_TABLE.putData("Reset Intake Motor", new InstantCommand(intake::resetIntakeMotor, intake));
-        OVERRIDE_TABLE.putData("Reset Shooter Meotors", new InstantCommand(shooter::resetShooterMotors, shooter));
+        OVERRIDE_TABLE.putData("Reset Shooter Motors", new InstantCommand(shooter::resetShooterMotors, shooter));
         OVERRIDE_TABLE.putData("Reset Feed Motor", new InstantCommand(shooter::resetFeedMotor, shooter));
         OVERRIDE_TABLE.putData("Reset Arm Motor", new InstantCommand(armElevator::resetArmMotor, armElevator));
         OVERRIDE_TABLE.putData("Reset Swerve Modules", new InstantCommand(drivetrain::resetModules, drivetrain));
