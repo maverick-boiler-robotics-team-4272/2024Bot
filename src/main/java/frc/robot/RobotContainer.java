@@ -376,10 +376,10 @@ public class RobotContainer {
             })
         );
 
-        new Trigger(() -> DriverStation.getMatchTime() < 30.0).onTrue(
+        new Trigger(() -> DriverStation.getMatchTime() < 30.0).and(DriverStation::isTeleopEnabled).onTrue(
             new SequentialCommandGroup(
                 new InstantCommand(() -> {
-                    candle.setLEDs(0, 0, 0, 255, 0, 512);
+                    candle.setLEDs(255, 255, 255, 0, 0, 512);
                 }).alongWith(new WaitCommand(0.5)),
                 new InstantCommand(() -> {
                     candle.setLEDs(0, 0, 0, 0, 0, 512);
