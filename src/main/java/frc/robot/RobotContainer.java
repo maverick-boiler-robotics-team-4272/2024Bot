@@ -192,26 +192,6 @@ public class RobotContainer {
         );
 
         armElevator.setDefaultCommand(new GoToArmElevatorState(armElevator, HOME));
-
-        // TODO: Remove This
-        TESTING_TABLE.putNumber("Arm Angle Setpoint", 35);
-        TESTING_TABLE.putData("Go To Arm Angle", new FunctionalCommand(() -> {
-            armElevator.goToPos(Rotation2d.fromDegrees(TESTING_TABLE.getNumber("Arm Angle Setpoint")), 0);
-        }, () -> {}, b -> {}, () -> false, armElevator));
-
-        TESTING_TABLE.putNumber("Arm PID P", ARM_PID_P);
-        TESTING_TABLE.putNumber("Arm PID I", ARM_PID_I);
-        TESTING_TABLE.putNumber("Arm PID D", ARM_PID_D);
-        TESTING_TABLE.putNumber("Arm PID F", ARM_PID_F);
-
-        TESTING_TABLE.putData("Push Arm PID", new InstantCommand(armElevator::pullPidParams, armElevator));
-
-        TESTING_TABLE.putData("Arm Norm Enabled", new FunctionalCommand(() -> {
-            Norms.getArmNorm().enable();
-            Norms.getArmNorm().reset();
-        }, () -> {}, b -> {
-            Norms.getArmNorm().disable();
-        }, () -> false));
     }
 
     private void configureOperatorBindings() {
@@ -310,14 +290,6 @@ public class RobotContainer {
                 },
                 new ShootState(shooter, BAKED_BEAN.beans, BAKED_BEAN.beans)
             )
-        );
-
-        TESTING_TABLE.putBoolean("Elevator Nyroom", false).withWidget(BuiltInWidgets.kToggleButton);
-
-        new Trigger(() -> TESTING_TABLE.getBoolean("Elevator Nyroom")).onTrue(
-            new InstantCommand(armElevator::elevatorGoNyrooom, armElevator)
-        ).onFalse(
-            new InstantCommand(armElevator::elevatorGoNotSoNyroom, armElevator)
         );
 
         new Trigger(operatorController.getButton("leftStick")::get).toggleOnTrue(

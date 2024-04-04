@@ -27,7 +27,6 @@ import static frc.robot.constants.HardwareMap.*;
 import static frc.robot.constants.RobotConstants.NOMINAL_VOLTAGE;
 import static frc.robot.constants.RobotConstants.ArmConstants.*;
 import static frc.robot.constants.RobotConstants.ElevatorConstants.*;
-import static frc.robot.constants.TelemetryConstants.ShuffleboardTables.TESTING_TABLE;
 
 public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
     @AutoLog
@@ -174,14 +173,6 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
 
     public double getShooterDesiredRotation() {
         return armElevatorInputs.desiredArmAngleRadians;
-    }
-
-    public void pullPidParams() {
-        armController.setP(TESTING_TABLE.getNumber("Arm PID P"));
-        armController.setI(TESTING_TABLE.getNumber("Arm PID I"));
-        armController.setD(TESTING_TABLE.getNumber("Arm PID D"));
-
-        armFeedforward = new ArmFeedforward(0, TESTING_TABLE.getNumber("Arm PID F"), 0, 0);
     }
 
     private void setElevatorHeight(double h) {
