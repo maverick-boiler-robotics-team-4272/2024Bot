@@ -1,16 +1,12 @@
 package frc.robot.commands;
 
 import static frc.robot.constants.RobotConstants.ArmElevatorSetpoints.TRAP;
-import static frc.robot.constants.UniversalConstants.getGlobalPositions;
-
 import java.util.function.BooleanSupplier;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.subsystems.armelevator.ArmElevatorSubsystem;
 import frc.robot.subsystems.armelevator.states.GoToArmElevatorState;
-import frc.robot.subsystems.drivetrain.Drivetrain;
-import frc.robot.subsystems.drivetrain.states.GoToPositionState;
 import frc.robot.subsystems.shooter.Shooter;
 import frc.robot.subsystems.shooter.states.RevAndImbalancedShootState;
 

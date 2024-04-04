@@ -4,7 +4,6 @@
 
 package frc.robot;
 
-import edu.wpi.first.math.filter.Debouncer.DebounceType;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
@@ -41,12 +40,10 @@ import com.ctre.phoenix.led.RainbowAnimation;
 // Constants
 import frc.robot.constants.Norms;
 import frc.robot.constants.AutoConstants.Paths;
-import frc.robot.constants.RobotConstants.ArmElevatorSetpoint;
 import frc.robot.utils.periodics.CANPeriodic;
 
 import static frc.robot.constants.AutoConstants.Paths.*;
 import static frc.robot.constants.HardwareMap.*;
-import static frc.robot.constants.TelemetryConstants.Limelights.*;
 import static frc.robot.constants.TelemetryConstants.ShuffleboardTables.*;
 import static frc.robot.constants.UniversalConstants.*;
 import static frc.robot.constants.RobotConstants.ArmConstants.*;
@@ -184,8 +181,6 @@ public class RobotContainer {
         );
 
         //Arm ----------------------------------------------------
-
-        //TODO: Fix this
         new Trigger(driveTriggerLeft::isTriggered).whileTrue(
             new ParallelRaceGroup(
                 new RevAndShootState(shooter, CANNELLINI_BEAN.beans, BAKED_BEAN.beans, false, driverController.getButton("rightBumper")::get),

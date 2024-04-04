@@ -15,7 +15,6 @@ import frc.robot.subsystems.shooter.Shooter;
 import static frc.robot.constants.AutoConstants.PathFollowConstants.DEFAULT_POSE_DELTA;
 // Constants
 import static frc.robot.constants.AutoConstants.Paths.getGlobalTrajectories;
-import static frc.robot.constants.RobotConstants.ArmElevatorSetpoints.HOME;
 import static frc.robot.constants.RobotConstants.ArmElevatorSetpoints.SUB_SHOT;
 
 public class OneTwoThreePlusTwo extends SequentialCommandGroup {

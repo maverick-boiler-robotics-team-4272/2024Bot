@@ -1,7 +1,5 @@
 package frc.robot.precomputations;
 
-import static frc.robot.constants.UniversalConstants.FIELD_HALF_HEIGHT_METERS;
-import static frc.robot.constants.UniversalConstants.FIELD_HALF_WIDTH_METERS;
 import static frc.robot.constants.UniversalConstants.FIELD_HEIGHT_METERS;
 import static frc.robot.constants.UniversalConstants.FIELD_WIDTH_METERS;
 
@@ -12,7 +10,6 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
 
 public class NavGridCreation {
