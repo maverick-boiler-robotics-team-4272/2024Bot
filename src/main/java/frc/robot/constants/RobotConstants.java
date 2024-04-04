@@ -103,9 +103,9 @@ public class RobotConstants {
         CLIMB(new Rotation2d(0), MAX_ELEVATOR_HEIGHT),
         PODIUM(Rotation2d.fromDegrees(30.0), Meters.convertFrom(13.0, Inches)),
         TRAP(Rotation2d.fromDegrees(45.0), Meters.convertFrom(14.0, Inches)),
-        SUB_SHOT(Rotation2d.fromDegrees(46.0), Meters.convertFrom(14.0, Inches)),
+        SUB_SHOT(Rotation2d.fromDegrees(45.0), Meters.convertFrom(15.0, Inches)),
         AUTO_LINE(SUB_SHOT.getArmAngle(), SUB_SHOT.getElevatorHeight()),
-        SOURCE(Rotation2d.fromDegrees(46.0), Meters.convertFrom(5.0, Inches));
+        SOURCE(Rotation2d.fromDegrees(45.0), Meters.convertFrom(5.0, Inches));
 
         private Rotation2d armAngle;
         private double elevatorHeight;

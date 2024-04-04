@@ -372,6 +372,8 @@ public class RobotContainer {
             new RevAndShootState(shooter, LIMA_BEAN.beans, BAKED_BEAN.beans, () -> true).withTimeout(1.0)
         ));
 
+        NamedCommands.registerCommand("Home", new GoToArmElevatorState(armElevator, HOME));
+
         NamedCommands.registerCommand("Index", new LidarStoppedFeedState(shooter, BAKED_BEAN.beans, LIMA_BEAN.beans));
 
     }

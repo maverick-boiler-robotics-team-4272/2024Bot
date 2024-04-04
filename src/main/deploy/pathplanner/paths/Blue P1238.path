@@ -3,41 +3,41 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.75,
-        "y": 6.48
+        "x": 2.9026396514331507,
+        "y": 6.29510951329595
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.75,
-        "y": 6.48
+        "x": 5.096619836606291,
+        "y": 6.604911811820771
       },
       "isLocked": false,
       "linkedName": "BlueP123End"
     },
     {
       "anchor": {
-        "x": 8.003849084621248,
-        "y": 7.449541822160567
+        "x": 7.942353117231199,
+        "y": 7.471513716208602
       },
       "prevControl": {
-        "x": 6.000859694027081,
-        "y": 7.271936851566012
+        "x": 6.023116655057224,
+        "y": 7.308174442841843
       },
       "nextControl": {
-        "x": 8.210245092374779,
-        "y": 7.467842946000782
+        "x": 9.043171752535448,
+        "y": 7.5652004085693285
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.4639590646702656,
-        "y": 5.624888286813611
+        "x": 3.5625002491089135,
+        "y": 5.808574926707628
       },
       "prevControl": {
-        "x": 4.658464392339974,
-        "y": 5.695153306088302
+        "x": 5.056321609405294,
+        "y": 6.247590541933014
       },
       "nextControl": null,
       "isLocked": false,
@@ -51,34 +51,11 @@
       "rotateFast": true
     }
   ],
-  "constraintZones": [
-    {
-      "name": "Zoom",
-      "minWaypointRelativePos": 0,
-      "maxWaypointRelativePos": 1.25,
-      "constraints": {
-        "maxVelocity": 5.0,
-        "maxAcceleration": 3.0,
-        "maxAngularVelocity": 540.0,
-        "maxAngularAcceleration": 720.0
-      }
-    },
-    {
-      "name": "More",
-      "minWaypointRelativePos": 1.2,
-      "maxWaypointRelativePos": 2.0,
-      "constraints": {
-        "maxVelocity": 5.0,
-        "maxAcceleration": 3.5,
-        "maxAngularVelocity": 540.0,
-        "maxAngularAcceleration": 720.0
-      }
-    }
-  ],
+  "constraintZones": [],
   "eventMarkers": [
     {
       "name": "One",
-      "waypointRelativePos": 0.85,
+      "waypointRelativePos": 0.8,
       "command": {
         "type": "parallel",
         "data": {
@@ -97,9 +74,21 @@
       "name": "Pause",
       "waypointRelativePos": 1.9,
       "command": {
-        "type": "parallel",
+        "type": "sequential",
         "data": {
           "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "Enable"
+              }
+            },
+            {
+              "type": "wait",
+              "data": {
+                "waitTime": 0.1
+              }
+            },
             {
               "type": "named",
               "data": {
@@ -129,8 +118,8 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 3.0,
-    "maxAcceleration": 3.0,
+    "maxVelocity": 5.0,
+    "maxAcceleration": 4.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
@@ -145,5 +134,5 @@
     "rotation": 180.0,
     "velocity": 0.0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }
