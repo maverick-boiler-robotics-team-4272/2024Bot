@@ -5,7 +5,6 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 
 import static edu.wpi.first.units.Units.*;
-import static frc.robot.constants.RobotConstants.ArmConstants.*;
 import static frc.robot.constants.RobotConstants.ElevatorConstants.*;
 
 public class RobotConstants {
@@ -35,7 +34,7 @@ public class RobotConstants {
         // public static final Translation2d BACK_LEFT_POSITION   = new Translation2d( WHEEL_DISTANCE,  WHEEL_DISTANCE);
         // public static final Translation2d BACK_RIGHT_POSITION  = new Translation2d( WHEEL_DISTANCE, -WHEEL_DISTANCE);
 
-        public static final double FRONT_LEFT_OFFSET  = 264.0;
+        public static final double FRONT_LEFT_OFFSET  = 115.0;
         public static final double FRONT_RIGHT_OFFSET = 293.0;
         public static final double BACK_LEFT_OFFSET   = 239.0;
         public static final double BACK_RIGHT_OFFSET  = 298.0;
@@ -102,10 +101,14 @@ public class RobotConstants {
         // AMP(new Rotation2d(0.813), 0.190),
         CLIMB(new Rotation2d(0), MAX_ELEVATOR_HEIGHT),
         PODIUM(Rotation2d.fromDegrees(30.0), Meters.convertFrom(13.0, Inches)),
-        TRAP(Rotation2d.fromDegrees(45.0), Meters.convertFrom(14.0, Inches)),
-        SUB_SHOT(Rotation2d.fromDegrees(46.0), Meters.convertFrom(14.0, Inches)),
+
+        TRAP(Rotation2d.fromDegrees(45.0), Meters.convertFrom(18, Inches)),
+
+        SUB_SHOT(Rotation2d.fromDegrees(45.0), Meters.convertFrom(15.0, Inches)),
         AUTO_LINE(SUB_SHOT.getArmAngle(), SUB_SHOT.getElevatorHeight()),
-        SOURCE(Rotation2d.fromDegrees(46.0), Meters.convertFrom(5.0, Inches));
+        SOURCE(Rotation2d.fromDegrees(45.0), Meters.convertFrom(5.0, Inches)),
+
+        START_LINE(Rotation2d.fromDegrees(45), Meters.convertFrom(2, Inches));
 
         private Rotation2d armAngle;
         private double elevatorHeight;

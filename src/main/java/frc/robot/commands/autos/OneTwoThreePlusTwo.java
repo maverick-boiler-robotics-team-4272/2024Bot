@@ -15,7 +15,6 @@ import frc.robot.subsystems.shooter.Shooter;
 import static frc.robot.constants.AutoConstants.PathFollowConstants.DEFAULT_POSE_DELTA;
 // Constants
 import static frc.robot.constants.AutoConstants.Paths.getGlobalTrajectories;
-import static frc.robot.constants.RobotConstants.ArmElevatorSetpoints.HOME;
 import static frc.robot.constants.RobotConstants.ArmElevatorSetpoints.SUB_SHOT;
 
 public class OneTwoThreePlusTwo extends SequentialCommandGroup {
@@ -26,8 +25,7 @@ public class OneTwoThreePlusTwo extends SequentialCommandGroup {
             new ParallelDeadlineGroup(
                 new AutoShootState(shooter, 1.0, 1.0),
                 new GoToArmElevatorState(armElevator, SUB_SHOT)
-            ),
-            new GoToArmElevatorState(armElevator, HOME),
+            ), //Arm goes home in path
             new PathFollowWithEvents(
                 new PathFollowState(
                     drivetrain, 
