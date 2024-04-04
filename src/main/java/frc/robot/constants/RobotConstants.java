@@ -108,7 +108,7 @@ public class RobotConstants {
         AUTO_LINE(SUB_SHOT.getArmAngle(), SUB_SHOT.getElevatorHeight()),
         SOURCE(Rotation2d.fromDegrees(45.0), Meters.convertFrom(5.0, Inches)),
 
-        BACK_LINE(Rotation2d.fromDegrees(45), Meters.convertFrom(2, Inches));
+        START_LINE(Rotation2d.fromDegrees(45), Meters.convertFrom(2, Inches));
 
         private Rotation2d armAngle;
         private double elevatorHeight;

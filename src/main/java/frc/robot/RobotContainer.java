@@ -368,7 +368,7 @@ public class RobotContainer {
 
         NamedCommands.registerCommand("Face", Commands.defer(() -> new FacePositionState(drivetrain, () -> 0, () -> 0, getGlobalPositions().SPEAKER_SHOT_POSITION.toTranslation2d()), Set.of(drivetrain)));
 
-        NamedCommands.registerCommand("Line", new GoToArmElevatorState(armElevator, BACK_LINE));
+        NamedCommands.registerCommand("Line", new GoToArmElevatorState(armElevator, START_LINE));
         NamedCommands.registerCommand("Drop", new SequentialCommandGroup(
             // new GoToArmElevatorState(armElevator, ArmElevatorSetpoint.createArbitrarySetpoint(Units.Meters.convertFrom(5.0, Units.Inches), new Rotation2d(0.0))),
             new GoToArmElevatorState(armElevator, HOME),

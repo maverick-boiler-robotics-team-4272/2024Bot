@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.3023087957730821,
-        "y": 6.476092609817173
+        "x": 1.44283883432246,
+        "y": 6.511225119454518
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.051802334703099,
-        "y": 6.347273407813577
+        "x": 2.1923323732524773,
+        "y": 6.382405917450922
       },
       "isLocked": false,
       "linkedName": null
@@ -32,16 +32,16 @@
     },
     {
       "anchor": {
-        "x": 7.931126061682324,
-        "y": 7.472564688719121
+        "x": 8.106304828872139,
+        "y": 7.412959533479694
       },
       "prevControl": {
-        "x": 7.340205820012781,
-        "y": 7.809502513591921
+        "x": 7.684714713224003,
+        "y": 7.3426945142050055
       },
       "nextControl": {
-        "x": 8.618181535043945,
-        "y": 7.080811351403466
+        "x": 8.886439474698134,
+        "y": 7.542981974450692
       },
       "isLocked": false,
       "linkedName": null
@@ -64,16 +64,16 @@
     },
     {
       "anchor": {
-        "x": 7.860377261410728,
-        "y": 5.972526638348569
+        "x": 7.883798934502291,
+        "y": 5.9022616190738795
       },
       "prevControl": {
-        "x": 7.209159035897353,
-        "y": 6.692813463537603
+        "x": 7.2386573779064305,
+        "y": 6.090427906414339
       },
       "nextControl": {
-        "x": 8.164554338657073,
-        "y": 5.636088355939735
+        "x": 8.445919088699803,
+        "y": 5.738309907432939
       },
       "isLocked": false,
       "linkedName": null
@@ -137,7 +137,7 @@
     },
     {
       "waypointRelativePos": 2,
-      "rotationDegrees": 173.1057318206941,
+      "rotationDegrees": -160.9743939624314,
       "rotateFast": false
     },
     {
@@ -181,16 +181,22 @@
       }
     },
     {
-      "name": "Pause",
-      "waypointRelativePos": 3.05,
+      "name": "One s",
+      "waypointRelativePos": 2.7,
       "command": {
-        "type": "parallel",
+        "type": "deadline",
         "data": {
           "commands": [
             {
               "type": "named",
               "data": {
-                "name": "AutoShoot"
+                "name": "Shoot"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "AutoAim"
               }
             }
           ]
@@ -215,16 +221,22 @@
       }
     },
     {
-      "name": "Pause",
-      "waypointRelativePos": 5.0,
+      "name": "Two s",
+      "waypointRelativePos": 4.8,
       "command": {
-        "type": "parallel",
+        "type": "deadline",
         "data": {
           "commands": [
             {
               "type": "named",
               "data": {
-                "name": "AutoShoot"
+                "name": "Shoot"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "AutoAim"
               }
             }
           ]
@@ -267,7 +279,7 @@
     },
     {
       "name": "Start",
-      "waypointRelativePos": 0.0,
+      "waypointRelativePos": 0.55,
       "command": {
         "type": "parallel",
         "data": {
@@ -293,6 +305,42 @@
               "type": "named",
               "data": {
                 "name": "Index"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Pause",
+      "waypointRelativePos": 0.0,
+      "command": {
+        "type": "deadline",
+        "data": {
+          "commands": [
+            {
+              "type": "parallel",
+              "data": {
+                "commands": [
+                  {
+                    "type": "named",
+                    "data": {
+                      "name": "Line"
+                    }
+                  },
+                  {
+                    "type": "named",
+                    "data": {
+                      "name": "Shoot"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "Face"
               }
             }
           ]
