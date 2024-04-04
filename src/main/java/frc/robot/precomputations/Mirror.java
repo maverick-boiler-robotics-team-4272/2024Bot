@@ -32,6 +32,9 @@ public class Mirror {
     public static void main(String[] args) {
         // For mirroring a path:
         // mirrorPath([path name without side suffix], [side suffix]);
+        mirrorPath("P123Plus2", "Blue");
+        mirrorPath("P1238", "Blue");
+        mirrorPath("P456", "Blue");
     }
 
     @SuppressWarnings({ "unchecked", "unused" })
