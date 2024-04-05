@@ -290,7 +290,14 @@ public class RobotContainer {
         );
 
         new Trigger(operatorController.getButton("leftStick")::get).toggleOnTrue(
-            new LatchState(armElevator)
+            new ParallelCommandGroup(
+                new LatchState(armElevator),
+                new StartEndCommand(() -> {
+                    candle.setLEDs(0, 0, 255);
+                }, () -> {
+                    candle.setLEDs(0, 0, 0);
+                })
+            )
         );
 
         new Trigger(operatorController.getButton("y")::get).whileTrue(
