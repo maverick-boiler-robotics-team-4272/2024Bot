@@ -189,26 +189,6 @@ public class RobotContainer {
         );
 
         armElevator.setDefaultCommand(new GoToArmElevatorState(armElevator, HOME));
-
-        // TODO: Remove This
-        TESTING_TABLE.putNumber("Arm Angle Setpoint", 35);
-        TESTING_TABLE.putData("Go To Arm Angle", new FunctionalCommand(() -> {
-            armElevator.goToPos(Rotation2d.fromDegrees(TESTING_TABLE.getNumber("Arm Angle Setpoint")), 0);
-        }, () -> {}, b -> {}, () -> false, armElevator));
-
-        TESTING_TABLE.putNumber("Arm PID P", ARM_PID_P);
-        TESTING_TABLE.putNumber("Arm PID I", ARM_PID_I);
-        TESTING_TABLE.putNumber("Arm PID D", ARM_PID_D);
-        TESTING_TABLE.putNumber("Arm PID F", ARM_PID_F);
-
-        TESTING_TABLE.putData("Push Arm PID", new InstantCommand(armElevator::pullPidParams, armElevator));
-
-        TESTING_TABLE.putData("Arm Norm Enabled", new FunctionalCommand(() -> {
-            Norms.getArmNorm().enable();
-            Norms.getArmNorm().reset();
-        }, () -> {}, b -> {
-            Norms.getArmNorm().disable();
-        }, () -> false));
     }
 
     private void configureOperatorBindings() {
@@ -309,14 +289,6 @@ public class RobotContainer {
             )
         );
 
-        TESTING_TABLE.putBoolean("Elevator Nyroom", false).withWidget(BuiltInWidgets.kToggleButton);
-
-        new Trigger(() -> TESTING_TABLE.getBoolean("Elevator Nyroom")).onTrue(
-            new InstantCommand(armElevator::elevatorGoNyrooom, armElevator)
-        ).onFalse(
-            new InstantCommand(armElevator::elevatorGoNotSoNyroom, armElevator)
-        );
-
         new Trigger(operatorController.getButton("leftStick")::get).toggleOnTrue(
             new LatchState(armElevator)
         );
@@ -404,10 +376,10 @@ public class RobotContainer {
             })
         );
 
-        new Trigger(() -> DriverStation.getMatchTime() < 30.0).onTrue(
+        new Trigger(() -> DriverStation.getMatchTime() < 30.0).and(DriverStation::isTeleopEnabled).onTrue(
             new SequentialCommandGroup(
                 new InstantCommand(() -> {
-                    candle.setLEDs(0, 0, 0, 255, 0, 512);
+                    candle.setLEDs(255, 255, 255, 0, 0, 512);
                 }).alongWith(new WaitCommand(0.5)),
                 new InstantCommand(() -> {
                     candle.setLEDs(0, 0, 0, 0, 0, 512);
@@ -418,7 +390,7 @@ public class RobotContainer {
 
     private void addResetButtons() {
         OVERRIDE_TABLE.putData("Reset Intake Motor", new InstantCommand(intake::resetIntakeMotor, intake));
-        OVERRIDE_TABLE.putData("Reset Shooter Meotors", new InstantCommand(shooter::resetShooterMotors, shooter));
+        OVERRIDE_TABLE.putData("Reset Shooter Motors", new InstantCommand(shooter::resetShooterMotors, shooter));
         OVERRIDE_TABLE.putData("Reset Feed Motor", new InstantCommand(shooter::resetFeedMotor, shooter));
         OVERRIDE_TABLE.putData("Reset Arm Motor", new InstantCommand(armElevator::resetArmMotor, armElevator));
         OVERRIDE_TABLE.putData("Reset Swerve Modules", new InstantCommand(drivetrain::resetModules, drivetrain));
