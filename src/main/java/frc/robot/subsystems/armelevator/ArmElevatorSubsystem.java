@@ -27,6 +27,7 @@ import static frc.robot.constants.HardwareMap.*;
 import static frc.robot.constants.RobotConstants.NOMINAL_VOLTAGE;
 import static frc.robot.constants.RobotConstants.ArmConstants.*;
 import static frc.robot.constants.RobotConstants.ElevatorConstants.*;
+import static frc.robot.constants.TelemetryConstants.ShuffleboardTables.AUTO_TABLE;
 
 public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
     @AutoLog
@@ -300,5 +301,7 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
     public void periodic() {
         handleSafety();
         log("Subsystems", "ArmElevator");
+
+        AUTO_TABLE.putNumber("Elevator Motor 1 Current", elevatorMotor1.getOutputCurrent());
     }
 }

@@ -14,6 +14,8 @@ public class TrajectoryContainer {
     public final Path P_876;
     public final Path P_6123;
 
+    public final Path CHAOS;
+
     public final Path N_8;
 
     public TrajectoryContainer(String prefix) {
@@ -33,6 +35,8 @@ public class TrajectoryContainer {
         P_456 = new Path(prefix + " P456");
         P_876 = new Path(prefix + " P876");
         P_6123 = new Path(prefix + " P6123");
+
+        CHAOS = new Path(prefix + " Chaos");
 
         N_8 = new Path(prefix + " N8");
     }

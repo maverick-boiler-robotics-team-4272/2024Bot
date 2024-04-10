@@ -99,7 +99,7 @@ public class RobotConstants {
         AMP(Rotation2d.fromDegrees(-20.0), Meters.convertFrom(19.0, Inches)),
         AMP_LOW(Rotation2d.fromDegrees(46), Meters.convertFrom(5.0, Inches)),
         // AMP(new Rotation2d(0.813), 0.190),
-        CLIMB(new Rotation2d(0), MAX_ELEVATOR_HEIGHT),
+        CLIMB(Rotation2d.fromDegrees(0), Meters.convertFrom(12, Inches)),
         PODIUM(Rotation2d.fromDegrees(30.0), Meters.convertFrom(13.0, Inches)),
 
         TRAP(Rotation2d.fromDegrees(45.0), Meters.convertFrom(18, Inches)),

@@ -30,6 +30,7 @@ import frc.robot.subsystems.drivetrain.states.*;
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.commands.*;
 import frc.robot.commands.autos.*;
+import frc.robot.commands.autos.state.DisruptorAuto;
 import frc.robot.commands.autos.state.EightSevenSix;
 import frc.robot.commands.autos.state.FourFiveSix;
 // CANdle
@@ -289,13 +290,17 @@ public class RobotContainer {
             )
         );
 
+        AUTO_TABLE.putBoolean("Is Latched", false).withSize(5, 5);
+
         new Trigger(operatorController.getButton("leftStick")::get).toggleOnTrue(
             new ParallelCommandGroup(
                 new LatchState(armElevator),
                 new StartEndCommand(() -> {
                     candle.setLEDs(0, 0, 255);
+                    AUTO_TABLE.putBoolean("Is Latched", true);
                 }, () -> {
                     candle.setLEDs(0, 0, 0);
+                    AUTO_TABLE.putBoolean("Is Latched", false);
                 })
             )
         );
@@ -327,6 +332,7 @@ public class RobotContainer {
         AUTO_CHOOSER.addOption("P two Any", () -> new TwoPiece(drivetrain, armElevator, shooter, intake));
         AUTO_CHOOSER.addOption("P Shoot", () -> new FireAndSit(drivetrain, armElevator, shooter));
         // AUTO_CHOOSER.addOption("N8", () -> new NoEight(drivetrain, armElevator, shooter));
+        AUTO_CHOOSER.addOption("Middle Disruption", () -> new DisruptorAuto(drivetrain));
         
         AUTO_TABLE.putData("Auto Chooser", AUTO_CHOOSER);
         AUTO_TABLE.putData("Side Chooser", CONTAINER_CHOOSER).withWidget(BuiltInWidgets.kSplitButtonChooser);
@@ -351,7 +357,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("Drop", new SequentialCommandGroup(
             // new GoToArmElevatorState(armElevator, ArmElevatorSetpoint.createArbitrarySetpoint(Units.Meters.convertFrom(5.0, Units.Inches), new Rotation2d(0.0))),
             new GoToArmElevatorState(armElevator, HOME),
-            new RevAndShootState(shooter, LIMA_BEAN.beans, BAKED_BEAN.beans, () -> true).withTimeout(1.0)
+            new RevAndShootState(shooter, 50, BAKED_BEAN.beans, () -> true).withTimeout(1.0)
         ));
 
         NamedCommands.registerCommand("Home", new GoToArmElevatorState(armElevator, HOME));

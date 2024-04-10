@@ -7,6 +7,8 @@ package frc.robot;
 import static frc.robot.constants.AutoConstants.Paths.CONTAINER_CHOOSER;
 import static frc.robot.constants.UniversalConstants.*;
 
+import java.io.File;
+
 import org.littletonrobotics.junction.*;
 import org.littletonrobotics.junction.LoggedRobot;
 import org.littletonrobotics.junction.Logger;
@@ -45,18 +47,16 @@ public class Robot extends LoggedRobot {
     public void robotInit() {
         Logger.recordMetadata("ProjectName", "MyProject"); // Set a metadata value
 
-        if (isReal()) {
-            Logger.addDataReceiver(new WPILOGWriter("/U/Logs")); // Log to a USB stick ("/U/logs")
-            Logger.addDataReceiver(new NT4Publisher()); // Publish data to NetworkTables
-            new PowerDistribution(10, ModuleType.kRev); // Enables power distribution logging
-        } else {
-            setUseTiming(false); // Run as fast as possible
-            String logPath = LogFileUtil.findReplayLog(); // Pull the replay log from AdvantageScope (or prompt the
-                                                          // user)
-            Logger.setReplaySource(new WPILOGReader(logPath)); // Read replay log
-            Logger.addDataReceiver(new WPILOGWriter(LogFileUtil.addPathSuffix(logPath, "_sim"))); // Save outputs to a
-                                                                                                  // new log
+        File usb = new File("/U/Logs");
+        if(!usb.exists()) {
+            usb = new File("/home/lvuser/Logs");
+            if(!usb.exists())
+                usb.mkdir();
         }
+
+        Logger.addDataReceiver(new WPILOGWriter(usb.getPath())); // Log to a USB stick ("/U/logs")
+        // Logger.addDataReceiver(new NT4Publisher()); // Publish data to NetworkTables
+        new PowerDistribution(10, ModuleType.kRev); // Enables power distribution logging
 
         // Logger.disableDeterministicTimestamps() // See "Deterministic Timestamps" in
         // the "Understanding Data Flow" page
