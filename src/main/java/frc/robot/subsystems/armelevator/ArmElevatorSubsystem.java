@@ -17,12 +17,14 @@ import edu.wpi.first.math.Pair;
 // Math
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.geometry.*;
-
+import edu.wpi.first.units.Units;
 // Subsystem
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 // Constants
 import frc.robot.constants.RobotConstants.ArmElevatorSetpoint;
+
+import static edu.wpi.first.units.Units.Inches;
 import static frc.robot.constants.HardwareMap.*;
 import static frc.robot.constants.RobotConstants.NOMINAL_VOLTAGE;
 import static frc.robot.constants.RobotConstants.ArmConstants.*;
@@ -176,6 +178,18 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
         return armElevatorInputs.desiredArmAngleRadians;
     }
 
+    public double getElevatorHeight() {
+        return elevatorEncoder.getPosition();
+    }
+
+    public double getElevatorDesiredHeight() {
+        return armElevatorInputs.desiredElevatorHeight;
+    }
+
+    public double getElevatorMotorCurrent() {
+        return elevatorMotor1.getOutputCurrent();
+    }
+
     private void setElevatorHeight(double h) {
         elevatorController.setReference(h, ControlType.kPosition, 0, ELEVATOR_PID_F);
     }
@@ -220,7 +234,7 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
     }
 
     public void zeroElevator() {
-        elevatorEncoder.setPosition(0);
+        elevatorEncoder.setPosition(Units.Meters.convertFrom(0.2, Inches));
     }
 
     public void disableSoftLimits() {
