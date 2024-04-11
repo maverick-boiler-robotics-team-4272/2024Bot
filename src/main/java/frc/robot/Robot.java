@@ -55,7 +55,7 @@ public class Robot extends LoggedRobot {
         }
 
         Logger.addDataReceiver(new WPILOGWriter(usb.getPath())); // Log to a USB stick ("/U/logs")
-        // Logger.addDataReceiver(new NT4Publisher()); // Publish data to NetworkTables
+        Logger.addDataReceiver(new NT4Publisher()); // Publish data to NetworkTables
         new PowerDistribution(10, ModuleType.kRev); // Enables power distribution logging
 
         // Logger.disableDeterministicTimestamps() // See "Deterministic Timestamps" in
