@@ -31,7 +31,7 @@ public final class Limelight implements Periodic, Loggable {
         kOn
     }
 
-    private static final int ARRAY_LENGTH = 11;
+    private static final int ARRAY_LENGTH = 25;
 
     private final String tableName;
     private String logName;
