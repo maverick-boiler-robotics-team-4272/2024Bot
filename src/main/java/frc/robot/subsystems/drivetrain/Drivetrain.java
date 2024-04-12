@@ -81,7 +81,7 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
             getPositions(),
             FRONT_LIMELIGHT.getRobotPose(),
             VecBuilder.fill(0.5, 0.5, 0.5), // Guestimations to try and make tracking better
-            VecBuilder.fill(0.75, 0.75, 0.65) // Computed standard deviations, (~worst case / 2)
+            VecBuilder.fill(0.75, 0.75, 0.6) // Computed standard deviations, (~worst case / 2)
         );
 
         setMaxSpeeds(MAX_TRANSLATIONAL_SPEED, MAX_ROTATIONAL_SPEED, MAX_MODULE_SPEED);
@@ -113,7 +113,7 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
             fuseVision
             // PathFollowState.posesAlmostEqual(limelightPose, getRobotPose(), new Pose2d(0.5, 0.5, Rotation2d.fromDegrees(10.0)))
         ) {
-            poseEstimator.addVisionMeasurement(limelightPose, Timer.getFPGATimestamp());
+            poseEstimator.addVisionMeasurement(new Pose2d(limelightPose.getTranslation(), poseEstimator.getEstimatedPosition().getRotation()), Timer.getFPGATimestamp());
         }
 
         drivetrainInputs.estimatedPose = poseEstimator.getEstimatedPosition();
@@ -156,7 +156,7 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
     public void setGyroscopeReading(Rotation2d heading) {
         gyroscope.setRotation(heading);
 
-        setRobotPose(poseEstimator.getEstimatedPosition());
+        setRobotPose(new Pose2d(poseEstimator.getEstimatedPosition().getTranslation(), heading));
     }
 
     public void enableVisionFusion() {

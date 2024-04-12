@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.team4272.controllers.XboxController;
@@ -43,6 +44,8 @@ import frc.robot.constants.Norms;
 import frc.robot.constants.AutoConstants.Paths;
 import frc.robot.utils.periodics.CANPeriodic;
 
+import static edu.wpi.first.units.Units.Inches;
+import static edu.wpi.first.units.Units.Meters;
 import static frc.robot.constants.AutoConstants.Paths.*;
 import static frc.robot.constants.HardwareMap.*;
 import static frc.robot.constants.TelemetryConstants.ShuffleboardTables.*;
@@ -399,6 +402,20 @@ public class RobotContainer {
                 }).alongWith(new WaitCommand(0.5))
             ).repeatedly().withTimeout(3.0)
         );
+
+        new Trigger(() -> armElevator.getElevatorDesiredHeight() == HOME.getElevatorHeight())
+            .and(() -> armElevator.getShooterDesiredRotation() == HOME.getArmAngle().getRadians())
+            .and(() -> armElevator.getElevatorMotorCurrent() > 15.0)
+            .and(() -> Math.abs(armElevator.getElevatorHeight() - armElevator.getElevatorDesiredHeight()) < Meters.convertFrom(2.0, Inches))
+            .onTrue(
+                new InstantCommand(() -> {
+                    operatorController.setRumble(RumbleType.kBothRumble, 1.0);
+                })
+            ).onFalse(
+                new InstantCommand(() -> {
+                    operatorController.setRumble(RumbleType.kBothRumble, 0.0);
+                })
+            );
     }
 
     private void addResetButtons() {

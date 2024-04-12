@@ -13,14 +13,10 @@ import frc.robot.subsystems.shooter.Shooter;
 public class FourFiveSix extends SequentialCommandGroup {
     public FourFiveSix(Drivetrain drivetrain, ArmElevatorSubsystem armElevator, Shooter shooter) {
         super(
-            // new GoToArmElevatorState(armElevator, SUB_SHOT).deadlineWith(
-            //     new AutoShootState(shooter, 1.0, 1.0)
-            // ),
             new InstantCommand(() -> {
                 drivetrain.resetModules();
                 drivetrain.disableVisionFusion();
             }),
-            new WaitCommand(2.0),
             new PathFollowWithEvents(
                 new PathFollowState(
                     drivetrain, 

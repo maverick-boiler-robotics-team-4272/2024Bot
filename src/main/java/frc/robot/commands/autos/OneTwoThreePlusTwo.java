@@ -26,7 +26,6 @@ public class OneTwoThreePlusTwo extends SequentialCommandGroup {
                 new AutoShootState(shooter, 1.0, 1.0),
                 new GoToArmElevatorState(armElevator, SUB_SHOT)
             ), //Arm goes home in path
-            new WaitCommand(1.0),
             new PathFollowWithEvents(
                 new PathFollowState(
                     drivetrain, 
