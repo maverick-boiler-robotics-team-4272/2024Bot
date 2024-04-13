@@ -10,25 +10,6 @@
   } ],
   "folder" : "Worlds",
   "eventMarkers" : [ {
-    "waypointRelativePos" : 3.85,
-    "name" : "Pause",
-    "command" : {
-      "data" : {
-        "commands" : [ {
-          "data" : {
-            "name" : "Enable"
-          },
-          "type" : "named"
-        }, {
-          "data" : {
-            "name" : "AutoShoot"
-          },
-          "type" : "named"
-        } ]
-      },
-      "type" : "parallel"
-    }
-  }, {
     "waypointRelativePos" : 2.7,
     "name" : "6 I",
     "command" : {

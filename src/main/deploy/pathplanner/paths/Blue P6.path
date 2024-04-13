@@ -91,29 +91,6 @@
   "constraintZones": [],
   "eventMarkers": [
     {
-      "name": "Pause",
-      "waypointRelativePos": 3.85,
-      "command": {
-        "type": "parallel",
-        "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "Enable"
-              }
-            },
-            {
-              "type": "named",
-              "data": {
-                "name": "AutoShoot"
-              }
-            }
-          ]
-        }
-      }
-    },
-    {
       "name": "6 I",
       "waypointRelativePos": 2.7,
       "command": {
