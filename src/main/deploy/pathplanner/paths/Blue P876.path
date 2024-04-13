@@ -48,16 +48,16 @@
     },
     {
       "anchor": {
-        "x": 4.066066220577518,
-        "y": 6.312140898176232
+        "x": 3.7117289619194636,
+        "y": 6.2063070279986725
       },
       "prevControl": {
-        "x": 4.746885274523318,
-        "y": 6.391076440662703
+        "x": 4.392548015865261,
+        "y": 6.285242570485143
       },
       "nextControl": {
-        "x": 3.0727204845443206,
-        "y": 6.196970378056435
+        "x": 2.718383225886266,
+        "y": 6.0911365078788755
       },
       "isLocked": false,
       "linkedName": null
@@ -80,16 +80,16 @@
     },
     {
       "anchor": {
-        "x": 4.171463749489552,
-        "y": 4.918551349228233
+        "x": 3.632793419432994,
+        "y": 4.992673062269202
       },
       "prevControl": {
-        "x": 7.397954048623997,
-        "y": 3.9022562397149367
+        "x": 6.770481233270161,
+        "y": 3.6606357828100275
       },
       "nextControl": {
-        "x": 3.2176609245716765,
-        "y": 5.218984654936304
+        "x": 2.71230627451025,
+        "y": 5.383445906811876
       },
       "isLocked": false,
       "linkedName": null
@@ -157,11 +157,23 @@
     },
     {
       "waypointRelativePos": 3,
-      "rotationDegrees": -168.10284670882163,
+      "rotationDegrees": -165.96375653207343,
       "rotateFast": false
     }
   ],
-  "constraintZones": [],
+  "constraintZones": [
+    {
+      "name": "Go",
+      "minWaypointRelativePos": 5.4,
+      "maxWaypointRelativePos": 7.0,
+      "constraints": {
+        "maxVelocity": 5.0,
+        "maxAcceleration": 4.0,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0
+      }
+    }
+  ],
   "eventMarkers": [
     {
       "name": "One",
@@ -182,7 +194,7 @@
     },
     {
       "name": "Pause",
-      "waypointRelativePos": 3.0,
+      "waypointRelativePos": 3.05,
       "command": {
         "type": "sequential",
         "data": {
@@ -196,7 +208,7 @@
             {
               "type": "named",
               "data": {
-                "name": "AutoShoot"
+                "name": "LongAutoShoot"
               }
             },
             {
@@ -242,7 +254,7 @@
             {
               "type": "named",
               "data": {
-                "name": "AutoShoot"
+                "name": "LongAutoShoot"
               }
             },
             {
@@ -353,6 +365,23 @@
               "type": "named",
               "data": {
                 "name": "Face"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Enable",
+      "waypointRelativePos": 2.7,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "Enable"
               }
             }
           ]
