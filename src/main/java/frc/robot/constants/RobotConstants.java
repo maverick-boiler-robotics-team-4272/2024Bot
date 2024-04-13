@@ -96,7 +96,7 @@ public class RobotConstants {
         HOME(Rotation2d.fromDegrees(35.0), Meters.convertFrom(0.1, Inches)),
         WHITE_LINE(Rotation2d.fromDegrees(45), 0),
         TEST(Rotation2d.fromDegrees(0.0), Meters.convertFrom(12.0, Inches)),
-        AMP(Rotation2d.fromDegrees(-20.0), Meters.convertFrom(19.0, Inches)),
+        AMP(Rotation2d.fromDegrees(-17.0), Meters.convertFrom(19.0, Inches)),
         AMP_LOW(Rotation2d.fromDegrees(46), Meters.convertFrom(5.0, Inches)),
         // AMP(new Rotation2d(0.813), 0.190),
         CLIMB(Rotation2d.fromDegrees(0), Meters.convertFrom(12, Inches)),
@@ -134,6 +134,8 @@ public class RobotConstants {
         public static final double ARM_PID_I = 0.0003;
         public static final double ARM_PID_D = 0.0;
         public static final double ARM_PID_F = 0.17;
+
+        public static final double ARM_MAX_I_ACCUM = 0.1;
 
         public static final double ARM_LENGTH = Meters.convertFrom(16.0, Inches);
 

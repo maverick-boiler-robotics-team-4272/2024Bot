@@ -18,6 +18,7 @@ import edu.wpi.first.math.Pair;
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.units.Units;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 // Subsystem
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -30,6 +31,7 @@ import static frc.robot.constants.RobotConstants.NOMINAL_VOLTAGE;
 import static frc.robot.constants.RobotConstants.ArmConstants.*;
 import static frc.robot.constants.RobotConstants.ElevatorConstants.*;
 import static frc.robot.constants.TelemetryConstants.ShuffleboardTables.AUTO_TABLE;
+import static frc.robot.constants.TelemetryConstants.ShuffleboardTables.TESTING_TABLE;
 
 public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
     @AutoLog
@@ -113,6 +115,7 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
             // .withPosition(0.0)
             .withSoftLimits(MAX_ARM_ANGLE.getRadians(), MIN_ARM_ANGLE.getRadians())
             .withPIDParams(ARM_PID_P, ARM_PID_I, ARM_PID_D)
+            .withMaxIAccum(ARM_MAX_I_ACCUM)
             .withPIDPositionWrapping(0, 2 * Math.PI)
             .withPeriodicFramerate(PeriodicFrame.kStatus1, 500)
             .withPeriodicFramerate(PeriodicFrame.kStatus3, 500)
