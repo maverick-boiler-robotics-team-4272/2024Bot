@@ -185,12 +185,6 @@ public class RobotContainer {
         );
 
         //Arm ----------------------------------------------------
-        new Trigger(driveTriggerLeft::isTriggered).whileTrue(
-            new ParallelRaceGroup(
-                new RevAndShootState(shooter, CANNELLINI_BEAN.beans, BAKED_BEAN.beans, false, driverController.getButton("rightBumper")::get),
-                new GoToArmElevatorState(armElevator, WHITE_LINE).repeatedly()
-            )
-        );
 
         armElevator.setDefaultCommand(new GoToArmElevatorState(armElevator, HOME));
     }
@@ -212,8 +206,9 @@ public class RobotContainer {
         );
             
         new Trigger(operatorController.getButton("x")::get).whileTrue(
-            new GoToArmElevatorState(armElevator, AMP_LOW).repeatedly().alongWith(
-                new RevAndImbalancedShootState(shooter, BLACK_BEAN.refried().beans, BLACK_BEAN.beans, BAKED_BEAN.beans, operatorController.getButton("a")::get)
+            new ParallelRaceGroup(
+                new RevAndShootState(shooter, CANNELLINI_BEAN.beans, BAKED_BEAN.beans, false, driverController.getButton("rightBumper")::get),
+                new GoToArmElevatorState(armElevator, WHITE_LINE).repeatedly()
             )
         );
 
@@ -325,7 +320,7 @@ public class RobotContainer {
         // AUTO_CHOOSER.addOption("P16", () -> new OneSix(drivetrain, armElevator, shooter));
         // AUTO_CHOOSER.addOption("P14", () -> new OneFourRush(drivetrain, armElevator, shooter));
         // AUTO_CHOOSER.addOption("P45", () -> new FourFive(drivetrain));
-        // AUTO_CHOOSER.addOption("P876", () -> new EightSevenSix(drivetrain, armElevator, shooter));
+        AUTO_CHOOSER.addOption("P876", () -> new EightSevenSix(drivetrain, armElevator, shooter));
         AUTO_CHOOSER.addOption("P456C", () -> new FourFiveSix(drivetrain, armElevator, shooter));
         // AUTO_CHOOSER.addOption("P123", () -> new OneTwoThree(drivetrain, armElevator, shooter));
         // AUTO_CHOOSER.addOption("P123Plus", () -> new OneTwoThreePlus(drivetrain, armElevator, shooter));

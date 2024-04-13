@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.44283883432246,
-        "y": 6.511225119454518
+        "x": 1.44,
+        "y": 6.8
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.1923323732524773,
-        "y": 6.382405917450922
+        "x": 2.189493538930017,
+        "y": 6.671180797996404
       },
       "isLocked": false,
       "linkedName": null
@@ -32,16 +32,16 @@
     },
     {
       "anchor": {
-        "x": 8.106304828872139,
-        "y": 7.412959533479694
+        "x": 8.319591254567126,
+        "y": 7.479142650592993
       },
       "prevControl": {
-        "x": 7.684714713224003,
-        "y": 7.3426945142050055
+        "x": 7.89800113891899,
+        "y": 7.408877631318305
       },
       "nextControl": {
-        "x": 8.886439474698134,
-        "y": 7.542981974450692
+        "x": 9.099725900393121,
+        "y": 7.609165091563991
       },
       "isLocked": false,
       "linkedName": null
@@ -64,16 +64,16 @@
     },
     {
       "anchor": {
-        "x": 7.883798934502291,
-        "y": 5.9022616190738795
+        "x": 7.993982141810438,
+        "y": 6.008968171782498
       },
       "prevControl": {
-        "x": 7.2386573779064305,
-        "y": 6.090427906414339
+        "x": 7.097737182416097,
+        "y": 6.618888807842359
       },
       "nextControl": {
-        "x": 8.445919088699803,
-        "y": 5.738309907432939
+        "x": 8.478063103890724,
+        "y": 5.679537065697392
       },
       "isLocked": false,
       "linkedName": null
@@ -96,16 +96,16 @@
     },
     {
       "anchor": {
-        "x": 8.000907299960106,
-        "y": 4.157346973752435
+        "x": 7.915046599323969,
+        "y": 4.084914323674802
       },
       "prevControl": {
-        "x": 7.414426450304583,
-        "y": 2.947730221337917
+        "x": 6.570895298541232,
+        "y": 4.104656545905046
       },
       "nextControl": {
-        "x": 8.31664946990598,
-        "y": 4.808565199265808
+        "x": 8.815880179768701,
+        "y": 4.0716833304620215
       },
       "isLocked": false,
       "linkedName": null
@@ -142,12 +142,12 @@
     },
     {
       "waypointRelativePos": 4,
-      "rotationDegrees": 172.21661488916294,
+      "rotationDegrees": 142.85331330197815,
       "rotateFast": false
     },
     {
       "waypointRelativePos": 6,
-      "rotationDegrees": -162.75854060106002,
+      "rotationDegrees": -177.54954778961675,
       "rotateFast": false
     },
     {
@@ -157,7 +157,7 @@
     },
     {
       "waypointRelativePos": 3,
-      "rotationDegrees": -167.71511190413875,
+      "rotationDegrees": -168.10284670882163,
       "rotateFast": false
     }
   ],
@@ -181,22 +181,28 @@
       }
     },
     {
-      "name": "One s",
-      "waypointRelativePos": 2.7,
+      "name": "Pause",
+      "waypointRelativePos": 3.0,
       "command": {
-        "type": "deadline",
+        "type": "sequential",
         "data": {
           "commands": [
             {
               "type": "named",
               "data": {
-                "name": "Shoot"
+                "name": "Enable"
               }
             },
             {
               "type": "named",
               "data": {
-                "name": "AutoAim"
+                "name": "AutoShoot"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "Disable"
               }
             }
           ]
@@ -221,22 +227,28 @@
       }
     },
     {
-      "name": "Two s",
-      "waypointRelativePos": 4.8,
+      "name": "Pause",
+      "waypointRelativePos": 5.05,
       "command": {
-        "type": "deadline",
+        "type": "sequential",
         "data": {
           "commands": [
             {
               "type": "named",
               "data": {
-                "name": "Shoot"
+                "name": "Enable"
               }
             },
             {
               "type": "named",
               "data": {
-                "name": "AutoAim"
+                "name": "AutoShoot"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "Disable"
               }
             }
           ]
@@ -245,7 +257,7 @@
     },
     {
       "name": "Three",
-      "waypointRelativePos": 5.9,
+      "waypointRelativePos": 5.800000000000001,
       "command": {
         "type": "parallel",
         "data": {
