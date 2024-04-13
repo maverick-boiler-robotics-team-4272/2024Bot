@@ -34,6 +34,8 @@ import frc.robot.commands.autos.*;
 import frc.robot.commands.autos.state.DisruptorAuto;
 import frc.robot.commands.autos.state.EightSevenSix;
 import frc.robot.commands.autos.state.FourFiveSix;
+import frc.robot.commands.autos.worlds.Six;
+import frc.robot.commands.autos.worlds.SixSeven;
 // CANdle
 import frc.robot.utils.periodics.Candle;
 import com.ctre.phoenix.led.Animation;
@@ -331,6 +333,9 @@ public class RobotContainer {
         AUTO_CHOOSER.addOption("P Shoot", () -> new FireAndSit(drivetrain, armElevator, shooter));
         // AUTO_CHOOSER.addOption("N8", () -> new NoEight(drivetrain, armElevator, shooter));
         AUTO_CHOOSER.addOption("Middle Disruption", () -> new DisruptorAuto(drivetrain));
+
+        AUTO_CHOOSER.addOption("P6", () -> new Six(drivetrain, armElevator, shooter));
+        AUTO_CHOOSER.addOption("P67", () -> new SixSeven(drivetrain, armElevator, shooter));
         
         AUTO_TABLE.putData("Auto Chooser", AUTO_CHOOSER);
         AUTO_TABLE.putData("Side Chooser", CONTAINER_CHOOSER).withWidget(BuiltInWidgets.kSplitButtonChooser);
@@ -344,9 +349,12 @@ public class RobotContainer {
         NamedCommands.registerCommand("AutoAim", Commands.defer(() -> new TargetPositionState(armElevator, () -> drivetrain.getRobotPose().getTranslation(), getGlobalPositions().SPEAKER_TARGET_POSITION), Set.of(armElevator)));
         NamedCommands.registerCommand("AutoShoot", new ParallelRaceGroup(
             Commands.defer(() -> new AutoAimCommand(drivetrain, armElevator, () -> JELLY_BEAN.beans, () -> JELLY_BEAN.beans), Set.of(drivetrain, armElevator)),
-            new AutoShootState(shooter, BAKED_BEAN.beans, BAKED_BEAN.beans)//.beforeStarting(
-            //     new WaitCommand(0.25)
-            // )
+            new AutoShootState(shooter, BAKED_BEAN.beans, BAKED_BEAN.beans)
+        ));
+
+        NamedCommands.registerCommand("LongAutoShoot", new ParallelRaceGroup(
+            Commands.defer(() -> new AutoAimCommand(drivetrain, armElevator, () -> JELLY_BEAN.beans, () -> JELLY_BEAN.beans), Set.of(drivetrain, armElevator)),
+            new AutoShootState(shooter, BAKED_BEAN.beans, BAKED_BEAN.beans, 0.75)
         ));
 
         NamedCommands.registerCommand("Face", Commands.defer(() -> new FacePositionState(drivetrain, () -> 0, () -> 0, getGlobalPositions().SPEAKER_SHOT_POSITION.toTranslation2d()), Set.of(drivetrain)));
@@ -361,6 +369,8 @@ public class RobotContainer {
         NamedCommands.registerCommand("Home", new GoToArmElevatorState(armElevator, HOME));
 
         NamedCommands.registerCommand("Index", new LidarStoppedFeedState(shooter, BAKED_BEAN.beans, LIMA_BEAN.beans));
+
+        TESTING_TABLE.putData("Auto Shoot Command", NamedCommands.getCommand("AutoShoot"));
 
     }
 
