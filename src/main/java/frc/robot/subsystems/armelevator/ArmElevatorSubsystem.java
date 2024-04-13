@@ -67,10 +67,11 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
         new Pair<Double, Double>(2.4, 40.0),
         new Pair<Double, Double>(2.7, 37.5),
         new Pair<Double, Double>(3.0, 35.5),
-        new Pair<Double, Double>(3.2, 34.5),
-        new Pair<Double, Double>(3.7, 32.0),
-        new Pair<Double, Double>(4.2, 30.5),
-        new Pair<Double, Double>(4.8, 29.5)
+        new Pair<Double, Double>(3.2, 33.5),
+        new Pair<Double, Double>(3.7, 31.0),
+        new Pair<Double, Double>(4.2, 29.5),
+        new Pair<Double, Double>(4.8, 28.0),
+        new Pair<Double, Double>(5.3, 27.0)
     });
 
     private ArmFeedforward armFeedforward = new ArmFeedforward(0, ARM_PID_F, 0, 0);
