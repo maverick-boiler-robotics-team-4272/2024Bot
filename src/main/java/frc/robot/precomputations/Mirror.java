@@ -35,6 +35,7 @@ public class Mirror {
         mirrorPath("P6", "Blue");
         mirrorPath("P67", "Blue");
         mirrorPath("P65", "Blue");
+        mirrorPath("P876", "Blue");
     }
 
     @SuppressWarnings({ "unchecked", "unused" })

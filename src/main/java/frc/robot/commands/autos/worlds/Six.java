@@ -9,14 +9,16 @@ import frc.robot.subsystems.shooter.states.AutoShootState;
 public class Six extends BaseAuto {
     public Six(Drivetrain drivetrain, ArmElevatorSubsystem armelevator, Shooter shooter) {
         super(
-            drivetrain, 
+            drivetrain,
+            armelevator,
+            shooter, 
             true, 
             getGlobalTrajectories().P_6
         );
 
         addCommands(
             pathFollowCommand,
-            new AutoShootState(shooter, 1.0, 1.0)
+            endShot
         );
     }
 }
