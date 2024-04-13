@@ -173,7 +173,7 @@ public class RobotConstants {
         public static final double ELEVATOR_RATIO = Meters.convertFrom(12, Millimeters); //Find empericaly
 
         public static final double MAX_ELEVATOR_HEIGHT = Meters.convertFrom(20.0, Inches);
-        public static final double MIN_ELEVATOR_HEIGHT = Meters.convertFrom(0, Inches);
+        public static final double MIN_ELEVATOR_HEIGHT = Meters.convertFrom(0.25, Inches);
     }
 
     public static class ClimberConstants {
