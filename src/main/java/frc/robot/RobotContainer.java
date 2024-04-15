@@ -351,6 +351,14 @@ public class RobotContainer {
             new RevAndShootState(shooter, 50, BAKED_BEAN.beans, () -> true).withTimeout(1.0)
         ));
 
+        NamedCommands.registerCommand("AimAutoShoot", new SequentialCommandGroup(
+            new ParallelCommandGroup(
+                Commands.defer(() -> new AngleStoppedAutoAimCommand(drivetrain, armElevator, () -> JELLY_BEAN.beans, () -> JELLY_BEAN.beans), Set.of(drivetrain, armElevator)),
+                new RevState(shooter, BAKED_BEAN.beans).withTimeout(0.75)
+            ),
+            new RevAndShootState(shooter, BAKED_BEAN.beans, BAKED_BEAN.beans, () -> true).withTimeout(0.5)
+        ));
+        
         NamedCommands.registerCommand("Home", new GoToArmElevatorState(armElevator, HOME));
 
         NamedCommands.registerCommand("Index", new LidarStoppedFeedState(shooter, BAKED_BEAN.beans, LIMA_BEAN.beans));
