@@ -4,7 +4,7 @@
 
 package frc.robot;
 
-import edu.wpi.first.math.geometry.Rotation2d;
+// Setup
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
@@ -30,12 +30,13 @@ import frc.robot.subsystems.drivetrain.states.*;
 // Commands
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.commands.*;
+
+// Autos
 import frc.robot.commands.autos.*;
-import frc.robot.commands.autos.state.DisruptorAuto;
-import frc.robot.commands.autos.state.EightSevenSix;
-import frc.robot.commands.autos.state.FourFiveSix;
-import frc.robot.commands.autos.worlds.Six;
-import frc.robot.commands.autos.worlds.SixSeven;
+import frc.robot.commands.autos.state.*;
+import frc.robot.commands.autos.worlds.*;
+import com.pathplanner.lib.auto.NamedCommands;
+
 // CANdle
 import frc.robot.utils.periodics.Candle;
 import com.ctre.phoenix.led.Animation;
@@ -52,13 +53,11 @@ import static frc.robot.constants.AutoConstants.Paths.*;
 import static frc.robot.constants.HardwareMap.*;
 import static frc.robot.constants.TelemetryConstants.ShuffleboardTables.*;
 import static frc.robot.constants.UniversalConstants.*;
-import static frc.robot.constants.RobotConstants.ArmConstants.*;
 import static frc.robot.constants.RobotConstants.ArmElevatorSetpoints.*;
 import static frc.robot.utils.misc.BEAN.*;
 
 import java.util.*;
 
-import com.pathplanner.lib.auto.NamedCommands;
 
 /**
  * This class is where the bulk of the robot should be declared. Since

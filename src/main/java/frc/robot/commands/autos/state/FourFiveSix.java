@@ -3,7 +3,6 @@ package frc.robot.commands.autos.state;
 import static frc.robot.constants.AutoConstants.Paths.getGlobalTrajectories;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.PathFollowWithEvents;
 import frc.robot.subsystems.armelevator.ArmElevatorSubsystem;
 import frc.robot.subsystems.drivetrain.Drivetrain;

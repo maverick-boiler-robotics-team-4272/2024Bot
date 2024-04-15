@@ -4,7 +4,7 @@ package frc.robot.subsystems.armelevator;
 import org.littletonrobotics.junction.*;
 import frc.robot.utils.logging.*;
 import frc.robot.utils.misc.InterpolationMap;
-import frc.team4272.globals.MathUtils;
+
 // Hardware
 import frc.robot.utils.hardware.*;
 import com.revrobotics.*;
@@ -13,25 +13,24 @@ import com.revrobotics.CANSparkBase.IdleMode;
 import com.revrobotics.CANSparkBase.SoftLimitDirection;
 import com.revrobotics.CANSparkLowLevel.PeriodicFrame;
 
-import edu.wpi.first.math.Pair;
 // Math
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.geometry.*;
+import edu.wpi.first.math.Pair;
 import edu.wpi.first.units.Units;
-import edu.wpi.first.wpilibj2.command.InstantCommand;
+import frc.team4272.globals.MathUtils;
+
 // Subsystem
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 // Constants
 import frc.robot.constants.RobotConstants.ArmElevatorSetpoint;
-
 import static edu.wpi.first.units.Units.Inches;
 import static frc.robot.constants.HardwareMap.*;
 import static frc.robot.constants.RobotConstants.NOMINAL_VOLTAGE;
 import static frc.robot.constants.RobotConstants.ArmConstants.*;
 import static frc.robot.constants.RobotConstants.ElevatorConstants.*;
 import static frc.robot.constants.TelemetryConstants.ShuffleboardTables.AUTO_TABLE;
-import static frc.robot.constants.TelemetryConstants.ShuffleboardTables.TESTING_TABLE;
 
 public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
     @AutoLog

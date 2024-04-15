@@ -1,20 +1,18 @@
 package frc.robot.utils.paths;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.util.ArrayList;
-import java.util.List;
+// Java Packages
+import java.io.*;
+import java.util.*;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
+// JSON packages
+import org.json.simple.*;
 import org.json.simple.parser.JSONParser;
 
+// Pathplanner packages
 import com.pathplanner.lib.auto.CommandUtil;
-import com.pathplanner.lib.path.PathPlannerPath;
-import com.pathplanner.lib.path.PathPlannerTrajectory;
-import com.pathplanner.lib.path.PathSegment;
-import com.pathplanner.lib.path.RotationTarget;
+import com.pathplanner.lib.path.*;
 
+// Parsing
 import edu.wpi.first.math.Pair;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;

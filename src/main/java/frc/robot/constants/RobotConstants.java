@@ -5,7 +5,6 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 
 import static edu.wpi.first.units.Units.*;
-import static frc.robot.constants.RobotConstants.ElevatorConstants.*;
 
 public class RobotConstants {
     private RobotConstants() {

@@ -10,10 +10,7 @@ import static frc.robot.constants.UniversalConstants.*;
 import java.io.File;
 
 import org.littletonrobotics.junction.*;
-import org.littletonrobotics.junction.LoggedRobot;
-import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.networktables.NT4Publisher;
-import org.littletonrobotics.junction.wpilog.WPILOGReader;
 import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 
 import edu.wpi.first.math.geometry.Rotation2d;
