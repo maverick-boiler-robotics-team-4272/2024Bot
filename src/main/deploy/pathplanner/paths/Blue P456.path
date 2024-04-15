@@ -272,7 +272,7 @@
             {
               "type": "named",
               "data": {
-                "name": "AutoShoot"
+                "name": "AimAutoShoot"
               }
             },
             {
@@ -401,7 +401,7 @@
             {
               "type": "named",
               "data": {
-                "name": "AutoShoot"
+                "name": "AimAutoShoot"
               }
             },
             {
