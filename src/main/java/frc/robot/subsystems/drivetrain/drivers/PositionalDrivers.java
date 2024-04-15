@@ -36,6 +36,10 @@ public class PositionalDrivers {
             this.desiredXPosition = xPosition;
         }
 
+        public double getDesiredXPosition() {
+            return desiredXPosition;
+        }
+
         @Override
         public double getSpeed() {
             Pose2d desiredPose = drivetrain.getRobotPose();
@@ -67,6 +71,10 @@ public class PositionalDrivers {
 
         public void setDesiredYPosition(double yPosition) {
             this.desiredYPosition = yPosition;
+        }
+
+        public double getDesiredYPosition() {
+            return desiredYPosition;
         }
 
         @Override
@@ -102,6 +110,10 @@ public class PositionalDrivers {
 
         public void setDesiredAngle(Rotation2d rotation) {
             this.desiredAngle = rotation;
+        }
+
+        public Rotation2d getDesiredAngle() {
+            return desiredAngle;
         }
 
         @Override
