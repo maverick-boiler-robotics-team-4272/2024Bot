@@ -4,6 +4,7 @@ import static frc.robot.constants.RobotConstants.ArmElevatorSetpoints.START_LINE
 import static frc.robot.constants.UniversalConstants.getGlobalPositions;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
 import edu.wpi.first.wpilibj2.command.ParallelRaceGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -39,9 +40,11 @@ public class BaseAuto extends SequentialCommandGroup {
         );
 
         startShot = new ParallelDeadlineGroup(
-            new FacePositionState(drivetrain, () -> 0, () -> 0, getGlobalPositions().SPEAKER_TARGET_POSITION.toTranslation2d()), 
-            new GoToArmElevatorState(armElevator, START_LINE),
-            new AutoShootState(shooter, 1.0, 1.0)
+            new ParallelCommandGroup(
+                new GoToArmElevatorState(armElevator, START_LINE),
+                new AutoShootState(shooter, 1.0, 1.0, 0.6)
+            ),
+            new FacePositionState(drivetrain, () -> 0, () -> 0, getGlobalPositions().SPEAKER_TARGET_POSITION.toTranslation2d())
         );
 
         endShot = new ParallelRaceGroup(

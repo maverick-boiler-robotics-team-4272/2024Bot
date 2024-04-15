@@ -321,6 +321,8 @@ public class RobotContainer {
 
         AUTO_CHOOSER.addOption("P6", () -> new Six(drivetrain, armElevator, shooter));
         AUTO_CHOOSER.addOption("P67", () -> new SixSeven(drivetrain, armElevator, shooter));
+
+        AUTO_CHOOSER.addOption("P65", () -> new SixFive(drivetrain, armElevator, shooter));
         
         AUTO_TABLE.putData("Auto Chooser", AUTO_CHOOSER);
         AUTO_TABLE.putData("Side Chooser", CONTAINER_CHOOSER).withWidget(BuiltInWidgets.kSplitButtonChooser);

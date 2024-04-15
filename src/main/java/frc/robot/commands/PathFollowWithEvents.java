@@ -16,6 +16,10 @@ public class PathFollowWithEvents extends Command {
     private Timer timer;
     private boolean paused;
 
+    public Pausable getPathFollowCommand() {
+        return pathFollowCommand;
+    }
+
     public PathFollowWithEvents(Pausable pathFollowCommand, Path path) {
         m_requirements.addAll(pathFollowCommand.getRequirements());
 
