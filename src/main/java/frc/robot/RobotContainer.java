@@ -131,14 +131,7 @@ public class RobotContainer {
         new Trigger(driverController.getButton("leftBumper")::get).whileTrue(
             new ParallelCommandGroup(
                 new AutoAimCommand(drivetrain, armElevator, driveLeftAxes::getDeadzonedX, driveLeftAxes::getDeadzonedY), 
-                new SequentialCommandGroup(
-                    new ShootState(shooter, BAKED_BEAN.beans, JELLY_BEAN.beans) {
-                        public boolean isFinished() {
-                            return driverController.getButton("rightBumper").get();
-                        }
-                    },
-                    new ShootState(shooter, BAKED_BEAN.beans, BAKED_BEAN.beans)
-                )
+                new RevAndShootState(shooter, BAKED_BEAN.beans, BAKED_BEAN.beans, driverController.getButton("rightBumper")::get)
             )
         );
 
@@ -280,14 +273,7 @@ public class RobotContainer {
         );
         
         new Trigger(operatorController.getButton("leftBumper")::get).whileTrue(
-            new SequentialCommandGroup(
-                new ShootState(shooter, BAKED_BEAN.beans, JELLY_BEAN.beans) {
-                    public boolean isFinished() {
-                        return driverController.getButton("rightBumper").get();
-                    }
-                },
-                new ShootState(shooter, BAKED_BEAN.beans, BAKED_BEAN.beans)
-            )
+            new RevAndShootState(shooter, BAKED_BEAN.beans, BAKED_BEAN.beans, driverController.getButton("rightBumper")::get)
         );
 
         AUTO_TABLE.putBoolean("Is Latched", false).withSize(5, 5);
@@ -369,9 +355,6 @@ public class RobotContainer {
         NamedCommands.registerCommand("Home", new GoToArmElevatorState(armElevator, HOME));
 
         NamedCommands.registerCommand("Index", new LidarStoppedFeedState(shooter, BAKED_BEAN.beans, LIMA_BEAN.beans));
-
-        TESTING_TABLE.putData("Auto Shoot Command", NamedCommands.getCommand("AutoShoot"));
-
     }
 
     private void configureSignalingBindings() {
