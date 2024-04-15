@@ -17,6 +17,8 @@ import static frc.robot.constants.AutoConstants.PathFollowConstants.DEFAULT_POSE
 import static frc.robot.constants.AutoConstants.Paths.getGlobalTrajectories;
 import static frc.robot.constants.RobotConstants.ArmElevatorSetpoints.SUB_SHOT;
 
+import com.pathplanner.lib.auto.NamedCommands;
+
 public class OneTwoThreePlusTwo extends SequentialCommandGroup {
     public OneTwoThreePlusTwo(Drivetrain drivetrain, ArmElevatorSubsystem armElevator, Shooter shooter) {
         super(
@@ -38,10 +40,7 @@ public class OneTwoThreePlusTwo extends SequentialCommandGroup {
                     DEFAULT_POSE_DELTA), 
                 getGlobalTrajectories().P_123PLUS_SUB
             ),
-            new ParallelRaceGroup(
-                new AutoAimCommand(drivetrain, armElevator, () -> 0, () -> 0),
-                new AutoShootState(shooter, 1.0, 1.0)
-            ),
+            NamedCommands.getCommand("AimAutoShoot"),
             new PathFollowWithEvents(
                 new PathFollowState(
                     drivetrain, 
