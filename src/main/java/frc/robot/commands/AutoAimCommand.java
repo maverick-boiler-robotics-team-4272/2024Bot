@@ -13,6 +13,7 @@ import java.util.function.DoubleSupplier;
 
 // Constants
 import static frc.robot.constants.UniversalConstants.*;
+
 public class AutoAimCommand extends ParallelCommandGroup {
     public AutoAimCommand(Drivetrain drivetrain, ArmElevatorSubsystem armElevator, DoubleSupplier xSpeed, DoubleSupplier ySpeed) {
         super(
@@ -21,4 +22,3 @@ public class AutoAimCommand extends ParallelCommandGroup {
         );
     }
 }
-
