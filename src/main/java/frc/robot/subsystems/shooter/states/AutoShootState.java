@@ -8,9 +8,9 @@ import static frc.robot.utils.misc.BEAN.*;
 public class AutoShootState extends SequentialCommandGroup {
     public AutoShootState(Shooter shooter, double shootPower, double feedPower, double delay) {
         super(
-            new LidarStoppedFeedState(shooter, LIMA_BEAN.dip().beans),
+            new LidarStoppedFeedState(shooter, LIMA_BEAN.dip().beans).withTimeout(1.0),
             new RevState(shooter, shootPower).withTimeout(delay),
-            new ShootState(shooter, shootPower, feedPower, true)
+            new ShootState(shooter, shootPower, feedPower, true).withTimeout(2.0)
         );
     }
 
