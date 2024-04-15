@@ -179,8 +179,8 @@ public class PathFollowState extends AbstractDriveState<PathDrivers.XDriver, Pat
                 Pose2d initialPose = new Pose2d(initHolo.getTranslation(), path.initialPathRotation);
 
                 //TODO: figure out why robo no roto
-                requiredSubsystem.setRobotPose(initialPose);
                 requiredSubsystem.setGyroscopeReading(path.initialPathRotation);
+                requiredSubsystem.setRobotPose(initialPose);
             }
         }
     }
