@@ -53,5 +53,5 @@ Operator Controls:
 
     Right Trigger: Outfeed and Outtake
 
-    Left Joystick: Unassigned
+    Left Joystick: Run Climbing
     Right Joystick: Unassigned
