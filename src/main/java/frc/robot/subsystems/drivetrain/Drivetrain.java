@@ -28,7 +28,6 @@ import static frc.robot.constants.RobotConstants.DrivetrainConstants.SwerveModul
 import static frc.robot.constants.TelemetryConstants.Limelights.*;
 import static frc.robot.constants.UniversalConstants.*;
 
-
 public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements Loggable {
     @AutoLog
     public static class DrivetrainInputs {

@@ -22,13 +22,6 @@ import frc.robot.subsystems.shooter.states.AutoShootState;
 public class SixFive extends SequentialCommandGroup {
     public SixFive(Drivetrain drivetrain, ArmElevatorSubsystem armElevator, Shooter shooter) {
         super(
-            new ParallelDeadlineGroup(
-                new ParallelCommandGroup(
-                    new GoToArmElevatorState(armElevator, START_LINE),
-                    new AutoShootState(shooter, 1.0, 1.0, 0.6)
-                ),
-                new FacePositionState(drivetrain, () -> 0, () -> 0, getGlobalPositions().SPEAKER_TARGET_POSITION.toTranslation2d(
-            ),
             new PathFollowWithEvents(new PathFollowState(drivetrain, getGlobalTrajectories().P_65, true, false), getGlobalTrajectories().P_65),
             new ParallelRaceGroup(
                 new AutoAimCommand(drivetrain, armElevator, () -> 0, () -> 0),

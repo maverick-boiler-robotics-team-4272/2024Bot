@@ -227,6 +227,42 @@
           ]
         }
       }
+    },
+    {
+      "name": "Pause",
+      "waypointRelativePos": 0.049999999999999996,
+      "command": {
+        "type": "deadline",
+        "data": {
+          "commands": [
+            {
+              "type": "parallel",
+              "data": {
+                "commands": [
+                  {
+                    "type": "named",
+                    "data": {
+                      "name": "Line"
+                    }
+                  },
+                  {
+                    "type": "named",
+                    "data": {
+                      "name": "Shoot"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "Face"
+              }
+            }
+          ]
+        }
+      }
     }
   ],
   "globalConstraints": {
