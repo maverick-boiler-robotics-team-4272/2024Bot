@@ -13,7 +13,7 @@ Driver Controls:
     Right Stick: Face speaker
 
     Back: Reset modules (Reset module rotation based on mavcoders)
-    Start: Rev to speeds to fire over stage
+    Start: Unassigned
 
     D-Pad: Unassigned
 
@@ -26,17 +26,17 @@ Driver Controls:
 
 Operator Controls:
     A: Amp Outfeed
-    B: Unassigned
+    B: Run down elevator for zeroing
     X: Trap Setpoint
-    Y: Reset odometry (Limelight)
+    Y: Manual mode for climbing
 
     Left Bumper: Rev
     Right Bumper: Source intake through shooter setpoint
 
-    Left Stick Click: Unassigned
+    Left Stick Click: Latch elevator
     Right Stick Click: Unassigned
 
-    Back: Unassigned
+    Back: Lidar intake Override
     Start: Unassigned
 
     D-Pad: Arm Elevator Setpoints
@@ -53,5 +53,5 @@ Operator Controls:
 
     Right Trigger: Outfeed and Outtake
 
-    Left Joystick: Unassigned
+    Left Joystick: Run Climbing
     Right Joystick: Unassigned

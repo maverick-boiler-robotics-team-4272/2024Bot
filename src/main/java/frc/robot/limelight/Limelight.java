@@ -31,7 +31,7 @@ public final class Limelight implements Periodic, Loggable {
         kOn
     }
 
-    private static final int ARRAY_LENGTH = 11;
+    private static final int ARRAY_LENGTH = 25;
 
     private final String tableName;
     private String logName;
@@ -40,7 +40,6 @@ public final class Limelight implements Periodic, Loggable {
     private boolean filtered = false;
     private double[] updateCycleRobotPose = new double[ARRAY_LENGTH];
 
-    // TODO: Tune this size
     private static final int FILTER_SIZE = 11;
 
     private MedianFilter xPositionFilter = new MedianFilter(FILTER_SIZE);
@@ -133,6 +132,10 @@ public final class Limelight implements Periodic, Loggable {
         double[] pose = getBotPose();
 
         return (inputs.validTarget = !(pose[0] == 0 && pose[1] == 0 && pose[5] == 0));
+    }
+
+    public boolean getTV() {
+        return LimelightHelpers.getTV(tableName);
     }
 
     public double getTX() {

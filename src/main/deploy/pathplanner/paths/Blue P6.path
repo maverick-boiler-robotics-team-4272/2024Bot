@@ -1,0 +1,188 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 1.4620660010550806,
+        "y": 6.77
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 2.1454890270693507,
+        "y": 6.382405917450922
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.951974365487194,
+        "y": 6.265508684863524
+      },
+      "prevControl": {
+        "x": 1.9519743654871942,
+        "y": 6.265508684863524
+      },
+      "nextControl": {
+        "x": 3.951974365487194,
+        "y": 6.265508684863524
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 4.9549637560813595,
+        "y": 4.223051523026124
+      },
+      "prevControl": {
+        "x": 4.524119267211934,
+        "y": 4.53002822134559
+      },
+      "nextControl": {
+        "x": 5.744319180946055,
+        "y": 3.6606357828100275
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 8.28012348332389,
+        "y": 4.1046482092964185
+      },
+      "prevControl": {
+        "x": 6.878563551108003,
+        "y": 4.087761945052852
+      },
+      "nextControl": {
+        "x": 9.099079736621013,
+        "y": 4.114515152107228
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 4.254410816513942,
+        "y": 4.755866434809793
+      },
+      "prevControl": {
+        "x": 5.48777866786503,
+        "y": 3.917176295891054
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.0,
+      "rotationDegrees": 180.0,
+      "rotateFast": false
+    },
+    {
+      "waypointRelativePos": 3.0,
+      "rotationDegrees": 180.0,
+      "rotateFast": false
+    }
+  ],
+  "constraintZones": [],
+  "eventMarkers": [
+    {
+      "name": "6 I",
+      "waypointRelativePos": 2.7,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "Intake"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Pause",
+      "waypointRelativePos": 0,
+      "command": {
+        "type": "deadline",
+        "data": {
+          "commands": [
+            {
+              "type": "sequential",
+              "data": {
+                "commands": [
+                  {
+                    "type": "wait",
+                    "data": {
+                      "waitTime": 0.1
+                    }
+                  },
+                  {
+                    "type": "named",
+                    "data": {
+                      "name": "Shoot"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "Face"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "Line"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Down",
+      "waypointRelativePos": 0.5,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "Home"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 161.5650511770779,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "Worlds",
+  "previewStartingState": {
+    "rotation": 180.0,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}

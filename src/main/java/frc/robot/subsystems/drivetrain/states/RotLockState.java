@@ -1,50 +1,37 @@
 package frc.robot.subsystems.drivetrain.states;
 
 import frc.robot.subsystems.drivetrain.Drivetrain;
-
-import static frc.robot.constants.AutoConstants.PathFollowConstants.*;
-import static frc.robot.constants.RobotConstants.DrivetrainConstants.MAX_TRANSLATIONAL_SPEED;
+import frc.robot.subsystems.drivetrain.drivers.ControllerDrivers;
+import frc.robot.subsystems.drivetrain.drivers.PositionalDrivers;
 
 import java.util.function.DoubleSupplier;
 import java.util.function.Supplier;
 
 import edu.wpi.first.math.geometry.Rotation2d;
 
-public class RotLockState extends PositionalDriveState {
-    DoubleSupplier xSpeed;
-    DoubleSupplier ySpeed;
+public class RotLockState extends AbstractDriveState<ControllerDrivers.YDriver, ControllerDrivers.XDriver, PositionalDrivers.ThetaDriver> {
     Supplier<Rotation2d> theta;
 
     public RotLockState(Drivetrain drivetrain, DoubleSupplier xSpeed, DoubleSupplier ySpeed, Supplier<Rotation2d> theta) {
-        super(drivetrain, X_CONTROLLER, Y_CONTROLLER, THETA_CONTROLLER);
+        super(
+            drivetrain,
+            new ControllerDrivers.YDriver(ySpeed),
+            new ControllerDrivers.XDriver(xSpeed),
+            new PositionalDrivers.ThetaDriver(drivetrain)
+        );
 
-        this.xSpeed = xSpeed;
-        this.ySpeed = ySpeed;
         this.theta = theta;
     }
 
     @Override
-    public double getDesiredX() {
-        return 0;
+    public boolean isFieldRelative() {
+        return true;
     }
 
     @Override
-    public double getDesiredY() {
-        return 0;
-    }
+    public void execute() {
+        thetaDriver.setDesiredAngle(theta.get());
 
-    @Override
-    public Rotation2d getDesiredTheta() {
-        return theta.get();
-    }
-
-    @Override
-    public double getXSpeed() {
-        return ySpeed.getAsDouble() * MAX_TRANSLATIONAL_SPEED;
-    }
-
-    @Override
-    public double getYSpeed() {
-        return -xSpeed.getAsDouble() * MAX_TRANSLATIONAL_SPEED;
+        drive();
     }
 }

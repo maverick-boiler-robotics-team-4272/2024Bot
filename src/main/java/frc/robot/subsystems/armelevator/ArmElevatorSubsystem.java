@@ -4,28 +4,33 @@ package frc.robot.subsystems.armelevator;
 import org.littletonrobotics.junction.*;
 import frc.robot.utils.logging.*;
 import frc.robot.utils.misc.InterpolationMap;
-import frc.team4272.globals.MathUtils;
+
 // Hardware
 import frc.robot.utils.hardware.*;
 import com.revrobotics.*;
 import com.revrobotics.CANSparkBase.ControlType;
 import com.revrobotics.CANSparkBase.IdleMode;
+import com.revrobotics.CANSparkBase.SoftLimitDirection;
 import com.revrobotics.CANSparkLowLevel.PeriodicFrame;
 
-import edu.wpi.first.math.Pair;
 // Math
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.geometry.*;
+import edu.wpi.first.math.Pair;
+import edu.wpi.first.units.Units;
+import frc.team4272.globals.MathUtils;
 
 // Subsystem
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 // Constants
 import frc.robot.constants.RobotConstants.ArmElevatorSetpoint;
+import static edu.wpi.first.units.Units.Inches;
 import static frc.robot.constants.HardwareMap.*;
 import static frc.robot.constants.RobotConstants.NOMINAL_VOLTAGE;
 import static frc.robot.constants.RobotConstants.ArmConstants.*;
 import static frc.robot.constants.RobotConstants.ElevatorConstants.*;
+import static frc.robot.constants.TelemetryConstants.ShuffleboardTables.AUTO_TABLE;
 
 public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
     @AutoLog
@@ -41,9 +46,10 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
         public double elevatorHeightError;
     }
 
-    private NEO elevatorMotor1;
-    private NEO elevatorMotor2;
+    private Vortex elevatorMotor1;
+    private Vortex elevatorMotor2;
     private Vortex armMotor;
+    private NEO latchMotor;
 
     private RelativeEncoder armEncoder;
     private RelativeEncoder elevatorEncoder;
@@ -55,11 +61,16 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
 
     @SuppressWarnings({ "unchecked" })
     private InterpolationMap map = new InterpolationMap((Pair<Double, Double>[])new Pair[] {
-        new Pair<Double, Double>(1.67, 45.0),
-        new Pair<Double, Double>(2.20, 40.0),
-        new Pair<Double, Double>(2.65, 37.0),
-        new Pair<Double, Double>(3.37, 33.5),
-        new Pair<Double, Double>(4.73, 30.0)
+        new Pair<Double, Double>(1.9, 45.0),
+        new Pair<Double, Double>(2.15, 42.0),
+        new Pair<Double, Double>(2.4, 40.0),
+        new Pair<Double, Double>(2.7, 37.5),
+        new Pair<Double, Double>(3.0, 35.5),
+        new Pair<Double, Double>(3.2, 33.5),
+        new Pair<Double, Double>(3.7, 31.0),
+        new Pair<Double, Double>(4.2, 29.5),
+        new Pair<Double, Double>(4.8, 28.0),
+        new Pair<Double, Double>(5.3, 27.0)
     });
 
     private ArmFeedforward armFeedforward = new ArmFeedforward(0, ARM_PID_F, 0, 0);
@@ -68,21 +79,24 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
 
     private Rotation2d desiredArmAngle;
 
+    private boolean manualControl = false;
+
     public ArmElevatorSubsystem() {
-        elevatorMotor1 = NEOBuilder.create(ELEVATOR_MOTOR_1_ID)
+        elevatorMotor1 = VortexBuilder.create(ELEVATOR_MOTOR_1_ID)
             .withVoltageCompensation(NOMINAL_VOLTAGE)
             .withPosition(0)
+            .withIdleMode(IdleMode.kBrake)
             .withPositionConversionFactor(ELEVATOR_RATIO)
             .withSoftLimits(MAX_ELEVATOR_HEIGHT, MIN_ELEVATOR_HEIGHT)
             .withPIDParams(ELEVATOR_PID_P, ELEVATOR_PID_I, ELEVATOR_PID_D)
             .withPIDClamping(ELEVATOR_OUTPUT_MIN, ELEVATOR_OUTPUT_MAX)
-            .withInversion(true)
+            .withInversion(false)
             .withPeriodicFramerate(PeriodicFrame.kStatus1, 500)
             .withPeriodicFramerate(PeriodicFrame.kStatus3, 500)
             .withCurrentLimit(50)
             .build();
         
-        elevatorMotor2 = NEOBuilder.create(ELEVATOR_MOTOR_2_ID)
+        elevatorMotor2 = VortexBuilder.create(ELEVATOR_MOTOR_2_ID)
             .withVoltageCompensation(NOMINAL_VOLTAGE)
             .withIdleMode(IdleMode.kBrake)
             .asFollower(elevatorMotor1, true)
@@ -90,7 +104,7 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
             .withPeriodicFramerate(PeriodicFrame.kStatus1, 500)
             .withPeriodicFramerate(PeriodicFrame.kStatus2, 500)
             .withPeriodicFramerate(PeriodicFrame.kStatus3, 500)
-            .getUnburntNeo();
+            .build();
 
         armMotor = VortexBuilder.create(ARM_MOTOR_ID)
             .withVoltageCompensation(NOMINAL_VOLTAGE)
@@ -101,9 +115,17 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
             // .withPosition(0.0)
             .withSoftLimits(MAX_ARM_ANGLE.getRadians(), MIN_ARM_ANGLE.getRadians())
             .withPIDParams(ARM_PID_P, ARM_PID_I, ARM_PID_D)
+            .withMaxIAccum(ARM_MAX_I_ACCUM)
             .withPIDPositionWrapping(0, 2 * Math.PI)
             .withPeriodicFramerate(PeriodicFrame.kStatus1, 500)
             .withPeriodicFramerate(PeriodicFrame.kStatus3, 500)
+            .getUnburntVortex();
+
+        latchMotor = NEOBuilder.create(LATCH_MOTOR_ID)
+            .withVoltageCompensation(NOMINAL_VOLTAGE)
+            .withIdleMode(IdleMode.kCoast)
+            .withInversion(true)
+            .withCurrentLimit(1)
             .getUnburntNeo();
 
         armElevatorInputs = new ArmElevatorInputsAutoLogged();
@@ -115,8 +137,8 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
 
         desiredArmAngle = Rotation2d.fromRadians(armElevatorInputs.desiredArmAngleRadians);
 
-        armAbsoluteEncoder = new MAVCoder2(elevatorMotor2, ARM_OFFSET);
-        elevatorMotor2.burnFlash();
+        armAbsoluteEncoder = new MAVCoder2(latchMotor, ARM_OFFSET);
+        latchMotor.burnFlash();
 
         try {
             Thread.sleep(300);
@@ -131,6 +153,8 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
         elevatorEncoder = elevatorMotor1.getEncoder();
 
         armEncoder.setPosition(-armAbsoluteEncoder.getPosition() * Math.PI / 180.0);
+
+        latchMotor.set(-0.1);
     }
 
     public void resetArmMotor() {
@@ -147,6 +171,26 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
 
     private void setShooterRotation(Rotation2d r) {
         armController.setReference(r.getRadians(), ControlType.kPosition, 0, armFeedforward.calculate(armEncoder.getPosition(), 0));
+    }
+
+    public double getShooterRotation() {
+        return armEncoder.getPosition();
+    }
+
+    public double getShooterDesiredRotation() {
+        return armElevatorInputs.desiredArmAngleRadians;
+    }
+
+    public double getElevatorHeight() {
+        return elevatorEncoder.getPosition();
+    }
+
+    public double getElevatorDesiredHeight() {
+        return armElevatorInputs.desiredElevatorHeight;
+    }
+
+    public double getElevatorMotorCurrent() {
+        return elevatorMotor1.getOutputCurrent();
     }
 
     private void setElevatorHeight(double h) {
@@ -171,6 +215,7 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
 
     public void targetPos(Translation2d drivetrainPos, Translation3d position) {
         Rotation2d theta = Rotation2d.fromDegrees(map.getInterpolatedValue(drivetrainPos.getDistance(position.toTranslation2d())));
+        theta = theta.plus(Rotation2d.fromDegrees(-2.0));
         
         if(theta.getDegrees() > MAX_SAFE_ANGLE.getDegrees()) {
             theta = MAX_SAFE_ANGLE;
@@ -182,11 +227,37 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
     }
 
     public void runElevator(double power) {
+        if(!manualControl)
+            manualControl = true;
         elevatorMotor1.set(power);
     }
 
+    public void removeManualControl() {
+        manualControl = false;
+    }
+
     public void zeroElevator() {
-        elevatorEncoder.setPosition(0);
+        elevatorEncoder.setPosition(Units.Meters.convertFrom(0.2, Inches));
+    }
+
+    public void disableSoftLimits() {
+        elevatorMotor1.enableSoftLimit(SoftLimitDirection.kForward, false);
+        elevatorMotor1.enableSoftLimit(SoftLimitDirection.kReverse, false);
+    }
+
+    public void enableSoftLimits() {
+        elevatorMotor1.enableSoftLimit(SoftLimitDirection.kForward, true);
+        elevatorMotor1.enableSoftLimit(SoftLimitDirection.kReverse, true);
+    }
+
+    public void elevatorGoNyrooom() {
+        elevatorMotor1.setSmartCurrentLimit(80);
+        elevatorMotor2.setSmartCurrentLimit(80);
+    }
+
+    public void elevatorGoNotSoNyroom() {
+        elevatorMotor1.setSmartCurrentLimit(50);
+        elevatorMotor2.setSmartCurrentLimit(50);
     }
 
     public void handleSafety() {
@@ -206,14 +277,24 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
             setShooterRotation(new Rotation2d(safeTheta + Math.PI / 2.0));
         }
 
-        if(armElevatorInputs.desiredElevatorHeight > safeHeight) {
-            setElevatorHeight(armElevatorInputs.desiredElevatorHeight);
-        } else {
-            setElevatorHeight(safeHeight);
+        if(!manualControl) {
+            if(armElevatorInputs.desiredElevatorHeight > safeHeight) {
+                setElevatorHeight(armElevatorInputs.desiredElevatorHeight);
+            } else {
+                setElevatorHeight(safeHeight);
+            }
         }
 
         armElevatorInputs.safeArmAngleRadians = safeTheta;
         armElevatorInputs.safeElevatorHeight = safeHeight;
+    }
+
+    public void latch() {
+        latchMotor.set(0.50);
+    }
+
+    public void unlatch() {
+        latchMotor.set(-0.50);
     }
 
     @Override
@@ -221,6 +302,7 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
         elevatorMotor1.log(subdirectory + "/" + humanReadableName, "ElevatorMotor1");
         elevatorMotor2.log(subdirectory + "/" + humanReadableName, "ElevatorMotor2");
         armMotor.log(subdirectory + "/" + humanReadableName, "ArmMotor");
+        latchMotor.log(subdirectory + "/" + humanReadableName, "LatchMotor");
         armAbsoluteEncoder.log(subdirectory + "/" + humanReadableName, "ArmAbsoluteEncoder");
 
         armElevatorInputs.currentElevatorHeight = elevatorEncoder.getPosition();
@@ -236,5 +318,7 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
     public void periodic() {
         handleSafety();
         log("Subsystems", "ArmElevator");
+
+        AUTO_TABLE.putNumber("Elevator Motor 1 Current", elevatorMotor1.getOutputCurrent());
     }
 }

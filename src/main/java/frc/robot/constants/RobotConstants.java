@@ -5,8 +5,6 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
 
 import static edu.wpi.first.units.Units.*;
-import static frc.robot.constants.RobotConstants.ArmConstants.*;
-import static frc.robot.constants.RobotConstants.ElevatorConstants.*;
 
 public class RobotConstants {
     private RobotConstants() {
@@ -22,8 +20,8 @@ public class RobotConstants {
         }
         public static final double DRIVEBASE_HALF_WIDTH = Meters.convertFrom(9.875, Inches);
         public static final double DRIVEBASE_HALF_HEIGHT = Meters.convertFrom(8.875, Inches);
-        public static final double MAX_TRANSLATIONAL_SPEED = 4.0;
-        public static final double MAX_ROTATIONAL_SPEED = 3 * Math.PI;
+        public static final double MAX_TRANSLATIONAL_SPEED = 5.0;
+        public static final double MAX_ROTATIONAL_SPEED = 4 * Math.PI;
 
         public static final Translation2d FRONT_LEFT_POSITION  = new Translation2d(-DRIVEBASE_HALF_WIDTH,  DRIVEBASE_HALF_HEIGHT);
         public static final Translation2d FRONT_RIGHT_POSITION = new Translation2d(-DRIVEBASE_HALF_WIDTH, -DRIVEBASE_HALF_HEIGHT);
@@ -36,9 +34,9 @@ public class RobotConstants {
         // public static final Translation2d BACK_RIGHT_POSITION  = new Translation2d( WHEEL_DISTANCE, -WHEEL_DISTANCE);
 
         public static final double FRONT_LEFT_OFFSET  = 115.0;
-        public static final double FRONT_RIGHT_OFFSET = 235.0;
-        public static final double BACK_LEFT_OFFSET   = 165.0;
-        public static final double BACK_RIGHT_OFFSET  =  98.0;
+        public static final double FRONT_RIGHT_OFFSET = 293.0;
+        public static final double BACK_LEFT_OFFSET   = 239.0;
+        public static final double BACK_RIGHT_OFFSET  = 98.0;
         
         public static class SwerveModuleConstants {
             private SwerveModuleConstants() {
@@ -46,7 +44,7 @@ public class RobotConstants {
             }
 
             public static final double WHEEL_RADIUS = 2.0; // Inches
-            public static final double MAX_MODULE_SPEED = MetersPerSecond.convertFrom(14.5, FeetPerSecond);
+            public static final double MAX_MODULE_SPEED = MetersPerSecond.convertFrom(17.0, FeetPerSecond);
 
             public static final double DRIVE_RATIO = 6.75 / 1.0 * 14.0 / 16.0; // Swapped a gear, slightly different ratio... grr...
             public static final double STEER_RATIO = 150.0 / 7.0;
@@ -94,17 +92,22 @@ public class RobotConstants {
     // Limelight 2+ Position: (Forward: -0.290m, Up (From ground): 0.345m, L/R: 0.014m, Roll: 0.0deg, Pitch: 0.0deg, Yaw: 180.0deg)
     public static enum ArmElevatorSetpoints implements ArmElevatorSetpoint {
         ZERO(new Rotation2d(0), 0),
-        HOME(Rotation2d.fromDegrees(35.0), Meters.convertFrom(0.5, Inches)),
-        WHITE_LINE(new Rotation2d(0.74), 0),
+        HOME(Rotation2d.fromDegrees(35.0), Meters.convertFrom(0.1, Inches)),
+        WHITE_LINE(Rotation2d.fromDegrees(45), 0),
         TEST(Rotation2d.fromDegrees(0.0), Meters.convertFrom(12.0, Inches)),
-        AMP(Rotation2d.fromDegrees(-20.0), Meters.convertFrom(19.0, Inches)),
+        AMP(Rotation2d.fromDegrees(-17.0), Meters.convertFrom(19.0, Inches)),
+        AMP_LOW(Rotation2d.fromDegrees(46), Meters.convertFrom(5.0, Inches)),
         // AMP(new Rotation2d(0.813), 0.190),
-        CLIMB(new Rotation2d(0), MAX_ELEVATOR_HEIGHT),
+        CLIMB(Rotation2d.fromDegrees(0), Meters.convertFrom(12, Inches)),
         PODIUM(Rotation2d.fromDegrees(30.0), Meters.convertFrom(13.0, Inches)),
-        TRAP(Rotation2d.fromDegrees(48.0), Meters.convertFrom(15.0, Inches)),
-        AUTO_LINE(Rotation2d.fromDegrees(48.0), Meters.convertFrom(13.0, Inches)),
-        SUB_SHOT(Rotation2d.fromDegrees(48.0), Meters.convertFrom(13.0, Inches)),
-        SOURCE(Rotation2d.fromDegrees(48.0), Meters.convertFrom(5.0, Inches));
+
+        TRAP(Rotation2d.fromDegrees(45.0), Meters.convertFrom(18, Inches)),
+
+        SUB_SHOT(Rotation2d.fromDegrees(45.0), Meters.convertFrom(15.0, Inches)),
+        AUTO_LINE(SUB_SHOT.getArmAngle(), SUB_SHOT.getElevatorHeight()),
+        SOURCE(Rotation2d.fromDegrees(45.0), Meters.convertFrom(5.0, Inches)),
+
+        START_LINE(Rotation2d.fromDegrees(45), Meters.convertFrom(2, Inches));
 
         private Rotation2d armAngle;
         private double elevatorHeight;
@@ -127,9 +130,11 @@ public class RobotConstants {
 
     public static class ArmConstants {
         public static final double ARM_PID_P = 1.2;
-        public static final double ARM_PID_I = 0.0001;
+        public static final double ARM_PID_I = 0.0003;
         public static final double ARM_PID_D = 0.0;
         public static final double ARM_PID_F = 0.17;
+
+        public static final double ARM_MAX_I_ACCUM = 0.1;
 
         public static final double ARM_LENGTH = Meters.convertFrom(16.0, Inches);
 
@@ -157,7 +162,7 @@ public class RobotConstants {
         public static final double ELEVATOR_PID_F = 0.5;
 
         public static final double ELEVATOR_OUTPUT_MAX = 1.0;
-        public static final double ELEVATOR_OUTPUT_MIN = -0.50;
+        public static final double ELEVATOR_OUTPUT_MIN = -0.65;
         
 
         public static final double ELEVATOR_HEIGHT_DEADZONE = Meters.convertFrom(2.0, Centimeters);
@@ -166,10 +171,10 @@ public class RobotConstants {
 
         public static final Translation3d ELEVATOR_TRANSLATION = new Translation3d(0, Meters.convertFrom(2.0, Inches), Meters.convertFrom(12.5, Inches));
 
-        public static final double ELEVATOR_RATIO = Meters.convertFrom(18.0, Millimeters) / 1.0; //Find empericaly
+        public static final double ELEVATOR_RATIO = Meters.convertFrom(12, Millimeters); //Find empericaly
 
         public static final double MAX_ELEVATOR_HEIGHT = Meters.convertFrom(20.0, Inches);
-        public static final double MIN_ELEVATOR_HEIGHT = Meters.convertFrom(0, Inches);
+        public static final double MIN_ELEVATOR_HEIGHT = Meters.convertFrom(0.25, Inches);
     }
 
     public static class ClimberConstants {
@@ -184,5 +189,15 @@ public class RobotConstants {
 
         public static final double CLIMBER_MIN_HEIGHT = 0.0;
         public static final double CLIMBER_MAX_HEIGHT = 150.0;
+    }
+
+    public static class LimelightConstants {
+
+        // X: Left/Right, Y: Front/Back, Z: Up/Down
+        public static final Translation3d LIMELIGHT_FRONT_POSITION = new Translation3d(0.0, 0.262, 0.183);
+        public static final Translation3d LIMELIGHT_BACK_POSITION = new Translation3d(0.0, 0.262 - Meters.convertFrom(25, Inches), Meters.convertFrom(13.75, Inches));
+
+        public static final Rotation2d LIMELIGHT_BACK_PITCH = Rotation2d.fromDegrees(67.80);
+        public static final Rotation2d LIMELIGHT_FRONT_PITCH = Rotation2d.fromDegrees(35.0);
     }
 }

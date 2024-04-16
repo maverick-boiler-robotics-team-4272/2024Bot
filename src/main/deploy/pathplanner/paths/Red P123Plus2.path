@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 15.214782612161516,
-        "y": 5.550936522700434
+        "x": 15.274573713864262,
+        "y": 5.468960666879964
       },
       "prevControl": null,
       "nextControl": {
-        "x": 14.711568528810274,
-        "y": 5.294396009619407
+        "x": 14.77135963051302,
+        "y": 5.212420153798937
       },
       "isLocked": false,
       "linkedName": null
@@ -80,32 +80,32 @@
     },
     {
       "anchor": {
-        "x": 14.55673602997206,
-        "y": 6.916726910376898
+        "x": 14.185465915106583,
+        "y": 6.827417706190619
       },
       "prevControl": {
-        "x": 14.626498399064104,
-        "y": 6.873713206561029
+        "x": 14.255228284198628,
+        "y": 6.7844040023747505
       },
       "nextControl": {
-        "x": 14.486973660880015,
-        "y": 6.959740614192767
+        "x": 14.115703546014537,
+        "y": 6.870431410006488
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 13.866050033215451,
-        "y": 7.084464938160646
+        "x": 13.892695001462045,
+        "y": 7.06163443710625
       },
       "prevControl": {
-        "x": 13.943752207850569,
-        "y": 6.914260174674196
+        "x": 13.970397176097162,
+        "y": 6.8914296736197995
       },
       "nextControl": {
-        "x": 13.788347858580332,
-        "y": 7.254669701647096
+        "x": 13.814992826826927,
+        "y": 7.2318392005927
       },
       "isLocked": false,
       "linkedName": null
@@ -116,7 +116,7 @@
         "y": 6.48
       },
       "prevControl": {
-        "x": 13.969354970594557,
+        "x": 13.969354970594559,
         "y": 6.726673570270217
       },
       "nextControl": null,
@@ -159,10 +159,10 @@
   "constraintZones": [
     {
       "name": "Testing",
-      "minWaypointRelativePos": 0,
-      "maxWaypointRelativePos": 0,
+      "minWaypointRelativePos": 0.0,
+      "maxWaypointRelativePos": 7.0,
       "constraints": {
-        "maxVelocity": 1.5,
+        "maxVelocity": 2.0,
         "maxAcceleration": 3.0,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0
@@ -189,7 +189,7 @@
     },
     {
       "name": "Pause",
-      "waypointRelativePos": 1.5,
+      "waypointRelativePos": 1.4500000000000002,
       "command": {
         "type": "parallel",
         "data": {
@@ -257,7 +257,7 @@
     },
     {
       "name": "Id",
-      "waypointRelativePos": 6.6499999999999995,
+      "waypointRelativePos": 6.6,
       "command": {
         "type": "parallel",
         "data": {
@@ -266,6 +266,23 @@
               "type": "named",
               "data": {
                 "name": "Index"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Down",
+      "waypointRelativePos": 0.0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "Home"
               }
             }
           ]

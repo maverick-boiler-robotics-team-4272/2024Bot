@@ -6,7 +6,6 @@ import frc.robot.commands.PathFollowWithEvents;
 import frc.robot.subsystems.armelevator.ArmElevatorSubsystem;
 import frc.robot.subsystems.drivetrain.Drivetrain;
 import frc.robot.subsystems.drivetrain.states.PathFollowState;
-import frc.robot.subsystems.intake.IntakeSubsystem;
 import frc.robot.subsystems.shooter.Shooter;
 
 public class OneTwoThreeEight extends OneTwoThree {

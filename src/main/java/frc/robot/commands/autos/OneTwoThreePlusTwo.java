@@ -15,34 +15,32 @@ import frc.robot.subsystems.shooter.Shooter;
 import static frc.robot.constants.AutoConstants.PathFollowConstants.DEFAULT_POSE_DELTA;
 // Constants
 import static frc.robot.constants.AutoConstants.Paths.getGlobalTrajectories;
-import static frc.robot.constants.RobotConstants.ArmElevatorSetpoints.HOME;
 import static frc.robot.constants.RobotConstants.ArmElevatorSetpoints.SUB_SHOT;
+
+import com.pathplanner.lib.auto.NamedCommands;
 
 public class OneTwoThreePlusTwo extends SequentialCommandGroup {
     public OneTwoThreePlusTwo(Drivetrain drivetrain, ArmElevatorSubsystem armElevator, Shooter shooter) {
         super(
             new InstantCommand(drivetrain::disableVisionFusion),
             new InstantCommand(drivetrain::resetModules),
-            new GoToArmElevatorState(armElevator, SUB_SHOT).raceWith(
-                new AutoShootState(shooter, 1.0, 1.0)
-            ),
-            new GoToArmElevatorState(armElevator, HOME),
+            new ParallelDeadlineGroup(
+                new AutoShootState(shooter, 1.0, 1.0),
+                new GoToArmElevatorState(armElevator, SUB_SHOT)
+            ), //Arm goes home in path
             new PathFollowWithEvents(
                 new PathFollowState(
                     drivetrain, 
-                    getGlobalTrajectories().P_123PLUSTWO,
+                    getGlobalTrajectories().P_123PLUS_SUB,
                     true,
                     false
                 ).withEndConditions(
                     true, 
                     false, 
                     DEFAULT_POSE_DELTA), 
-                getGlobalTrajectories().P_123PLUSTWO
+                getGlobalTrajectories().P_123PLUS_SUB
             ),
-            new ParallelRaceGroup(
-                new AutoAimCommand(drivetrain, armElevator, () -> 0, () -> 0),
-                new AutoShootState(shooter, 1.0, 1.0)
-            ),
+            NamedCommands.getCommand("AimAutoShoot"),
             new PathFollowWithEvents(
                 new PathFollowState(
                     drivetrain, 

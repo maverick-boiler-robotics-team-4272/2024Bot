@@ -5,7 +5,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.subsystems.armelevator.states.TargetPositionState;
 import frc.robot.subsystems.drivetrain.states.PathFollowWithAiming;
 import frc.robot.utils.misc.Pausable;
-import frc.robot.utils.paths.TrajectoryContainer.Path;
+import frc.robot.utils.paths.Path;
 // Subsystems
 import frc.robot.subsystems.armelevator.ArmElevatorSubsystem;
 import frc.robot.subsystems.drivetrain.Drivetrain;

@@ -11,6 +11,8 @@ import frc.robot.subsystems.shooter.states.LidarStoppedOutfeedState;
 import frc.robot.subsystems.intake.IntakeSubsystem;
 import frc.robot.subsystems.shooter.Shooter;
 
+import static frc.robot.utils.misc.BEAN.*;
+
 public class IntakeFeedCommand extends SequentialCommandGroup {
     public IntakeFeedCommand(IntakeSubsystem intake, Shooter shooter, double power) {
         super(
@@ -18,7 +20,7 @@ public class IntakeFeedCommand extends SequentialCommandGroup {
                 new IntakeState(intake, power),
                 new LidarStoppedFeedState(shooter, power)
             ),
-            new LidarStoppedOutfeedState(shooter, 0.1)
+            new LidarStoppedOutfeedState(shooter, LIMA_BEAN.beans)
         );
     }
 }

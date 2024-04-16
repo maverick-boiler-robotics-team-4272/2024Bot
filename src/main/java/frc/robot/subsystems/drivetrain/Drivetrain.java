@@ -23,10 +23,10 @@ import frc.team4272.swerve.utils.SwerveModuleBase.PositionedSwerveModule;
 // Constants
 import static frc.robot.constants.HardwareMap.*;
 import static frc.robot.constants.RobotConstants.DrivetrainConstants.*;
+import static frc.robot.constants.RobotConstants.LimelightConstants.*;
 import static frc.robot.constants.RobotConstants.DrivetrainConstants.SwerveModuleConstants.*;
 import static frc.robot.constants.TelemetryConstants.Limelights.*;
 import static frc.robot.constants.UniversalConstants.*;
-
 
 public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements Loggable {
     @AutoLog
@@ -38,6 +38,8 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
 
         public SwerveModuleState[] currentStates;
         public SwerveModuleState[] setStates;
+
+        public  Pose2d notePose;
     }
 
     private DrivetrainInputsAutoLogged drivetrainInputs;
@@ -62,6 +64,7 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
 
         drivetrainInputs.estimatedPose = new Pose2d();
         drivetrainInputs.desiredPose = new Pose2d();
+        drivetrainInputs.notePose = new Pose2d();
 
         drivetrainInputs.currentStates = new SwerveModuleState[4];
         drivetrainInputs.setStates = new SwerveModuleState[4];
@@ -77,7 +80,7 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
             getPositions(),
             FRONT_LIMELIGHT.getRobotPose(),
             VecBuilder.fill(0.5, 0.5, 0.5), // Guestimations to try and make tracking better
-            VecBuilder.fill(0.75, 0.75, 0.65) // Computed standard deviations, (~worst case / 2)
+            VecBuilder.fill(0.75, 0.75, 0.6) // Computed standard deviations, (~worst case / 2)
         );
 
         setMaxSpeeds(MAX_TRANSLATIONAL_SPEED, MAX_ROTATIONAL_SPEED, MAX_MODULE_SPEED);
@@ -109,7 +112,7 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
             fuseVision
             // PathFollowState.posesAlmostEqual(limelightPose, getRobotPose(), new Pose2d(0.5, 0.5, Rotation2d.fromDegrees(10.0)))
         ) {
-            poseEstimator.addVisionMeasurement(limelightPose, Timer.getFPGATimestamp());
+            poseEstimator.addVisionMeasurement(new Pose2d(limelightPose.getTranslation(), poseEstimator.getEstimatedPosition().getRotation()), Timer.getFPGATimestamp());
         }
 
         drivetrainInputs.estimatedPose = poseEstimator.getEstimatedPosition();
@@ -131,6 +134,10 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
         return drivetrainInputs.desiredPose;
     }
 
+    public Pose2d getNotePose() {
+        return drivetrainInputs.notePose;
+    }
+
     public void setCoastMode(boolean coast) {
         for(SwerveModule m : modules) {
             m.setCoastMode(coast);
@@ -138,7 +145,7 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
     }
 
     public void setRobotPose(Pose2d pose) {
-        poseEstimator.resetPosition(gyroscope.getRotation(), getPositions(), pose);
+        poseEstimator.resetPosition(gyroscope.getRotation().unaryMinus(), getPositions(), pose);
     }
 
     public void setToZero() {
@@ -148,7 +155,13 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
     public void setGyroscopeReading(Rotation2d heading) {
         gyroscope.setRotation(heading);
 
-        poseEstimator.resetPosition(gyroscope.getRotation(), getPositions(), poseEstimator.getEstimatedPosition());
+        setRobotPose(new Pose2d(poseEstimator.getEstimatedPosition().getTranslation(), heading));
+    }
+
+    public void zeroGyro() {
+        gyroscope.setRotation(new Rotation2d(0.0));
+
+        setRobotPose(new Pose2d(poseEstimator.getEstimatedPosition().getTranslation(), getGlobalPositions().TO_DRIVERSTATION.plus(new Rotation2d(Math.PI))));
     }
 
     public void enableVisionFusion() {
@@ -170,6 +183,18 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
             drivetrainInputs.speakerDistance = getGlobalPositions().SPEAKER_POSITION.getDistance(getRobotPose().getTranslation());
         } else {
             drivetrainInputs.speakerDistance = 0.0;
+        }
+
+        if(BACK_LIMELIGHT.getTV()) {
+            double dy = LIMELIGHT_BACK_POSITION.getZ() * LIMELIGHT_BACK_PITCH.plus(Rotation2d.fromDegrees(BACK_LIMELIGHT.getTY())).getTan();
+            double dx = dy * Rotation2d.fromDegrees(BACK_LIMELIGHT.getTX()).getTan();
+
+            Pose2d ePose = drivetrainInputs.estimatedPose;
+
+            double nx = ePose.getX() - dy * ePose.getRotation().getCos() - dx * ePose.getRotation().getSin();
+            double ny = ePose.getY() - dy * ePose.getRotation().getSin() + dx * ePose.getRotation().getCos();
+
+            drivetrainInputs.notePose = new Pose2d(nx, ny, new Rotation2d(0));
         }
 
         gyroscope.log(subdirectory + "/" + humanReadableName, "Pigeon");

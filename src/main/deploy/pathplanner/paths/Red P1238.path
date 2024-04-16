@@ -8,36 +8,36 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 12.79175,
-        "y": 6.48
+        "x": 11.597769814826862,
+        "y": 6.789802298524822
       },
       "isLocked": false,
       "linkedName": "RedP123End"
     },
     {
       "anchor": {
-        "x": 8.537900915378753,
-        "y": 7.449541822160567
+        "x": 8.645003309978089,
+        "y": 7.3426945142050055
       },
       "prevControl": {
-        "x": 10.540890305972919,
-        "y": 7.271936851566012
+        "x": 10.564239772152062,
+        "y": 7.179355240838247
       },
       "nextControl": {
-        "x": 8.331504907625222,
-        "y": 7.467842946000782
+        "x": 7.544184674673838,
+        "y": 7.436381206565732
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 13.680663024664138,
-        "y": 5.527514849608872
+        "x": 12.979249750891087,
+        "y": 5.808574926707628
       },
       "prevControl": {
-        "x": 12.591555225906458,
-        "y": 5.527514849608872
+        "x": 11.485428390594706,
+        "y": 6.247590541933014
       },
       "nextControl": null,
       "isLocked": false,
@@ -51,23 +51,11 @@
       "rotateFast": true
     }
   ],
-  "constraintZones": [
-    {
-      "name": "Zoom",
-      "minWaypointRelativePos": 0,
-      "maxWaypointRelativePos": 2.0,
-      "constraints": {
-        "maxVelocity": 4.0,
-        "maxAcceleration": 3.0,
-        "maxAngularVelocity": 540.0,
-        "maxAngularAcceleration": 720.0
-      }
-    }
-  ],
+  "constraintZones": [],
   "eventMarkers": [
     {
       "name": "One",
-      "waypointRelativePos": 0.85,
+      "waypointRelativePos": 0.8,
       "command": {
         "type": "parallel",
         "data": {
@@ -86,9 +74,21 @@
       "name": "Pause",
       "waypointRelativePos": 1.9,
       "command": {
-        "type": "parallel",
+        "type": "sequential",
         "data": {
           "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "Enable"
+              }
+            },
+            {
+              "type": "wait",
+              "data": {
+                "waitTime": 0.1
+              }
+            },
             {
               "type": "named",
               "data": {
@@ -118,18 +118,21 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 3.0,
-    "maxAcceleration": 3.0,
+    "maxVelocity": 5.0,
+    "maxAcceleration": 4.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0,
+    "rotation": 358.1323211605658,
     "rotateFast": false
   },
   "reversed": false,
   "folder": "Link",
-  "previewStartingState": null,
-  "useDefaultConstraints": true
+  "previewStartingState": {
+    "rotation": 0.0,
+    "velocity": 0.0
+  },
+  "useDefaultConstraints": false
 }
