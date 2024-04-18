@@ -83,6 +83,35 @@
       },
       "type" : "parallel"
     }
+  }, {
+    "waypointRelativePos" : 0.049999999999999996,
+    "name" : "Pause",
+    "command" : {
+      "data" : {
+        "commands" : [ {
+          "data" : {
+            "commands" : [ {
+              "data" : {
+                "name" : "Line"
+              },
+              "type" : "named"
+            }, {
+              "data" : {
+                "name" : "Shoot"
+              },
+              "type" : "named"
+            } ]
+          },
+          "type" : "parallel"
+        }, {
+          "data" : {
+            "name" : "Face"
+          },
+          "type" : "named"
+        } ]
+      },
+      "type" : "deadline"
+    }
   } ],
   "previewStartingState" : {
     "rotation" : 0.0,
