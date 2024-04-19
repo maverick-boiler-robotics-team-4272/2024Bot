@@ -389,17 +389,6 @@ public class RobotContainer {
             })
         );
 
-        new Trigger(() -> DriverStation.getMatchTime() < 30.0).and(DriverStation::isTeleopEnabled).onTrue(
-            new SequentialCommandGroup(
-                new InstantCommand(() -> {
-                    candle.setLEDs(255, 255, 255, 0, 0, 512);
-                }).alongWith(new WaitCommand(0.5)),
-                new InstantCommand(() -> {
-                    candle.setLEDs(0, 0, 0, 0, 0, 512);
-                }).alongWith(new WaitCommand(0.5))
-            ).repeatedly().withTimeout(3.0)
-        );
-
         new Trigger(() -> armElevator.getElevatorDesiredHeight() == HOME.getElevatorHeight())
             .and(() -> armElevator.getShooterDesiredRotation() == HOME.getArmAngle().getRadians())
             .and(() -> armElevator.getElevatorMotorCurrent() > 15.0)
