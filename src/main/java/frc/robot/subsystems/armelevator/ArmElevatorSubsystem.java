@@ -26,6 +26,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 // Constants
 import frc.robot.constants.RobotConstants.ArmElevatorSetpoint;
 import static edu.wpi.first.units.Units.Inches;
+import static edu.wpi.first.units.Units.Meters;
 import static frc.robot.constants.HardwareMap.*;
 import static frc.robot.constants.RobotConstants.NOMINAL_VOLTAGE;
 import static frc.robot.constants.RobotConstants.ArmConstants.*;
@@ -44,6 +45,8 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
         public double desiredElevatorHeight;
         public double safeElevatorHeight;
         public double elevatorHeightError;
+
+        public double wrappedArmEncoderAngle;
     }
 
     private Vortex elevatorMotor1;
@@ -310,6 +313,8 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
 
         armElevatorInputs.armAngleErrorRadians = armElevatorInputs.desiredArmAngleRadians - armElevatorInputs.currentArmAngleRadians;
         armElevatorInputs.elevatorHeightError = armElevatorInputs.desiredElevatorHeight - armElevatorInputs.currentElevatorHeight;
+
+        armElevatorInputs.wrappedArmEncoderAngle = MathUtils.inputModulo(armAbsoluteEncoder.getPosition(), -180, 180);
 
         Logger.processInputs(subdirectory + "/" + humanReadableName, armElevatorInputs);
     }
