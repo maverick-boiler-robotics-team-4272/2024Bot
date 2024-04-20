@@ -96,14 +96,14 @@ public class ArmElevatorSubsystem extends SubsystemBase implements Loggable {
             .withInversion(false)
             .withPeriodicFramerate(PeriodicFrame.kStatus1, 500)
             .withPeriodicFramerate(PeriodicFrame.kStatus3, 500)
-            .withCurrentLimit(50)
+            .withCurrentLimit(60)
             .build();
         
         elevatorMotor2 = VortexBuilder.create(ELEVATOR_MOTOR_2_ID)
             .withVoltageCompensation(NOMINAL_VOLTAGE)
             .withIdleMode(IdleMode.kBrake)
             .asFollower(elevatorMotor1, true)
-            .withCurrentLimit(50)
+            .withCurrentLimit(60)
             .withPeriodicFramerate(PeriodicFrame.kStatus1, 500)
             .withPeriodicFramerate(PeriodicFrame.kStatus2, 500)
             .withPeriodicFramerate(PeriodicFrame.kStatus3, 500)
