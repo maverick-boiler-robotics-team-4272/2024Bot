@@ -9,7 +9,7 @@ import frc.robot.subsystems.drivetrain.drivers.ControllerDrivers;
 import frc.robot.subsystems.drivetrain.drivers.PositionalDrivers;
 
 public class FacePositionState extends AbstractDriveState<ControllerDrivers.YDriver, ControllerDrivers.XDriver, PositionalDrivers.ThetaDriver> {
-    private static final PIDController THETA_CONTROLLER = new PIDController(3.0, 0, 0);
+    private static final PIDController THETA_CONTROLLER = new PIDController(4.0, 0, 0);
 
     private Translation2d position;
 

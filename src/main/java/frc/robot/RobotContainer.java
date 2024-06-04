@@ -130,7 +130,12 @@ public class RobotContainer {
         new Trigger(driverController.getButton("leftBumper")::get).whileTrue(
             new ParallelCommandGroup(
                 new AutoAimCommand(drivetrain, armElevator, driveLeftAxes::getDeadzonedX, driveLeftAxes::getDeadzonedY), 
-                new RevAndShootState(shooter, BAKED_BEAN.beans, BAKED_BEAN.beans, driverController.getButton("rightBumper")::get)
+                new RevAndShootState(shooter, BAKED_BEAN.beans, BAKED_BEAN.beans, driverController.getButton("rightBumper")::get),
+                new StartEndCommand(() -> {
+                    driverController.setRumble(RumbleType.kBothRumble, 1.0);
+                }, () -> {
+                    driverController.setRumble(RumbleType.kBothRumble, 0.0);
+                }).beforeStarting(new WaitCommand(1.0))
             )
         );
 
@@ -193,7 +198,13 @@ public class RobotContainer {
         JoystickTrigger operatorRightTrigger = operatorController.getTrigger("right");
         operatorRightTrigger.setDeadzone(0.1).setPowerScaling(2);
 
+        // JoystickAxes driveLeftAxes = driverController.getAxes("left");
+
         JoystickPOV operatorDPad = operatorController.getPOV("d-pad");
+
+        // new Trigger(operatorController.getButton("start")::get).onTrue(
+        //     new RotLockState(drivetrain, driveLeftAxes::getDeadzonedX, driveLeftAxes::getDeadzonedY, () -> getGlobalPositions().TO_SOURCE)
+        // );
 
         new Trigger(operatorController.getButton("a")::get).and(() -> !operatorController.getButton("x").get()).whileTrue(
             new ImbalancedShootState(shooter, PINTO_BEAN.beans, STRING_BEAN.beans, 0.2)
@@ -387,17 +398,6 @@ public class RobotContainer {
             new InstantCommand(() -> {
                 candle.setLEDs(0, 0, 0);
             })
-        );
-
-        new Trigger(() -> DriverStation.getMatchTime() < 30.0).and(DriverStation::isTeleopEnabled).onTrue(
-            new SequentialCommandGroup(
-                new InstantCommand(() -> {
-                    candle.setLEDs(255, 255, 255, 0, 0, 512);
-                }).alongWith(new WaitCommand(0.5)),
-                new InstantCommand(() -> {
-                    candle.setLEDs(0, 0, 0, 0, 0, 512);
-                }).alongWith(new WaitCommand(0.5))
-            ).repeatedly().withTimeout(3.0)
         );
 
         new Trigger(() -> armElevator.getElevatorDesiredHeight() == HOME.getElevatorHeight())
