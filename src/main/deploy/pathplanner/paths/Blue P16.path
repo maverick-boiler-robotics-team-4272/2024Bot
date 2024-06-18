@@ -64,12 +64,44 @@
     },
     {
       "anchor": {
-        "x": 8.250522654891466,
-        "y": 4.055313495242375
+        "x": 8.14198628397257,
+        "y": 4.134249037728845
       },
       "prevControl": {
-        "x": 6.237666321486491,
-        "y": 3.8382407534045844
+        "x": 6.121750667326115,
+        "y": 4.002494540991029
+      },
+      "nextControl": {
+        "x": 8.595865653269769,
+        "y": 4.163849866161272
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 5.546980324729882,
+        "y": 4.09478126648561
+      },
+      "prevControl": {
+        "x": 7.915467320551078,
+        "y": 3.7728509952089406
+      },
+      "nextControl": {
+        "x": 4.530685215216586,
+        "y": 4.232918465836932
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.685566909595359,
+        "y": 5.436685488755594
+      },
+      "prevControl": {
+        "x": 3.5439909341357163,
+        "y": 5.653758230593384
       },
       "nextControl": null,
       "isLocked": false,
@@ -86,10 +118,101 @@
       "waypointRelativePos": 3.0,
       "rotationDegrees": 154.05770451012845,
       "rotateFast": false
+    },
+    {
+      "waypointRelativePos": 3.9000000000000004,
+      "rotationDegrees": -179.48754699500748,
+      "rotateFast": false
     }
   ],
   "constraintZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "Pause",
+      "waypointRelativePos": 0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "AimAutoShoot"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Intake",
+      "waypointRelativePos": 0.6000000000000001,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "Intake"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Pause",
+      "waypointRelativePos": 2.0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "AimAutoShoot"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "kjbu",
+      "waypointRelativePos": 3.9000000000000004,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "Intake"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Pause",
+      "waypointRelativePos": 5.75,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "AimAutoShoot"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 3.0,
     "maxAcceleration": 3.0,
