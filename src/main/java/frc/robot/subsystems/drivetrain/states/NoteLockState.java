@@ -37,9 +37,9 @@ public class NoteLockState extends AbstractDriveState<ControllerDrivers.YDriver,
     public void execute() {
         
         if(BACK_LIMELIGHT.getTV()) {
-            thetaDriver.setDesiredAngle(Rotation2d.fromDegrees(BACK_LIMELIGHT.getTX()).unaryMinus());
+            thetaDriver.setDesiredAngle(Rotation2d.fromDegrees(BACK_LIMELIGHT.getTX()).minus(requiredSubsystem.getRobotPose().getRotation()).unaryMinus());
         } else {
-            thetaDriver.setDesiredAngle(Rotation2d.fromDegrees(0));
+            thetaDriver.setDesiredAngle(requiredSubsystem.getRobotPose().getRotation());
         }
 
         drive();
