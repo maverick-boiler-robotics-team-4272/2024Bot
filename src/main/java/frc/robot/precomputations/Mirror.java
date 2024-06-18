@@ -36,7 +36,7 @@ public class Mirror {
         // mirrorPath("P67", "Blue");
         // mirrorPath("P65", "Blue");
         // mirrorPath("P876", "Blue");
-        mirrorPath("P456", "Blue");
+        mirrorPath("P16", "Blue");
         // mirrorPath("P123Plus2", "Red");
         // mirrorPath("P1238", "Blue");
     }

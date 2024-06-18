@@ -19,6 +19,7 @@ public class TrajectoryContainer {
     public final Path P_6;
     public final Path P_67;
     public final Path P_65;
+    public final Path P_16;
 
     // public final Path N_8;
 
@@ -45,6 +46,8 @@ public class TrajectoryContainer {
         P_6 = new Path(prefix + " P6");
         P_65 = new Path(prefix + " P65");
         P_67 = new Path(prefix + " P67");
+
+        P_16 = new Path(prefix + " P16");
 
         // N_8 = new Path(prefix + " N8");
     }

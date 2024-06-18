@@ -1,0 +1,98 @@
+{
+  "rotationTargets" : [ {
+    "waypointRelativePos" : 0.0,
+    "rotationDegrees" : 0.0,
+    "rotateFast" : true
+  } ],
+  "folder" : "Newbies",
+  "eventMarkers" : [ ],
+  "previewStartingState" : {
+    "rotation" : 0.0,
+    "velocity" : 0
+  },
+  "goalEndState" : {
+    "rotation" : 1.023030188667775,
+    "velocity" : 0,
+    "rotateFast" : false
+  },
+  "globalConstraints" : {
+    "maxAngularVelocity" : 540.0,
+    "maxAngularAcceleration" : 720.0,
+    "maxVelocity" : 3.0,
+    "maxAcceleration" : 3.0
+  },
+  "version" : 1.0,
+  "waypoints" : [ {
+    "nextControl" : {
+      "x" : 14.744207943377424,
+      "y" : 4.232918465836932
+    },
+    "anchor" : {
+      "x" : 15.158619541431388,
+      "y" : 4.361188722377445
+    },
+    "prevControl" : null,
+    "isLocked" : false,
+    "linkedName" : null
+  }, {
+    "nextControl" : {
+      "x" : 13.747646719485745,
+      "y" : 4.657197006701706
+    },
+    "anchor" : {
+      "x" : 13.935118632891111,
+      "y" : 4.153982923350462
+    },
+    "prevControl" : {
+      "x" : 14.070996424951659,
+      "y" : 3.7892583236089865
+    },
+    "isLocked" : false,
+    "linkedName" : null
+  }, {
+    "nextControl" : {
+      "x" : 14.119376462945233,
+      "y" : 5.333082589242102
+    },
+    "anchor" : {
+      "x" : 14.053521946620815,
+      "y" : 5.022273890701628
+    },
+    "prevControl" : {
+      "x" : 13.987667430296398,
+      "y" : 4.711465192161154
+    },
+    "isLocked" : false,
+    "linkedName" : null
+  }, {
+    "nextControl" : {
+      "x" : 10.659293619702623,
+      "y" : 3.1179539282155497
+    },
+    "anchor" : {
+      "x" : 11.636120957972684,
+      "y" : 4.144115980539654
+    },
+    "prevControl" : {
+      "x" : 12.754186755416017,
+      "y" : 5.318649747550831
+    },
+    "isLocked" : false,
+    "linkedName" : null
+  }, {
+    "nextControl" : null,
+    "anchor" : {
+      "x" : 8.291227345108535,
+      "y" : 4.055313495242375
+    },
+    "prevControl" : {
+      "x" : 10.30408367851351,
+      "y" : 3.8382407534045844
+    },
+    "isLocked" : false,
+    "linkedName" : null
+  } ],
+  "reversed" : false,
+  "useDefaultConstraints" : true,
+  "constraintZones" : [ ]
+}
