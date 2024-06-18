@@ -144,7 +144,9 @@ public class RobotContainer {
         );
 
         new Trigger(driverController.getButton("x")::get).whileTrue(
-            new RotLockState(drivetrain, driveLeftAxes::getDeadzonedX, driveLeftAxes::getDeadzonedY, () -> getGlobalPositions().TO_SOURCE)
+            // new RotLockState(drivetrain, driveLeftAxes::getDeadzonedX, driveLeftAxes::getDeadzonedY, () -> getGlobalPositions().TO_SOURCE)
+            new NoteLockState(drivetrain, driveLeftAxes::getDeadzonedX, driveLeftAxes::getDeadzonedY)
+            // .alongWith(new IntakeFeedCommand(intake, shooter, 0.8))
         );
     }
 
