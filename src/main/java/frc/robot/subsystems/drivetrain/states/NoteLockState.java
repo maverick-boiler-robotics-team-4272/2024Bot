@@ -5,27 +5,25 @@ import static frc.robot.constants.UniversalConstants.getGlobalPositions;
 
 import java.util.function.DoubleSupplier;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Rotation2d;
 import frc.robot.subsystems.drivetrain.Drivetrain;
 import frc.robot.subsystems.drivetrain.drivers.ControllerDrivers;
 import frc.robot.subsystems.drivetrain.drivers.PositionalDrivers;
 
 public class NoteLockState extends AbstractDriveState<ControllerDrivers.YDriver, ControllerDrivers.XDriver, PositionalDrivers.ThetaDriver> {
-    private Rotation2d sourceRotation;
-
     public NoteLockState(Drivetrain drivetrain, DoubleSupplier xSpeed, DoubleSupplier ySpeed) {
         super(
             drivetrain,
             new ControllerDrivers.YDriver(ySpeed),
             new ControllerDrivers.XDriver(xSpeed),
-            new PositionalDrivers.ThetaDriver(drivetrain)
+            new PositionalDrivers.ThetaDriver(drivetrain, new PIDController(3.5, 0.0001, 0))
         );
     }
 
     @Override
     public void initialize() {
         super.initialize();
-        sourceRotation = getGlobalPositions().TO_SOURCE;
     }
 
     @Override

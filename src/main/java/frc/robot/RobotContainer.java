@@ -130,7 +130,8 @@ public class RobotContainer {
         new Trigger(driverController.getButton("leftBumper")::get).whileTrue(
             new ParallelCommandGroup(
                 new AutoAimCommand(drivetrain, armElevator, driveLeftAxes::getDeadzonedX, driveLeftAxes::getDeadzonedY), 
-                new RevAndShootState(shooter, BAKED_BEAN.beans, BAKED_BEAN.beans, driverController.getButton("rightBumper")::get),
+                new RevAndShootState(shooter, BAKED_BEAN.beans, BAKED_BEAN.beans, driverController.getButton("rightBumper")::get)
+                .beforeStarting(new LidarStoppedFeedState(shooter, 0.4)),
                 new StartEndCommand(() -> {
                     driverController.setRumble(RumbleType.kBothRumble, 1.0);
                 }, () -> {
@@ -246,6 +247,8 @@ public class RobotContainer {
             )
         );
 
+        JoystickAxes driveLeftAxes = driverController.getAxes("left");
+
         new Trigger(operatorController.getButton("rightBumper")::get).whileTrue(
             new GoToArmElevatorState(armElevator, SOURCE).repeatedly()
         );
@@ -256,6 +259,8 @@ public class RobotContainer {
                 new ScheduleCommand(
                     new IntakeFeedCommand(intake, shooter, GARBANZO_BEAN.beans)
                 )
+            ).alongWith(
+                new NoteLockState(drivetrain, driveLeftAxes::getDeadzonedX, driveLeftAxes::getDeadzonedY)
             )
         );
         
