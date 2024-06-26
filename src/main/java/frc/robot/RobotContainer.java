@@ -8,6 +8,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.team4272.controllers.XboxController;
 import frc.team4272.controllers.utilities.*;
@@ -51,6 +52,7 @@ import static edu.wpi.first.units.Units.Inches;
 import static edu.wpi.first.units.Units.Meters;
 import static frc.robot.constants.AutoConstants.Paths.*;
 import static frc.robot.constants.HardwareMap.*;
+import static frc.robot.constants.TelemetryConstants.Limelights.BACK_LIMELIGHT;
 import static frc.robot.constants.TelemetryConstants.ShuffleboardTables.*;
 import static frc.robot.constants.UniversalConstants.*;
 import static frc.robot.constants.RobotConstants.ArmElevatorSetpoints.*;
@@ -146,7 +148,8 @@ public class RobotContainer {
 
         new Trigger(driverController.getButton("x")::get).whileTrue(
             // new RotLockState(drivetrain, driveLeftAxes::getDeadzonedX, driveLeftAxes::getDeadzonedY, () -> getGlobalPositions().TO_SOURCE)
-            new NoteLockState(drivetrain, driveLeftAxes::getDeadzonedX, driveLeftAxes::getDeadzonedY)
+            // new NoteLockState(drivetrain, intake, driveLeftAxes::getDeadzonedX, driveLeftAxes::getDeadzonedY)
+            new AutoNotePickup(drivetrain, intake, shooter, driveLeftAxes::getDeadzonedX, driveLeftAxes::getDeadzonedY)
             // .alongWith(new IntakeFeedCommand(intake, shooter, 0.8))
         );
     }
@@ -260,7 +263,11 @@ public class RobotContainer {
                     new IntakeFeedCommand(intake, shooter, GARBANZO_BEAN.beans)
                 )
             ).alongWith(
-                new NoteLockState(drivetrain, driveLeftAxes::getDeadzonedX, driveLeftAxes::getDeadzonedY)
+                new ConditionalCommand(
+                    new AutoNotePickup(drivetrain, intake, shooter, driveLeftAxes::getDeadzonedX, driveLeftAxes::getDeadzonedY), 
+                    new DriveState(drivetrain, driveLeftAxes::getDeadzonedX, driveLeftAxes::getDeadzonedY, () -> { return driverController.getAxes("right").getDeadzonedX(); } ), 
+                    BACK_LIMELIGHT::getTV
+                )
             )
         );
         
