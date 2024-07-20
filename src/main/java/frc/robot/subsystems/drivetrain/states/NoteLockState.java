@@ -1,8 +1,6 @@
 package frc.robot.subsystems.drivetrain.states;
 
 import static frc.robot.constants.TelemetryConstants.Limelights.BACK_LIMELIGHT;
-import static frc.robot.constants.UniversalConstants.getGlobalPositions;
-
 import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.math.controller.PIDController;
@@ -10,7 +8,6 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import frc.robot.subsystems.drivetrain.Drivetrain;
 import frc.robot.subsystems.drivetrain.drivers.ControllerDrivers;
 import frc.robot.subsystems.drivetrain.drivers.PositionalDrivers;
-import frc.robot.subsystems.intake.IntakeSubsystem;
 
 public class NoteLockState extends AbstractDriveState<ControllerDrivers.YDriver, ControllerDrivers.XDriver, PositionalDrivers.ThetaDriver> {
     public NoteLockState(Drivetrain drivetrain, DoubleSupplier xSpeed, DoubleSupplier ySpeed) {
