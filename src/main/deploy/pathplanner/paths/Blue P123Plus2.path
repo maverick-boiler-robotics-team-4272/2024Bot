@@ -153,7 +153,7 @@
     },
     {
       "waypointRelativePos": 2.0,
-      "rotationDegrees": 157.75097634278757,
+      "rotationDegrees": 150.0,
       "rotateFast": false
     },
     {
@@ -207,7 +207,7 @@
       "name": "Pause",
       "waypointRelativePos": 2.45,
       "command": {
-        "type": "parallel",
+        "type": "sequential",
         "data": {
           "commands": [
             {
@@ -241,13 +241,25 @@
       "name": "Pause",
       "waypointRelativePos": 4.8500000000000005,
       "command": {
-        "type": "parallel",
+        "type": "sequential",
         "data": {
           "commands": [
             {
               "type": "named",
               "data": {
+                "name": "Enable"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
                 "name": "AutoShoot"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "Disable"
               }
             }
           ]
