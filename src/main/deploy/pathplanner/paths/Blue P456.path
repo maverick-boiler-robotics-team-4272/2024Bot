@@ -112,12 +112,12 @@
     },
     {
       "anchor": {
-        "x": 3.99580120130283,
-        "y": 5.070792224323394
+        "x": 3.559239845752419,
+        "y": 5.196111483132057
       },
       "prevControl": {
-        "x": 6.103751779543502,
-        "y": 4.180768646843998
+        "x": 5.667190423993096,
+        "y": 4.306087905652662
       },
       "nextControl": null,
       "isLocked": false,
@@ -270,12 +270,6 @@
             {
               "type": "named",
               "data": {
-                "name": "Enable"
-              }
-            },
-            {
-              "type": "named",
-              "data": {
                 "name": "AimAutoShoot"
               }
             },
@@ -333,12 +327,6 @@
             {
               "type": "named",
               "data": {
-                "name": "Enable"
-              }
-            },
-            {
-              "type": "named",
-              "data": {
                 "name": "AimAutoShoot"
               }
             }
@@ -352,14 +340,7 @@
       "command": {
         "type": "parallel",
         "data": {
-          "commands": [
-            {
-              "type": "named",
-              "data": {
-                "name": "Enable"
-              }
-            }
-          ]
+          "commands": []
         }
       }
     }
