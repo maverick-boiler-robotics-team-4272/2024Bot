@@ -12,9 +12,9 @@
     "rotationDegrees" : 38.27098599340681,
     "rotateFast" : false
   }, {
-    "waypointRelativePos" : 6.0,
-    "rotationDegrees" : 315.00000000000006,
-    "rotateFast" : false
+    "waypointRelativePos" : 6.050000000000001,
+    "rotationDegrees" : 337.30620505490765,
+    "rotateFast" : true
   } ],
   "folder" : "State",
   "eventMarkers" : [ {
@@ -239,46 +239,46 @@
     "linkedName" : null
   }, {
     "nextControl" : {
-      "x" : 14.41419070864921,
-      "y" : 4.1241397521790155
+      "x" : 14.213904617036508,
+      "y" : 3.9367307825524747
     },
     "anchor" : {
       "x" : 13.952699730990371,
       "y" : 3.684854642436558
     },
     "prevControl" : {
-      "x" : 13.679451314178403,
-      "y" : 3.424754301200991
+      "x" : 13.681139117114505,
+      "y" : 3.422992621913401
     },
     "isLocked" : false,
     "linkedName" : null
   }, {
     "nextControl" : {
-      "x" : 9.864167229713209,
-      "y" : 1.08910779875768
+      "x" : 9.848051521693954,
+      "y" : 1.455284365114185
     },
     "anchor" : {
       "x" : 11.60908187503465,
       "y" : 1.979131376237074
     },
     "prevControl" : {
-      "x" : 13.353996520356095,
-      "y" : 2.8691549537164693
+      "x" : 13.486569308234834,
+      "y" : 2.537620432622138
     },
     "isLocked" : false,
     "linkedName" : null
   }, {
     "nextControl" : {
-      "x" : 7.369759045461743,
-      "y" : 3.115082521177881
+      "x" : 7.383475596104221,
+      "y" : 2.949029226777378
     },
     "anchor" : {
-      "x" : 8.376890988398953,
-      "y" : 2.295323962973175
+      "x" : 8.476725869951741,
+      "y" : 2.248227769182812
     },
     "prevControl" : {
-      "x" : 9.210947531105145,
-      "y" : 1.616440730537903
+      "x" : 8.840546961230288,
+      "y" : 2.015009120927333
     },
     "isLocked" : false,
     "linkedName" : null
@@ -298,9 +298,9 @@
   "reversed" : false,
   "useDefaultConstraints" : false,
   "constraintZones" : [ {
-    "minWaypointRelativePos" : 0,
+    "minWaypointRelativePos" : 5.55,
     "name" : "Slow",
-    "maxWaypointRelativePos" : 0.0,
+    "maxWaypointRelativePos" : 6.199999999999999,
     "constraints" : {
       "maxAngularVelocity" : 540.0,
       "maxAngularAcceleration" : 720.0,

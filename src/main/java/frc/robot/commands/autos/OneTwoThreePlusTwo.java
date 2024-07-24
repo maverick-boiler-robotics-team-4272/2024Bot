@@ -40,7 +40,7 @@ public class OneTwoThreePlusTwo extends SequentialCommandGroup {
                     DEFAULT_POSE_DELTA), 
                 getGlobalTrajectories().P_123PLUS_SUB
             ),
-            NamedCommands.getCommand("AimAutoShoot"),
+            NamedCommands.getCommand("AutoShoot"),
             new PathFollowWithEvents(
                 new PathFollowState(
                     drivetrain, 

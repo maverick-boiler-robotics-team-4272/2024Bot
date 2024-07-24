@@ -20,18 +20,13 @@
       "type" : "parallel"
     }
   }, {
-    "waypointRelativePos" : 1.9,
+    "waypointRelativePos" : 1.95,
     "name" : "Pause",
     "command" : {
       "data" : {
         "commands" : [ {
           "data" : {
-            "name" : "Enable"
-          },
-          "type" : "named"
-        }, {
-          "data" : {
-            "name" : "LongAutoShoot"
+            "name" : "AutoShoot"
           },
           "type" : "named"
         } ]
@@ -51,6 +46,30 @@
         } ]
       },
       "type" : "parallel"
+    }
+  }, {
+    "waypointRelativePos" : 0,
+    "name" : "off",
+    "command" : {
+      "data" : {
+        "commands" : [ {
+          "data" : {
+            "name" : "Enable"
+          },
+          "type" : "named"
+        }, {
+          "data" : {
+            "waitTime" : 0.1
+          },
+          "type" : "wait"
+        }, {
+          "data" : {
+            "name" : "Disable"
+          },
+          "type" : "named"
+        } ]
+      },
+      "type" : "sequential"
     }
   } ],
   "previewStartingState" : {
@@ -99,12 +118,12 @@
   }, {
     "nextControl" : null,
     "anchor" : {
-      "x" : 13.654179861223358,
-      "y" : 5.550603828480384
+      "x" : 12.612948296242745,
+      "y" : 5.703092944647428
     },
     "prevControl" : {
-      "x" : 13.019825137968459,
-      "y" : 5.709192509294111
+      "x" : 11.606520129540257,
+      "y" : 6.058302885836541
     },
     "isLocked" : false,
     "linkedName" : null
