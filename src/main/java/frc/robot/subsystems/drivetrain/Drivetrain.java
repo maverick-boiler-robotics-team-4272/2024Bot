@@ -39,7 +39,7 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
         public SwerveModuleState[] currentStates;
         public SwerveModuleState[] setStates;
 
-        public  Pose2d notePose;
+        public Pose2d notePose;
     }
 
     private DrivetrainInputsAutoLogged drivetrainInputs;

@@ -32,12 +32,12 @@
     },
     {
       "anchor": {
-        "x": 3.5625002491089135,
-        "y": 5.808574926707628
+        "x": 3.9288017037572556,
+        "y": 5.703092944647428
       },
       "prevControl": {
-        "x": 5.056321609405294,
-        "y": 6.247590541933014
+        "x": 4.935229870459742,
+        "y": 6.058302885836541
       },
       "nextControl": null,
       "isLocked": false,
@@ -72,7 +72,7 @@
     },
     {
       "name": "Pause",
-      "waypointRelativePos": 1.9,
+      "waypointRelativePos": 1.95,
       "command": {
         "type": "sequential",
         "data": {
@@ -80,13 +80,7 @@
             {
               "type": "named",
               "data": {
-                "name": "Enable"
-              }
-            },
-            {
-              "type": "named",
-              "data": {
-                "name": "LongAutoShoot"
+                "name": "AutoShoot"
               }
             }
           ]
@@ -104,6 +98,35 @@
               "type": "named",
               "data": {
                 "name": "Index"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "off",
+      "waypointRelativePos": 0,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "Enable"
+              }
+            },
+            {
+              "type": "wait",
+              "data": {
+                "waitTime": 0.1
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "Disable"
               }
             }
           ]
