@@ -20,6 +20,7 @@ import frc.robot.utils.hardware.*;
 import frc.team4272.swerve.utils.*;
 import frc.team4272.swerve.utils.SwerveModuleBase.PositionedSwerveModule;
 
+import static frc.robot.constants.AutoConstants.Paths.CONTAINER_CHOOSER;
 // Constants
 import static frc.robot.constants.HardwareMap.*;
 import static frc.robot.constants.RobotConstants.DrivetrainConstants.*;
@@ -27,6 +28,7 @@ import static frc.robot.constants.RobotConstants.LimelightConstants.*;
 import static frc.robot.constants.RobotConstants.DrivetrainConstants.SwerveModuleConstants.*;
 import static frc.robot.constants.TelemetryConstants.Limelights.*;
 import static frc.robot.constants.UniversalConstants.*;
+import static frc.robot.constants.TelemetryConstants.ShuffleboardTables.*;
 
 public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements Loggable {
     @AutoLog
@@ -80,7 +82,7 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
             getPositions(),
             FRONT_LIMELIGHT.getRobotPose(),
             VecBuilder.fill(0.5, 0.5, 0.5), // Guestimations to try and make tracking better
-            VecBuilder.fill(0.75, 0.75, 0.6) // Computed standard deviations, (~worst case / 2)
+            VecBuilder.fill(0.7, 0.7, 999999) // Computed standard deviations, (~worst case / 2)
         );
 
         setMaxSpeeds(MAX_TRANSLATIONAL_SPEED, MAX_ROTATIONAL_SPEED, MAX_MODULE_SPEED);
@@ -104,19 +106,17 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
     }
 
     public void updateOdometry() {
-        if(DriverStation.isDSAttached()) {
-            LimelightHelpers.PoseEstimate limelightMeasurement = FRONT_LIMELIGHT.getPoseEstimate(DriverStation.getAlliance().get() == DriverStation.Alliance.Blue);
+        LimelightHelpers.PoseEstimate limelightMeasurement = FRONT_LIMELIGHT.getPoseEstimate(CONTAINER_CHOOSER.getSelected() == "Red");
 
-            if(limelightMeasurement != null) {
-                if(limelightMeasurement.tagCount >= 2) {
-                    poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(.7,.7,9999999));
-                    poseEstimator.addVisionMeasurement(
-                        limelightMeasurement.pose,
-                        limelightMeasurement.timestampSeconds
-                    );
-                }
-            }
-        }
+        // if(limelightMeasurement != null) {
+        //     if(limelightMeasurement.tagCount >= 2) {
+        //         // poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(.7,.7,9999999));
+        //         poseEstimator.addVisionMeasurement(
+        //             limelightMeasurement.pose,
+        //             limelightMeasurement.timestampSeconds
+        //         );
+        //     }
+        // }
 
         drivetrainInputs.estimatedPose = poseEstimator.getEstimatedPosition();
     }
@@ -208,6 +208,7 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
     @Override
     public void periodic() {
         log("Subsystems", "Drivetrain");
+        updateOdometry();
     }
 
     public SwerveModuleState[] getModuleStates() {
