@@ -11,10 +11,10 @@ import edu.wpi.first.math.*;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.kinematics.*;
-
+import edu.wpi.first.wpilibj.DriverStation;
 // Timing
 import edu.wpi.first.wpilibj.Timer;
-
+import frc.robot.limelight.LimelightHelpers;
 // Hardware
 import frc.robot.utils.hardware.*;
 import frc.team4272.swerve.utils.*;
@@ -104,15 +104,18 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
     }
 
     public void updateOdometry() {
-        Pose2d limelightPose = FRONT_LIMELIGHT.getRobotPose();
+        if(DriverStation.isDSAttached()) {
+            LimelightHelpers.PoseEstimate limelightMeasurement = FRONT_LIMELIGHT.getPoseEstimate(DriverStation.getAlliance().get() == DriverStation.Alliance.Blue);
 
-        poseEstimator.update(gyroscope.getRotation().unaryMinus(), getPositions());
-        if(
-            FRONT_LIMELIGHT.isValidTarget() &&
-            fuseVision
-            // PathFollowState.posesAlmostEqual(limelightPose, getRobotPose(), new Pose2d(0.5, 0.5, Rotation2d.fromDegrees(10.0)))
-        ) {
-            poseEstimator.addVisionMeasurement(new Pose2d(limelightPose.getTranslation(), poseEstimator.getEstimatedPosition().getRotation()), Timer.getFPGATimestamp());
+            if(limelightMeasurement != null) {
+                if(limelightMeasurement.tagCount >= 2) {
+                    poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(.7,.7,9999999));
+                    poseEstimator.addVisionMeasurement(
+                        limelightMeasurement.pose,
+                        limelightMeasurement.timestampSeconds
+                    );
+                }
+            }
         }
 
         drivetrainInputs.estimatedPose = poseEstimator.getEstimatedPosition();
