@@ -108,15 +108,17 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
     public void updateOdometry() {
         LimelightHelpers.PoseEstimate limelightMeasurement = FRONT_LIMELIGHT.getPoseEstimate(CONTAINER_CHOOSER.getSelected() == "Red");
 
-        // if(limelightMeasurement != null) {
-        //     if(limelightMeasurement.tagCount >= 2) {
-        //         // poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(.7,.7,9999999));
-        //         poseEstimator.addVisionMeasurement(
-        //             limelightMeasurement.pose,
-        //             limelightMeasurement.timestampSeconds
-        //         );
-        //     }
-        // }
+        poseEstimator.update(gyroscope.getRotation().unaryMinus(), getPositions());
+
+        if(limelightMeasurement != null) {
+            if(limelightMeasurement.tagCount >= 2) {
+                // poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(.7,.7,9999999));
+                poseEstimator.addVisionMeasurement(
+                    limelightMeasurement.pose,
+                    limelightMeasurement.timestampSeconds
+                );
+            }
+        }
 
         drivetrainInputs.estimatedPose = poseEstimator.getEstimatedPosition();
     }
