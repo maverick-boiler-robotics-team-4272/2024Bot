@@ -41,6 +41,8 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
         public SwerveModuleState[] currentStates;
         public SwerveModuleState[] setStates;
 
+        public boolean useVision;
+
         public Pose2d notePose;
     }
 
@@ -70,6 +72,8 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
 
         drivetrainInputs.currentStates = new SwerveModuleState[4];
         drivetrainInputs.setStates = new SwerveModuleState[4];
+
+        drivetrainInputs.useVision = false;
 
         for(int i = 0; i < 4; i++) {
             drivetrainInputs.currentStates[i] = new SwerveModuleState();
@@ -111,12 +115,16 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
         poseEstimator.update(gyroscope.getRotation().unaryMinus(), getPositions());
 
         if(limelightMeasurement != null) {
-            if(limelightMeasurement.tagCount >= 2) {
-                // poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(.7,.7,9999999));
+            if(limelightMeasurement.tagCount >= 2 && limelightMeasurement.avgTagDist <= 4.5) {
+                poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(1.5,1.5,9999999));
                 poseEstimator.addVisionMeasurement(
                     limelightMeasurement.pose,
                     limelightMeasurement.timestampSeconds
                 );
+
+                drivetrainInputs.useVision = true;
+            } else {
+                drivetrainInputs.useVision = false;
             }
         }
 
