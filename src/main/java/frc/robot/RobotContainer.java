@@ -6,6 +6,7 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID.RumbleType;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.team4272.controllers.XboxController;
@@ -34,7 +35,11 @@ import frc.robot.commands.*;
 import frc.robot.commands.autos.*;
 import frc.robot.commands.autos.state.*;
 import frc.robot.commands.autos.worlds.*;
+
+import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.pathplanner.lib.util.PathPlannerLogging;
 
 // CANdle
 import frc.robot.utils.periodics.Candle;
@@ -330,25 +335,49 @@ public class RobotContainer {
         // AUTO_CHOOSER.addOption("P16", () -> new OneSix(drivetrain, armElevator, shooter));
         // AUTO_CHOOSER.addOption("P14", () -> new OneFourRush(drivetrain, armElevator, shooter));
         // AUTO_CHOOSER.addOption("P45", () -> new FourFive(drivetrain));
-        AUTO_CHOOSER.addOption("P876", () -> new EightSevenSix(drivetrain, armElevator, shooter));
-        AUTO_CHOOSER.addOption("P456C", () -> new FourFiveSix(drivetrain, armElevator, shooter));
+        ////AUTO_CHOOSER.addOption("P876", () -> new EightSevenSix(drivetrain, armElevator, shooter));
+        ////AUTO_CHOOSER.addOption("P456C", () -> new FourFiveSix(drivetrain, armElevator, shooter));
         // AUTO_CHOOSER.addOption("P123", () -> new OneTwoThree(drivetrain, armElevator, shooter));
         // AUTO_CHOOSER.addOption("P123Plus", () -> new OneTwoThreePlus(drivetrain, armElevator, shooter));
         // AUTO_CHOOSER.addOption("P1238", () -> new OneTwoThreeEight(drivetrain, armElevator, shooter));
         // AUTO_CHOOSER.addOption("P1238PlusC", () -> new OneTwoThreeEightPlus(drivetrain, armElevator, shooter));
-        AUTO_CHOOSER.addOption("P1238B", () -> new OneTwoThreePlusTwo(drivetrain, armElevator, shooter));
-        AUTO_CHOOSER.addOption("P two Any", () -> new TwoPiece(drivetrain, armElevator, shooter, intake));
-        AUTO_CHOOSER.addOption("P Shoot", () -> new FireAndSit(drivetrain, armElevator, shooter));
+        ////AUTO_CHOOSER.addOption("P1238B", () -> new OneTwoThreePlusTwo(drivetrain, armElevator, shooter));
+        ////AUTO_CHOOSER.addOption("P two Any", () -> new TwoPiece(drivetrain, armElevator, shooter, intake));
+        ////AUTO_CHOOSER.addOption("P Shoot", () -> new FireAndSit(drivetrain, armElevator, shooter));
         // AUTO_CHOOSER.addOption("N8", () -> new NoEight(drivetrain, armElevator, shooter));
-        AUTO_CHOOSER.addOption("Middle Disruption", () -> new DisruptorAuto(drivetrain));
+        ////AUTO_CHOOSER.addOption("Middle Disruption", () -> new DisruptorAuto(drivetrain));
 
-        AUTO_CHOOSER.addOption("P6", () -> new Six(drivetrain, armElevator, shooter));
-        AUTO_CHOOSER.addOption("P67", () -> new SixSeven(drivetrain, armElevator, shooter));
+        ////AUTO_CHOOSER.addOption("P6", () -> new Six(drivetrain, armElevator, shooter));
+        ////AUTO_CHOOSER.addOption("P67", () -> new SixSeven(drivetrain, armElevator, shooter));
 
-        AUTO_CHOOSER.addOption("P65", () -> new SixFive(drivetrain, armElevator, shooter));
+        ////AUTO_CHOOSER.addOption("P65", () -> new SixFive(drivetrain, armElevator, shooter));
+
+        AUTO_CHOOSER.addOption("TestAuto", new PathPlannerAuto("TestAuto"));
         
         AUTO_TABLE.putData("Auto Chooser", AUTO_CHOOSER);
         AUTO_TABLE.putData("Side Chooser", CONTAINER_CHOOSER).withWidget(BuiltInWidgets.kSplitButtonChooser);
+
+        Field2d field = new Field2d();
+        AUTO_TABLE.putData("Field", field).withSize(8, 6);
+
+        // Logging callback for current robot pose
+        PathPlannerLogging.setLogCurrentPoseCallback((pose) -> {
+            // Do whatever you want with the pose here
+            field.setRobotPose(pose);
+        });
+
+        // Logging callback for target robot pose
+        PathPlannerLogging.setLogTargetPoseCallback((pose) -> {
+            // Do whatever you want with the pose here
+            field.getObject("target pose").setPose(pose);
+            drivetrain.setDesiredPose(pose);
+        });
+
+        // Logging callback for the active path, this is sent as a list of poses
+        PathPlannerLogging.setLogActivePathCallback((poses) -> {
+            // Do whatever you want with the poses here
+            field.getObject("path").setPoses(poses);
+        });
     }
 
     private void registerNamedCommands() {
@@ -466,6 +495,6 @@ public class RobotContainer {
             }
         }
 
-        return AUTO_CHOOSER.getSelected().get();
+        return AUTO_CHOOSER.getSelected();
     }
 }

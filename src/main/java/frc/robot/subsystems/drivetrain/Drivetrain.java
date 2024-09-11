@@ -4,6 +4,12 @@ import java.util.*;
 
 // Logging
 import org.littletonrobotics.junction.*;
+
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
+import com.pathplanner.lib.util.PIDConstants;
+import com.pathplanner.lib.util.ReplanningConfig;
+
 import frc.robot.utils.logging.*;
 
 // Math
@@ -20,6 +26,8 @@ import frc.robot.utils.hardware.*;
 import frc.team4272.swerve.utils.*;
 import frc.team4272.swerve.utils.SwerveModuleBase.PositionedSwerveModule;
 
+import static edu.wpi.first.units.Units.Inches;
+import static edu.wpi.first.units.Units.Meters;
 import static frc.robot.constants.AutoConstants.Paths.CONTAINER_CHOOSER;
 // Constants
 import static frc.robot.constants.HardwareMap.*;
@@ -90,6 +98,24 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
         );
 
         setMaxSpeeds(MAX_TRANSLATIONAL_SPEED, MAX_ROTATIONAL_SPEED, MAX_MODULE_SPEED);
+
+        AutoBuilder.configureHolonomic(
+            this::getRobotPose, 
+            this::setRobotPose, 
+            this::getChassisSpeeds, 
+            this::drive, 
+            new HolonomicPathFollowerConfig(
+                    new PIDConstants(5.0, 0.0, 0.0), 
+                    new PIDConstants(5.0, 0.0, 0.0), 
+                    4.5,
+                    Meters.convertFrom(13.277, Inches), 
+                    new ReplanningConfig() 
+            ),
+            ()->{
+                return CONTAINER_CHOOSER.getSelected() == "Red";
+            }, 
+            this
+        );
     }
 
     @Override

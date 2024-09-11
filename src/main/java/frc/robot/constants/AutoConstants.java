@@ -2,6 +2,9 @@ package frc.robot.constants;
 
 // Utilities
 import java.util.function.Supplier;
+
+import com.pathplanner.lib.auto.AutoBuilder;
+
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.utils.paths.TrajectoryContainer;
@@ -42,7 +45,7 @@ public class AutoConstants {
 
     
     public static  class Paths {
-        public static final SendableChooser<Supplier<Command>> AUTO_CHOOSER = new SendableChooser<>();
+        public static final SendableChooser<Command> AUTO_CHOOSER = AutoBuilder.buildAutoChooser();
         public static final SendableChooser<String> CONTAINER_CHOOSER = new SendableChooser<>();
 
         private static TrajectoryContainer redTrajectories;
