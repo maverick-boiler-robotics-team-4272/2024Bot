@@ -193,7 +193,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Center Rush",
+  "folder": null,
   "previewStartingState": null,
   "useDefaultConstraints": true
 }

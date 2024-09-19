@@ -1,164 +1,188 @@
 {
-  "rotationTargets" : [ {
-    "waypointRelativePos" : 0.0,
-    "rotationDegrees" : 0.0,
-    "rotateFast" : false
-  }, {
-    "waypointRelativePos" : 3.0,
-    "rotationDegrees" : 0.0,
-    "rotateFast" : false
-  } ],
-  "folder" : "Worlds",
-  "eventMarkers" : [ {
-    "waypointRelativePos" : 2.7,
-    "name" : "6 I",
-    "command" : {
-      "data" : {
-        "commands" : [ {
-          "data" : {
-            "name" : "Intake"
-          },
-          "type" : "named"
-        } ]
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 15.079683998944919,
+        "y": 6.77
       },
-      "type" : "parallel"
-    }
-  }, {
-    "waypointRelativePos" : 0,
-    "name" : "Pause",
-    "command" : {
-      "data" : {
-        "commands" : [ {
-          "data" : {
-            "commands" : [ {
-              "data" : {
-                "waitTime" : 0.1
-              },
-              "type" : "wait"
-            }, {
-              "data" : {
-                "name" : "Shoot"
-              },
-              "type" : "named"
-            } ]
-          },
-          "type" : "sequential"
-        }, {
-          "data" : {
-            "name" : "Face"
-          },
-          "type" : "named"
-        }, {
-          "data" : {
-            "name" : "Line"
-          },
-          "type" : "named"
-        } ]
+      "prevControl": null,
+      "nextControl": {
+        "x": 14.39626097293065,
+        "y": 6.382405917450922
       },
-      "type" : "deadline"
-    }
-  }, {
-    "waypointRelativePos" : 0.5,
-    "name" : "Down",
-    "command" : {
-      "data" : {
-        "commands" : [ {
-          "data" : {
-            "name" : "Home"
-          },
-          "type" : "named"
-        } ]
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 13.589775634512806,
+        "y": 6.265508684863524
       },
-      "type" : "parallel"
+      "prevControl": {
+        "x": 14.589775634512806,
+        "y": 6.265508684863524
+      },
+      "nextControl": {
+        "x": 12.589775634512806,
+        "y": 6.265508684863524
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 11.586786243918642,
+        "y": 4.223051523026124
+      },
+      "prevControl": {
+        "x": 12.017630732788067,
+        "y": 4.53002822134559
+      },
+      "nextControl": {
+        "x": 10.797430819053945,
+        "y": 3.6606357828100275
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 8.26162651667611,
+        "y": 4.1046482092964185
+      },
+      "prevControl": {
+        "x": 9.663186448891997,
+        "y": 4.087761945052852
+      },
+      "nextControl": {
+        "x": 7.442670263378988,
+        "y": 4.114515152107228
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 12.287339183486058,
+        "y": 4.755866434809793
+      },
+      "prevControl": {
+        "x": 11.05397133213497,
+        "y": 3.917176295891054
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
     }
-  } ],
-  "previewStartingState" : {
-    "rotation" : 0.0,
-    "velocity" : 0
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.0,
+      "rotationDegrees": 0.0,
+      "rotateFast": false
+    },
+    {
+      "waypointRelativePos": 3.0,
+      "rotationDegrees": 0.0,
+      "rotateFast": false
+    }
+  ],
+  "constraintZones": [],
+  "eventMarkers": [
+    {
+      "name": "6 I",
+      "waypointRelativePos": 2.7,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "Intake"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Pause",
+      "waypointRelativePos": 0,
+      "command": {
+        "type": "deadline",
+        "data": {
+          "commands": [
+            {
+              "type": "sequential",
+              "data": {
+                "commands": [
+                  {
+                    "type": "wait",
+                    "data": {
+                      "waitTime": 0.1
+                    }
+                  },
+                  {
+                    "type": "named",
+                    "data": {
+                      "name": "Shoot"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "Face"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "Line"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "Down",
+      "waypointRelativePos": 0.5,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "Home"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
   },
-  "goalEndState" : {
-    "rotation" : 18.43494882292211,
-    "velocity" : 0,
-    "rotateFast" : false
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 18.43494882292211,
+    "rotateFast": false
   },
-  "globalConstraints" : {
-    "maxAngularVelocity" : 540.0,
-    "maxAngularAcceleration" : 720.0,
-    "maxVelocity" : 3.0,
-    "maxAcceleration" : 3.0
+  "reversed": false,
+  "folder": null,
+  "previewStartingState": {
+    "rotation": 0.0,
+    "velocity": 0
   },
-  "version" : 1.0,
-  "waypoints" : [ {
-    "nextControl" : {
-      "x" : 14.39626097293065,
-      "y" : 6.382405917450922
-    },
-    "anchor" : {
-      "x" : 15.079683998944919,
-      "y" : 6.77
-    },
-    "prevControl" : null,
-    "isLocked" : false,
-    "linkedName" : null
-  }, {
-    "nextControl" : {
-      "x" : 12.589775634512806,
-      "y" : 6.265508684863524
-    },
-    "anchor" : {
-      "x" : 13.589775634512806,
-      "y" : 6.265508684863524
-    },
-    "prevControl" : {
-      "x" : 14.589775634512806,
-      "y" : 6.265508684863524
-    },
-    "isLocked" : false,
-    "linkedName" : null
-  }, {
-    "nextControl" : {
-      "x" : 10.797430819053945,
-      "y" : 3.6606357828100275
-    },
-    "anchor" : {
-      "x" : 11.586786243918642,
-      "y" : 4.223051523026124
-    },
-    "prevControl" : {
-      "x" : 12.017630732788067,
-      "y" : 4.53002822134559
-    },
-    "isLocked" : false,
-    "linkedName" : null
-  }, {
-    "nextControl" : {
-      "x" : 7.442670263378988,
-      "y" : 4.114515152107228
-    },
-    "anchor" : {
-      "x" : 8.26162651667611,
-      "y" : 4.1046482092964185
-    },
-    "prevControl" : {
-      "x" : 9.663186448891997,
-      "y" : 4.087761945052852
-    },
-    "isLocked" : false,
-    "linkedName" : null
-  }, {
-    "nextControl" : null,
-    "anchor" : {
-      "x" : 12.287339183486058,
-      "y" : 4.755866434809793
-    },
-    "prevControl" : {
-      "x" : 11.05397133213497,
-      "y" : 3.917176295891054
-    },
-    "isLocked" : false,
-    "linkedName" : null
-  } ],
-  "reversed" : false,
-  "useDefaultConstraints" : true,
-  "constraintZones" : [ ]
+  "useDefaultConstraints": true
 }

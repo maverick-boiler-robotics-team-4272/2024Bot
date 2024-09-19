@@ -156,7 +156,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Center Rush",
+  "folder": null,
   "previewStartingState": {
     "rotation": 0.0,
     "velocity": 0.0
