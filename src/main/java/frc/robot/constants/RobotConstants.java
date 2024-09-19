@@ -140,7 +140,7 @@ public class RobotConstants {
 
         public static final Rotation2d ARM_ANGLE_DEADZONE = Rotation2d.fromDegrees(3.0);
 
-        public static final double ARM_RATIO = Rotation2d.fromDegrees(7.872).getRadians();
+        public static final double ARM_RATIO = Rotation2d.fromDegrees(7.872).getRadians() / 2.0;
 
         public static final double ARM_OFFSET = 32.7;
 
