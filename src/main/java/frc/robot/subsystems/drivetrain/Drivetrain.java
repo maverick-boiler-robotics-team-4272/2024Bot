@@ -28,6 +28,12 @@ import frc.team4272.swerve.utils.SwerveModuleBase.PositionedSwerveModule;
 
 import static edu.wpi.first.units.Units.Inches;
 import static edu.wpi.first.units.Units.Meters;
+import static frc.robot.constants.AutoConstants.PathFollowConstants.POSITION_PID_D;
+import static frc.robot.constants.AutoConstants.PathFollowConstants.POSITION_PID_I;
+import static frc.robot.constants.AutoConstants.PathFollowConstants.POSITION_PID_P;
+import static frc.robot.constants.AutoConstants.PathFollowConstants.ROTATION_PID_D;
+import static frc.robot.constants.AutoConstants.PathFollowConstants.ROTATION_PID_I;
+import static frc.robot.constants.AutoConstants.PathFollowConstants.ROTATION_PID_P;
 import static frc.robot.constants.AutoConstants.Paths.CONTAINER_CHOOSER;
 // Constants
 import static frc.robot.constants.HardwareMap.*;
@@ -103,12 +109,12 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
             this::getRobotPose, 
             this::setRobotPose, 
             this::getChassisSpeeds, 
-            this::drive, 
+            this::driveAuto, 
             new HolonomicPathFollowerConfig(
-                    new PIDConstants(5.0, 0.0, 0.0), 
-                    new PIDConstants(5.0, 0.0, 0.0), 
+                    new PIDConstants(POSITION_PID_P, POSITION_PID_I, POSITION_PID_D), 
+                    new PIDConstants(ROTATION_PID_P, ROTATION_PID_I, ROTATION_PID_D), 
                     4.5,
-                    Meters.convertFrom(13.277, Inches), 
+                    Meters.convertFrom(13.277, Inches),
                     new ReplanningConfig() 
             ),
             ()->{
@@ -122,6 +128,12 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
     public void drive(ChassisSpeeds speeds) {
         super.drive(speeds);
         
+        updateOdometry();
+    }
+
+    public void driveAuto(ChassisSpeeds speeds) {
+        super.drive(-speeds.vxMetersPerSecond, speeds.vyMetersPerSecond, -speeds.omegaRadiansPerSecond);
+
         updateOdometry();
     }
 
