@@ -352,7 +352,7 @@ public class RobotContainer {
 
         ////AUTO_CHOOSER.addOption("P65", () -> new SixFive(drivetrain, armElevator, shooter));
 
-        AUTO_CHOOSER.addOption("TestAuto", new PathPlannerAuto("TestAuto"));
+        AUTO_CHOOSER.addOption("Test", new PathPlannerAuto("Test"));
         
         AUTO_TABLE.putData("Auto Chooser", AUTO_CHOOSER);
         AUTO_TABLE.putData("Side Chooser", CONTAINER_CHOOSER).withWidget(BuiltInWidgets.kSplitButtonChooser);
@@ -414,6 +414,7 @@ public class RobotContainer {
         ));
         
         NamedCommands.registerCommand("Home", new GoToArmElevatorState(armElevator, HOME));
+        NamedCommands.registerCommand("Reset", new InstantCommand(drivetrain::resetModules, drivetrain));
 
         NamedCommands.registerCommand("Index", new LidarStoppedFeedState(shooter, BAKED_BEAN.beans, LIMA_BEAN.beans));
     }
