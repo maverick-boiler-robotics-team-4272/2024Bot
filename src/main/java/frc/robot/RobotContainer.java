@@ -31,12 +31,6 @@ import frc.robot.subsystems.drivetrain.states.*;
 import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.commands.*;
 
-// Autos
-import frc.robot.commands.autos.*;
-import frc.robot.commands.autos.state.*;
-import frc.robot.commands.autos.worlds.*;
-
-import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.util.PathPlannerLogging;
