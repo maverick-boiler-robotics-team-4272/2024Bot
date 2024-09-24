@@ -17,9 +17,6 @@ import edu.wpi.first.math.*;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.kinematics.*;
-import edu.wpi.first.wpilibj.DriverStation;
-// Timing
-import edu.wpi.first.wpilibj.Timer;
 import frc.robot.limelight.LimelightHelpers;
 // Hardware
 import frc.robot.utils.hardware.*;
@@ -28,12 +25,7 @@ import frc.team4272.swerve.utils.SwerveModuleBase.PositionedSwerveModule;
 
 import static edu.wpi.first.units.Units.Inches;
 import static edu.wpi.first.units.Units.Meters;
-import static frc.robot.constants.AutoConstants.PathFollowConstants.POSITION_PID_D;
-import static frc.robot.constants.AutoConstants.PathFollowConstants.POSITION_PID_I;
-import static frc.robot.constants.AutoConstants.PathFollowConstants.POSITION_PID_P;
-import static frc.robot.constants.AutoConstants.PathFollowConstants.ROTATION_PID_D;
-import static frc.robot.constants.AutoConstants.PathFollowConstants.ROTATION_PID_I;
-import static frc.robot.constants.AutoConstants.PathFollowConstants.ROTATION_PID_P;
+import static frc.robot.constants.AutoConstants.PathFollowConstants.*;
 import static frc.robot.constants.AutoConstants.Paths.CONTAINER_CHOOSER;
 // Constants
 import static frc.robot.constants.HardwareMap.*;
@@ -42,7 +34,6 @@ import static frc.robot.constants.RobotConstants.LimelightConstants.*;
 import static frc.robot.constants.RobotConstants.DrivetrainConstants.SwerveModuleConstants.*;
 import static frc.robot.constants.TelemetryConstants.Limelights.*;
 import static frc.robot.constants.UniversalConstants.*;
-import static frc.robot.constants.TelemetryConstants.ShuffleboardTables.*;
 
 public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements Loggable {
     @AutoLog
