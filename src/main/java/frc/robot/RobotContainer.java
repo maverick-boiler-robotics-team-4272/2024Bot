@@ -325,72 +325,34 @@ public class RobotContainer {
         CONTAINER_CHOOSER.setDefaultOption("Red", "Red");
         CONTAINER_CHOOSER.addOption("Blue", "Blue");
 
-        // AUTO_CHOOSER.addOption("P28", () -> new TwoEight(drivetrain, armElevator, shooter));
-        // AUTO_CHOOSER.addOption("P16", () -> new OneSix(drivetrain, armElevator, shooter));
-        // AUTO_CHOOSER.addOption("P14", () -> new OneFourRush(drivetrain, armElevator, shooter));
-        // AUTO_CHOOSER.addOption("P45", () -> new FourFive(drivetrain));
-        ////AUTO_CHOOSER.addOption("P876", () -> new EightSevenSix(drivetrain, armElevator, shooter));
-        ////AUTO_CHOOSER.addOption("P456C", () -> new FourFiveSix(drivetrain, armElevator, shooter));
-        // AUTO_CHOOSER.addOption("P123", () -> new OneTwoThree(drivetrain, armElevator, shooter));
-        // AUTO_CHOOSER.addOption("P123Plus", () -> new OneTwoThreePlus(drivetrain, armElevator, shooter));
-        // AUTO_CHOOSER.addOption("P1238", () -> new OneTwoThreeEight(drivetrain, armElevator, shooter));
-        // AUTO_CHOOSER.addOption("P1238PlusC", () -> new OneTwoThreeEightPlus(drivetrain, armElevator, shooter));
-        ////AUTO_CHOOSER.addOption("P1238B", () -> new OneTwoThreePlusTwo(drivetrain, armElevator, shooter));
-        ////AUTO_CHOOSER.addOption("P two Any", () -> new TwoPiece(drivetrain, armElevator, shooter, intake));
-        ////AUTO_CHOOSER.addOption("P Shoot", () -> new FireAndSit(drivetrain, armElevator, shooter));
-        // AUTO_CHOOSER.addOption("N8", () -> new NoEight(drivetrain, armElevator, shooter));
-        ////AUTO_CHOOSER.addOption("Middle Disruption", () -> new DisruptorAuto(drivetrain));
-
-        ////AUTO_CHOOSER.addOption("P6", () -> new Six(drivetrain, armElevator, shooter));
-        ////AUTO_CHOOSER.addOption("P67", () -> new SixSeven(drivetrain, armElevator, shooter));
-
-        ////AUTO_CHOOSER.addOption("P65", () -> new SixFive(drivetrain, armElevator, shooter));
-
         AUTO_CHOOSER.addOption("Test", new PathPlannerAuto("Test"));
         
         AUTO_TABLE.putData("Auto Chooser", AUTO_CHOOSER);
         AUTO_TABLE.putData("Side Chooser", CONTAINER_CHOOSER).withWidget(BuiltInWidgets.kSplitButtonChooser);
-
-        Field2d field = new Field2d();
-        AUTO_TABLE.putData("Field", field).withSize(8, 6);
-
-        // Logging callback for current robot pose
-        PathPlannerLogging.setLogCurrentPoseCallback((pose) -> {
-            // Do whatever you want with the pose here
-            field.setRobotPose(pose);
-        });
-
-        // Logging callback for target robot pose
-        PathPlannerLogging.setLogTargetPoseCallback((pose) -> {
-            // Do whatever you want with the pose here
-            field.getObject("target pose").setPose(pose);
-            drivetrain.setDesiredPose(pose);
-        });
-
-        // Logging callback for the active path, this is sent as a list of poses
-        PathPlannerLogging.setLogActivePathCallback((poses) -> {
-            // Do whatever you want with the poses here
-            field.getObject("path").setPoses(poses);
-        });
     }
 
     private void registerNamedCommands() {
-        NamedCommands.registerCommand("Shoot", new AutoShootState(shooter, BAKED_BEAN.beans, BAKED_BEAN.beans));
+        NamedCommands.registerCommand("UnFace", new InstantCommand(drivetrain::rotateToPath));
+        NamedCommands.registerCommand("AimShoot", 
+            new AutoShootState(shooter, BAKED_BEAN.beans, BAKED_BEAN.beans, 1.0).raceWith(
+                Commands.defer(() -> new TargetPositionState(armElevator, () -> drivetrain.getRobotPose().getTranslation(), getGlobalPositions().SPEAKER_TARGET_POSITION), Set.of(armElevator))
+            )
+        );
         NamedCommands.registerCommand("Intake", new IntakeFeedCommand(intake, shooter, BAKED_BEAN.beans).withTimeout(7.5));
         NamedCommands.registerCommand("Disable", new InstantCommand(drivetrain::disableVisionFusion));
         NamedCommands.registerCommand("Enable", new InstantCommand(drivetrain::enableVisionFusion));
-        NamedCommands.registerCommand("AutoAim", Commands.defer(() -> new TargetPositionState(armElevator, () -> drivetrain.getRobotPose().getTranslation(), getGlobalPositions().SPEAKER_TARGET_POSITION), Set.of(armElevator)));
-        NamedCommands.registerCommand("AutoShoot", new ParallelRaceGroup(
-            Commands.defer(() -> new AutoAimCommand(drivetrain, armElevator, () -> JELLY_BEAN.beans, () -> JELLY_BEAN.beans), Set.of(drivetrain, armElevator)),
-            new AutoShootState(shooter, BAKED_BEAN.beans, BAKED_BEAN.beans)
-        ));
+        // NamedCommands.registerCommand("AutoAim", Commands.defer(() -> new TargetPositionState(armElevator, () -> drivetrain.getRobotPose().getTranslation(), getGlobalPositions().SPEAKER_TARGET_POSITION), Set.of(armElevator)));
+        // NamedCommands.registerCommand("AutoShoot", new ParallelRaceGroup(
+        //     Commands.defer(() -> new AutoAimCommand(drivetrain, armElevator, () -> JELLY_BEAN.beans, () -> JELLY_BEAN.beans), Set.of(drivetrain, armElevator)),
+        //     new AutoShootState(shooter, BAKED_BEAN.beans, BAKED_BEAN.beans)
+        // ));
 
         NamedCommands.registerCommand("LongAutoShoot", new ParallelRaceGroup(
             Commands.defer(() -> new AutoAimCommand(drivetrain, armElevator, () -> JELLY_BEAN.beans, () -> JELLY_BEAN.beans), Set.of(drivetrain, armElevator)),
             new AutoShootState(shooter, BAKED_BEAN.beans, BAKED_BEAN.beans, 0.75)
         ));
 
-        NamedCommands.registerCommand("Face", Commands.defer(() -> new FacePositionState(drivetrain, () -> 0, () -> 0, getGlobalPositions().SPEAKER_SHOT_POSITION.toTranslation2d()), Set.of(drivetrain)));
+        NamedCommands.registerCommand("Face", new InstantCommand(drivetrain::overrideRotation));
 
         NamedCommands.registerCommand("Line", new GoToArmElevatorState(armElevator, START_LINE));
         NamedCommands.registerCommand("Drop", new SequentialCommandGroup(
