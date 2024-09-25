@@ -6,6 +6,7 @@ import java.util.*;
 import org.littletonrobotics.junction.*;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
@@ -49,13 +50,12 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
         public boolean useVision;
 
         public Pose2d notePose;
+        public boolean overrideAutoRotation;
     }
 
     private DrivetrainInputsAutoLogged drivetrainInputs;
 
     private SwerveDrivePoseEstimator poseEstimator;
-
-    private boolean fuseVision = true;
 
     public Drivetrain() {
         super(
@@ -79,6 +79,7 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
         drivetrainInputs.setStates = new SwerveModuleState[4];
 
         drivetrainInputs.useVision = false;
+        drivetrainInputs.overrideAutoRotation = false;
 
         for(int i = 0; i < 4; i++) {
             drivetrainInputs.currentStates[i] = new SwerveModuleState();
@@ -113,6 +114,25 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
             }, 
             this
         );
+
+        PPHolonomicDriveController.setRotationTargetOverride(this::getRotationTargetOverride);
+    }
+
+    public void overrideRotation() {
+        drivetrainInputs.overrideAutoRotation = true;
+    }
+
+    public void rotateToPath() {
+        drivetrainInputs.overrideAutoRotation = false;
+    }
+
+    public Optional<Rotation2d> getRotationTargetOverride() {
+        if(drivetrainInputs.overrideAutoRotation) {
+            //TODO: Fix it
+            return Optional.of(getGlobalPositions().SPEAKER_POSITION.minus(getRobotPose().getTranslation()).getAngle().plus(Rotation2d.fromDegrees(35.0 * getChassisSpeeds().vxMetersPerSecond)));
+        } else {
+            return Optional.empty();
+        }
     }
 
     @Override
@@ -143,7 +163,7 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
 
         poseEstimator.update(gyroscope.getRotation().unaryMinus(), getPositions());
 
-        if(limelightMeasurement != null) {
+        if(limelightMeasurement != null && drivetrainInputs.useVision) {
             if(limelightMeasurement.tagCount >= 2 && limelightMeasurement.avgTagDist <= 4.5) {
                 poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(1.5,1.5,9999999));
                 poseEstimator.addVisionMeasurement(
@@ -207,11 +227,11 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
     }
 
     public void enableVisionFusion() {
-        fuseVision = true;
+        drivetrainInputs.useVision = true;
     }
 
     public void disableVisionFusion() {
-        fuseVision = false;
+        drivetrainInputs.useVision = false;
     }
 
     @Override

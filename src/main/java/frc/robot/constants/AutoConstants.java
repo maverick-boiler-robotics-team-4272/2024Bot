@@ -28,7 +28,7 @@ public class AutoConstants {
         public static final double POSITION_PID_I = 0.0;
         public static final double POSITION_PID_D = 0.0;
         
-        public static final double ROTATION_PID_P = 10.0;
+        public static final double ROTATION_PID_P = 5.0;
         public static final double ROTATION_PID_I = 0.0;
         public static final double ROTATION_PID_D = 0.0;
 
