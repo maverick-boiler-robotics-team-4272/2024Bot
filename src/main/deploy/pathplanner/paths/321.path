@@ -1,0 +1,121 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 2.0847797251150064,
+        "y": 6.128467812491181
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 2.184545480202072,
+        "y": 6.270990319758418
+      },
+      "isLocked": false,
+      "linkedName": "End8"
+    },
+    {
+      "anchor": {
+        "x": 2.711878757090848,
+        "y": 6.769819095193746
+      },
+      "prevControl": {
+        "x": 2.25580673383569,
+        "y": 6.47052182993255
+      },
+      "nextControl": {
+        "x": 3.1679507803460054,
+        "y": 7.0691163604549425
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.0847797251150064,
+        "y": 5.786413795049813
+      },
+      "prevControl": {
+        "x": 2.490968870826631,
+        "y": 6.520404707476082
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 1,
+      "rotationDegrees": -132.61405596961117,
+      "rotateFast": false
+    }
+  ],
+  "constraintZones": [],
+  "eventMarkers": [
+    {
+      "name": "intake",
+      "waypointRelativePos": 0,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "Intake"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "shoot",
+      "waypointRelativePos": 1.6,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "Face"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "AimShoot"
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "UnFace"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -176.53177074108274,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "8123Paths",
+  "previewStartingState": {
+    "rotation": -162.05059700708617,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}
