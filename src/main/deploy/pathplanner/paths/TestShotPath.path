@@ -1,0 +1,144 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 3.712617875686201,
+        "y": 7.719327150366013
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 3.398297967767107,
+        "y": 6.406579299645086
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.5477852757507313,
+        "y": 5.565311310802802
+      },
+      "prevControl": {
+        "x": 3.0646543747846353,
+        "y": 6.421375756077727
+      },
+      "nextControl": {
+        "x": 2.251954774179317,
+        "y": 5.0753420425751345
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 2.751168745580233,
+        "y": 1.4791525078537244
+      },
+      "prevControl": {
+        "x": 2.3721359154425006,
+        "y": 1.8304512284691834
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [
+    {
+      "name": "shot",
+      "minWaypointRelativePos": 0.45,
+      "maxWaypointRelativePos": 1.55,
+      "constraints": {
+        "maxVelocity": 2.0,
+        "maxAcceleration": 3.0,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0
+      }
+    }
+  ],
+  "eventMarkers": [
+    {
+      "name": "aim",
+      "waypointRelativePos": 0.25,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "Face"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "intake",
+      "waypointRelativePos": 2.0,
+      "command": {
+        "type": "sequential",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "Intake"
+              }
+            }
+          ]
+        }
+      }
+    },
+    {
+      "name": "shoot",
+      "waypointRelativePos": 0.55,
+      "command": {
+        "type": "parallel",
+        "data": {
+          "commands": [
+            {
+              "type": "named",
+              "data": {
+                "name": "AimShoot"
+              }
+            },
+            {
+              "type": "wait",
+              "data": {
+                "waitTime": 0.0
+              }
+            },
+            {
+              "type": "named",
+              "data": {
+                "name": "UnFace"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 4.5,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 180.0,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "Testing",
+  "previewStartingState": {
+    "rotation": -179.70320732105023,
+    "velocity": 0
+  },
+  "useDefaultConstraints": false
+}

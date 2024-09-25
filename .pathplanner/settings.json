@@ -3,12 +3,7 @@
   "robotLength": 0.77,
   "holonomicMode": true,
   "pathFolders": [
-    "Center Rush",
-    "Close",
-    "Link",
-    "Tests",
-    "State",
-    "Worlds"
+    "Testing"
   ],
   "autoFolders": [],
   "defaultMaxVel": 3.0,
