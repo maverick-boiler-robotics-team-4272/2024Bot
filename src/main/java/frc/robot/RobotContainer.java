@@ -326,6 +326,7 @@ public class RobotContainer {
         CONTAINER_CHOOSER.addOption("Blue", "Blue");
 
         AUTO_CHOOSER.addOption("Test", new PathPlannerAuto("Test"));
+        AUTO_CHOOSER.addOption("8123", new PathPlannerAuto("8123"));
         
         AUTO_TABLE.putData("Auto Chooser", AUTO_CHOOSER);
         AUTO_TABLE.putData("Side Chooser", CONTAINER_CHOOSER).withWidget(BuiltInWidgets.kSplitButtonChooser);
@@ -334,7 +335,7 @@ public class RobotContainer {
     private void registerNamedCommands() {
         NamedCommands.registerCommand("UnFace", new InstantCommand(drivetrain::rotateToPath));
         NamedCommands.registerCommand("AimShoot", 
-            new AutoShootState(shooter, BAKED_BEAN.beans, BAKED_BEAN.beans, 1.0).raceWith(
+            new AutoShootState(shooter, BAKED_BEAN.beans, BAKED_BEAN.beans).raceWith(
                 Commands.defer(() -> new TargetPositionState(armElevator, () -> drivetrain.getRobotPose().getTranslation(), getGlobalPositions().SPEAKER_TARGET_POSITION), Set.of(armElevator))
             )
         );
@@ -342,10 +343,10 @@ public class RobotContainer {
         NamedCommands.registerCommand("Disable", new InstantCommand(drivetrain::disableVisionFusion));
         NamedCommands.registerCommand("Enable", new InstantCommand(drivetrain::enableVisionFusion));
         // NamedCommands.registerCommand("AutoAim", Commands.defer(() -> new TargetPositionState(armElevator, () -> drivetrain.getRobotPose().getTranslation(), getGlobalPositions().SPEAKER_TARGET_POSITION), Set.of(armElevator)));
-        // NamedCommands.registerCommand("AutoShoot", new ParallelRaceGroup(
-        //     Commands.defer(() -> new AutoAimCommand(drivetrain, armElevator, () -> JELLY_BEAN.beans, () -> JELLY_BEAN.beans), Set.of(drivetrain, armElevator)),
-        //     new AutoShootState(shooter, BAKED_BEAN.beans, BAKED_BEAN.beans)
-        // ));
+        NamedCommands.registerCommand("AutoShoot", new ParallelRaceGroup(
+            Commands.defer(() -> new AutoAimCommand(drivetrain, armElevator, () -> JELLY_BEAN.beans, () -> JELLY_BEAN.beans), Set.of(drivetrain, armElevator)),
+            new AutoShootState(shooter, BAKED_BEAN.beans, BAKED_BEAN.beans)
+        ));
 
         NamedCommands.registerCommand("LongAutoShoot", new ParallelRaceGroup(
             Commands.defer(() -> new AutoAimCommand(drivetrain, armElevator, () -> JELLY_BEAN.beans, () -> JELLY_BEAN.beans), Set.of(drivetrain, armElevator)),
@@ -368,6 +369,8 @@ public class RobotContainer {
             ),
             new RevAndShootState(shooter, BAKED_BEAN.beans, BAKED_BEAN.beans, () -> true).withTimeout(0.5)
         ));
+
+        NamedCommands.registerCommand("Subshot", new GoToArmElevatorState(armElevator, SUB_SHOT).alongWith(new AutoShootState(shooter, 0.9, 0.9)).andThen(new GoToArmElevatorState(armElevator, HOME)));
         
         NamedCommands.registerCommand("Home", new GoToArmElevatorState(armElevator, HOME));
         NamedCommands.registerCommand("Reset", new InstantCommand(drivetrain::resetModules, drivetrain));

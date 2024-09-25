@@ -45,7 +45,7 @@ public class AutoConstants {
 
     
     public static  class Paths {
-        public static final SendableChooser<Command> AUTO_CHOOSER = AutoBuilder.buildAutoChooser();
+        public static final SendableChooser<Command> AUTO_CHOOSER = new SendableChooser<>();
         public static final SendableChooser<String> CONTAINER_CHOOSER = new SendableChooser<>();
 
         private static TrajectoryContainer redTrajectories;

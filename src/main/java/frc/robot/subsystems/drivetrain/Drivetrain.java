@@ -129,7 +129,7 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
     public Optional<Rotation2d> getRotationTargetOverride() {
         if(drivetrainInputs.overrideAutoRotation) {
             //TODO: Fix it
-            return Optional.of(getGlobalPositions().SPEAKER_POSITION.minus(getRobotPose().getTranslation()).getAngle().plus(Rotation2d.fromDegrees(35.0 * getChassisSpeeds().vxMetersPerSecond)));
+            return Optional.of(getGlobalPositions().SPEAKER_POSITION.minus(getRobotPose().getTranslation()).getAngle());
         } else {
             return Optional.empty();
         }
