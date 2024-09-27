@@ -335,8 +335,10 @@ public class RobotContainer {
     private void registerNamedCommands() {
         NamedCommands.registerCommand("UnFace", new InstantCommand(drivetrain::rotateToPath));
         NamedCommands.registerCommand("AimShoot", 
-            new AutoShootState(shooter, BAKED_BEAN.beans, BAKED_BEAN.beans).raceWith(
-                Commands.defer(() -> new TargetPositionState(armElevator, () -> drivetrain.getRobotPose().getTranslation(), getGlobalPositions().SPEAKER_TARGET_POSITION), Set.of(armElevator))
+            new InstantCommand(drivetrain::overrideRotation).andThen(
+                new AutoShootState(shooter, BAKED_BEAN.beans, BAKED_BEAN.beans).raceWith(
+                    Commands.defer(() -> new TargetPositionState(armElevator, () -> drivetrain.getRobotPose().getTranslation(), getGlobalPositions().SPEAKER_TARGET_POSITION), Set.of(armElevator))
+                ).andThen(new InstantCommand(drivetrain::rotateToPath))
             )
         );
         NamedCommands.registerCommand("Intake", new IntakeFeedCommand(intake, shooter, BAKED_BEAN.beans).withTimeout(7.5));

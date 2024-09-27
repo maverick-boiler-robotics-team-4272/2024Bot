@@ -37,15 +37,9 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "UnFace"
-          }
-        },
-        {
           "type": "path",
           "data": {
-            "pathName": "321"
+            "pathName": "13"
           }
         }
       ]
