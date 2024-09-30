@@ -39,7 +39,25 @@
         {
           "type": "path",
           "data": {
-            "pathName": "13"
+            "pathName": "1I"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "1O3I"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "3O"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "2I"
           }
         }
       ]
