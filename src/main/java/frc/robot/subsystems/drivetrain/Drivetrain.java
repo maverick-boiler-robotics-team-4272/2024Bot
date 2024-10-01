@@ -7,6 +7,7 @@ import org.littletonrobotics.junction.*;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
+import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
@@ -18,6 +19,7 @@ import edu.wpi.first.math.*;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.*;
 import edu.wpi.first.math.kinematics.*;
+import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.limelight.LimelightHelpers;
 // Hardware
 import frc.robot.utils.hardware.*;
@@ -78,7 +80,7 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
         drivetrainInputs.currentStates = new SwerveModuleState[4];
         drivetrainInputs.setStates = new SwerveModuleState[4];
 
-        drivetrainInputs.useVision = false;
+        drivetrainInputs.useVision = true;
         drivetrainInputs.overrideAutoRotation = false;
 
         for(int i = 0; i < 4; i++) {
@@ -124,6 +126,18 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
 
     public void rotateToPath() {
         drivetrainInputs.overrideAutoRotation = false;
+    }
+
+    public Command pathFind(Pose2d target) {
+        return AutoBuilder.pathfindToPose(
+            target, 
+            new PathConstraints(
+                MAX_TRANSLATIONAL_SPEED, 
+                3.0, 
+                MAX_ROTATIONAL_SPEED, 
+                9.7738
+            )
+        );
     }
 
     public Optional<Rotation2d> getRotationTargetOverride() {

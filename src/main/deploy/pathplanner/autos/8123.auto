@@ -20,12 +20,6 @@
                 "data": {
                   "name": "Reset"
                 }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Subshot"
-                }
               }
             ]
           }
@@ -58,6 +52,12 @@
           "type": "path",
           "data": {
             "pathName": "2I"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoShoot"
           }
         }
       ]

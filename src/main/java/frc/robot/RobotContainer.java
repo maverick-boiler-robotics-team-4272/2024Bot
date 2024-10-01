@@ -146,8 +146,9 @@ public class RobotContainer {
         new Trigger(driverController.getButton("x")::get).whileTrue(
             // new RotLockState(drivetrain, driveLeftAxes::getDeadzonedX, driveLeftAxes::getDeadzonedY, () -> getGlobalPositions().TO_SOURCE)
             // new NoteLockState(drivetrain, intake, driveLeftAxes::getDeadzonedX, driveLeftAxes::getDeadzonedY)
-            new AutoNotePickup(drivetrain, intake, shooter, driveLeftAxes::getDeadzonedX, driveLeftAxes::getDeadzonedY)
+            //// new AutoNotePickup(drivetrain, intake, shooter, driveLeftAxes::getDeadzonedX, driveLeftAxes::getDeadzonedY)
             // .alongWith(new IntakeFeedCommand(intake, shooter, 0.8))
+            drivetrain.pathFind(getGlobalPositions().AMP_POSE)
         );
     }
 
@@ -326,7 +327,7 @@ public class RobotContainer {
         CONTAINER_CHOOSER.addOption("Blue", "Blue");
 
         AUTO_CHOOSER.addOption("Test", new PathPlannerAuto("Test"));
-        AUTO_CHOOSER.addOption("8123", new PathPlannerAuto("8123"));
+        AUTO_CHOOSER.setDefaultOption("8123", new PathPlannerAuto("8123"));
         
         AUTO_TABLE.putData("Auto Chooser", AUTO_CHOOSER);
         AUTO_TABLE.putData("Side Chooser", CONTAINER_CHOOSER).withWidget(BuiltInWidgets.kSplitButtonChooser);
@@ -378,6 +379,11 @@ public class RobotContainer {
         NamedCommands.registerCommand("Reset", new InstantCommand(drivetrain::resetModules, drivetrain));
 
         NamedCommands.registerCommand("Index", new LidarStoppedFeedState(shooter, BAKED_BEAN.beans, LIMA_BEAN.beans));
+        NamedCommands.registerCommand("DriveBy", new ParallelCommandGroup(
+            Commands.defer(() -> new AngleStoppedAutoAimCommand(drivetrain, armElevator, () -> JELLY_BEAN.beans, () -> JELLY_BEAN.beans), Set.of(armElevator)),
+            new RevAndShootState(shooter, BAKED_BEAN.beans, BAKED_BEAN.beans, () -> true),
+            new IntakeState(intake, 0.95)
+        ));
     }
 
     private void configureSignalingBindings() {

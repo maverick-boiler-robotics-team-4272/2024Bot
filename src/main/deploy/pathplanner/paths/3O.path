@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.7142212062201907,
-        "y": 4.688990489092089
+        "x": 1.5004374453193356,
+        "y": 4.432449976011063
       },
       "isLocked": false,
       "linkedName": "End2I"
     },
     {
       "anchor": {
-        "x": 1.8995004656675984,
-        "y": 5.586882284875681
+        "x": 1.9,
+        "y": 5.5
       },
       "prevControl": {
-        "x": 1.913752716394322,
-        "y": 5.301837270341207
+        "x": 1.2443964665707108,
+        "y": 5.471495498546552
       },
       "nextControl": null,
       "isLocked": false,
@@ -35,8 +35,8 @@
       "minWaypointRelativePos": 0,
       "maxWaypointRelativePos": 1.0,
       "constraints": {
-        "maxVelocity": 2.0,
-        "maxAcceleration": 1.5,
+        "maxVelocity": 3.0,
+        "maxAcceleration": 2.0,
         "maxAngularVelocity": 540.0,
         "maxAngularAcceleration": 720.0
       }
@@ -68,7 +68,7 @@
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
-    "velocity": 0,
+    "velocity": 1.0,
     "rotation": 180.0,
     "rotateFast": false
   },
