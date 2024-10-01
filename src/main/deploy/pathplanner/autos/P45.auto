@@ -3,9 +3,9 @@
   "startingPose": {
     "position": {
       "x": 0.7308159060762569,
-      "y": 6.627296587926509
+      "y": 4.46095447746451
     },
-    "rotation": -120.0
+    "rotation": 120.0
   },
   "command": {
     "type": "sequential",
@@ -20,6 +20,12 @@
                 "data": {
                   "name": "Reset"
                 }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Enable"
+                }
               }
             ]
           }
@@ -27,37 +33,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "8"
+            "pathName": "P4IO"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "1I"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "1O3I"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "3O"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "2I"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "AutoShoot"
+            "pathName": "5IO"
           }
         }
       ]

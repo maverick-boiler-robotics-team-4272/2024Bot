@@ -328,6 +328,7 @@ public class RobotContainer {
 
         AUTO_CHOOSER.addOption("Test", new PathPlannerAuto("Test"));
         AUTO_CHOOSER.setDefaultOption("8123", new PathPlannerAuto("8123"));
+        AUTO_CHOOSER.addOption("P45", new PathPlannerAuto("P45"));
         
         AUTO_TABLE.putData("Auto Chooser", AUTO_CHOOSER);
         AUTO_TABLE.putData("Side Chooser", CONTAINER_CHOOSER).withWidget(BuiltInWidgets.kSplitButtonChooser);
