@@ -32,12 +32,12 @@
     },
     {
       "anchor": {
-        "x": 2.0847797251150064,
-        "y": 3.6628284367679846
+        "x": 2.9155563765672983,
+        "y": 3.3396910430184503
       },
       "prevControl": {
-        "x": 4.208365083396834,
-        "y": 1.2684503146784067
+        "x": 5.03914173484911,
+        "y": 0.9453129209288724
       },
       "nextControl": null,
       "isLocked": false,
@@ -112,7 +112,7 @@
     },
     {
       "name": "4o",
-      "waypointRelativePos": 1.85,
+      "waypointRelativePos": 1.8,
       "command": {
         "type": "parallel",
         "data": {
@@ -129,7 +129,7 @@
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 4.5,
+    "maxVelocity": 3.0,
     "maxAcceleration": 3.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0

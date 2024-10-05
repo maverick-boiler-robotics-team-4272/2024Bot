@@ -179,15 +179,11 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
 
         if(limelightMeasurement != null && drivetrainInputs.useVision) {
             if(limelightMeasurement.tagCount >= 2 && limelightMeasurement.avgTagDist <= 4.5) {
-                poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(1.5,1.5,9999999));
+                poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(5.0,5.0,9999999));
                 poseEstimator.addVisionMeasurement(
                     limelightMeasurement.pose,
                     limelightMeasurement.timestampSeconds
                 );
-
-                drivetrainInputs.useVision = true;
-            } else {
-                drivetrainInputs.useVision = false;
             }
         }
 
