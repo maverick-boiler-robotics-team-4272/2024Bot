@@ -183,7 +183,7 @@ public class RobotContainer {
         );
 
         new Trigger(driverController.getButton("start")::get).whileTrue(
-            new AutoTrapCommand(armElevator, shooter, driveTriggerRight::isTriggered)
+            new InstantCommand(drivetrain::enableVisionFusion)
         );
 
         //Arm ----------------------------------------------------
@@ -342,6 +342,15 @@ public class RobotContainer {
                 ).andThen(new InstantCommand(drivetrain::rotateToPath))
             )
         );
+
+        NamedCommands.registerCommand("LongAimShoot", 
+            new InstantCommand(drivetrain::overrideRotation).andThen(
+                new AutoShootState(shooter, BAKED_BEAN.beans, BAKED_BEAN.beans, 1.00).raceWith(
+                    Commands.defer(() -> new TargetPositionState(armElevator, () -> drivetrain.getRobotPose().getTranslation(), getGlobalPositions().SPEAKER_TARGET_POSITION), Set.of(armElevator))
+                ).andThen(new InstantCommand(drivetrain::rotateToPath))
+            )
+        );
+
         NamedCommands.registerCommand("Intake", new IntakeFeedCommand(intake, shooter, BAKED_BEAN.beans).withTimeout(7.5));
         NamedCommands.registerCommand("Disable", new InstantCommand(drivetrain::disableVisionFusion));
         NamedCommands.registerCommand("Enable", new InstantCommand(drivetrain::enableVisionFusion));
