@@ -2,7 +2,7 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.7308159060762569,
+      "x": 0.7023114046228096,
       "y": 4.46095447746451
     },
     "rotation": 120.0
@@ -24,7 +24,13 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "Enable"
+                  "name": "Subshot"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "UnFace"
                 }
               }
             ]
@@ -33,13 +39,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "P4IO"
+            "pathName": "4I"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "5IO"
+            "pathName": "5I"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AutoShoot"
           }
         }
       ]
