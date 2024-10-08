@@ -10,6 +10,7 @@ import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 import com.pathplanner.lib.path.PathConstraints;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
+import com.pathplanner.lib.util.PathPlannerLogging;
 import com.pathplanner.lib.util.ReplanningConfig;
 
 import frc.robot.utils.logging.*;
@@ -118,6 +119,10 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
         );
 
         PPHolonomicDriveController.setRotationTargetOverride(this::getRotationTargetOverride);
+
+        PathPlannerLogging.setLogTargetPoseCallback((pose)->{
+            drivetrainInputs.desiredPose = pose;
+        });
     }
 
     public void overrideRotation() {
