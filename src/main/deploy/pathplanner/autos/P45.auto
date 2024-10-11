@@ -32,6 +32,12 @@
                 "data": {
                   "name": "UnFace"
                 }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Disable"
+                }
               }
             ]
           }
@@ -40,6 +46,12 @@
           "type": "path",
           "data": {
             "pathName": "4I"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "UnFace"
           }
         },
         {
