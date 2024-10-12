@@ -183,8 +183,8 @@ public class Drivetrain extends SwerveDriveBase<Pigeon, SwerveModule> implements
         poseEstimator.update(gyroscope.getRotation().unaryMinus(), getPositions());
 
         if(limelightMeasurement != null && drivetrainInputs.useVision) {
-            if(limelightMeasurement.tagCount >= 2 && limelightMeasurement.avgTagDist <= 4.5) {
-                poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(5.0,5.0,9999999));
+            if(limelightMeasurement.tagCount >= 1 && limelightMeasurement.avgTagDist <= 4.5) {
+                poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(5.0,5.0, 9999999));
                 poseEstimator.addVisionMeasurement(
                     limelightMeasurement.pose,
                     limelightMeasurement.timestampSeconds
