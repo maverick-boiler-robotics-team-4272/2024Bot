@@ -44,6 +44,8 @@ import frc.robot.constants.Norms;
 import frc.robot.constants.AutoConstants.Paths;
 import frc.robot.utils.periodics.CANPeriodic;
 
+import static frc.robot.constants.TelemetryConstants.Limelights.*;
+
 import static edu.wpi.first.units.Units.Inches;
 import static edu.wpi.first.units.Units.Meters;
 import static frc.robot.constants.AutoConstants.Paths.*;

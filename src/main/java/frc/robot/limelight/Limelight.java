@@ -136,7 +136,9 @@ public final class Limelight implements Periodic, Loggable {
 
     public LimelightHelpers.PoseEstimate getPoseEstimate(boolean red) {
         inputs.validTarget = getTV();
-        return red ? LimelightHelpers.getBotPoseEstimate_wpiRed(tableName) : LimelightHelpers.getBotPoseEstimate_wpiBlue(tableName);
+        // LimelightHelpers.PoseEstimate result = new PoseEstimate
+        //.pose.getRotation().unaryMinus()
+        return /*red ? LimelightHelpers.getBotPoseEstimate_wpiRed(tableName) : */LimelightHelpers.getBotPoseEstimate_wpiBlue(tableName);
     }
 
     public boolean getTV() {
